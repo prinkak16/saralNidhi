@@ -1,0 +1,21 @@
+<mat-toolbar class="app-custom-header" *ngIf="loggedIn">
+  <div class="left-header-container">
+    <span class="header-logo mobile">
+<!--      <img [routerLink]="['/']" src="../../assets/icons/bjp.png" class="img-responsive">-->
+      <mat-icon [routerLink]="['/']" class="img-responsive" svgIcon="bjp"></mat-icon>
+    </span>
+    <span class="header-title-span" [routerLink]="['/']">Bharatiya Janata Party</span>
+  </div>
+  <div class="right-header-content">
+    <span *ngIf="loggedIn" class="header-username mobile">{{username}}</span>
+    <button mat-icon-button [matMenuTriggerFor]="rootMenu" *ngIf="loggedIn" class="user-avatar-menu">
+      <img src="../../assets/icons/active_agents_d.png" class="img-responsive">
+    </button>
+    <mat-menu #rootMenu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span translate>Sign Out</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

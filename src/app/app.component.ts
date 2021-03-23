@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {UtilsService} from './services/utils.service';
+import {CustomIconService} from './services/custom-icon.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-electron';
+  public constructor(public utils: UtilsService, public iconService: CustomIconService) {
+    this.iconService.init();
+  }
+
+  title = 'Nidhi Collection';
 }

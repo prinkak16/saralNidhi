@@ -1,0 +1,53 @@
+<div class="login-background">
+  <div class="center-container">
+    <div class="center-container-content">
+    </div>
+    <div class="center-container-content login-form-container" *ngIf="!utils.isLoggedIn()">
+      <form #loginForm="ngForm" class="login-form">
+        <div *ngIf="showOTPButton">
+          <mat-form-field appearance="outline" class="login-form-field">
+            <input matInput type="email" placeholder="Email Address" [(ngModel)]="model.email"
+                   name="email"
+                   #email="ngModel" #emailInput required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+            <mat-error class="modal-error" *ngIf="email.hasError('required')">Email is required</mat-error>
+            <mat-error class="modal-error" *ngIf="email.hasError('pattern')">Enter a valid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="showOTPButton">
+          <mat-form-field appearance="outline" class="login-form-field">
+            <input matInput id="password" [type]="hide ? 'password' : 'text'"
+                   name="password"
+                   placeholder="Password"
+                   required minlength="6" maxlength="25" [(ngModel)]="model.password"
+                   #password="ngModel">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error class="modal-error" *ngIf="password.hasError('required')">Password is required</mat-error>
+            <mat-error class="modal-error" *ngIf="password.hasError('minlength')">Password should be at least 6
+              characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="showOTPButton">
+          <button mat-button [disabled]="!loginForm.form.valid" class="btn orange-btn login-form-field"
+                  (click)="otpClicked()">{{loginButtonText}}
+          </button>
+        </div>
+        <div *ngIf="!showOTPButton">
+          <mat-form-field appearance="outline" class="login-form-field">
+            <input matInput type="password" #otp="ngModel" #otpInput [(ngModel)]="model.otp"
+                   name="otp"
+                   id="otp" placeholder="OTP"
+                   required>
+            <mat-error class="modal-error" *ngIf="otp.hasError('required') && otp.touched">Otp is required
+            </mat-error>
+          </mat-form-field>
+          <button mat-button (click)="loginClicked()" class="btn orange-btn  login-form-field"
+                  [disabled]="otp.hasError('required')">
+            Log In
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

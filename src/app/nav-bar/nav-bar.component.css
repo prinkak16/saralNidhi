@@ -1,0 +1,80 @@
+.app-custom-header {
+  background: #ff5722 !important;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  box-shadow: 0 1px 2px -4px rgba(0, 0, 0, 0.2), 0 2px 3px 0 rgba(0, 0, 0, .14), 0 1px 12px 0 rgba(0, 0, 0, .12);
+  height: 56px;
+  font-size: 14px;
+}
+
+.header-search-form-field {
+  max-height: 56px;
+}
+
+.header-title-span {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.sidenav-toggle-button {
+  cursor: pointer;
+}
+
+.left-header-container {
+  display: flex;
+  align-items: center;
+}
+
+.right-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.app-custom-header > nav > a {
+  color: white !important;
+}
+
+.app-custom-header > a {
+  color: white !important;
+  border-color: white !important;
+}
+
+.header-logo {
+  border-radius: 50%;
+  width: 30px;
+  height: auto;
+  background: white;
+  padding: 5px;
+  border: 1px solid lightgrey;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.user-avatar-menu {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background: white;
+  padding: 5px;
+  border: 1px solid lightgrey;
+}
+
+.header-username {
+  margin: 0 15px;
+}
+
+@media only screen
+and (min-width: 300px) and (max-width: 600px)
+and (-webkit-min-device-pixel-ratio: 1.5) {
+  .mobile {
+    display: none;
+  }
+}

@@ -1,0 +1,117 @@
+.login-form {
+  position: relative;
+  background: transparent;
+  text-align: center;
+  padding: 30px 15px;
+  border-radius: 10px;
+  z-index: 2;
+  width: 450px;
+}
+
+.login-form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  width: 100%;
+  border: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.login-form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+.login-form .message a {
+  color: #FC7017;
+  text-decoration: none;
+}
+
+app-home {
+  display: block;
+}
+
+.login-background {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.login-background .left-container {
+  height: 100%;
+  left: 0;
+}
+
+.login-background .left-container .logo-image {
+  position: absolute;
+  width: 225px;
+  top: 0;
+}
+
+.login-background .left-container .saffron-background {
+  height: 100%;
+  position: absolute;
+  width: 37%;
+}
+
+.login-background .person-image {
+  width: 35%;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+}
+
+.login-background .right-person-image {
+  right: 0;
+}
+
+.login-background .center-container {
+  position: absolute;
+  top: 5%;
+  width: 100%;
+}
+
+.center-container-content {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .login-background .left-container .saffron-background {
+    width: 60%;
+  }
+
+  .login-background .person-image {
+    display: none;
+  }
+
+  .login-background .left-container .logo-image {
+    display: none;
+  }
+}
+
+.login-background .saral-logo {
+  width: 25%;
+}
+
+.login-form-container {
+  margin-top: 30px;
+}
+
+.login-form-field {
+  width: 75% !important;
+  margin: 5px 0;
+}
+
+@media (max-width: 576px) {
+  .login-background .saral-logo {
+    width: 50%;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 1204px) {
+  .login-background .saral-logo {
+    width: 30%;
+  }
+}

@@ -1,7 +1,7 @@
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
-import * as Constant from './ZilaConstants';
-import {UtilsService} from './utils.service';
+import * as Constant from './AppConstants';
+import {UtilsService} from './services/utils.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, public utils: UtilsService) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     this.utils.isAuthorized = true;
     if (!route.url.length) {
       return true;
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  checkIfAuthorized(routeData) {
+  checkIfAuthorized(routeData: any): any {
     if ((routeData.roles && routeData.roles.length)
       || (routeData.permissions && routeData.permissions.length)) {
       const roles = routeData.roles;
@@ -40,21 +40,21 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  hasCorrectRole(roles) {
+  hasCorrectRole(roles: any): any {
     if (![null, undefined].includes(roles)) {
       return roles.includes(localStorage.getItem(Constant.USERROLE));
     }
     return true;
   }
 
-  hasNeededPermissions(requiredPermissions) {
-    const userPermissions = JSON.parse(localStorage.getItem(Constant.PERMISSIONS));
+  hasNeededPermissions(requiredPermissions: any): any {
+    const userPermissions = JSON.parse(localStorage.getItem(Constant.PERMISSIONS) || '{}');
     let hasRequiredPermissions = true;
     if (![null, undefined].includes(requiredPermissions)) {
-      requiredPermissions.forEach(requiredPermission => {
-        requiredPermission.actions.forEach(action => {
+      requiredPermissions.forEach((requiredPermission: any) => {
+        requiredPermission.actions.forEach((action: any) => {
           let foundAction = false;
-          userPermissions.forEach(userPermission => {
+          userPermissions.forEach((userPermission: any) => {
             if (userPermission.permission_name === requiredPermission.permission_name && userPermission.action === action) {
               foundAction = true;
             }
