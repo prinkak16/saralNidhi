@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (window.screen.width < 500) { // 768px portrait
       this.mobile = true;
     }
-    this.restService.two_factor_enabled().subscribe((response: any) => {
+    this.restService.twoFactorEnabled().subscribe((response: any) => {
       if (response && (response as any).data === true) {
         this.loginButtonText = 'Send OTP';
       }

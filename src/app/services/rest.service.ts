@@ -26,7 +26,7 @@ export class RestService {
     };
   }
 
-  two_factor_enabled(): any {
+  twoFactorEnabled(): any {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -55,5 +55,20 @@ export class RestService {
 
   logout(): any {
     return this.http.get(this.apiUrl + 'logout', this.authHttpOptions());
+  }
+
+  getAllStates(): any {
+    return this.http.get(this.apiUrl + 'events/get_all_states', this.authHttpOptions());
+  }
+
+  uploadNidhiFile(data: any): any {
+    // @ts-ignore
+    const authorization: string = localStorage.getItem(Constant.AUTH_TOKEN) ? localStorage.getItem(Constant.AUTH_TOKEN) : '';
+    return this.http.post(this.apiUrl + 'nidhi_collection/add_file', data, {
+      headers: new HttpHeaders({
+        Authorization: authorization,
+        Accept: 'application/json'
+      })
+    });
   }
 }

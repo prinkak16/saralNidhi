@@ -1,0 +1,134 @@
+.heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.logo-container {
+  background-color: #F2F2F2;
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.logo-container .logo {
+  width: 80px;
+  height: auto;
+}
+
+.heading-container .heading {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.query-form-field {
+  width: 100%;
+  margin: 30px 0;
+}
+
+::ng-deep .mat-form-field-suffix {
+  top: unset !important;
+}
+
+::ng-deep .mat-form-field-suffix .mat-icon {
+  width: 40px;
+  height: 40px;
+}
+
+::ng-deep .query-form-field .mat-form-field-outline-start {
+  border-radius: 28px 0 0 28px !important;
+  min-width: 28px !important;
+}
+
+::ng-deep .query-form-field .mat-form-field-outline-end {
+  border-radius: 0 28px 28px 0 !important;
+}
+
+.total-count-container {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  padding: 30px;
+  border: 1px solid #5E5C5D;
+  border-radius: 5px;
+  margin: 30px 0;
+}
+
+.total-count-container .total-count-div {
+  border-right: 1px solid #5E5C5D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.total-count-container .total-count-div .count {
+  font-size: 36px;
+  font-weight: 600;
+  color: #FD6F44;
+}
+
+.total-count-container .total-count-heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.total-count-container .total-count-heading-container img {
+  width: 80px;
+}
+
+.total-count-container .total-count-heading-container .heading {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.forms-container {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  justify-content: space-between;
+  margin: 30px 0;
+}
+
+.forms-container .form-div {
+  padding: 20px;
+  border: 1px solid #D2D2D4;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.forms-container .form-div img {
+  width: 80px;
+}
+
+.forms-container .form-div .heading {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.actions-container {
+  width: 100%;
+}
+
+.actions-container .action-div {
+  border: 1px solid #F2AD93;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.actions-container .action-div img {
+  width: 80px;
+}
+
+.actions-container .action-div .action-text {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.dashboard-container {
+  margin-bottom: 20px;
+}

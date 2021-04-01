@@ -13,11 +13,15 @@ export class CustomIconService {
   init(): void {
     this.matIconRegistry.addSvgIcon(
       'bjp',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/bjp.png')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/bjp.png')
     );
     this.matIconRegistry.addSvgIcon(
       'agent',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/active_agents_d.png')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/active_agents_d.png')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'recording',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/recording_mic.svg')
     );
   }
 }
