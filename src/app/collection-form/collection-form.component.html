@@ -4,12 +4,10 @@
     <div>
       <mat-form-field class="col" appearance="outline">
         <mat-label translate>Enter Date</mat-label>
-        <input matInput (keydown.enter)="false" placeholder="Enter Date" formControlName="date" required>
-        <!--               [matDatepicker]="picker" (click)="picker.open()"-->
-        <!--               (keypress)="disableKeyPress($event)"-->
-        <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
-        <!--        [for]="picker"-->
-        <!--        <mat-datepicker #picker></mat-datepicker>-->
+        <input matInput (keydown.enter)="false" [matDatepicker]="picker" (click)="picker.open()"
+               (keypress)="disableKeyPress($event)" placeholder="Enter Date" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
         <mat-error
           *ngIf="((collectionForm.controls.date.touched)&& collectionForm.controls.date.hasError('required'))">
           Date is required
@@ -185,8 +183,11 @@
       <div class="col">
         <mat-form-field class="col-6" appearance="outline">
           <mat-label>Date of cheque</mat-label>
-          <input matInput placeholder="Please enter amount in Rupee" formControlName="date_of_cheque" required>
-          <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
+          <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
+                 (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
+                 required>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
           <mat-error
             *ngIf="((collectionForm.controls.date_of_cheque.touched)&& collectionForm.controls.date_of_cheque.hasError('required'))">
             Date of cheque is required
@@ -202,7 +203,31 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="selectedModeOfPayment.name === 'RTGS'">
+    <div class="row" *ngIf="selectedModeOfPayment.name === 'Demand Draft'">
+      <div class="col">
+        <mat-form-field class="col-6" appearance="outline">
+          <mat-label>Date of draft</mat-label>
+          <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
+                 (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
+                 required>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-error
+            *ngIf="((collectionForm.controls.date_of_draft.touched)&& collectionForm.controls.date_of_draft.hasError('required'))">
+            Date of draft is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6" appearance="outline">
+          <mat-label>Draft No.</mat-label>
+          <input matInput placeholder="Draft Number" formControlName="draft_number" required>
+          <mat-error
+            *ngIf="((collectionForm.controls.draft_number.touched)&& collectionForm.controls.draft_number.hasError('required'))">
+            Draft number is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name)">
       <mat-form-field class="col" appearance="outline">
         <mat-label>Enter UTR No</mat-label>
         <input matInput placeholder="UTR number" formControlName="utr_number" required>

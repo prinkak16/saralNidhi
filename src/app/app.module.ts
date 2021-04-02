@@ -30,6 +30,7 @@ import {CollectionFormComponent} from './collection-form/collection-form.compone
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {EntryListTableComponent} from './entry-list-table/entry-list-table.compo
     MatSnackBarModule,
     MatTabsModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatNativeDateModule
   ],
   providers: [
     AuthGuard,

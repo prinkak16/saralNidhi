@@ -28,6 +28,7 @@ export class CollectionFormComponent implements OnInit {
   selectedModeOfPayment: any = {};
   panCardPattern = '[A-Z]{5}[0-9]{4}[A-Z]{1}';
   isfcPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
+  phonePattern = '^[6-9][0-9]{9}$';
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
@@ -49,6 +50,8 @@ export class CollectionFormComponent implements OnInit {
       mode_of_payment: new FormControl(null, [Validators.required]),
       date_of_cheque: new FormControl(new Date().toDateString()),
       cheque_number: new FormControl(null),
+      date_of_draft: new FormControl(new Date().toDateString()),
+      draft_number: new FormControl(null),
       utr_number: new FormControl(null),
       financial_year_id: new FormControl(null),
       account_number: new FormControl(null),
@@ -57,7 +60,7 @@ export class CollectionFormComponent implements OnInit {
       branch_name: new FormControl(null),
       branch_address: new FormControl(null),
       collector_name: new FormControl(null, [Validators.required]),
-      collector_phone: new FormControl(null, [Validators.required]),
+      collector_phone: new FormControl(null, [Validators.required, Validators.pattern(this.phonePattern)]),
       nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),
@@ -92,20 +95,25 @@ export class CollectionFormComponent implements OnInit {
       this.collectionForm.controls.utr_number.setValue(null);
       this.selectedModeOfPayment = this.paymentModes.find(pm => pm.id.toString() === value.toString());
       console.log(this.selectedModeOfPayment);
+      this.collectionForm.controls.cheque_number.clearValidators();
+      this.collectionForm.controls.date_of_cheque.clearValidators();
+      this.collectionForm.controls.utr_number.clearValidators();
+      this.collectionForm.controls.draft_number.clearValidators();
+      this.collectionForm.controls.date_of_draft.clearValidators();
+      this.collectionForm.controls.cheque_number.updateValueAndValidity();
+      this.collectionForm.controls.date_of_cheque.updateValueAndValidity();
+      this.collectionForm.controls.utr_number.updateValueAndValidity();
+      this.collectionForm.controls.date_of_draft.updateValueAndValidity();
+      this.collectionForm.controls.draft_number.updateValueAndValidity();
       if (this.selectedModeOfPayment.name === 'Cheque') {
         this.collectionForm.controls.cheque_number.setValidators(Validators.required);
         this.collectionForm.controls.date_of_cheque.setValidators(Validators.required);
-        this.collectionForm.controls.utr_number.clearValidators();
-      } else if (this.selectedModeOfPayment.name === 'RTGS') {
-        this.collectionForm.controls.cheque_number.clearValidators();
-        this.collectionForm.controls.date_of_cheque.clearValidators();
+      }else if (this.selectedModeOfPayment.name === 'Demand Draft') {
+        this.collectionForm.controls.draft_number.setValidators(Validators.required);
+        this.collectionForm.controls.date_of_draft.setValidators(Validators.required);
+      } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
         this.collectionForm.controls.utr_number.setValidators(Validators.required);
-      } else {
-        this.collectionForm.controls.cheque_number.clearValidators();
-        this.collectionForm.controls.date_of_cheque.clearValidators();
-        this.collectionForm.controls.utr_number.clearValidators();
       }
-      this.collectionForm.updateValueAndValidity();
     });
   }
 
