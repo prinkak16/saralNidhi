@@ -1,22 +1,32 @@
 <div class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Date of Birth</mat-label>
-      <input matInput placeholder="Date" formControlName="date">
-      <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" formControlName="name" required>
-      <mat-error
-        *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
-        Name is required
-      </mat-error>
-    </mat-form-field>
     <div>
-      <label>Category?<sup>*</sup></label>
-      <mat-radio-group formControlName="category" aria-label="category">
+      <mat-form-field class="col" appearance="outline">
+        <mat-label translate>Enter Date</mat-label>
+        <input matInput (keydown.enter)="false" placeholder="Enter Date" formControlName="date" required>
+        <!--               [matDatepicker]="picker" (click)="picker.open()"-->
+        <!--               (keypress)="disableKeyPress($event)"-->
+        <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
+        <!--        [for]="picker"-->
+        <!--        <mat-datepicker #picker></mat-datepicker>-->
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" required>
+        <mat-error
+          *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>Category? <sup>*</sup></label>
+      </div>
+      <mat-radio-group class="col" formControlName="category" aria-label="category">
         <mat-radio-button value="huf">HUF</mat-radio-button>
         <mat-radio-button value="partnership">Partnership</mat-radio-button>
         <mat-radio-button value="trust">Trust</mat-radio-button>
@@ -26,66 +36,111 @@
       </mat-radio-group>
     </div>
     <div>
-      <label>Is it a proprietorship?</label>
-      <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship">
+      <div class="col">
+        <label>Is it a proprietorship?</label>
+      </div>
+      <mat-radio-group class="col" formControlName="is_proprietorship" aria-label="is_proprietorship">
         <mat-radio-button value="true">Yes</mat-radio-button>
         <mat-radio-button value="false">No</mat-radio-button>
       </mat-radio-group>
     </div>
-    <mat-form-field appearance="outline">
-      <mat-label>Proprietorship Name</mat-label>
-      <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name">
-    </mat-form-field>
-    <label>Address*</label>
-    <mat-form-field appearance="outline">
-      <mat-label>House No. & Apartment Name</mat-label>
-      <input matInput placeholder="House No. & Apartment Name" formControlName="house">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Locality & Landmarks</mat-label>
-      <input matInput placeholder="Locality & Landmarks" formControlName="locality">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Pincode</mat-label>
-      <input matInput placeholder="Pincode" formControlName="pincode">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>District</mat-label>
-      <input matInput placeholder="District" formControlName="district">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>State</mat-label>
-      <mat-select formControlName="state">
-        <mat-option *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>PAN Card Details:<sup>*</sup></mat-label>
-      <input matInput placeholder="PAN Card" formControlName="pan_card">
-    </mat-form-field>
-    <label>Please upload Pan Card photo</label>
     <div>
-      <div>
-        <button type="button" class="btn photo-button"
-                (click)="fileInputPhoto.click()">
-          Attach Photo<sup>*</sup>
-        </button>
-        <input type="file" class="hidden-field" accept="image/png, image/jpeg"
-               (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
-      </div>
-      <div class="photo-container">
-        <ng-container *ngIf="collectionForm.controls.pan_card_photo.value">
-          <img src="{{collectionForm.controls.pan_card_photo.value}}" class="photo" alt="icon"/>
-        </ng-container>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Write the name of the Proprietorship</mat-label>
+        <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name">
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>Address *</label>
       </div>
     </div>
-    <mat-form-field appearance="outline">
-      <mat-label>PAN Card Remarks:</mat-label>
-      <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Amount</mat-label>
-      <input matInput placeholder="Please enter amount in Rupee" formControlName="amount" required>
-    </mat-form-field>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>House No. & Apartment Name</mat-label>
+        <input matInput placeholder="House No. & Apartment Name" formControlName="house">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Locality & Landmarks</mat-label>
+        <input matInput placeholder="Locality & Landmarks" formControlName="locality">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Pincode</mat-label>
+        <input matInput placeholder="Pincode" formControlName="pincode">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>District</mat-label>
+        <input matInput placeholder="District" formControlName="district">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>State</mat-label>
+        <mat-select formControlName="state">
+          <mat-option *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>PAN Card Details:<sup>*</sup></label>
+      </div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>PAN Card</mat-label>
+        <input matInput placeholder="PAN Card" formControlName="pan_card">
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>Please upload Pan Card photo</label>
+      </div>
+      <div>
+        <div class="col-6">
+          <button type="button" class="btn photo-button"
+                  (click)="fileInputPhoto.click()">
+            Attach Photo<sup>*</sup>
+          </button>
+          <input type="file" class="hidden-field" accept="image/png, image/jpeg"
+                 (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
+        </div>
+        <div class="photo-container">
+          <ng-container *ngIf="collectionForm.controls.pan_card_photo.value">
+            <img src="{{collectionForm.controls.pan_card_photo.value}}" class="photo" alt="icon"/>
+          </ng-container>
+        </div>
+      </div>
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>PAN Card Remarks:</mat-label>
+        <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Amount</mat-label>
+        <input matInput placeholder="Please enter amount in Rupee" formControlName="amount" required>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>Mode of Payment<sup>*</sup></label>
+      </div>
+      <mat-radio-group class="col" formControlName="mode_of_payment" aria-label="mode_of_payment">
+        <mat-radio-button value="huf">HUF</mat-radio-button>
+        <mat-radio-button value="partnership">Partnership</mat-radio-button>
+        <mat-radio-button value="trust">Trust</mat-radio-button>
+        <mat-radio-button value="corporation">Corporation</mat-radio-button>
+        <mat-radio-button value="others">Others</mat-radio-button>
+        <mat-radio-button value="individual">Individual</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <button mat-flat-button (click)="submitForm()">Submit</button>
+    </div>
   </form>
 </div>

@@ -16,6 +16,7 @@ export class CollectionFormComponent implements OnInit {
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService) {
   }
+
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
 
   collectionForm: FormGroup = new FormGroup({});
@@ -54,6 +55,13 @@ export class CollectionFormComponent implements OnInit {
       location: new FormControl(null)
     });
     this.getStates();
+  }
+
+  disableKeyPress(event: any): boolean {
+    if (event) {
+      event.preventDefault();
+    }
+    return false;
   }
 
   getStates(): void {
@@ -102,6 +110,12 @@ export class CollectionFormComponent implements OnInit {
     }, (error: string) => {
       this.loaderService.hide();
       this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  submitForm(): void {
+    this.restService.submitForm(this.collectionForm.value).subscribe((response: any) => {
+
     });
   }
 }

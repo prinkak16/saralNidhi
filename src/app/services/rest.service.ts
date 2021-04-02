@@ -9,7 +9,8 @@ import {environment} from '../../environments/environment';
 export class RestService {
 
   options: any;
-  apiUrl = environment.baseUrl;
+  baseUrl = environment.baseUrl;
+  apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
   }
@@ -32,7 +33,7 @@ export class RestService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.get(this.apiUrl + 'two_factor_enabled?render_json=true', httpOptions);
+    return this.http.get(this.baseUrl + 'two_factor_enabled?render_json=true', httpOptions);
   }
 
   login(credentials: any): any {
@@ -41,7 +42,7 @@ export class RestService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(this.apiUrl + 'login', JSON.stringify(credentials), httpOptions);
+    return this.http.post(this.baseUrl + 'login', JSON.stringify(credentials), httpOptions);
   }
 
   submit_otp(otp: any): any {
@@ -50,25 +51,29 @@ export class RestService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(this.apiUrl + 'submit_otp', JSON.stringify(otp), httpOptions);
+    return this.http.post(this.baseUrl + 'submit_otp', JSON.stringify(otp), httpOptions);
   }
 
   logout(): any {
-    return this.http.get(this.apiUrl + 'logout', this.authHttpOptions());
+    return this.http.get(this.baseUrl + 'logout', this.authHttpOptions());
   }
 
   getAllStates(): any {
-    return this.http.get(this.apiUrl + 'events/get_all_states', this.authHttpOptions());
+    return this.http.get(this.baseUrl + 'events/get_all_states', this.authHttpOptions());
   }
 
   uploadNidhiFile(data: any): any {
     // @ts-ignore
     const authorization: string = localStorage.getItem(Constant.AUTH_TOKEN) ? localStorage.getItem(Constant.AUTH_TOKEN) : '';
-    return this.http.post(this.apiUrl + 'nidhi_collection/add_file', data, {
+    return this.http.post(this.baseUrl + 'nidhi_collection/add_file', data, {
       headers: new HttpHeaders({
         Authorization: authorization,
         Accept: 'application/json'
       })
     });
+  }
+
+  submitForm(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/submit_form', data, this.authHttpOptions());
   }
 }

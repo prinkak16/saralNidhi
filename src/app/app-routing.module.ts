@@ -14,6 +14,11 @@ const routes: Routes = [
     path: 'index',
     component: DashboardComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'indian_donation_form',
+    component: CollectionFormComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
