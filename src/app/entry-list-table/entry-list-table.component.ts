@@ -27,7 +27,7 @@ export class EntryListTableComponent implements OnInit {
     this.showLoader = true;
     this.restService.getPaymentRecords(this.paymentModeId).subscribe((response: any) => {
       this.showLoader = false;
-      this.paymentDetails = response.data as PaymentModel[];
+      this.paymentDetails = response.data.data as PaymentModel[];
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);

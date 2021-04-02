@@ -81,7 +81,11 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId, this.authHttpOptions());
   }
 
+  getTotalCount(): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/total_count', this.authHttpOptions());
+  }
+
   submitForm(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/submit_form', data, this.authHttpOptions());
+    return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
 }

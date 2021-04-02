@@ -10,6 +10,10 @@
         <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
         <!--        [for]="picker"-->
         <!--        <mat-datepicker #picker></mat-datepicker>-->
+        <mat-error
+          *ngIf="((collectionForm.controls.date.touched)&& collectionForm.controls.date.hasError('required'))">
+          Date is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -44,10 +48,14 @@
         <mat-radio-button value="false">No</mat-radio-button>
       </mat-radio-group>
     </div>
-    <div>
+    <div *ngIf="collectionForm.controls.is_proprietorship.value === 'true'">
       <mat-form-field class="col" appearance="outline">
         <mat-label>Write the name of the Proprietorship</mat-label>
-        <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name">
+        <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
+          Name of the Proprietorship is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -58,25 +66,41 @@
     <div>
       <mat-form-field class="col" appearance="outline">
         <mat-label>House No. & Apartment Name</mat-label>
-        <input matInput placeholder="House No. & Apartment Name" formControlName="house">
+        <input matInput placeholder="House No. & Apartment Name" formControlName="house" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.house.touched)&& collectionForm.controls.house.hasError('required'))">
+          House number and Apartment Name is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Locality & Landmarks</mat-label>
-        <input matInput placeholder="Locality & Landmarks" formControlName="locality">
+        <input matInput placeholder="Locality & Landmarks" formControlName="locality" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.locality.touched)&& collectionForm.controls.locality.hasError('required'))">
+          Locality is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Pincode</mat-label>
-        <input matInput placeholder="Pincode" formControlName="pincode">
+        <input matInput placeholder="Pincode" formControlName="pincode" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.pincode.touched)&& collectionForm.controls.pincode.hasError('required'))">
+          Pincode is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="col" appearance="outline">
         <mat-label>District</mat-label>
-        <input matInput placeholder="District" formControlName="district">
+        <input matInput placeholder="District" formControlName="district" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.district.touched)&& collectionForm.controls.district.hasError('required'))">
+          District is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -85,6 +109,10 @@
         <mat-select formControlName="state">
           <mat-option *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
         </mat-select>
+        <mat-error
+          *ngIf="((collectionForm.controls.state.touched)&& collectionForm.controls.state.hasError('required'))">
+          State is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -93,37 +121,52 @@
       </div>
       <mat-form-field class="col" appearance="outline">
         <mat-label>PAN Card</mat-label>
-        <input matInput placeholder="PAN Card" formControlName="pan_card">
+        <input matInput placeholder="PAN Card" formControlName="pan_card" maxlength="10" minlength="10" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('required'))">
+          PAN Card is required
+        </mat-error>
+        <mat-error
+          *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('pattern'))">
+          PAN Card is correct pan card number
+        </mat-error>
       </mat-form-field>
     </div>
-    <div>
-      <div class="col">
-        <label>Please upload Pan Card photo</label>
-      </div>
-      <div>
-        <div class="col-6">
-          <button type="button" class="btn photo-button"
-                  (click)="fileInputPhoto.click()">
-            Attach Photo<sup>*</sup>
-          </button>
-          <input type="file" class="hidden-field" accept="image/png, image/jpeg"
-                 (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
-        </div>
-        <div class="photo-container">
-          <ng-container *ngIf="collectionForm.controls.pan_card_photo.value">
-            <img src="{{collectionForm.controls.pan_card_photo.value}}" class="photo" alt="icon"/>
-          </ng-container>
-        </div>
-      </div>
-      <mat-form-field class="col-6" appearance="outline">
-        <mat-label>PAN Card Remarks:</mat-label>
-        <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">
-      </mat-form-field>
-    </div>
+    <!--    <div>-->
+    <!--      <div class="col">-->
+    <!--        <label>Please upload Pan Card photo</label>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <div class="row">-->
+    <!--      <div class="col">-->
+    <!--        <div class="col-7">-->
+    <!--          <button type="button" class="btn photo-button"-->
+    <!--                  (click)="fileInputPhoto.click()">-->
+    <!--            Attach Photo<sup>*</sup>-->
+    <!--          </button>-->
+    <!--          <input type="file" class="hidden-field" accept="image/png, image/jpeg"-->
+    <!--                 (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>-->
+    <!--          <div class="photo-container">-->
+    <!--            <ng-container *ngIf="collectionForm.controls.pan_card_photo.value">-->
+    <!--              <img src="{{collectionForm.controls.pan_card_photo.value}}" class="photo" alt="icon"/>-->
+    <!--            </ng-container>-->
+    <!--          </div>-->
+    <!--        </div>-->
+
+    <!--        <mat-form-field class="col-5" appearance="outline">-->
+    <!--          <mat-label>PAN Card Remarks:</mat-label>-->
+    <!--          <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">-->
+    <!--        </mat-form-field>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div>
       <mat-form-field class="col" appearance="outline">
         <mat-label>Amount</mat-label>
         <input matInput placeholder="Please enter amount in Rupee" formControlName="amount" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.amount.touched)&& collectionForm.controls.amount.hasError('required'))">
+          Amount is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -131,16 +174,161 @@
         <label>Mode of Payment<sup>*</sup></label>
       </div>
       <mat-radio-group class="col" formControlName="mode_of_payment" aria-label="mode_of_payment">
-        <mat-radio-button value="huf">HUF</mat-radio-button>
-        <mat-radio-button value="partnership">Partnership</mat-radio-button>
-        <mat-radio-button value="trust">Trust</mat-radio-button>
-        <mat-radio-button value="corporation">Corporation</mat-radio-button>
-        <mat-radio-button value="others">Others</mat-radio-button>
-        <mat-radio-button value="individual">Individual</mat-radio-button>
+        <mat-radio-button *ngFor="let item of paymentModes" value="{{item.id}}">{{item.name}}</mat-radio-button>
       </mat-radio-group>
+      <mat-error
+        *ngIf="((collectionForm.controls.mode_of_payment.touched)&& collectionForm.controls.mode_of_payment.hasError('required'))">
+        Mode of Payment is required
+      </mat-error>
+    </div>
+    <div class="row" *ngIf="selectedModeOfPayment.name === 'Cheque'">
+      <div class="col">
+        <mat-form-field class="col-6" appearance="outline">
+          <mat-label>Date of cheque</mat-label>
+          <input matInput placeholder="Please enter amount in Rupee" formControlName="date_of_cheque" required>
+          <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
+          <mat-error
+            *ngIf="((collectionForm.controls.date_of_cheque.touched)&& collectionForm.controls.date_of_cheque.hasError('required'))">
+            Date of cheque is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6" appearance="outline">
+          <mat-label>Cheque No.</mat-label>
+          <input matInput placeholder="Cheque Number" formControlName="cheque_number" required>
+          <mat-error
+            *ngIf="((collectionForm.controls.cheque_number.touched)&& collectionForm.controls.cheque_number.hasError('required'))">
+            Cheque number is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div *ngIf="selectedModeOfPayment.name === 'RTGS'">
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Enter UTR No</mat-label>
+        <input matInput placeholder="UTR number" formControlName="utr_number" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.utr_number.touched)&& collectionForm.controls.utr_number.hasError('required'))">
+          UTR number is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <div class="col">
+        <label>Bank Details</label>
+      </div>
     </div>
     <div>
-      <button mat-flat-button (click)="submitForm()">Submit</button>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Account No.</mat-label>
+        <input matInput placeholder="Account number" formControlName="account_number">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>IFSC Code</mat-label>
+        <input matInput placeholder="IFSC code" formControlName="ifsc_code">
+        <mat-error
+          *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
+          Please enter correct ifsc code
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Bank Name</mat-label>
+        <input matInput placeholder="Bank name" formControlName="bank_name">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Branch Name</mat-label>
+        <input matInput placeholder="Branch name" formControlName="branch_name">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Branch Address</mat-label>
+        <input matInput placeholder="Branch address" formControlName="branch_address">
+      </mat-form-field>
+    </div>
+
+    <div>
+      <div class="col">
+        <label>People Responsible for collecting Donation<sup>*</sup></label>
+      </div>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Enter collector name</mat-label>
+        <input matInput placeholder="Collector Name" formControlName="collector_name" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.collector_name.touched)&& collectionForm.controls.collector_name.hasError('required'))">
+          Collector Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Enter Phone No.</mat-label>
+        <input matInput placeholder="Collector Phone" formControlName="collector_phone" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
+          Collector phone number is required
+        </mat-error>
+        <mat-error
+          *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('pattern'))">
+          Please enter correct phone number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>Nature of Donation*</label>
+      </div>
+      <mat-radio-group class="col" formControlName="nature_of_donation" aria-label="nature_of_donation">
+        <mat-radio-button value="Voluntary Contribution">Voluntary Contribution</mat-radio-button>
+        <mat-radio-button value="ASN">ASN</mat-radio-button>
+        <mat-radio-button value="Other">Other</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div *ngIf="collectionForm.controls.nature_of_donation.value === 'Other'">
+      <div class="col">
+        <label>If Other then</label>
+      </div>
+    </div>
+    <div *ngIf="collectionForm.controls.nature_of_donation.value === 'Other'">
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>Please Specify</mat-label>
+        <input matInput placeholder="Please specify" formControlName="other_nature_of_donation">
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="col">
+        <label>Party Unit: *</label>
+      </div>
+      <mat-radio-group class="col" formControlName="party_unit" aria-label="party_unit">
+        <mat-radio-button value="CountryState">State</mat-radio-button>
+      </mat-radio-group>
+      <mat-error
+        *ngIf="((collectionForm.controls.party_unit.touched)&& collectionForm.controls.party_unit.hasError('required'))">
+        Party Unit is required
+      </mat-error>
+    </div>
+    <div>
+      <mat-form-field class="col" appearance="outline">
+        <mat-label>State</mat-label>
+        <mat-select formControlName="location_id">
+          <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+          State is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">Submit</button>
     </div>
   </form>
 </div>
