@@ -73,6 +73,14 @@ export class RestService {
     });
   }
 
+  getPaymentModes(): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
+  }
+
+  getPaymentRecords(paymentTypeId: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId, this.authHttpOptions());
+  }
+
   submitForm(data: any): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/submit_form', data, this.authHttpOptions());
   }

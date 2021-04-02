@@ -19,12 +19,17 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {HomeComponent} from './home/home.component';
 import {GotoComponent} from './goto/goto.component';
 import {CollectionFormComponent} from './collection-form/collection-form.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {EntryListComponent} from './entry-list/entry-list.component';
+import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,9 @@ import {DashboardComponent} from './dashboard/dashboard.component';
     GotoComponent,
     NavBarComponent,
     CollectionFormComponent,
-    DashboardComponent
+    DashboardComponent,
+    EntryListComponent,
+    EntryListTableComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +60,9 @@ import {DashboardComponent} from './dashboard/dashboard.component';
     MatRadioModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatTabsModule,
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AuthGuard,
