@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +9,15 @@ import {FormControl} from '@angular/forms';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   query = new FormControl('');
 
   ngOnInit(): void {
+  }
+
+  showTotalEntryList(): void {
+    this.router.navigate(['list']);
   }
 }

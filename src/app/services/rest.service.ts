@@ -9,7 +9,8 @@ import {environment} from '../../environments/environment';
 export class RestService {
 
   options: any;
-  apiUrl = environment.baseUrl;
+  baseUrl =  environment.baseUrl;
+  apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
   }
@@ -32,7 +33,7 @@ export class RestService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.get(this.apiUrl + 'two_factor_enabled?render_json=true', httpOptions);
+    return this.http.get(this.baseUrl + 'two_factor_enabled?render_json=true', httpOptions);
   }
 
   login(credentials: any): any {
@@ -41,7 +42,7 @@ export class RestService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(this.apiUrl + 'login', JSON.stringify(credentials), httpOptions);
+    return this.http.post(this.baseUrl + 'login', JSON.stringify(credentials), httpOptions);
   }
 
   submit_otp(otp: any): any {
@@ -50,15 +51,15 @@ export class RestService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(this.apiUrl + 'submit_otp', JSON.stringify(otp), httpOptions);
+    return this.http.post(this.baseUrl + 'submit_otp', JSON.stringify(otp), httpOptions);
   }
 
   logout(): any {
-    return this.http.get(this.apiUrl + 'logout', this.authHttpOptions());
+    return this.http.get(this.baseUrl + 'logout', this.authHttpOptions());
   }
 
   getAllStates(): any {
-    return this.http.get(this.apiUrl + 'events/get_all_states', this.authHttpOptions());
+    return this.http.get(this.baseUrl + 'events/get_all_states', this.authHttpOptions());
   }
 
   uploadNidhiFile(data: any): any {
@@ -70,5 +71,13 @@ export class RestService {
         Accept: 'application/json'
       })
     });
+  }
+
+  getPaymentModes(): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
+  }
+
+  getPaymentRecords(paymentTypeId: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId, this.authHttpOptions());
   }
 }
