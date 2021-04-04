@@ -23,3 +23,18 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.orange-btn {
+  background-color: #FC7017 !important;
+  color: white !important;
+  margin-top: 20px;
+  min-width: 150px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-header-cell, mat-cell {
+  justify-content: center;
+}

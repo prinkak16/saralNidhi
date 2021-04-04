@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
+import {UtilsService} from '../services/utils.service';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -16,7 +17,8 @@ export class EntryListTableComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card'];
 
-  constructor(private restService: RestService, private messageService: MessageService) {
+  constructor(private restService: RestService, private messageService: MessageService,
+              public utilService: UtilsService) {
   }
 
   ngOnInit(): void {

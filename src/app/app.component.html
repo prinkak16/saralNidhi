@@ -1,4 +1,7 @@
 <app-nav-bar *ngIf="utils.isLoggedIn()"></app-nav-bar>
 <div [ngClass]="{'app-content-top-margin': utils.isLoggedIn()}">
+  <div style="width: 100%; height: auto;">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
   <router-outlet></router-outlet>
 </div>

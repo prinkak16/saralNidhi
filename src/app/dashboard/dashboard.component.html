@@ -12,18 +12,17 @@
       <mat-icon svgIcon="recording" matSuffix></mat-icon>
     </mat-form-field>
   </div>
-  <div class="total-count-container">
+  <div class="total-count-container pointer" (click)="showTotalEntryList()">
     <div class="total-count-div">
       <div class="count">{{total}}</div>
     </div>
-    <div class="total-count-heading-container pointer"
-         (click)="showTotalEntryList()">
+    <div class="total-count-heading-container">
       <img src="assets/icons/total_forms.svg" alt="Total forms">
       <div class="heading">Total Forms Entered</div>
     </div>
   </div>
   <div class="forms-container">
-    <div class="form-div pointer" [routerLink]="['/indian_donation_form']">
+    <div class="form-div pointer" [routerLink]="['/dashboard/indian_donation_form']">
       <img src="assets/icons/indian_donation_form.svg" alt="Indian donation form">
       <div class="heading">Indian Donation Form</div>
     </div>

@@ -5,6 +5,7 @@ import {MessageService} from '../services/message.service';
 import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {Router} from '@angular/router';
+import {PaymentModeModel} from '../models/payment-mode.model';
 
 @Component({
   selector: 'app-goto',
@@ -20,15 +21,29 @@ export class CollectionFormComponent implements OnInit {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
+  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
+  config = {
+    allowNumbersOnly: false,
+    length: 5,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: '',
+    inputStyles: {
+      width: '70px',
+      height: '70px'
+    }
+  };
 
   collectionForm: FormGroup = new FormGroup({});
   states: any[] = [];
   stateUnits: any[] = [];
-  paymentModes: any[] = [];
+  paymentModes: PaymentModeModel[] = [];
+  validPaymentModes: PaymentModeModel[] = [];
   selectedModeOfPayment: any = {};
   panCardPattern = '[A-Z]{5}[0-9]{4}[A-Z]{1}';
-  isfcPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
+  ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
   phonePattern = '^[6-9][0-9]{9}$';
+  panCardValue = '';
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
@@ -55,7 +70,7 @@ export class CollectionFormComponent implements OnInit {
       utr_number: new FormControl(null),
       financial_year_id: new FormControl(null),
       account_number: new FormControl(null),
-      ifsc_code: new FormControl(null, [Validators.pattern(this.isfcPattern)]),
+      ifsc_code: new FormControl(null, [Validators.pattern(this.ifscPattern)]),
       bank_name: new FormControl(null),
       branch_name: new FormControl(null),
       branch_address: new FormControl(null),
@@ -93,7 +108,7 @@ export class CollectionFormComponent implements OnInit {
       this.collectionForm.controls.cheque_number.setValue(null);
       this.collectionForm.controls.date_of_cheque.setValue(null);
       this.collectionForm.controls.utr_number.setValue(null);
-      this.selectedModeOfPayment = this.paymentModes.find(pm => pm.id.toString() === value.toString());
+      this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
       console.log(this.selectedModeOfPayment);
       this.collectionForm.controls.cheque_number.clearValidators();
       this.collectionForm.controls.date_of_cheque.clearValidators();
@@ -130,6 +145,7 @@ export class CollectionFormComponent implements OnInit {
   getModeOfPayments(): void {
     this.restService.getPaymentModes().subscribe((response: any) => {
       this.paymentModes = response.data;
+      this.validPaymentModes = Object.assign([], this.paymentModes);
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
@@ -179,9 +195,48 @@ export class CollectionFormComponent implements OnInit {
     console.log(this.collectionForm.value);
     this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
       this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['/list']);
+      this.router.navigate(['/list'],
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  onPanCardChange(panNumber: string): void {
+    if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
+      this.collectionForm.get('pan_card')?.setValue(panNumber);
+    } else {
+      this.collectionForm.get('pan_card')?.setErrors(['pattern']);
+    }
+  }
+
+  validatePanNumber(panNumber: string): boolean {
+    for (let index = 0; index < panNumber.length; index++) {
+      if (index < 5) {
+        if (!panNumber[index].match(/[a-z]/i)) {
+          return false;
+        }
+      }
+      if (index > 4 && index < 9) {
+        if (!(typeof panNumber[index] === 'number')) {
+          return false;
+        }
+      }
+      if (index === 9) {
+        if (!panNumber[index].match(/[a-z]/i)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  getValidModeOfPayments(event: Event): void {
+    // @ts-ignore
+    if (this.utilsService.convertStringToNumber(event.currentTarget.value) > 2000) {
+      this.validPaymentModes.splice(this.validPaymentModes.findIndex(x => x.name === 'Cash'));
+    } else {
+      this.validPaymentModes = Object.assign([], this.paymentModes);
+    }
   }
 }

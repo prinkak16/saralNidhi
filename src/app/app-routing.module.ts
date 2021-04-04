@@ -12,19 +12,31 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'index',
-    component: DashboardComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'list',
-    component: EntryListComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'indian_donation_form',
-    component: CollectionFormComponent,
-    canActivate: [AuthGuard]
+    path: 'dashboard',
+    canActivate: [AuthGuard],
+    data: {
+      breadcrumb: 'Dashboard',
+    },
+    children: [
+      {
+        path: '',
+        component: DashboardComponent,
+      },
+      {
+        path: 'list',
+        component: EntryListComponent,
+        data: {
+          breadcrumb: 'Donation List',
+        },
+      },
+      {
+        path: 'indian_donation_form',
+        component: CollectionFormComponent,
+        data: {
+          breadcrumb: 'Indian Donation Form',
+        },
+      }
+    ]
   }
 ];
 

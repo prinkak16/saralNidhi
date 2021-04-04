@@ -1,0 +1,34 @@
+.breadcrumb {
+  background: none;
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.breadcrumb a, span {
+  color: darkgrey;
+}
+
+.breadcrumb a:hover, span:hover {
+  color: dimgrey;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.breadcrumb li {
+  list-style: none;
+  float: left;
+  margin: 5px;
+}
+
+.breadcrumb li:last-child {
+  margin-right: 20px;
+}
+
+.breadcrumb li::after {
+  content: " >";
+  color: darkgrey;
+}
+
+.breadcrumb li:last-child::after {
+  content: "";
+}

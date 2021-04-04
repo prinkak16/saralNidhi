@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {LogoutService} from './logout.service';
+import {DatePipe} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
 
-  constructor(private logoutService: LogoutService) {
+  constructor(private logoutService: LogoutService, private datePipe: DatePipe) {
   }
 
   isAuthorized = true;
@@ -26,5 +27,26 @@ export class UtilsService {
     }
 
     return formData;
+  }
+
+  convertStringToNumber(input: string): number {
+    if (input.trim().length === 0) {
+      return NaN;
+    }
+    return Number(input);
+  }
+
+  // @ts-ignore
+  // tslint:disable-next-line:typedef
+  formatDate(date: string, onlyTime = false, withTime = false) {
+    if (date) {
+      if (onlyTime) {
+        return this.datePipe.transform(new Date(date), 'h:mm a');
+      } else if (withTime) {
+        return this.datePipe.transform(new Date(date), 'EE, MMM d, y, h:mm a');
+      } else {
+        return this.datePipe.transform(new Date(date), 'EE, MMM d, y');
+      }
+    }
   }
 }

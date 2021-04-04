@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {RestService} from '../services/rest.service';
 import * as Constant from '../AppConstants';
 import {UtilsService} from '../services/utils.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   model = {fullName: '', email: '', phoneNumber: '', countryCode: '91', password: '', otp: ''};
   loginButtonText = 'Login';
 
-  constructor(private router: Router, private restService: RestService,
+  constructor(private router: Router, private restService: RestService, private snackBar: MatSnackBar,
               public utils: UtilsService) {
   }
 
@@ -41,7 +42,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
 
     if (this.utils.isLoggedIn()) {
-      this.router.navigate(['/index']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -72,11 +73,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
       }, (error: any) => {
         if (error) {
-          // this.snackBar.open(error, '', {
-          //   duration: 6000
-          // });
+          this.snackBar.open(error.error.message, '', {
+            duration: 6000
+          });
         } else {
-          // this.snackBar.open('Unknown error found', 'Okay');
+          this.snackBar.open('Unknown error found', 'Okay');
         }
       });
   }
@@ -96,11 +97,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.model.password = '';
             this.model.otp = '';
           }
-          // this.snackBar.open(error, '', {
-          //   duration: 6000
-          // });
+          this.snackBar.open(error.error.message, '', {
+            duration: 6000
+          });
         } else {
-          // this.snackBar.open('Unknown error found', 'Okay');
+          this.snackBar.open('Unknown error found', 'Okay');
         }
       });
   }
@@ -125,6 +126,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     localStorage.setItem(Constant.IS_STATE_ZONE_AVAILABLE, loginData.user.isStateZoneAvailable);
     localStorage.setItem(Constant.STATE_DELETION_PREFERENCE, loginData.user.stateDeletionAllowed);
 
-    this.router.navigate(['/index']);
+    // @ts-ignore
+    setTimeout(_ => {
+      this.router.navigate(['/dashboard']);
+    }, 1000);
   }
 }

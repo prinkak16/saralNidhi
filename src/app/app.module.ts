@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './auth.guard';
+import {DatePipe} from '@angular/common';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
@@ -22,26 +23,27 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {NgOtpInputModule} from 'ng-otp-input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {HomeComponent} from './home/home.component';
-import {GotoComponent} from './goto/goto.component';
 import {CollectionFormComponent} from './collection-form/collection-form.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
-import { MatNativeDateModule } from '@angular/material/core';
+import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    GotoComponent,
     NavBarComponent,
     CollectionFormComponent,
     DashboardComponent,
     EntryListComponent,
-    EntryListTableComponent
+    EntryListTableComponent,
+    BreadcrumbComponent
   ],
   imports: [
     BrowserModule,
@@ -64,11 +66,13 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTabsModule,
     MatTableModule,
     MatProgressSpinnerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgOtpInputModule
   ],
   providers: [
     AuthGuard,
     MatDatepickerModule,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

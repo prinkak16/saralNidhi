@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showTotalEntryList(): void {
-    this.router.navigate(['list']);
+    this.router.navigate(['/dashboard/list']);
   }
 
   getTotal(): void {
