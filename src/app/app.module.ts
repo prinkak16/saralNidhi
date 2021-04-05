@@ -33,6 +33,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
     MatTableModule,
     MatProgressSpinnerModule,
     MatNativeDateModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    MatTooltipModule
   ],
   providers: [
     AuthGuard,

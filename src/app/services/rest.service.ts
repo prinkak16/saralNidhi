@@ -88,4 +88,18 @@ export class RestService {
   submitForm(data: any): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
+
+  downloadReceipt(id = ''): any {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/pdf'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'custom_member_form/generate_receipt?id=' + id ;
+    return this.http.get(url, authHttpOptions as any);
+  }
 }

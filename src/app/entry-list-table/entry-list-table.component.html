@@ -3,7 +3,7 @@
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
       <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </mat-cell>
+      <mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </mat-cell>
     </ng-container>
 
     <!-- Date Column -->
@@ -40,6 +40,16 @@
     <ng-container matColumnDef="pan_card">
       <mat-header-cell *matHeaderCellDef> Pan Card No.</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.data.pan_card}} </mat-cell>
+    </ng-container>
+
+    <!-- Pan Card No. Column -->
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon class="pointer" matTooltip="Print Receipt"
+                  (click)="downloadReceipt(element)">print
+        </mat-icon>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
