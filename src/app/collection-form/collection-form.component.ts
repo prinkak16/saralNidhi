@@ -212,7 +212,7 @@ export class CollectionFormComponent implements OnInit {
     console.log(this.collectionForm.value);
     this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
       this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['/list'],
+      this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
       this.messageService.somethingWentWrong(error.error.message);
@@ -239,7 +239,7 @@ export class CollectionFormComponent implements OnInit {
   validatePanNumber(panNumber: string): boolean {
     for (let index = 0; index < panNumber.length; index++) {
       if (index < 5) {
-        if (!panNumber[index].match(/[a-z]/i)) {
+        if (!panNumber[index].match(/[A-Z]/i)) {
           return false;
         }
       }
@@ -265,7 +265,7 @@ export class CollectionFormComponent implements OnInit {
   checkLastNameValidation(panNumber: string): boolean {
     const splitted = this.collectionForm.controls.name.value.split(' ');
     const value = splitted[splitted.length - 1][0];
-    return value?.toUpperCase() === panNumber[9]?.toUpperCase();
+    return value?.toUpperCase() === panNumber[4]?.toUpperCase();
   }
 
   getCategoryTypes(): any {
