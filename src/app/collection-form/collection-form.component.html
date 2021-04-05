@@ -90,6 +90,16 @@
     <div class="col-md-12">
       <label class="single-label">PAN Card Details:<sup>*</sup></label>
       <ng-otp-input (onInputChange)="onPanCardChange($event)" [config]="{length:10}"></ng-otp-input>
+      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
+        Please enter a valid pan card number
+      </mat-error>
+
+      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('categoryMismatch'))">
+        Your category selection does not match your pan card number
+      </mat-error>
+      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('nameMismatch'))">
+        Your name does not match your pan card number
+      </mat-error>
       <mat-form-field appearance="outline" hidden>
         <mat-label>PAN Card</mat-label>
         <input matInput placeholder="PAN Card" formControlName="pan_card" maxlength="10" minlength="10" required>
@@ -97,11 +107,11 @@
           *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('required'))">
           PAN Card is required
         </mat-error>
+        <mat-error
+          *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
+          Please enter correct pan card number
+        </mat-error>
       </mat-form-field>
-      <mat-error
-        *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('pattern'))">
-        Please enter correct pan card number
-      </mat-error>
     </div>
     <!--    <div>-->
     <!--      <div>-->
@@ -132,7 +142,8 @@
     <!--    </div>-->
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Amount</mat-label>
-      <input matInput placeholder="Please enter amount in Rupee" formControlName="amount" (change)="getValidModeOfPayments($event)" required>
+      <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
+             (change)="getValidModeOfPayments($event)" required>
       <mat-error
         *ngIf="((collectionForm.controls.amount.touched)&& collectionForm.controls.amount.hasError('required'))">
         Amount is required

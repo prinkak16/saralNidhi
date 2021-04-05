@@ -6,6 +6,7 @@ import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {Router} from '@angular/router';
 import {PaymentModeModel} from '../models/payment-mode.model';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-goto',
@@ -21,7 +22,7 @@ export class CollectionFormComponent implements OnInit {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
-  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
+  @ViewChild('ngOtpInput', {static: false}) ngOtpInput: any;
   config = {
     allowNumbersOnly: false,
     length: 5,
@@ -123,11 +124,27 @@ export class CollectionFormComponent implements OnInit {
       if (this.selectedModeOfPayment.name === 'Cheque') {
         this.collectionForm.controls.cheque_number.setValidators(Validators.required);
         this.collectionForm.controls.date_of_cheque.setValidators(Validators.required);
-      }else if (this.selectedModeOfPayment.name === 'Demand Draft') {
+      } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
         this.collectionForm.controls.draft_number.setValidators(Validators.required);
         this.collectionForm.controls.date_of_draft.setValidators(Validators.required);
       } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
         this.collectionForm.controls.utr_number.setValidators(Validators.required);
+      }
+    });
+
+    this.collectionForm.controls.name.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
+      if (value) {
+        if (this.collectionForm.controls.pan_card.value) {
+          this.onPanCardChange(this.collectionForm.controls.pan_card.value);
+        }
+      }
+    });
+
+    this.collectionForm.controls.category.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
+      if (value) {
+        if (this.collectionForm.controls.pan_card.value) {
+          this.onPanCardChange(this.collectionForm.controls.pan_card.value);
+        }
       }
     });
   }
@@ -203,10 +220,19 @@ export class CollectionFormComponent implements OnInit {
   }
 
   onPanCardChange(panNumber: string): void {
+    this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: null, pattern: null, nameMismatch: null});
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
-      this.collectionForm.get('pan_card')?.setValue(panNumber);
+      if (this.checkCategoryTypeValidation(panNumber)) {
+        if (this.checkLastNameValidation(panNumber)) {
+          this.collectionForm.get('pan_card')?.setValue(panNumber);
+        } else {
+          this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
+        }
+      } else {
+        this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
+      }
     } else {
-      this.collectionForm.get('pan_card')?.setErrors(['pattern']);
+      this.collectionForm.get('pan_card')?.setErrors({pattern: true});
     }
   }
 
@@ -218,7 +244,7 @@ export class CollectionFormComponent implements OnInit {
         }
       }
       if (index > 4 && index < 9) {
-        if (!(typeof panNumber[index] === 'number')) {
+        if (!(panNumber[index].match(/[0-9]/i))) {
           return false;
         }
       }
@@ -229,6 +255,50 @@ export class CollectionFormComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  checkCategoryTypeValidation(panNumber: string): boolean {
+    const categoryTypes = this.getCategoryTypes();
+    return !!categoryTypes.includes(panNumber[3].toUpperCase());
+  }
+
+  checkLastNameValidation(panNumber: string): boolean {
+    const splitted = this.collectionForm.controls.name.value.split(' ');
+    const value = splitted[splitted.length - 1][0];
+    return value?.toUpperCase() === panNumber[9]?.toUpperCase();
+  }
+
+  getCategoryTypes(): any {
+    let type: any[];
+    type = [];
+    const value = this.collectionForm.controls.category.value;
+    switch (value) {
+      case 'huf': {
+        type = ['H'];
+        break;
+      }
+      case 'partnership': {
+        type = ['F'];
+        break;
+      }
+      case 'trust': {
+        type = ['T'];
+        break;
+      }
+      case 'corporation': {
+        type = ['C'];
+        break;
+      }
+      case 'others': {
+        type = ['A', 'B', 'J'];
+        break;
+      }
+      case 'individual': {
+        type = ['P'];
+        break;
+      }
+    }
+    return type;
   }
 
   getValidModeOfPayments(event: Event): void {

@@ -3,5 +3,5 @@
   <div style="width: 100%; height: auto;">
     <app-breadcrumb></app-breadcrumb>
   </div>
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>
