@@ -197,8 +197,8 @@ export class CollectionFormComponent implements OnInit {
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
-    }, (error: string) => {
-      this.messageService.somethingWentWrong(error);
+    }, (error: any) => {
+      this.messageService.somethingWentWrong(error.error.message);
     });
   }
 
