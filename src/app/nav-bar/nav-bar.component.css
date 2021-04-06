@@ -47,6 +47,12 @@
   border-color: white !important;
 }
 
+.back-icon {
+  width: 25px;
+  height: auto;
+  margin-right: 10px;
+}
+
 .header-logo {
   border-radius: 50%;
   width: 30px;

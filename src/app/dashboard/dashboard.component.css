@@ -132,3 +132,16 @@
 .dashboard-container {
   padding-bottom: 60px;
 }
+
+.active-blinker-container {
+  position: relative;
+}
+
+.active-blinker {
+  padding: 5px;
+  border-radius: 2px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 10px;
+}

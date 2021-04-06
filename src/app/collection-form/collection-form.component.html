@@ -89,11 +89,10 @@
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">PAN Card Details:<sup>*</sup></label>
-      <ng-otp-input (onInputChange)="onPanCardChange($event)" [config]="{length:10}"></ng-otp-input>
+      <ng-otp-input (onInputChange)="onPanCardChange($event)" [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
         Please enter a valid pan card number
       </mat-error>
-
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('categoryMismatch'))">
         Your category selection does not match your pan card number
       </mat-error>

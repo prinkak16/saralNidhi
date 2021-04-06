@@ -25,14 +25,14 @@ export class CollectionFormComponent implements OnInit {
   @ViewChild('ngOtpInput', {static: false}) ngOtpInput: any;
   config = {
     allowNumbersOnly: false,
-    length: 5,
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
     inputStyles: {
       width: '70px',
       height: '70px'
-    }
+    },
+    containerClass: 'pan-card-container'
   };
 
   collectionForm: FormGroup = new FormGroup({});

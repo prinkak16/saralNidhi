@@ -38,3 +38,15 @@ table {
 mat-header-cell, mat-cell {
   justify-content: center;
 }
+
+.important-blink {
+  animation: blinker 1.2s linear infinite;
+  background-color: #f67954;
+  color: white;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

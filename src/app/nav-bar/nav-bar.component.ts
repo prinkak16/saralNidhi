@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {LogoutService} from '../services/logout.service';
 import {UtilsService} from '../services/utils.service';
 import * as Constant from '../AppConstants';
+import {NavigationService} from '../services/navigation-service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,6 +13,7 @@ import * as Constant from '../AppConstants';
 export class NavBarComponent implements OnInit {
 
   constructor(private router: Router,
+              public navigation: NavigationService,
               private activatedRoute: ActivatedRoute,
               private logoutService: LogoutService,
               public utilsService: UtilsService) {
@@ -36,4 +38,7 @@ export class NavBarComponent implements OnInit {
     this.logoutService.logout();
   }
 
+  back(): void {
+    this.navigation.back();
+  }
 }
