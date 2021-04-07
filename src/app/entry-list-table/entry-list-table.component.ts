@@ -4,6 +4,8 @@ import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
 import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
+import {ActivatedRoute} from '@angular/router';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -13,22 +15,22 @@ import {saveAs} from 'file-saver';
 export class EntryListTableComponent implements OnInit {
 
   @Input() paymentModeId: any = null;
+  @Input() query: any = null;
   showLoader = false;
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'action'];
 
-  constructor(private restService: RestService, private messageService: MessageService,
+  constructor(private restService: RestService, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
               public utilService: UtilsService) {
   }
 
   ngOnInit(): void {
     this.getPaymentList();
   }
-
   getPaymentList(): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords(this.paymentModeId).subscribe((response: any) => {
+    this.restService.getPaymentRecords(this.paymentModeId, this.query).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
     }, (error: string) => {

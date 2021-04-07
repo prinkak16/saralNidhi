@@ -5,6 +5,7 @@ import {AuthGuard} from './auth.guard';
 import {CollectionFormComponent} from './collection-form/collection-form.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
+import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 
 const routes: Routes = [
   {

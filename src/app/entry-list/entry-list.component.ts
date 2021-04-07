@@ -14,6 +14,7 @@ export class EntryListComponent implements OnInit {
 
   modeOfPayments: PaymentModeModel[] = [];
   selectedModeOfPayment = '';
+  query = '';
   selectedIndex = 0;
 
   constructor(private restService: RestService, private messageService: MessageService,
@@ -23,6 +24,9 @@ export class EntryListComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.selectedModeOfPayment = params.typeId;
+      if (params.query) {
+        this.query = params.query;
+      }
     });
     this.getPaymentModes();
   }
