@@ -48,6 +48,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
   yearsSlab: any = [];
+  isProper = 'individual';
 
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
