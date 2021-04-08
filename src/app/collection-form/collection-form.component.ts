@@ -309,4 +309,37 @@ export class CollectionFormComponent implements OnInit {
       this.validPaymentModes = Object.assign([], this.paymentModes);
     }
   }
+
+  getPinCodeDetails(value: string, stateControlName: string, districtControlName: string): void {
+    if (value.length === 6) {
+      this.restService.getPinCodeDetails(value).subscribe((reply: any[]) => {
+        const response = reply[0] as any;
+        if (response && response.PostOffice) {
+          if (response.PostOffice[0].State === 'Delhi') {
+            response.PostOffice[0].State = 'Delhi';
+          } else if (response.PostOffice[0].State === 'Andaman & Nicobar') {
+            response.PostOffice[0].State = 'Andaman and Nicobar Islands';
+          } else if (response.PostOffice[0].State === 'Daman & Diu') {
+            response.PostOffice[0].State = 'Daman and Diu';
+          } else if (response.PostOffice[0].State === 'Jammu & Kashmir') {
+            response.PostOffice[0].State = 'Jammu and Kashmir';
+          } else if (response.PostOffice[0].State === 'Dadra & Nagar Haveli') {
+            response.PostOffice[0].State = 'Dadra and Nagar Haveli';
+          } else if (response.PostOffice[0].State === 'Chattisgarh') {
+            response.PostOffice[0].State = 'Chhattisgarh';
+          }
+          // @ts-ignore
+          this.collectionForm.get(stateControlName).setValue(response.PostOffice[0].State);
+          // @ts-ignore
+          this.collectionForm.get(districtControlName).setValue(response.PostOffice[0].District);
+        }
+      });
+    } else {
+      // @ts-ignore
+      this.collectionForm.get(stateControlName).setValue(null);
+      // @ts-ignore
+      this.collectionForm.get(districtControlName).setValue(null);
+    }
+  }
+
 }

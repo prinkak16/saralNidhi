@@ -63,7 +63,9 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Pincode</mat-label>
-      <input matInput placeholder="Pincode" formControlName="pincode" required>
+      <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6"
+             (keyup)="getPinCodeDetails(collectionForm.controls.pincode.value, 'state', 'district')"
+             required>
       <mat-error
         *ngIf="((collectionForm.controls.pincode.touched)&& collectionForm.controls.pincode.hasError('required'))">
         Pincode is required
@@ -266,7 +268,7 @@
       <mat-radio-button value="Other">Other</mat-radio-button>
     </mat-radio-group>
     <ng-container *ngIf="collectionForm.controls.nature_of_donation.value === 'Other'">
-      <label class="single-label">If Other then</label>
+      <label class="single-label col-md-12">If Other then</label>
       <mat-form-field appearance="outline" class="col-md-12">
         <mat-label>Please Specify</mat-label>
         <input matInput placeholder="Please specify" formControlName="other_nature_of_donation">

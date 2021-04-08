@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './auth.guard';
 import {DatePipe} from '@angular/common';
 
@@ -25,6 +25,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {NgOtpInputModule} from 'ng-otp-input';
 import { MatNativeDateModule } from '@angular/material/core';
+import {LoaderInterceptor} from './interceptors/loader.interceptor';
 
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {HomeComponent} from './home/home.component';
@@ -74,7 +75,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
   providers: [
     AuthGuard,
     MatDatepickerModule,
-    DatePipe
+    DatePipe,
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

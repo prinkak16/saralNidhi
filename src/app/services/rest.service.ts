@@ -11,6 +11,7 @@ export class RestService {
   options: any;
   baseUrl = environment.baseUrl;
   apiUrl = environment.apiUrl;
+  pinCodeUrl = 'https://api.postalpincode.in/pincode/';
 
   constructor(private http: HttpClient) {
   }
@@ -106,5 +107,9 @@ export class RestService {
     };
     const url = this.baseUrl + 'custom_member_form/generate_receipt?id=' + id;
     return this.http.get(url, authHttpOptions as any);
+  }
+
+  getPinCodeDetails(pinCode: string): any {
+    return this.http.get(this.pinCodeUrl + pinCode);
   }
 }
