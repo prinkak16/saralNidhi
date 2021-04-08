@@ -2,7 +2,6 @@
   <ng-container *ngIf="(modeOfPayments) === null">
     Loading tabs...
   </ng-container>
-
   <mat-tab-group [selectedIndex]="selectedIndex">
     <mat-tab *ngFor="let tab of modeOfPayments">
       <ng-template mat-tab-label>{{tab.name}}</ng-template>

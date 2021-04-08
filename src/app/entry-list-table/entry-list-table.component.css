@@ -1,0 +1,9 @@
+::ng-deep .mat-form-field-flex.ng-tns-c78-1{
+  background-color: #fff;
+}
+::ng-deep .mat-tab-body-content {
+  overflow: hidden!important;
+}
+.filter-btn{
+  margin-left: 1rem;
+}

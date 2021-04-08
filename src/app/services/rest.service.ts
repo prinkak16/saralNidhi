@@ -77,9 +77,9 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
-  getPaymentRecords(paymentTypeId: string, query: string): any {
+  getPaymentRecords(paymentTypeId: string, query: string, startdate: string, enddate: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId +
-      '&query=' + query, this.authHttpOptions());
+      '&query=' + query + '&start_date=' + startdate + '&end_date=' + enddate, this.authHttpOptions());
   }
 
   getTotalCount(): any {

@@ -26,11 +26,14 @@ export class EntryListTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPaymentList();
+      this.getPaymentList();
   }
+  startdate = new FormControl('');
+  enddate = new FormControl('');
+
   getPaymentList(): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords(this.paymentModeId, this.query).subscribe((response: any) => {
+    this.restService.getPaymentRecords(this.paymentModeId, this.query, this.startdate.value, this.enddate.value).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
     }, (error: string) => {

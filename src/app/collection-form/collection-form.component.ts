@@ -45,6 +45,7 @@ export class CollectionFormComponent implements OnInit {
   ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
   phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
+  isProper = 'individual';
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({

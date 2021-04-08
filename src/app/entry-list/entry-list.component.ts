@@ -4,6 +4,7 @@ import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-entry-list',
@@ -34,7 +35,7 @@ export class EntryListComponent implements OnInit {
   getPaymentModes(): void {
     this.restService.getPaymentModes().subscribe((response: any) => {
       this.modeOfPayments = response.data;
-      this.modeOfPayments.push({id: '', name: 'All', description: ''});
+      this.modeOfPayments[0] = {id: '', name: 'All', description: ''}
       if (this.selectedModeOfPayment) {
         // @ts-ignore
         this.selectedIndex = this.modeOfPayments.findIndex(x => x.id ===
