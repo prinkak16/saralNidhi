@@ -79,7 +79,7 @@ export class RestService {
   }
 
   getYearsSlab(): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_years', this.authHttpOptions());
   }
 
   getPaymentRecords(paymentTypeId: string, query: string): any {

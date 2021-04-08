@@ -36,6 +36,8 @@ import {EntryListTableComponent} from './entry-list-table/entry-list-table.compo
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatBadgeModule} from '@angular/material/badge';
+import { LoaderComponent } from './shared/loader/loader.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     DashboardComponent,
     EntryListComponent,
     EntryListTableComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    LoaderComponent
   ],
     imports: [
         BrowserModule,
@@ -72,7 +75,8 @@ import {MatBadgeModule} from '@angular/material/badge';
         MatNativeDateModule,
         NgOtpInputModule,
         MatTooltipModule,
-        MatBadgeModule
+        MatBadgeModule,
+        MatProgressBarModule
     ],
   providers: [
     AuthGuard,

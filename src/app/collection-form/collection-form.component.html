@@ -1,9 +1,11 @@
-<div class="container">
+<div *ngIf="!showLoader" class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm" class="row">
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label translate>Enter Date</mat-label>
-      <input matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)" placeholder="Enter Date"
+      <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
+             [matDatepicker]="picker" (click)="picker.open()" [min]="allowedDate" [max]="today"
+             placeholder="Enter Date"
              formControlName="date" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -12,7 +14,10 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label translate>Financial Year</mat-label>
+      <mat-label>Financial Year</mat-label>
+      <mat-select formControlName="financial_year_id">
+        <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}">{{option.slab}}</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Name</mat-label>
@@ -34,6 +39,14 @@
         <mat-radio-button value="individual">Individual</mat-radio-button>
       </mat-radio-group>
     </div>
+    <mat-form-field appearance="outline" class="col-md-12" *ngIf="collectionForm.controls.category.value === 'others'">
+      <mat-label>Please Specify</mat-label>
+      <input matInput placeholder="Other Category" formControlName="other_category" required>
+      <mat-error
+        *ngIf="((collectionForm.controls['other_category'].touched)&& collectionForm.controls['other_category'].hasError('required'))">
+        Please specify your category
+      </mat-error>
+    </mat-form-field>
     <label class="single-label col-md-12">Is it a proprietorship?</label>
     <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
                      class="col-md-12 radio-group-container-margin">
@@ -150,7 +163,7 @@
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Amount</mat-label>
       <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
-             (change)="getValidModeOfPayments($event)" required>
+             (change)="getValidModeOfPayments($event)" (keypress)="utilsService.validateNumber($event)" required>
       <mat-error
         *ngIf="((collectionForm.controls.amount.touched)&& collectionForm.controls.amount.hasError('required'))">
         Amount is required
@@ -172,6 +185,7 @@
         <mat-label>Date of cheque</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
+               [min]="checkAllowedDate" [max]="today"
                required>
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -182,7 +196,8 @@
       </mat-form-field>
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Cheque No.</mat-label>
-        <input matInput placeholder="Cheque Number" formControlName="cheque_number" required>
+        <input matInput placeholder="Cheque Number" formControlName="cheque_number"
+               (keypress)="utilsService.validateNumber($event)" required>
         <mat-error
           *ngIf="((collectionForm.controls.cheque_number.touched)&& collectionForm.controls.cheque_number.hasError('required'))">
           Cheque number is required
@@ -301,4 +316,7 @@
     </mat-form-field>
     <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">Submit</button>
   </form>
+</div>
+<div class="loader-container" *ngIf="showLoader">
+  <mat-spinner color="warn"></mat-spinner>
 </div>

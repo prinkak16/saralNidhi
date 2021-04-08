@@ -65,4 +65,13 @@ export class UtilsService {
     });
     return result;
   }
+
+  validateNumber(e: any): void {
+    const input = String.fromCharCode(e.charCode);
+    const reg = /^\d*(?:[.,]\d{1,2})?$/;
+
+    if (!reg.test(input)) {
+      e.preventDefault();
+    }
+  }
 }
