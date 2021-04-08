@@ -78,6 +78,10 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
+  getYearsSlab(): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
+  }
+
   getPaymentRecords(paymentTypeId: string, query: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId +
       '&query=' + query, this.authHttpOptions());
@@ -111,5 +115,9 @@ export class RestService {
 
   getPinCodeDetails(pinCode: string): any {
     return this.http.get(this.pinCodeUrl + pinCode);
+  }
+
+  getCounts(data: { dates?: string[], states?: string[], query?: any }): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 }

@@ -84,6 +84,7 @@ export class CollectionFormComponent implements OnInit {
     });
     this.getStates();
     this.getModeOfPayments();
+    this.getFinancialYears();
     this.onFormChange();
   }
 
@@ -110,7 +111,6 @@ export class CollectionFormComponent implements OnInit {
       this.collectionForm.controls.date_of_cheque.setValue(null);
       this.collectionForm.controls.utr_number.setValue(null);
       this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
-      console.log(this.selectedModeOfPayment);
       this.collectionForm.controls.cheque_number.clearValidators();
       this.collectionForm.controls.date_of_cheque.clearValidators();
       this.collectionForm.controls.utr_number.clearValidators();
@@ -160,6 +160,15 @@ export class CollectionFormComponent implements OnInit {
   }
 
   getModeOfPayments(): void {
+    this.restService.getPaymentModes().subscribe((response: any) => {
+      this.paymentModes = response.data;
+      this.validPaymentModes = Object.assign([], this.paymentModes);
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getFinancialYears(): void {
     this.restService.getPaymentModes().subscribe((response: any) => {
       this.paymentModes = response.data;
       this.validPaymentModes = Object.assign([], this.paymentModes);

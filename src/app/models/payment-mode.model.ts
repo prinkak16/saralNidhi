@@ -1,5 +1,6 @@
 export interface PaymentModeModel {
-  id: string;
+  id: any;
   name: string;
   description: string;
+  count: string;
 }

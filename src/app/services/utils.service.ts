@@ -49,4 +49,20 @@ export class UtilsService {
       }
     }
   }
+
+  pluck(arrayOfHash: object[], keyDrillDown: string[] | string): any {
+    if (!Array.isArray(keyDrillDown)) {
+      keyDrillDown = [keyDrillDown];
+    }
+    let result: any = [];
+    arrayOfHash.forEach(obj => {
+      let value = obj;
+      (keyDrillDown as string[]).forEach(key => {
+        // @ts-ignore
+        value = value[key];
+      });
+      result = result.concat(value);
+    });
+    return result;
+  }
 }

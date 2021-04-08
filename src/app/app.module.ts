@@ -35,6 +35,7 @@ import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -47,31 +48,32 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     EntryListTableComponent,
     BreadcrumbComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatDatepickerModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatTabsModule,
-    MatTableModule,
-    MatProgressSpinnerModule,
-    MatNativeDateModule,
-    NgOtpInputModule,
-    MatTooltipModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatMenuModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatDatepickerModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatTabsModule,
+        MatTableModule,
+        MatProgressSpinnerModule,
+        MatNativeDateModule,
+        NgOtpInputModule,
+        MatTooltipModule,
+        MatBadgeModule
+    ],
   providers: [
     AuthGuard,
     MatDatepickerModule,
