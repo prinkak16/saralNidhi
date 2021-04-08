@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
   total = 0;
 
-  query = new FormControl('');
+  query = new FormControl(null);
 
   ngOnInit(): void {
     this.getTotal();
@@ -24,6 +24,11 @@ export class DashboardComponent implements OnInit {
 
   showTotalEntryList(): void {
     this.router.navigate(['/dashboard/list']);
+  }
+
+// Method for sending query param on api
+  collectionDataSearch(): void {
+    this.router.navigate(['/dashboard/list'], {queryParams: {query: this.query.value}});
   }
 
   getTotal(): void {

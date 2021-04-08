@@ -77,12 +77,17 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
-  getPaymentRecords(paymentTypeId: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId, this.authHttpOptions());
+  getPaymentRecords(paymentTypeId: string, query: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId +
+      '&query=' + query, this.authHttpOptions());
   }
 
   getTotalCount(): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/total_count', this.authHttpOptions());
+  }
+
+  getCollectionData(data: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/search_records?query=' + data, this.authHttpOptions());
   }
 
   submitForm(data: any): any {
@@ -99,7 +104,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'custom_member_form/generate_receipt?id=' + id ;
+    const url = this.baseUrl + 'custom_member_form/generate_receipt?id=' + id;
     return this.http.get(url, authHttpOptions as any);
   }
 }
