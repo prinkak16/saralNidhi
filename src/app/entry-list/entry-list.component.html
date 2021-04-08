@@ -3,9 +3,15 @@
     Loading tabs...
   </ng-container>
 
-  <mat-tab-group [selectedIndex]="selectedIndex">
-    <mat-tab *ngFor="let tab of modeOfPayments">
-      <ng-template mat-tab-label>{{tab.name}}</ng-template>
+  <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
+    <mat-tab *ngFor="let tab of modeOfPayments; index as i">
+      <ng-template mat-tab-label>
+        <span matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"
+              matBadgePosition="above after"
+              matBadgeColor="warn" [matBadgeOverlap]="false">
+          {{tab.name}}
+        </span>
+      </ng-template>
       <div class="table-container">
         <app-entry-list-table paymentModeId="{{tab.id}}" [query]="query"></app-entry-list-table>
       </div>

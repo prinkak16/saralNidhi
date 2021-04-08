@@ -49,4 +49,29 @@ export class UtilsService {
       }
     }
   }
+
+  pluck(arrayOfHash: object[], keyDrillDown: string[] | string): any {
+    if (!Array.isArray(keyDrillDown)) {
+      keyDrillDown = [keyDrillDown];
+    }
+    let result: any = [];
+    arrayOfHash.forEach(obj => {
+      let value = obj;
+      (keyDrillDown as string[]).forEach(key => {
+        // @ts-ignore
+        value = value[key];
+      });
+      result = result.concat(value);
+    });
+    return result;
+  }
+
+  validateNumber(e: any): void {
+    const input = String.fromCharCode(e.charCode);
+    const reg = /^\d*(?:[.,]\d{1,2})?$/;
+
+    if (!reg.test(input)) {
+      e.preventDefault();
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -13,7 +13,7 @@ import {debounceTime} from 'rxjs/operators';
   templateUrl: './collection-form.component.html',
   styleUrls: ['./collection-form.component.css']
 })
-export class CollectionFormComponent implements OnInit {
+export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private messageService: MessageService, private cd: ChangeDetectorRef,
@@ -23,6 +23,8 @@ export class CollectionFormComponent implements OnInit {
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInput: any;
+  @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
+
   config = {
     allowNumbersOnly: false,
     isPasswordInput: false,
@@ -45,13 +47,22 @@ export class CollectionFormComponent implements OnInit {
   ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
   phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
+  yearsSlab: any = [];
+
+  today = new Date();
+  allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
+  checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
+
+  showLoader = false;
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
-      date: new FormControl(new Date().toDateString(), [Validators.required]),
+      date: new FormControl(new Date(), [Validators.required]),
+      financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null, [Validators.required]),
+      other_category: new FormControl(null),
       is_proprietorship: new FormControl(null),
       proprietorship_name: new FormControl(null),
       house: new FormControl(null, [Validators.required]),
@@ -69,7 +80,6 @@ export class CollectionFormComponent implements OnInit {
       date_of_draft: new FormControl(new Date().toDateString()),
       draft_number: new FormControl(null),
       utr_number: new FormControl(null),
-      financial_year_id: new FormControl(null),
       account_number: new FormControl(null),
       ifsc_code: new FormControl(null, [Validators.pattern(this.ifscPattern)]),
       bank_name: new FormControl(null),
@@ -84,7 +94,12 @@ export class CollectionFormComponent implements OnInit {
     });
     this.getStates();
     this.getModeOfPayments();
+    this.getFinancialYears();
     this.onFormChange();
+  }
+
+  ngAfterViewInit(): void {
+    this.safeFocus(this.focusDate);
   }
 
   disableKeyPress(event: any): boolean {
@@ -102,7 +117,7 @@ export class CollectionFormComponent implements OnInit {
       } else {
         this.collectionForm.controls.proprietorship_name.clearValidators();
       }
-      this.collectionForm.updateValueAndValidity();
+      this.collectionForm.controls.proprietorship_name.updateValueAndValidity();
     });
 
     this.collectionForm.controls.mode_of_payment.valueChanges.subscribe(value => {
@@ -110,7 +125,6 @@ export class CollectionFormComponent implements OnInit {
       this.collectionForm.controls.date_of_cheque.setValue(null);
       this.collectionForm.controls.utr_number.setValue(null);
       this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
-      console.log(this.selectedModeOfPayment);
       this.collectionForm.controls.cheque_number.clearValidators();
       this.collectionForm.controls.date_of_cheque.clearValidators();
       this.collectionForm.controls.utr_number.clearValidators();
@@ -147,6 +161,34 @@ export class CollectionFormComponent implements OnInit {
         }
       }
     });
+
+    this.collectionForm.controls.category.valueChanges.subscribe(value => {
+      this.collectionForm.controls.other_category.setValue(null);
+      if (value === 'others') {
+        this.collectionForm.controls.other_category.setValidators(Validators.required);
+      } else {
+        this.collectionForm.controls.other_category.clearValidators();
+      }
+      this.collectionForm.controls.other_category.updateValueAndValidity();
+    });
+
+    this.collectionForm.controls.date.valueChanges.subscribe(value => {
+      if (value) {
+        const month = value.getMonth();
+        if (month < 3) {
+          const slab: any = this.yearsSlab.find((f: any) => {
+            return f.slab === '2020-21';
+          });
+          this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
+        } else {
+          const slab: any = this.yearsSlab.find((f: any) => {
+            return f.slab === '2021-22';
+          });
+          this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
+        }
+      }
+    });
+
   }
 
   getStates(): void {
@@ -163,6 +205,18 @@ export class CollectionFormComponent implements OnInit {
     this.restService.getPaymentModes().subscribe((response: any) => {
       this.paymentModes = response.data;
       this.validPaymentModes = Object.assign([], this.paymentModes);
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getFinancialYears(): void {
+    this.restService.getYearsSlab().subscribe((response: any) => {
+      this.yearsSlab = response.data;
+      const slab: any = this.yearsSlab.find((f: any) => {
+        return f.slab === '2020-21';
+      });
+      this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
@@ -209,12 +263,14 @@ export class CollectionFormComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log(this.collectionForm.value);
+    this.showLoader = true;
     this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
+      this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
+      this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
     });
   }
@@ -339,6 +395,12 @@ export class CollectionFormComponent implements OnInit {
       this.collectionForm.get(stateControlName).setValue(null);
       // @ts-ignore
       this.collectionForm.get(districtControlName).setValue(null);
+    }
+  }
+
+  safeFocus(element: ElementRef): void {
+    if (element) {
+      element.nativeElement.focus();
     }
   }
 

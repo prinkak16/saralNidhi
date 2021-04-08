@@ -35,6 +35,9 @@ import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
+import { LoaderComponent } from './shared/loader/loader.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -45,33 +48,36 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DashboardComponent,
     EntryListComponent,
     EntryListTableComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    LoaderComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatDatepickerModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatTabsModule,
-    MatTableModule,
-    MatProgressSpinnerModule,
-    MatNativeDateModule,
-    NgOtpInputModule,
-    MatTooltipModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatMenuModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatDatepickerModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatTabsModule,
+        MatTableModule,
+        MatProgressSpinnerModule,
+        MatNativeDateModule,
+        NgOtpInputModule,
+        MatTooltipModule,
+        MatBadgeModule,
+        MatProgressBarModule
+    ],
   providers: [
     AuthGuard,
     MatDatepickerModule,
