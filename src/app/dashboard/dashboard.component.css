@@ -135,6 +135,9 @@
 
 .active-blinker-container {
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .active-blinker {

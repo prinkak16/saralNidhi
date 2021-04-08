@@ -4,6 +4,21 @@
 ::ng-deep .mat-tab-body-content {
   overflow: hidden!important;
 }
-.filter-btn{
+.filter-btn {
   margin-left: 1rem;
+}
+::ng-deep mat-header-cell, mat-cell {
+  border: 1px solid #e0e0e0;
+  color: black !important;
+  font-size: 13px !important;
+  text-align: center;
+}
+
+::ng-deep mat-row, mat-header-row, mat-footer-row {
+  border: 1px solid #e0e0e0;
+}
+
+::ng-deep mat-row {
+  border-width: 1px !important;
+  border-top-width: 0 !important;
 }

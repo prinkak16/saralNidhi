@@ -5,7 +5,9 @@
   <mat-tab-group [selectedIndex]="selectedIndex">
     <mat-tab *ngFor="let tab of modeOfPayments">
       <ng-template mat-tab-label>{{tab.name}}</ng-template>
-      <app-entry-list-table paymentModeId="{{tab.id}}" [query]="query"></app-entry-list-table>
+      <div class="table-container">
+        <app-entry-list-table paymentModeId="{{tab.id}}" [query]="query"></app-entry-list-table>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>
