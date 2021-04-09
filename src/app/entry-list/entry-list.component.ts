@@ -4,6 +4,8 @@ import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
+import {FormControl} from '@angular/forms';
+
 
 @Component({
   selector: 'app-entry-list',

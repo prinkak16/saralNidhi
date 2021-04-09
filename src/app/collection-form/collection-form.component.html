@@ -47,6 +47,7 @@
         Please specify your category
       </mat-error>
     </mat-form-field>
+    <div *ngIf="isProper == this.collectionForm.controls.category.value">
     <label class="single-label col-md-12">Is it a proprietorship?</label>
     <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
                      class="col-md-12 radio-group-container-margin">
@@ -62,6 +63,7 @@
         Name of the Proprietorship is required
       </mat-error>
     </mat-form-field>
+    </div>
     <label class="single-label col-md-12">Address *</label>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>House No. & Apartment Name</mat-label>
@@ -108,7 +110,7 @@
       </mat-error>
     </mat-form-field>
     <div class="col-md-12">
-      <label class="single-label">PAN Card Details:<sup>*</sup></label>
+      <label class="single-label">PAN Card<sup>*</sup></label>
       <ng-otp-input (onInputChange)="onPanCardChange($event)"
                     [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
@@ -260,7 +262,7 @@
       <mat-label>Branch Address</mat-label>
       <input matInput placeholder="Branch address" formControlName="branch_address">
     </mat-form-field>
-    <label class="single-label col-md-12">People Responsible for collecting Donation<sup>*</sup></label>
+    <label class="single-label col-md-12">Person responsible for collecting donation<sup>*</sup></label>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Enter collector name</mat-label>
       <input matInput placeholder="Collector Name" formControlName="collector_name" required>
@@ -271,7 +273,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Enter Phone No.</mat-label>
-      <input matInput placeholder="Collector Phone" formControlName="collector_phone" required>
+      <input matInput placeholder="Collector Phone" formControlName="collector_phone" maxlength="10" minlength="10"  required>
       <mat-error
         *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
         Collector phone number is required

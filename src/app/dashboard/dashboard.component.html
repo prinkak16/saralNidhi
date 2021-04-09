@@ -5,15 +5,16 @@
     </div>
     <div class="heading">Nidhi Collection</div>
   </div>
-<!--  <form [formGroup]="dashboardForm"  class="no-padding-in-mat-form-field">-->
-  <div>
-    <mat-form-field appearance="outline" class="col-md-12 mt-4">
-      <mat-label>Search</mat-label>
-      <input matInput placeholder="Search by name / phone number" (keyup.enter)="collectionDataSearch()" [formControl]="query">
-      <mat-icon svgIcon="recording" matSuffix></mat-icon>
-    </mat-form-field>
+  <div style="position: relative">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="
+    color: rgba(108,117,125,.6);
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input matInput placeholder="Search by name / Phone no / Pan no" class="search-bar" (keyup.enter)="collectionDataSearch()" [formControl]="query">
+
   </div>
-<!--  </form>-->
   <div class="total-count-container pointer" (click)="showTotalEntryList()">
     <div class="total-count-div">
       <div class="count">{{total}}</div>
