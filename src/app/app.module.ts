@@ -34,6 +34,10 @@ import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogBodyComponent } from './dialog-body/dialog-body.component';
+import {NgxPrintModule} from 'ngx-print';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +48,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DashboardComponent,
     EntryListComponent,
     EntryListTableComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    DialogBodyComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatProgressSpinnerModule,
     MatNativeDateModule,
     NgOtpInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
+    NgxPrintModule
   ],
   providers: [
     AuthGuard,

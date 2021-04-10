@@ -6,6 +6,8 @@ import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
+import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {DialogBodyComponent} from '../dialog-body/dialog-body.component';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -21,7 +23,7 @@ export class EntryListTableComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'action'];
 
-  constructor(private restService: RestService, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
+  constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
               public utilService: UtilsService) {
   }
 
@@ -40,6 +42,12 @@ export class EntryListTableComponent implements OnInit {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  // tslint:disable-next-line:typedef
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    this.matDialog.open(DialogBodyComponent, dialogConfig);
   }
 
   downloadReceipt(row: any): void {
