@@ -229,10 +229,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       // @ts-ignore
       const [file] = event.target.files;
       // @ts-ignore
-      this[control].setValue({
+      this.collectionForm.get(control).setValue({
         file
       });
-      if (control === 'photo') {
+      if (control === 'pan_card_photo') {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (ev) => {

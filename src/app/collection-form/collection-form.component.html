@@ -135,33 +135,32 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <!--    <div>-->
-    <!--      <div>-->
-    <!--        <label>Please upload Pan Card photo</label>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!--    <div class="row">-->
-    <!--      <div>-->
-    <!--        <div class="col-7">-->
-    <!--          <button type="button" class="btn photo-button"-->
-    <!--                  (click)="fileInputPhoto.click()">-->
-    <!--            Attach Photo<sup>*</sup>-->
-    <!--          </button>-->
-    <!--          <input type="file" class="hidden-field" accept="image/png, image/jpeg"-->
-    <!--                 (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>-->
-    <!--          <div class="photo-container">-->
-    <!--            <ng-container *ngIf="collectionForm.controls.pan_card_photo.value">-->
-    <!--              <img src="{{collectionForm.controls.pan_card_photo.value}}" class="photo" alt="icon"/>-->
-    <!--            </ng-container>-->
-    <!--          </div>-->
-    <!--        </div>-->
-
-    <!--        <mat-form-field class="col-5" appearance="outline">-->
-    <!--          <mat-label>PAN Card Remarks:</mat-label>-->
-    <!--          <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">-->
-    <!--        </mat-form-field>-->
-    <!--      </div>-->
-    <!--    </div>-->
+    <label class="single-label col-md-12">Please upload Pan Card photo</label>
+    <div class="pan-card-image-upload-container col-md-12">
+      <div>
+        <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+          <ng-container *ngIf="collectionForm.controls.pan_card_photo.value;else uploadPanCardText">
+            <div>
+              <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>
+              Pan card uploaded
+            </div>
+            <img src="assets/icons/eye.svg" alt="View pan card"/>
+          </ng-container>
+          <ng-template #uploadPanCardText>
+            <div>
+              <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
+              Upload Pan Card
+            </div>
+          </ng-template>
+          <input type="file" hidden accept="image/png, image/jpeg"
+                 (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
+        </div>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>PAN Card Remarks:</mat-label>
+        <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">
+      </mat-form-field>
+    </div>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Amount</mat-label>
       <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
