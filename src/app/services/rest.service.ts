@@ -120,4 +120,24 @@ export class RestService {
   getCounts(data: { dates?: string[], states?: string[], query?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
+
+  getManagerDetails(userId: string): any {
+    return this.http.get(this.baseUrl + 'state_admin/get_manager_details?id=' + userId, this.authHttpOptions());
+  }
+
+  appPermissions(type: string = ''): any {
+    return this.http.get(this.baseUrl + 'state_admin/app_permissions?type=' + type, this.authHttpOptions());
+  }
+
+  getAllottedCountryStates(): any {
+    return this.http.get(this.baseUrl + 'data/get_allotted_country_states', this.authHttpOptions());
+  }
+
+  getZilasForState(countryStateId:string): any {
+    return this.http.get(this.baseUrl + 'events/get_zilas?country_state_id=' + countryStateId, this.authHttpOptions());
+  }
+
+  getMandalsForState(countryStateId: string): any {
+    return this.http.get(this.baseUrl + 'events/get_mandals?country_state_id=' + countryStateId, this.authHttpOptions());
+  }
 }

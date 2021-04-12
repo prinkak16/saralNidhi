@@ -9,7 +9,7 @@ import {PaymentModeModel} from '../models/payment-mode.model';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-goto',
+  selector: 'app-collection-form',
   templateUrl: './collection-form.component.html',
   styleUrls: ['./collection-form.component.css']
 })
