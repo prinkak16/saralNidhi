@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-12" style="margin-top: -3rem;">
     <div class="float-lg-right mt-4">
       <mat-form-field appearance="fill">
         <mat-label>Enter a date range</mat-label>
@@ -63,10 +63,8 @@
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-icon class="pointer" matTooltip="Print Receipt"
-                  (click)="downloadReceipt(element)">print
+                  (click)="openDialog(element)">print
         </mat-icon>
-        <button mat-button (click)="openDialog(element)">Print</button>
-
       </mat-cell>
     </ng-container>
 
@@ -80,8 +78,3 @@
 <div class="loader-container" *ngIf="showLoader">
   <mat-spinner></mat-spinner>
 </div>
-<style>
-  .mat-form-field-appearance-fill.mat-form-field-flex {
-    background-color: #fff!important;
-  }
-</style>
