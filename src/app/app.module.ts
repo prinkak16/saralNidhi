@@ -39,7 +39,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { LoaderComponent } from './shared/loader/loader.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogBodyComponent } from './dialog-body/dialog-body.component';
+import { ReceiptDialogComponent } from './receipt-dialog/receipt-dialog.component';
 import {NgxPrintModule} from 'ngx-print';
 
 
@@ -53,7 +53,7 @@ import {NgxPrintModule} from 'ngx-print';
     EntryListComponent,
     EntryListTableComponent,
     BreadcrumbComponent,
-    DialogBodyComponent,
+    ReceiptDialogComponent,
     LoaderComponent
   ],
   imports: [

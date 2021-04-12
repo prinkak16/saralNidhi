@@ -7,7 +7,7 @@ import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {DialogBodyComponent} from '../dialog-body/dialog-body.component';
+import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -51,7 +51,7 @@ export class EntryListTableComponent implements OnInit {
     dialogConfig.data = {
       element: data
     };
-    this.matDialog.open(DialogBodyComponent, {data: {data: data}});
+    this.matDialog.open(ReceiptDialogComponent, {data: {data: data}});
   }
 
   downloadReceipt(row: any): void {
