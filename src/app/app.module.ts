@@ -39,6 +39,7 @@ import {EntryListTableComponent} from './entry-list-table/entry-list-table.compo
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {LoaderComponent} from './shared/loader/loader.component';
 import {CreateUserComponent} from './user/create-user/create-user.component';
+import { ListComponent } from './user/list/list.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {CreateUserComponent} from './user/create-user/create-user.component';
     EntryListTableComponent,
     BreadcrumbComponent,
     LoaderComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
