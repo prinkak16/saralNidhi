@@ -47,23 +47,22 @@
         Please specify your category
       </mat-error>
     </mat-form-field>
-    <div *ngIf="isProper == this.collectionForm.controls.category.value">
-    <label class="single-label col-md-12">Is it a proprietorship?</label>
-    <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
-                     class="col-md-12 radio-group-container-margin">
-      <mat-radio-button value="true">Yes</mat-radio-button>
-      <mat-radio-button value="false">No</mat-radio-button>
-    </mat-radio-group>
-    </div>
-    <mat-form-field appearance="outline" class="col-md-12"
-                    *ngIf="collectionForm.controls.is_proprietorship.value === 'true'">
-      <mat-label>Write the name of the Proprietorship</mat-label>
-      <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name" required>
-      <mat-error
-        *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
-        Name of the Proprietorship is required
-      </mat-error>
-    </mat-form-field>
+    <div *ngIf="this.collectionForm.controls.category.value == 'individual' ">
+      <label class="single-label col-md-12">Is it a proprietorship?</label>
+      <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
+                       class="col-md-12 radio-group-container-margin">
+        <mat-radio-button value="true">Yes</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field appearance="outline" class="col-md-12"
+                      *ngIf="collectionForm.controls.is_proprietorship.value === 'true'">
+        <mat-label>Write the name of the Proprietorship</mat-label>
+        <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
+          Name of the Proprietorship is required
+        </mat-error>
+      </mat-form-field>
     </div>
     <label class="single-label col-md-12">Address *</label>
     <mat-form-field appearance="outline" class="col-md-12">
@@ -111,8 +110,9 @@
       </mat-error>
     </mat-form-field>
     <div class="col-md-12">
-      <label class="single-label">PAN Card :<sup>*</sup></label>
-      <ng-otp-input (onInputChange)="onPanCardChange($event)" [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
+      <label class="single-label">PAN Card<sup>*</sup></label>
+      <ng-otp-input (onInputChange)="onPanCardChange($event)"
+                    [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
         Please enter a valid pan card number
       </mat-error>
@@ -272,7 +272,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Enter Phone No.</mat-label>
-      <input matInput placeholder="Collector Phone" formControlName="collector_phone" maxlength="10" minlength="10" required>
+      <input matInput placeholder="Collector Phone" formControlName="collector_phone" maxlength="10" minlength="10"  required>
       <mat-error
         *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
         Collector phone number is required
