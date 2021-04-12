@@ -23,10 +23,10 @@ export class ReceiptDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  print() {
+  print(): void {
     window.print();
   }
-  close() {
+  close(): void {
     this.dialogRef.close();
   }
 
