@@ -15,10 +15,10 @@
           <p><b>Received with thanks from Sh/Smt./M/S: </b> {{receipt_data.data.data.name}}
           </p>
           <p><b>Address:</b> {{receipt_data.data.data.house}},{{receipt_data.data.data.state}}, {{receipt_data.data.data.pincode}} </p>
-          <p><b>Rs:</b> {{receipt_data.data.data.amount}}</p>
+          <p><b>Rs:</b> {{receipt_data.data.data.amount | toWords}} repees only.</p>
           <p><b>Vide Cash / Cheque No</b>.{{receipt_data.data.data.cheque_number  || '--------------------'}}  <b>dt</b>. {{receipt_data.data.data.date_of_cheque | date: 'dd/MM/yyyy' || '-------------------'}}<b> drawn on</b>...........................<b>as donation</b>.</p>
           <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
-          <h2>RS. {{receipt_data.data.data.amount}}</h2>
+          <h2>RS. ₹{{receipt_data.data.data.amount}}</h2>
           <br>
           <h5><b>Donation to the Party are exempt from Income Tax u/s 80GGB for Companies and u/s 80 GGC for Others as per Income Tax Act, 1961
           </b></h5>

@@ -41,6 +41,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReceiptDialogComponent } from './receipt-dialog/receipt-dialog.component';
 import {NgxPrintModule} from 'ngx-print';
+import { NgNumber2wordsModule } from 'ng-number2words';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import {NgxPrintModule} from 'ngx-print';
     MatDialogModule,
     NgxPrintModule,
     MatBadgeModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgNumber2wordsModule
   ],
   providers: [
     AuthGuard,
