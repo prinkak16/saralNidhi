@@ -22,6 +22,7 @@ export class EntryListTableComponent implements OnInit {
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'action'];
+  private dialog: any;
 
   constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
               public utilService: UtilsService) {
@@ -45,9 +46,12 @@ export class EntryListTableComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  openDialog() {
+  openDialog(data: any) {
     const dialogConfig = new MatDialogConfig();
-    this.matDialog.open(DialogBodyComponent, dialogConfig);
+    dialogConfig.data = {
+      element: data
+    };
+    this.matDialog.open(DialogBodyComponent, {data: {data: data}});
   }
 
   downloadReceipt(row: any): void {
