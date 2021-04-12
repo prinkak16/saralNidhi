@@ -35,6 +35,9 @@ import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
+import { LoaderComponent } from './shared/loader/loader.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import {NgxPrintModule} from 'ngx-print';
@@ -50,7 +53,8 @@ import {NgxPrintModule} from 'ngx-print';
     EntryListComponent,
     EntryListTableComponent,
     BreadcrumbComponent,
-    DialogBodyComponent
+    DialogBodyComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +81,9 @@ import {NgxPrintModule} from 'ngx-print';
     NgOtpInputModule,
     MatTooltipModule,
     MatDialogModule,
-    NgxPrintModule
+    NgxPrintModule,
+    MatBadgeModule,
+    MatProgressBarModule
   ],
   providers: [
     AuthGuard,

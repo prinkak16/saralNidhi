@@ -17,6 +17,7 @@ export class EntryListComponent implements OnInit {
   selectedModeOfPayment = '';
   query = '';
   selectedIndex = 0;
+  counting = [];
 
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
@@ -32,17 +33,40 @@ export class EntryListComponent implements OnInit {
     this.getPaymentModes();
   }
 
+  tabChange(event: any): any {
+  }
+
   getPaymentModes(): void {
     this.restService.getPaymentModes().subscribe((response: any) => {
-      this.modeOfPayments = response.data;
-      this.modeOfPayments[0] = {id: '', name: 'All', description: ''}
+      this.modeOfPayments.push({
+        id: [this.utilService.pluck(response.data, 'id')],
+        name: 'All', description: '', count: ''
+      });
+      response.data.forEach((data: any) => {
+        this.modeOfPayments.push(data);
+      });
       if (this.selectedModeOfPayment) {
         // @ts-ignore
         this.selectedIndex = this.modeOfPayments.findIndex(x => x.id ===
           this.utilService.convertStringToNumber(this.selectedModeOfPayment));
       }
+      this.getCount();
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getCount(): any {
+    this.restService.getCounts({
+      states: this.utilService.pluck(this.modeOfPayments, 'id'),
+      query: this.query
+    }).subscribe((response: any) => {
+      this.counting = [];
+      setTimeout((_: any) => {
+        this.counting = response.data;
+      }, 200);
+    }, (error: any) => {
+      this.messageService.somethingWentWrong();
     });
   }
 }
