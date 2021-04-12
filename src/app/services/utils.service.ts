@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {LogoutService} from './logout.service';
 import {DatePipe} from '@angular/common';
+import * as Constant from '../AppConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,11 @@ export class UtilsService {
 
   isAuthorized = true;
   redirectUrl: any;
+  phonePattern = '^[6-9][0-9]{9}$';
+  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,10}$';
+  primaryMemberPattern = '^[1-4][0-9]{9}$';
+  agePattern = '^(18|19|[2-9]\\d|1\\d\\d)$';
+  passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
 
   isLoggedIn(): any {
     return this.logoutService.isLoggedIn();
@@ -73,5 +79,25 @@ export class UtilsService {
     if (!reg.test(input)) {
       e.preventDefault();
     }
+  }
+
+  public isNational(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'national';
+  }
+
+  public isNationalManager(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'national_manager';
+  }
+
+  public isStateAdmin(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'state_admin';
+  }
+
+  public isStateManager(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'state_manager';
+  }
+
+  public isZilaManager(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'zila_manager';
   }
 }

@@ -6,11 +6,13 @@ import {CollectionFormComponent} from './collection-form/collection-form.compone
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
+import {CreateUserComponent} from './user/create-user/create-user.component';
+import {ListComponent} from './user/list/list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: DashboardComponent
   },
   {
     path: 'dashboard',
@@ -36,6 +38,21 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Indian Donation Form',
         },
+      }, {
+        path: 'users',
+        component: ListComponent,
+        data: {
+          breadcrumb: 'Users',
+        },
+        children: [
+          {
+            path: 'add',
+            component: CreateUserComponent,
+            data: {
+              breadcrumb: 'Add',
+            },
+          }
+        ]
       }
     ]
   }
