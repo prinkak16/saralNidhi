@@ -1,0 +1,59 @@
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.radio-group-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.single-label {
+  margin-top: 15px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.radio-group-container-margin {
+  margin-bottom: 15px;
+}
+
+::ng-deep.pan-card-container {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pan-card-image-upload-container {
+  display: grid;
+  grid-template-columns: 48% 48%;
+  grid-gap: 4%;
+  width: 100%;
+}
+
+.pan-card-image-upload-container .upload-pan-card-btn {
+  border: 1px solid rgba(0, 0, 0, .12);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pan-card-image-upload-container .upload-pan-card-btn .upload-icon {
+  margin-right: 10px;
+}
+
+.pan-card-image-upload-container .upload-pan-card-btn img {
+  width: 35px;
+  height: 35px;
+}
+
+.form-container {
+  margin: 0 auto;
+}

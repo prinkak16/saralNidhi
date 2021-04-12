@@ -6,6 +6,7 @@ import {CollectionFormComponent} from './collection-form/collection-form.compone
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
+import {CreateUserComponent} from './user/create-user/create-user.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardComponent,
+        component: CreateUserComponent,
       },
       {
         path: 'list',
