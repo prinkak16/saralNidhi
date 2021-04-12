@@ -47,22 +47,22 @@
         Please specify your category
       </mat-error>
     </mat-form-field>
-    <div *ngIf="isProper == this.collectionForm.controls.category.value">
-    <label class="single-label col-md-12">Is it a proprietorship?</label>
-    <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
-                     class="col-md-12 radio-group-container-margin">
-      <mat-radio-button value="true">Yes</mat-radio-button>
-      <mat-radio-button value="false">No</mat-radio-button>
-    </mat-radio-group>
-    <mat-form-field appearance="outline" class="col-md-12"
-                    *ngIf="collectionForm.controls.is_proprietorship.value === 'true'">
-      <mat-label>Write the name of the Proprietorship</mat-label>
-      <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name" required>
-      <mat-error
-        *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
-        Name of the Proprietorship is required
-      </mat-error>
-    </mat-form-field>
+    <div *ngIf="this.collectionForm.controls.category.value == 'individual' ">
+      <label class="single-label col-md-12">Is it a proprietorship?</label>
+      <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
+                       class="col-md-12 radio-group-container-margin">
+        <mat-radio-button value="true">Yes</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field appearance="outline" class="col-md-12"
+                      *ngIf="collectionForm.controls.is_proprietorship.value === 'true'">
+        <mat-label>Write the name of the Proprietorship</mat-label>
+        <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name" required>
+        <mat-error
+          *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
+          Name of the Proprietorship is required
+        </mat-error>
+      </mat-form-field>
     </div>
     <label class="single-label col-md-12">Address *</label>
     <mat-form-field appearance="outline" class="col-md-12">

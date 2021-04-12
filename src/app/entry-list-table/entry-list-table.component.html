@@ -1,16 +1,18 @@
 <div class="row">
-  <div class="col-md-12">
-    <div class="float-lg-right mt-4">
-      <mat-form-field appearance="fill">
+  <div class="col-md-12 date-filter">
+    <div class=" mt-4">
+      <mat-form-field appearance="outline" >
+        <input matInput placeholder="Name / Pan / Phone " (keyup.enter)="getPaymentList()" [(ngModel)]="query">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="ml-2">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="picker" >
-          <input matStartDate placeholder="Start date"  [formControl]="startdate">
-          <input matEndDate placeholder="End date" [formControl]="enddate">
+          <input matStartDate placeholder="Start date"  [formControl]="startdate" >
+          <input matEndDate placeholder="End date" [formControl]="enddate" (dateChange)="getPaymentList()" >
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
-      <button class="filter-btn" mat-flat-button (click)="getPaymentList()" color="warn">Submit</button>
     </div>
   </div>
 </div>
@@ -63,7 +65,7 @@
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-icon class="pointer" matTooltip="Print Receipt"
-                  (click)="downloadReceipt(element)">print
+                  (click)="openDialog(element)">print
         </mat-icon>
       </mat-cell>
     </ng-container>

@@ -6,6 +6,8 @@ import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
+import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -20,15 +22,15 @@ export class EntryListTableComponent implements OnInit {
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'action'];
+  private dialog: any;
 
-  constructor(private restService: RestService, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
+  constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
               public utilService: UtilsService) {
   }
 
   ngOnInit(): void {
-    this.getPaymentList();
+      this.getPaymentList();
   }
-
   startdate = new FormControl('');
   enddate = new FormControl('');
 
@@ -41,6 +43,15 @@ export class EntryListTableComponent implements OnInit {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  // tslint:disable-next-line:typedef
+  openDialog(data: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      element: data
+    };
+    this.matDialog.open(ReceiptDialogComponent, {data: {data: data}});
   }
 
   downloadReceipt(row: any): void {

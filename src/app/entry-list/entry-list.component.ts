@@ -6,7 +6,6 @@ import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
 import {FormControl} from '@angular/forms';
 
-
 @Component({
   selector: 'app-entry-list',
   templateUrl: './entry-list.component.html',

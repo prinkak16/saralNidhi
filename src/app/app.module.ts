@@ -24,22 +24,25 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {NgOtpInputModule} from 'ng-otp-input';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import {LoaderInterceptor} from './interceptors/loader.interceptor';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatBadgeModule} from '@angular/material/badge';
 
-import {NavBarComponent} from './nav-bar/nav-bar.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {HomeComponent} from './home/home.component';
 import {CollectionFormComponent} from './collection-form/collection-form.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
-import {LoaderComponent} from './shared/loader/loader.component';
-import {CreateUserComponent} from './user/create-user/create-user.component';
-import { ListComponent } from './user/list/list.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
+import { LoaderComponent } from './shared/loader/loader.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReceiptDialogComponent } from './receipt-dialog/receipt-dialog.component';
+import {NgxPrintModule} from 'ngx-print';
+import { NgNumber2wordsModule } from 'ng-number2words';
+
 
 @NgModule({
   declarations: [
@@ -51,9 +54,8 @@ import { ListComponent } from './user/list/list.component';
     EntryListComponent,
     EntryListTableComponent,
     BreadcrumbComponent,
-    LoaderComponent,
-    CreateUserComponent,
-    ListComponent
+    ReceiptDialogComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -79,8 +81,11 @@ import { ListComponent } from './user/list/list.component';
     MatNativeDateModule,
     NgOtpInputModule,
     MatTooltipModule,
+    MatDialogModule,
+    NgxPrintModule,
     MatBadgeModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgNumber2wordsModule
   ],
   providers: [
     AuthGuard,

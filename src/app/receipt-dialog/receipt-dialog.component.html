@@ -1,0 +1,38 @@
+<mat-dialog-content id="print-section">
+
+  <div class="page-container">
+    <div class="box-border position-relative">
+      <div class="container">
+        <h2 class="text-center m-0"><b>BHARTIYA JANTA PARTY</b></h2>
+        <p class="text-center m-0">Central Office</p>
+        <p class="text-center m-0">11, Ashok Road, New Delhi-110001</p>
+        <img src="assets/images/bjp_logo_new.png" class="bjp-new-logo">
+        <div class="mt-4">
+          <p class="float-right"><b>Date: {{receipt_data.data.data.date}}</b></p>
+          <p><b>No.</b></p>
+          <p><b>Received with thanks from Sh/Smt./M/S: </b> {{receipt_data.data.data.name}}
+          </p>
+          <p><b>Address:</b> {{receipt_data.data.data.house}},{{receipt_data.data.data.state}}
+            , {{receipt_data.data.data.pincode}} </p>
+          <p><b>Rs:</b> {{receipt_data.data.data.amount | toWords}} repees only.</p>
+          <p><b>Vide Cash / Cheque No</b>.{{receipt_data.data.data.cheque_number || '--------------------'}}
+            <b>dt</b>. {{receipt_data.data.data.date_of_cheque | date: 'dd/MM/yyyy' || '-------------------'}}<b> drawn
+              on</b>...........................<b>as donation</b>.</p>
+          <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
+          <h2>RS. ₹{{receipt_data.data.data.amount}}</h2>
+          <br>
+          <h5><b>Donation to the Party are exempt from Income Tax u/s 80GGB for Companies and u/s 80 GGC for Others as
+            per Income Tax Act, 1961
+          </b></h5>
+          <p><b>PAN No.: AAABB015F</b> <span class="float-right">Regn. No.: 56/R/1/89/Dt. 19 sept 1989</span></p>
+          <p>This is a system generated receipt and does not require signature.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<button [useExistingCss]="true" class="float-right mt-4 ml-1" mat-flat-button color="primary"
+  printSectionId="print-section"
+  ngxPrint>Print
+</button>
+<button class="float-right mt-4" mat-flat-button color="warn" (click)="close()">Cancel</button>
