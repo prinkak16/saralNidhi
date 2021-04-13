@@ -42,7 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReceiptDialogComponent } from './receipt-dialog/receipt-dialog.component';
 import {NgxPrintModule} from 'ngx-print';
 import { NgNumber2wordsModule } from 'ng-number2words';
-
+import {CreateUserComponent} from './user/create-user/create-user.component';
+import { ListComponent } from './user/list/list.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,9 @@ import { NgNumber2wordsModule } from 'ng-number2words';
     EntryListTableComponent,
     BreadcrumbComponent,
     ReceiptDialogComponent,
-    LoaderComponent
+    LoaderComponent,
+    CreateUserComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
