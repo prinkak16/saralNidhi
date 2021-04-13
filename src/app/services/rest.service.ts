@@ -133,11 +133,28 @@ export class RestService {
     return this.http.get(this.baseUrl + 'data/get_allotted_country_states', this.authHttpOptions());
   }
 
-  getZilasForState(countryStateId:string): any {
+  getZilasForState(countryStateId: string): any {
     return this.http.get(this.baseUrl + 'events/get_zilas?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
   getMandalsForState(countryStateId: string): any {
     return this.http.get(this.baseUrl + 'events/get_mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }
+
+  getManagersList(data: any): any {
+    return this.http.post(this.baseUrl + 'state_admin/get_managers', JSON.stringify(data), this.authHttpOptions());
+  }
+
+  updatePassword(data: any): any {
+    return this.http.post(this.baseUrl + 'zila_manager/update_password', JSON.stringify(data), this.authHttpOptions());
+  }
+
+  enableDisable(id: string): any {
+    return this.http.get(this.baseUrl + 'zila_manager/enable_disable?id=' + id, this.authHttpOptions());
+  }
+
+  activateDeactivate(id: string): any {
+    return this.http.get(this.baseUrl + 'zila_manager/activate_deactivate?id=' + id, this.authHttpOptions());
+  }
+
 }

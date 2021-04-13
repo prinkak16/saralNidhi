@@ -1,0 +1,56 @@
+<ng-container *ngIf="users.length > 0;else emptyList">
+  <mat-table [dataSource]="users">
+    <!-- Serial Number Column -->
+    <ng-container matColumnDef="sno">
+      <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+      <mat-cell *matCellDef="let element" [matTooltip]="element.email"> {{element.email}} </mat-cell>
+    </ng-container>
+
+    <!-- Phone Number Column -->
+    <ng-container matColumnDef="phone_number">
+      <mat-header-cell *matHeaderCellDef>Phone Number</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+    </ng-container>
+
+    <!-- Role Column -->
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
+      <mat-cell *matCellDef="let element" class="action-container">
+        <a *ngIf="element.active" [routerLink]="['/dashboard/users/add']"
+           [queryParams]="{id: element.id}">Edit</a>
+        <a *ngIf="element.active" [routerLink]=""
+           (click)="activateDeactivate(element.id, element)">{{element.active ? 'Deactivate' : 'Activate'}}</a>
+        <a *ngIf="element.active" [routerLink]="" (click)="changePassword(element.id)">Change Password</a>
+        <a [routerLink]="" (click)="enableDisable(element.id, element)">
+          {{element.disabled ? 'Enable' : 'Disable'}}</a>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</ng-container>
+<ng-template #emptyList>
+  <h3 class="text-center">No records found</h3>
+</ng-template>
+<div class="loader-container" *ngIf="showLoader">
+  <mat-spinner color="warn"></mat-spinner>
+</div>
