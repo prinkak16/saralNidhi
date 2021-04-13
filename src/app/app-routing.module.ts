@@ -12,7 +12,7 @@ import {ListComponent} from './user/list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: HomeComponent
   },
   {
     path: 'dashboard',
