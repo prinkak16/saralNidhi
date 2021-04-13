@@ -86,25 +86,25 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   onFormChange(): void {
     this.userForm.controls.role.valueChanges.subscribe(value => {
       this.showLocation = true;
-      if (value === 'national_manager') {
+      if (value === 'national_treasurer') {
         this.userForm.controls.location.setValue(null);
         this.getCountryStates();
         this.placeholder = 'Select State';
       }
-      if (value === 'state_manager') {
+      if (value === 'state_treasurer') {
         this.userForm.controls.location.setValue(null);
         this.getAppPermissions();
         this.locations = this.userStates;
         this.placeholder = 'Select State';
       }
-      if (value === 'zila_manager') {
+      if (value === 'zila_treasurer') {
         this.userForm.controls.location.setValue(null);
         this.getAppPermissions('zila');
         // @ts-ignore
         this.getZilas(this.userStates[0].id);
         this.placeholder = 'Select Zila';
       }
-      if (value === 'mandal_manager') {
+      if (value === 'mandal_treasurer') {
         this.userForm.controls.location.setValue(null);
         this.getAppPermissions('mandal');
         // @ts-ignore

@@ -12,7 +12,7 @@ import {ListComponent} from './user/list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: HomeComponent
   },
   {
     path: 'dashboard',
@@ -38,19 +38,23 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Indian Donation Form',
         },
-      }, {
+      },
+      {
         path: 'users',
-        component: ListComponent,
         data: {
           breadcrumb: 'Users',
         },
         children: [
           {
+            path: '',
+            component: ListComponent
+          },
+          {
             path: 'add',
             component: CreateUserComponent,
             data: {
               breadcrumb: 'Add',
-            },
+            }
           }
         ]
       }

@@ -1,6 +1,8 @@
 <div *ngIf="!showLoader" class="container">
-  <h2> User Creation</h2>
-  <h5> *Fields are mandatory</h5>
+  <div class="col-md-6 form-container">
+    <h2> User Creation</h2>
+    <h5> *Fields are mandatory</h5>
+  </div>
   <div class="row">
     <form [formGroup]="userForm" class="col-md-6 form-container">
       <mat-form-field appearance="outline" class="col-md-12">
@@ -46,18 +48,18 @@
       </mat-form-field>
       <label class="single-label col-md-12">Roles</label>
       <mat-radio-group formControlName="role" class="col-md-12">
-        <mat-radio-button *ngIf="utilsService.isNational()" value="national_manager">National Manager
+        <mat-radio-button *ngIf="utilsService.isNational()" value="national_treasurer">National Treasurer
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="state_manager">State Office
+        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="state_treasurer">State Treasurer
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="zila_manager">Zila Office
+        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="zila_treasurer">Zila Treasurer
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="mandal_manager">
-          Mandal Office
+        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="mandal_treasurer">
+          Mandal Treasurer
         </mat-radio-button>
       </mat-radio-group>
       <mat-form-field class="col-md-12"
-                      *ngIf="showLocation && locations && (userForm.controls.role.value !== 'national_manager')"
+                      *ngIf="showLocation && locations && (userForm.controls.role.value !== 'national_treasurer')"
                       appearance="outline">
         <mat-label>{{placeholder}}</mat-label>
         <mat-select formControlName="location" multiple="true"
@@ -66,7 +68,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="col-md-12"
-                      *ngIf="showLocation && locations && (userForm.controls.role.value === 'national_manager')"
+                      *ngIf="showLocation && locations && (userForm.controls.role.value === 'national_treasurer')"
                       appearance="outline">
         <mat-label>Select Locations</mat-label>
         <mat-select formControlName="location" multiple="true"
