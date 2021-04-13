@@ -67,8 +67,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       house: new FormControl(null, [Validators.required]),
       locality: new FormControl(null, [Validators.required]),
       pincode: new FormControl(null, [Validators.required]),
-      district: new FormControl(null, [Validators.required]),
-      state: new FormControl(null, [Validators.required]),
+      district: new FormControl({value: null, disabled: true}, [Validators.required]),
+      state: new FormControl({value: null, disabled: true}, [Validators.required]),
       pan_card: new FormControl(null, [Validators.required, Validators.pattern(this.panCardPattern)]),
       pan_card_photo: new FormControl(null),
       pan_card_remarks: new FormControl(null),
@@ -263,6 +263,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   submitForm(): void {
     this.showLoader = true;
+    this.collectionForm.enable();
     this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);

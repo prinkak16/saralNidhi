@@ -101,7 +101,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>State</mat-label>
-      <mat-select formControlName="state">
+      <mat-select formControlName="state" required>
         <mat-option *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
       </mat-select>
       <mat-error
