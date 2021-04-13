@@ -135,32 +135,34 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <label class="single-label col-md-12">Please upload Pan Card photo</label>
-    <div class="pan-card-image-upload-container col-md-12">
-      <div>
-        <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-          <ng-container *ngIf="collectionForm.controls.pan_card_photo.value;else uploadPanCardText">
-            <div>
-              <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>
-              Pan card uploaded
-            </div>
-            <img src="assets/icons/eye.svg" alt="View pan card"/>
-          </ng-container>
-          <ng-template #uploadPanCardText>
-            <div>
-              <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
-              Upload Pan Card
-            </div>
-          </ng-template>
-          <input type="file" hidden accept="image/png, image/jpeg"
-                 (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
+    <ng-container *ngIf="collectionForm.controls.pan_card.valid">
+      <label class="single-label col-md-12">Please upload Pan Card photo</label>
+      <div class="pan-card-image-upload-container col-md-12">
+        <div>
+          <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+            <ng-container *ngIf="collectionForm.controls.pan_card_photo.value;else uploadPanCardText">
+              <div>
+                <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>
+                Pan card uploaded
+              </div>
+              <img src="assets/icons/eye.svg" alt="View pan card"/>
+            </ng-container>
+            <ng-template #uploadPanCardText>
+              <div>
+                <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
+                Upload Pan Card
+              </div>
+            </ng-template>
+            <input type="file" hidden accept="image/png, image/jpeg"
+                   (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
+          </div>
         </div>
+        <mat-form-field appearance="outline">
+          <mat-label>PAN Card Remarks:</mat-label>
+          <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">
+        </mat-form-field>
       </div>
-      <mat-form-field appearance="outline">
-        <mat-label>PAN Card Remarks:</mat-label>
-        <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks">
-      </mat-form-field>
-    </div>
+    </ng-container>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Amount</mat-label>
       <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
@@ -181,6 +183,23 @@
         Mode of Payment is required
       </mat-error>
     </div>
+
+    <mat-form-field class="col-md-12" appearance="outline"
+                    *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)">
+      <mat-label>Date of transaction</mat-label>
+      <input matInput (keydown.enter)="false" [matDatepicker]="picker4" (click)="picker4.open()"
+             (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
+             formControlName="date_of_transaction"
+             [min]="transactionAllowedDate" [max]="today"
+             required>
+      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+      <mat-datepicker #picker4></mat-datepicker>
+      <mat-error
+        *ngIf="((collectionForm.controls.date_of_transaction.touched)&& collectionForm.controls.date_of_transaction.hasError('required'))">
+        Date of transaction is required
+      </mat-error>
+    </mat-form-field>
+
     <ng-container *ngIf="selectedModeOfPayment.name === 'Cheque'">
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Date of cheque</mat-label>

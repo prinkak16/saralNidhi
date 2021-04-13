@@ -51,6 +51,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
+  transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
 
   showLoader = false;
 
@@ -74,6 +75,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       pan_card_remarks: new FormControl(null),
       amount: new FormControl(null, [Validators.required]),
       mode_of_payment: new FormControl(null, [Validators.required]),
+      date_of_transaction: new FormControl(new Date().toDateString()),
       date_of_cheque: new FormControl(new Date().toDateString()),
       cheque_number: new FormControl(null),
       date_of_draft: new FormControl(new Date().toDateString()),
@@ -120,6 +122,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
 
     this.collectionForm.controls.mode_of_payment.valueChanges.subscribe(value => {
+      this.collectionForm.controls.date_of_transaction.setValue(null);
+      this.collectionForm.controls.date_of_transaction.clearValidators();
+      this.collectionForm.controls.date_of_transaction.setValidators(Validators.required);
       this.collectionForm.controls.cheque_number.setValue(null);
       this.collectionForm.controls.date_of_cheque.setValue(null);
       this.collectionForm.controls.utr_number.setValue(null);
@@ -137,12 +142,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       if (this.selectedModeOfPayment.name === 'Cheque') {
         this.collectionForm.controls.cheque_number.setValidators(Validators.required);
         this.collectionForm.controls.date_of_cheque.setValidators(Validators.required);
+        this.collectionForm.controls.date_of_transaction.clearValidators();
       } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
         this.collectionForm.controls.draft_number.setValidators(Validators.required);
         this.collectionForm.controls.date_of_draft.setValidators(Validators.required);
+        this.collectionForm.controls.date_of_transaction.clearValidators();
       } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
         this.collectionForm.controls.utr_number.setValidators(Validators.required);
       }
+      this.collectionForm.controls.date_of_transaction.updateValueAndValidity();
     });
 
     this.collectionForm.controls.name.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
@@ -367,7 +375,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   getPinCodeDetails(value: string, stateControlName: string, districtControlName: string): void {
-    if (value.length === 6) {
+    if (value && value.length === 6) {
       this.restService.getPinCodeDetails(value).subscribe((reply: any[]) => {
         const response = reply[0] as any;
         if (response && response.PostOffice) {
