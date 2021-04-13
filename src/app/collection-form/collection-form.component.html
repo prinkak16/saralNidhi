@@ -198,7 +198,7 @@
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Cheque No.</mat-label>
         <input matInput placeholder="Cheque Number" formControlName="cheque_number"
-               (keypress)="utilsService.validateNumber($event)" required>
+               (keypress)="utilsService.validateNumber($event)" maxlength="6" required>
         <mat-error
           *ngIf="((collectionForm.controls.cheque_number.touched)&& collectionForm.controls.cheque_number.hasError('required'))">
           Cheque number is required
@@ -220,7 +220,8 @@
       </mat-form-field>
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Draft No.</mat-label>
-        <input matInput placeholder="Draft Number" formControlName="draft_number" required>
+        <input matInput placeholder="Draft Number" formControlName="draft_number"
+               (keypress)="utilsService.validateNumber($event)" maxlength="6" required>
         <mat-error
           *ngIf="((collectionForm.controls.draft_number.touched)&& collectionForm.controls.draft_number.hasError('required'))">
           Draft number is required
@@ -272,7 +273,8 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Enter Phone No.</mat-label>
-      <input matInput placeholder="Collector Phone" formControlName="collector_phone" maxlength="10" minlength="10"  required>
+      <input matInput placeholder="Collector Phone" formControlName="collector_phone" maxlength="10" minlength="10"
+             required>
       <mat-error
         *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
         Collector phone number is required
