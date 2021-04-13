@@ -3,23 +3,24 @@
   <div class="page-container">
     <div class="box-border position-relative">
       <div class="container">
-        <h2 class="text-center m-0"><b>BHARTIYA JANTA PARTY</b></h2>
+        <h2 class="text-center m-0"><b>BHARATIYA JANATA PARTY</b></h2>
         <p class="text-center m-0">Central Office</p>
-        <p class="text-center m-0">11, Ashok Road, New Delhi-110001</p>
+        <p class="text-center m-0">6-A, Pandit Deen Dayal Upadhyaya Marg, New Delhi-110002 India</p>
         <img src="assets/images/bjp_logo_new.png" class="bjp-new-logo">
         <div class="mt-4">
-          <p class="float-right"><b>Date: {{receipt_data.data.data.date}}</b></p>
-          <p><b>No.</b></p>
-          <p><b>Received with thanks from Sh/Smt./M/S: </b> {{receipt_data.data.data.name}}
+          <p class="float-right"><b>Date: </b> {{receipt_data.data.data.date | date: 'dd/MM/yyyy'}}</p>
+          <p><b>No: </b>{{receipt_data.data.data.date | date:'yyy'}}-22/{{receipt_data.data.mode_of_payment.name[0] | titlecase}}/{{receipt_data.data.id}}</p>
+
+          <p><b>Received with thanks from <span *ngIf=" receipt_data.data.data.category === 'indivisual' && receipt_data.data.data.is_propriotership == false">Sh/Smt./M/s</span>: </b> {{receipt_data.data.data.name}}
           </p>
-          <p><b>Address:</b> {{receipt_data.data.data.house}},{{receipt_data.data.data.state}}
-            , {{receipt_data.data.data.pincode}} </p>
-          <p><b>Rs:</b> {{receipt_data.data.data.amount | toWords}} repees only.</p>
-          <p><b>Vide Cash / Cheque No</b>.{{receipt_data.data.data.cheque_number || '--------------------'}}
+          <p><b>Address:</b> {{receipt_data.data.data.house}}, {{receipt_data.data.data.locality}}, <b>District:</b> {{receipt_data.data.data.district}},  <b>State:</b> {{receipt_data.data.data.state}},
+             <b>Pincode:</b> {{receipt_data.data.data.pincode}} </p>
+          <p><b>Rs:</b> {{receipt_data.data.data.amount | toWords | titlecase}} Rupees Only.</p>
+          <p><b>Vide: {{receipt_data.data.mode_of_payment.name}} No</b>.{{receipt_data.data.data.cheque_number || '--------------------'}}
             <b>dt</b>. {{receipt_data.data.data.date_of_cheque | date: 'dd/MM/yyyy' || '-------------------'}}<b> drawn
               on</b>...........................<b>as donation</b>.</p>
           <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
-          <h2>RS. ₹{{receipt_data.data.data.amount}}</h2>
+          <h2>RS: ₹{{receipt_data.data.data.amount}}</h2>
           <br>
           <h5><b>Donation to the Party are exempt from Income Tax u/s 80GGB for Companies and u/s 80 GGC for Others as
             per Income Tax Act, 1961
