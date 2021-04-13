@@ -26,6 +26,7 @@
              <b>dt</b>.
             <span *ngIf="receipt_data.data.data.cheque_number">{{receipt_data.data.data.date_of_cheque | date: 'dd/MM/yyyy' || '-------------------'}}</span>
             <span *ngIf="receipt_data.data.data.date_of_draft">{{receipt_data.data.data.date_of_draft | date: 'dd/MM/yyyy' || '-------------------'}}</span>
+            <span *ngIf="receipt_data.data.data.utr_number">{{receipt_data.data.data.date || '--------------------'}}</span>
             <b> drawn
               on</b>...........................<b>as donation</b>.</p>
           <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
