@@ -100,4 +100,22 @@ export class UtilsService {
   public isZilaTreasurer(): boolean {
     return localStorage.getItem(Constant.USERROLE) === 'zila_treasurer';
   }
+
+  checkPermission(permissionName: string, action: string): boolean {
+    const permissionNames = [permissionName];
+    let allowed = false;
+    const permissions = JSON.parse(localStorage.getItem(Constant.PERMISSIONS) || '{}');
+    if (permissions) {
+      // @ts-ignore
+      permissions.forEach((permission: any) => {
+        if (permissionNames.includes(permission.permission_name)) {
+          if (permission.action === action) {
+            allowed = true;
+            return false;
+          }
+        }
+      });
+    }
+    return allowed;
+  }
 }
