@@ -59,6 +59,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const credentials = {
       email: this.model.email,
       password: this.model.password,
+      app: 'NIDHI_COLLECTION'
     };
     this.restService.login(credentials)
       .subscribe((data: any) => {

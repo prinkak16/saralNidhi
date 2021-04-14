@@ -42,6 +42,10 @@
     </div>
   </div>
   <div class="actions-container">
+    <div class="action-div pointer" [routerLink]="['/dashboard/users']">
+      <img src="assets/icons/required_action.svg" alt="Other action required">
+      <div class="action-text">User Management</div>
+    </div>
     <div class="action-div pointer">
       <img src="assets/icons/required_action.svg" alt="Pan card action required">
       <div class="action-text">Action Required for Pancard</div>
@@ -53,10 +57,6 @@
     <div class="action-div pointer">
       <img src="assets/icons/required_action.svg" alt="Other action required">
       <div class="action-text">Action Required for Others</div>
-    </div>
-    <div class="action-div pointer" [routerLink]="['/dashboard/users']">
-      <img src="assets/icons/required_action.svg" alt="Other action required">
-      <div class="action-text">User Management</div>
     </div>
   </div>
 </div>

@@ -48,13 +48,13 @@
       </mat-form-field>
       <label class="single-label col-md-12">Roles</label>
       <mat-radio-group formControlName="role" class="col-md-12">
-        <mat-radio-button *ngIf="utilsService.isNational()" value="national_treasurer">National Treasurer
+        <mat-radio-button *ngIf="utilsService.isNationalAccountant()" value="national_treasurer">National Treasurer
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="state_treasurer">State Treasurer
+        <mat-radio-button *ngIf="utilsService.isStateAccountant()" value="state_treasurer">State Treasurer
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="zila_treasurer">Zila Treasurer
+        <mat-radio-button *ngIf="utilsService.isStateAccountant()" value="zila_treasurer">Zila Treasurer
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="mandal_treasurer">
+        <mat-radio-button *ngIf="utilsService.isStateAccountant()" value="mandal_treasurer">
           Mandal Treasurer
         </mat-radio-button>
       </mat-radio-group>
