@@ -1,5 +1,18 @@
-<div class="container">
-  <div class="float-right">
-<!--    <button mat-flat-button color="primary" [routerLink]="['/dashboard/users/add']"> Add User</button>-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <button *ngIf="searchForm.controls.archived.value !== 'Archived'" mat-raised-button color="primary"
+              class="float-right orange-btn"
+              [routerLink]="['/dashboard/users/add']">
+        Add User
+      </button>
+    </div>
   </div>
+  <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
+    <mat-tab *ngFor="let tab of tabs; index as i" label="{{tab.label}}">
+      <div class="table-container">
+        <app-user-list-table [users]="users" (updateUserList)="getUsers()"></app-user-list-table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

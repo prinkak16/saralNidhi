@@ -81,23 +81,41 @@ export class UtilsService {
     }
   }
 
-  public isNational(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'national';
+  public isNationalAccountant(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'national_accountant';
   }
 
-  public isNationalManager(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'national_manager';
+  public isNationalTreasurer(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'national_treasurer';
   }
 
-  public isStateAdmin(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'state_admin';
+  public isStateAccountant(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'state_accountant';
   }
 
-  public isStateManager(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'state_manager';
+  public isStateTreasurer(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'state_treasurer';
   }
 
-  public isZilaManager(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'zila_manager';
+  public isZilaTreasurer(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'zila_treasurer';
+  }
+
+  checkPermission(permissionName: string, action: string): boolean {
+    const permissionNames = [permissionName];
+    let allowed = false;
+    const permissions = JSON.parse(localStorage.getItem(Constant.PERMISSIONS) || '{}');
+    if (permissions) {
+      // @ts-ignore
+      permissions.forEach((permission: any) => {
+        if (permissionNames.includes(permission.permission_name)) {
+          if (permission.action === action) {
+            allowed = true;
+            return false;
+          }
+        }
+      });
+    }
+    return allowed;
   }
 }

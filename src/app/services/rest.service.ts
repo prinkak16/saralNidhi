@@ -121,23 +121,44 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
-  getManagerDetails(userId: string): any {
-    return this.http.get(this.baseUrl + 'state_admin/get_manager_details?id=' + userId, this.authHttpOptions());
+  getTreasurerDetails(userId: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/treasurer_details?id=' + userId, this.authHttpOptions());
   }
 
-  appPermissions(type: string = ''): any {
-    return this.http.get(this.baseUrl + 'state_admin/app_permissions?type=' + type, this.authHttpOptions());
+  appPermissions(): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/user_permissions', this.authHttpOptions());
+  }
+
+  submitUserForm(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/create_user', data, this.authHttpOptions());
   }
 
   getAllottedCountryStates(): any {
     return this.http.get(this.baseUrl + 'data/get_allotted_country_states', this.authHttpOptions());
   }
 
-  getZilasForState(countryStateId:string): any {
+  getZilasForState(countryStateId: string): any {
     return this.http.get(this.baseUrl + 'events/get_zilas?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
   getMandalsForState(countryStateId: string): any {
     return this.http.get(this.baseUrl + 'events/get_mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }
+
+  getTreasurerList(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/treasurers_list', JSON.stringify(data), this.authHttpOptions());
+  }
+
+  updatePassword(data: any): any {
+    return this.http.post(this.baseUrl + 'zila_manager/update_password', JSON.stringify(data), this.authHttpOptions());
+  }
+
+  enableDisable(id: string): any {
+    return this.http.get(this.baseUrl + 'zila_manager/enable_disable?id=' + id, this.authHttpOptions());
+  }
+
+  activateDeactivate(id: string): any {
+    return this.http.get(this.baseUrl + 'zila_manager/activate_deactivate?id=' + id, this.authHttpOptions());
+  }
+
 }

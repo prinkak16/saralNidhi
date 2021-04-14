@@ -2,6 +2,10 @@
   margin-left: 16px;
 }
 
+.mat-checkbox {
+  margin-left: 16px;
+}
+
 .radio-group-container {
   width: 100%;
   display: flex;

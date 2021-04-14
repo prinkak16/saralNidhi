@@ -26,6 +26,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {NgOtpInputModule} from 'ng-otp-input';
 import { MatNativeDateModule } from '@angular/material/core';
 import {LoaderInterceptor} from './interceptors/loader.interceptor';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {HomeComponent} from './home/home.component';
@@ -34,16 +38,16 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatBadgeModule} from '@angular/material/badge';
 import { LoaderComponent } from './shared/loader/loader.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReceiptDialogComponent } from './receipt-dialog/receipt-dialog.component';
 import {NgxPrintModule} from 'ngx-print';
 import { NgNumber2wordsModule } from 'ng-number2words';
 import {CreateUserComponent} from './user/create-user/create-user.component';
-import { ListComponent } from './user/list/list.component';
+import {ListComponent} from './user/list/list.component';
+import {ListTableComponent} from './user/list-table/list-table.component';
+import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,9 @@ import { ListComponent } from './user/list/list.component';
     ReceiptDialogComponent,
     LoaderComponent,
     CreateUserComponent,
-    ListComponent
+    ListComponent,
+    ListTableComponent,
+    ChangePasswordBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -88,6 +94,8 @@ import { ListComponent } from './user/list/list.component';
     NgxPrintModule,
     MatBadgeModule,
     MatProgressBarModule,
+    MatBottomSheetModule,
+    MatCheckboxModule,
     NgNumber2wordsModule
   ],
   providers: [
@@ -95,6 +103,9 @@ import { ListComponent } from './user/list/list.component';
     MatDatepickerModule,
     DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
+  ],
+  entryComponents: [
+    ChangePasswordBottomSheetComponent
   ],
   bootstrap: [AppComponent]
 })
