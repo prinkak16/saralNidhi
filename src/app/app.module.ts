@@ -44,6 +44,9 @@ import {NgxPrintModule} from 'ngx-print';
 import { NgNumber2wordsModule } from 'ng-number2words';
 import {CreateUserComponent} from './user/create-user/create-user.component';
 import { ListComponent } from './user/list/list.component';
+import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,9 @@ import { ListComponent } from './user/list/list.component';
     ReceiptDialogComponent,
     LoaderComponent,
     CreateUserComponent,
-    ListComponent
+    ListComponent,
+    ChequeDetailComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -93,6 +98,7 @@ import { ListComponent } from './user/list/list.component';
   providers: [
     AuthGuard,
     MatDatepickerModule,
+    MatAutocompleteModule,
     DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
   ],

@@ -8,6 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
+import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -21,7 +22,7 @@ export class EntryListTableComponent implements OnInit {
   showLoader = false;
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
-    'mode_of_payment', 'pan_card', 'action'];
+    'mode_of_payment', 'pan_card', 'action', 'receipt-print'];
   private dialog: any;
 
   constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
@@ -52,6 +53,14 @@ export class EntryListTableComponent implements OnInit {
       element: data
     };
     this.matDialog.open(ReceiptDialogComponent, {data: {data: data}});
+  }
+
+  openChequeDialog(data: any): void{
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      element: data
+    };
+    this.matDialog.open(ChequeDetailComponent,{data: {data: data}});
   }
 
   downloadReceipt(row: any): void {

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -7,6 +7,7 @@ import {UtilsService} from '../services/utils.service';
 import {Router} from '@angular/router';
 import {PaymentModeModel} from '../models/payment-mode.model';
 import {debounceTime} from 'rxjs/operators';
+import {PaymentModel} from '../models/payment.model';
 
 @Component({
   selector: 'app-collection-form',
@@ -24,6 +25,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInput: any;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
+  @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
+  @Input() query: any = null;
+  showLoader = false;
+  autoFillData: any;
 
   config = {
     allowNumbersOnly: false,
@@ -37,6 +42,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     containerClass: 'pan-card-container'
   };
 
+  showProgress = false;
   collectionForm: FormGroup = new FormGroup({});
   states: any[] = [];
   stateUnits: any[] = [];
@@ -47,13 +53,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
   phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
+  testParam = '';
   yearsSlab: any = [];
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
   transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
-
-  showLoader = false;
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
@@ -91,7 +96,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),
-      location_id: new FormControl(null, [Validators.required])
+      location_id: new FormControl(null, [Validators.required]),
+      query: new FormControl()
     });
     this.getStates();
     this.getModeOfPayments();
@@ -195,8 +201,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         }
       }
     });
-
   }
+
+  getDonorData(): void {
+    this.showProgress = true;
+    this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.name.value, this.testParam,this.testParam).subscribe((response: any) => {
+      this.autoFillData = response.data.data as PaymentModel[];
+      this.showProgress = false;
+    }, (error: string) => {
+      this.showProgress = false;
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
 
   getStates(): void {
     this.restService.getAllStates().subscribe((response: any) => {
@@ -410,6 +427,21 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     if (element) {
       element.nativeElement.focus();
     }
+  }
+
+  setFormValues(values: any): void {
+    this.collectionForm.controls.name.setValue(values.data.name);
+    this.collectionForm.controls.category.setValue(values.data.category);
+    this.collectionForm.controls.is_proprietorship.setValue(values.data.is_proprietorship);
+    this.collectionForm.controls.house.setValue(values.data.house);
+    this.collectionForm.controls.locality.setValue(values.data.locality);
+    this.collectionForm.controls.pincode.setValue(values.data.pincode);
+    this.collectionForm.controls.district.setValue(values.data.locality);
+    this.collectionForm.controls.state.setValue(values.data.state);
+    this.collectionForm.controls.pan_card.setValue(values.pan_card);
+    this.ngOtpInputRef.setValue(values.pan_card);
+    this.autoFillData = [];
+
   }
 
 }

@@ -5,7 +5,7 @@
       <mat-label translate>Enter Date</mat-label>
       <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
              [matDatepicker]="picker" (click)="picker.open()" [min]="allowedDate" [max]="today"
-             placeholder="Enter Date"
+             placeholder="DD/MM/YYY"
              formControlName="date" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -21,22 +21,31 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" formControlName="name" required>
+      <input matInput placeholder="Name" formControlName="name" required (keyup.enter)="getDonorData()">
+      <mat-spinner *ngIf="showProgress" matSuffix diameter="20"></mat-spinner>
       <mat-error
         *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
         Name is required
       </mat-error>
+      <div *ngIf="autoFillData">
+        <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
+           <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          <br>
+          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
+        </mat-option>
+      </div>
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">Category? <sup>*</sup></label>
       <mat-radio-group formControlName="category" aria-label="category"
                        class="radio-group-container radio-group-container-margin">
+        <mat-radio-button value="individual">Individual</mat-radio-button>
         <mat-radio-button value="huf">HUF</mat-radio-button>
         <mat-radio-button value="partnership">Partnership</mat-radio-button>
         <mat-radio-button value="trust">Trust</mat-radio-button>
         <mat-radio-button value="corporation">Corporation</mat-radio-button>
         <mat-radio-button value="others">Others</mat-radio-button>
-        <mat-radio-button value="individual">Individual</mat-radio-button>
+
       </mat-radio-group>
     </div>
     <mat-form-field appearance="outline" class="col-md-12" *ngIf="collectionForm.controls.category.value === 'others'">
@@ -111,7 +120,7 @@
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">PAN Card<sup>*</sup></label>
-      <ng-otp-input (onInputChange)="onPanCardChange($event)"
+      <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
                     [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
         Please enter a valid pan card number

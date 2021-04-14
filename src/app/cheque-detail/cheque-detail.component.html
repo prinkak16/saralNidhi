@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline" *ngIf="cheque_data.data === 'released' ">
+  <mat-label>Released date</mat-label>
+  <input matInput [matDatepicker]="picker">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<mat-form-field class="example-full-width" *ngIf="cheque_data.data === 'bounced' ">
+  <mat-label>Remarks *</mat-label>
+  <textarea matInput placeholder="Add remarks.."></textarea>
+</mat-form-field>
+<br>
+<button mat-raised-button color="warn">Submit</button>
+<button mat-raised-button color="primary" (click)="close()">close</button>
+

@@ -64,6 +64,21 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
+      <div>
+        <button mat-raised-button><mat-icon>edit</mat-icon>Edit</button>
+        <button mat-raised-button><mat-icon>remove_red_eye</mat-icon>View</button>
+      </div>
+          <div>
+            <mat-radio-button value="released" (click)="openChequeDialog('released')">Releases</mat-radio-button>
+            <mat-radio-button value="bounced" (click)="openChequeDialog('bounced')">Bounced</mat-radio-button>
+            <mat-radio-button value="reserved" (click)="openChequeDialog('reserved')">Reversed</mat-radio-button>
+          </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="receipt-print">
+      <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
+      <mat-cell *matCellDef="let element">
         <mat-icon class="pointer" matTooltip="Print Receipt"
                   (click)="openDialog(element)">print
         </mat-icon>
