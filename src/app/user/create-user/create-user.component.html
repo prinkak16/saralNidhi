@@ -62,7 +62,7 @@
                       *ngIf="showLocation && locations && (userForm.controls.role.value !== 'national_treasurer')"
                       appearance="outline">
         <mat-label>{{placeholder}}</mat-label>
-        <mat-select formControlName="location" multiple="true"
+        <mat-select formControlName="location_ids" multiple="true"
                     disableOptionCentering required>
           <mat-option *ngFor="let item of locations" value="{{item.id}}">{{item.name}}</mat-option>
         </mat-select>
@@ -71,15 +71,24 @@
                       *ngIf="showLocation && locations && (userForm.controls.role.value === 'national_treasurer')"
                       appearance="outline">
         <mat-label>Select Locations</mat-label>
-        <mat-select formControlName="location" multiple="true"
+        <mat-select formControlName="location_ids" multiple="true"
                     disableOptionCentering required>
           <mat-option *ngFor="let item of locations" value="{{item.id}}">{{item.name}}</mat-option>
         </mat-select>
       </mat-form-field>
+      <hr>
+      <ng-container *ngFor="let item of permissions | keyvalue">
+        <label class="single-label col-md-12">{{item.key}}</label>
+        <ng-container *ngFor="let option of getValue(item.value) ">
+          <mat-checkbox (change)="onCheckChange($event)" [value]="option.id"
+                        [checked]="this.selectedPermissionIds.includes(option.id)">
+            {{option.action}}
+          </mat-checkbox>
+        </ng-container>
+      </ng-container>
       <button mat-flat-button [disabled]="!userForm.valid" color="warn"
               class="col-md-12"
-              (click)="submitForm()"
-      >Submit
+              (click)="submitForm()">Submit
       </button>
     </form>
   </div>

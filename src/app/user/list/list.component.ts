@@ -40,9 +40,8 @@ export class ListComponent implements OnInit {
 
   getUsers(): void {
     this.showLoader = true;
-    this.restService.getManagersList(this.searchForm.value).subscribe((reply: any) => {
-      const response = reply as any;
-      this.users = response.data;
+    this.restService.getTreasurerList(this.searchForm.value).subscribe((response: any) => {
+      this.users = response.data.data;
       this.showLoader = false;
     }, (error: any) => {
       this.snackBar.open(error ? error.message : 'Error while fetching data', 'Okay');

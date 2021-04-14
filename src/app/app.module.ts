@@ -43,6 +43,7 @@ import {CreateUserComponent} from './user/create-user/create-user.component';
 import {ListComponent} from './user/list/list.component';
 import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet
     MatTooltipModule,
     MatBadgeModule,
     MatProgressBarModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatCheckboxModule
   ],
   providers: [
     AuthGuard,

@@ -6,6 +6,7 @@ import {LoaderService} from '../../services/loader.service';
 import {UtilsService} from '../../services/utils.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import * as Constant from '../../AppConstants';
 
 @Component({
   selector: 'app-create-user',
@@ -19,6 +20,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
               private loaderService: LoaderService, public utilsService: UtilsService,
               private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar) {
   }
+
   userForm: FormGroup = new FormGroup({});
   showLoader = false;
   userId = null;
@@ -30,6 +32,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   allowedPermissions = [];
   update = false;
   hide = true;
+  selectedPermissionIds: any[] = [];
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -48,8 +51,11 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       password: new FormControl('', [Validators.required, Validators.pattern(this.utilsService.passwordPattern)]),
       role: new FormControl(null, [Validators.required]),
-      location: new FormControl(null, [Validators.required])
+      location_type: new FormControl(null, [Validators.required]),
+      location_ids: new FormControl(null, [Validators.required]),
+      permission_ids: new FormControl([], [Validators.required])
     });
+    this.userStates = JSON.parse(localStorage.getItem(Constant.STATES) || '{}');
     this.onFormChange();
   }
 
@@ -65,19 +71,20 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
 
   getUserDetails(): void {
     // @ts-ignore
-    this.restService.getManagerDetails(this.userId).subscribe(reply => {
+    this.restService.getTreasurerDetails(this.userId).subscribe(reply => {
       console.log(reply);
       const response = reply as any;
       this.userForm.controls.id.setValue(response.data.id);
       this.userForm.controls.name.setValue(response.data.name);
       this.userForm.controls.phone_no.setValue(response.data.phone);
       this.userForm.controls.email.setValue(response.data.email);
-      this.userForm.controls.password.setValue(response.data.password);
       this.userForm.controls.role.setValue(response.data.role);
-      this.userForm.controls.location.setValue(response.data.location);
+      this.userForm.controls.location_ids.setValue([response.data.location]);
       this.userForm.controls.password.clearValidators();
+      this.userForm.controls.password.updateValueAndValidity();
+      this.userForm.controls.permission_ids.setValue(response.data.permissions);
+      this.selectedPermissionIds = response.data.permissions;
       this.onFormChange();
-      this.checkAllowedPermission();
     }, (error: any) => {
       console.log(error);
     });
@@ -87,26 +94,30 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     this.userForm.controls.role.valueChanges.subscribe(value => {
       this.showLocation = true;
       if (value === 'national_treasurer') {
-        this.userForm.controls.location.setValue(null);
+        this.userForm.controls.location_type.setValue('CountryState');
+        this.userForm.controls.location_ids.setValue(null);
         this.getCountryStates();
         this.placeholder = 'Select State';
       }
       if (value === 'state_treasurer') {
-        this.userForm.controls.location.setValue(null);
+        this.userForm.controls.location_type.setValue('CountryState');
+        this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
         this.locations = this.userStates;
         this.placeholder = 'Select State';
       }
       if (value === 'zila_treasurer') {
-        this.userForm.controls.location.setValue(null);
-        this.getAppPermissions('zila');
+        this.userForm.controls.location_type.setValue('Zila');
+        this.userForm.controls.location_ids.setValue(null);
+        this.getAppPermissions();
         // @ts-ignore
         this.getZilas(this.userStates[0].id);
         this.placeholder = 'Select Zila';
       }
       if (value === 'mandal_treasurer') {
-        this.userForm.controls.location.setValue(null);
-        this.getAppPermissions('mandal');
+        this.userForm.controls.location_type.setValue('Mandal');
+        this.userForm.controls.location_ids.setValue(null);
+        this.getAppPermissions();
         // @ts-ignore
         this.getMandalsForState(this.userStates[0].id);
         this.placeholder = 'Select Mandal';
@@ -144,11 +155,10 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getAppPermissions(type: string = ''): void {
-    this.restService.appPermissions(type).subscribe((reply: any) => {
+  getAppPermissions(): void {
+    this.restService.appPermissions().subscribe((reply: any) => {
       const response = reply as any;
       this.permissions = response.data;
-      this.addPermissionFormControls();
     }, (error: any) => {
       this.snackBar.open((error && error.error && error.error.message) ?
         error.error.message : 'Error getting app permissions', 'Okay');
@@ -157,40 +167,42 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
 
   submitForm(): void {
     this.showLoader = true;
-    this.restService.submitForm({data: this.userForm.value}).subscribe((response: any) => {
+    this.restService.submitUserForm(this.userForm.value).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.userForm.get('mode_of_payment')?.value}});
+      this.router.navigate(['dashboard/users']);
     }, (error: any) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
     });
   }
 
-  addPermissionFormControls(): void {
-    this.permissions.forEach((permission: { accesses: any[]; type: string; }) => {
-      permission.accesses.forEach(access => {
-        this.userForm.addControl(permission.type.split(' ').join('') + '_' + access + '_permission', new FormControl(null, []));
-      });
-    });
-    this.update = true;
-    if (this.allowedPermissions && this.allowedPermissions.length > 0) {
-      this.checkAllowedPermission();
-    }
+  getValue(items: any): any {
+    return items;
   }
 
-  checkAllowedPermission(): void {
-    console.log(this.allowedPermissions);
-    console.log(this.userForm.value);
-    if (this.update) {
-      // this.allowedPermissions.forEach(permission => {
-      //   if (this.userForm.get(permission.permission_name.split(' ').join('+') + '_' + permission.action + '_permission')) {
-      //     this.userForm.get(permission.permission_name.split(' ').join('+') + '_' + permission.action + '_permission').setValue(true);
-      //   }
-      // });
+  onCheckChange(event: any): void {
+
+    /* Selected */
+    if (event.checked) {
+      // Add a new control in the arrayForm
+      this.selectedPermissionIds.push(event.source.value);
     }
-    console.log(this.userForm.value);
+    /* unselected */
+    else {
+      // find the unselected element
+      let i = 0;
+
+      this.selectedPermissionIds.forEach((value: any) => {
+        if (value === event.source.value) {
+          // Remove the unselected element from the arrayForm
+          this.selectedPermissionIds.splice(i, 1);
+          return;
+        }
+        i++;
+      });
+    }
+    this.userForm.controls.permission_ids.setValue(this.selectedPermissionIds);
   }
 
 }
