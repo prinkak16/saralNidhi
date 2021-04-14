@@ -148,6 +148,17 @@
   left: 10rem;
   font-size: 10px;
 }
+.search-bar{
+  background: #fff;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
+  font-size: 1rem;
+  outline: none;
+  padding: 1rem 1rem 1rem 3rem;
+  width: 100%;
+  margin-top: 2rem;
+}
 
 .search-bar{
   background: #fff;
@@ -159,4 +170,10 @@
   padding: 1rem 1rem 1rem 3rem;
   width: 100%;
   margin-top: 2rem;
+}
+.search-icon{
+  color: rgba(108,117,125,.6);
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
 }
