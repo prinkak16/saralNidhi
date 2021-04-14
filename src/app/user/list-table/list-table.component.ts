@@ -20,7 +20,7 @@ export class ListTableComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'name', 'email', 'phone_number', 'role', 'action'];
 
   constructor(private restService: RestService, private activatedRoute: ActivatedRoute, private messageService: MessageService,
-              public utilService: UtilsService, private snackBar: MatSnackBar, private bottomSheet: MatBottomSheet) {
+              public utilService: UtilsService, private bottomSheet: MatBottomSheet) {
   }
 
   ngOnInit(): void {
@@ -30,9 +30,9 @@ export class ListTableComponent implements OnInit {
     this.restService.activateDeactivate(id).subscribe((reply: any) => {
       const response = reply as any;
       element.active = response.data;
-      this.snackBar.open(response.message, 'Okay', {duration: 3000});
+      this.messageService.closableSnackBar(response.message);
     }, (error: any) => {
-      this.snackBar.open(error, 'Okay');
+      this.messageService.somethingWentWrong(error);
     });
   }
 
@@ -40,10 +40,10 @@ export class ListTableComponent implements OnInit {
     this.restService.enableDisable(id).subscribe((reply: any) => {
       const response = reply as any;
       element.disabled = response.data;
-      this.snackBar.open(response.message, 'Okay', {duration: 3000});
+      this.messageService.closableSnackBar(response.message);
       this.updateUserList.emit();
     }, (error: string) => {
-      this.snackBar.open(error, 'Okay');
+      this.messageService.somethingWentWrong(error);
     });
   }
 
