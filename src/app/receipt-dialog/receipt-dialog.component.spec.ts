@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogBodyComponent } from './dialog-body.component';
+import { ReceiptDialogComponent } from './receipt-dialog.component';
 
 describe('DialogBodyComponent', () => {
-  let component: DialogBodyComponent;
-  let fixture: ComponentFixture<DialogBodyComponent>;
+  let component: ReceiptDialogComponent;
+  let fixture: ComponentFixture<ReceiptDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogBodyComponent ]
+      declarations: [ ReceiptDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DialogBodyComponent);
+    fixture = TestBed.createComponent(ReceiptDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

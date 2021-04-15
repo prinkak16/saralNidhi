@@ -215,7 +215,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   getDonorData(): void {
     this.showProgress = true;
-    this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.name.value, this.testParam,this.testParam).subscribe((response: any) => {
+    this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.name.value, this.testParam, this.testParam).subscribe((response: any) => {
       this.autoFillData = response.data.data as PaymentModel[];
       this.showProgress = false;
     }, (error: string) => {

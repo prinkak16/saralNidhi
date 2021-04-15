@@ -44,17 +44,11 @@ import { ReceiptDialogComponent } from './receipt-dialog/receipt-dialog.componen
 import {NgxPrintModule} from 'ngx-print';
 import { NgNumber2wordsModule } from 'ng-number2words';
 import {CreateUserComponent} from './user/create-user/create-user.component';
-<<<<<<< HEAD
-import { ListComponent } from './user/list/list.component';
-import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { FilterPipe } from './filter.pipe';
-=======
 import {ListComponent} from './user/list/list.component';
 import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
->>>>>>> 4e82c2c14247ae4b7c130afc656696e4c74d81ca
+import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
 
 @NgModule({
   declarations: [
@@ -70,13 +64,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     LoaderComponent,
     CreateUserComponent,
     ListComponent,
-<<<<<<< HEAD
-    ChequeDetailComponent,
-    FilterPipe
-=======
     ListTableComponent,
-    ChangePasswordBottomSheetComponent
->>>>>>> 4e82c2c14247ae4b7c130afc656696e4c74d81ca
+    ChangePasswordBottomSheetComponent,
+    ChequeDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -113,7 +103,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   providers: [
     AuthGuard,
     MatDatepickerModule,
-    MatAutocompleteModule,
     DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
   ],
