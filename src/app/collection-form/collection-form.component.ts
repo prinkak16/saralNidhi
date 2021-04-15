@@ -41,8 +41,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     },
     containerClass: 'pan-card-container'
   };
-
   showProgress = false;
+  testParam = '';
   collectionForm: FormGroup = new FormGroup({});
   states: any[] = [];
   stateUnits: any[] = [];
@@ -53,12 +53,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
   phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
-  testParam = '';
   yearsSlab: any = [];
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
   transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
+
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
@@ -96,8 +96,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),
-      location_id: new FormControl(null, [Validators.required]),
-      query: new FormControl()
+      location_id: new FormControl(null, [Validators.required])
     });
     this.getStates();
     this.getModeOfPayments();
@@ -201,6 +200,17 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         }
       }
     });
+
+  }
+
+  getStates(): void {
+    this.restService.getAllStates().subscribe((response: any) => {
+      this.states = response.data;
+      this.stateUnits = this.states.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
+      this.states = this.states.filter(({name}) => (name !== 'Mumbai'));
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
   }
 
   getDonorData(): void {
@@ -210,17 +220,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.showProgress = false;
     }, (error: string) => {
       this.showProgress = false;
-      this.messageService.somethingWentWrong(error);
-    });
-  }
-
-
-  getStates(): void {
-    this.restService.getAllStates().subscribe((response: any) => {
-      this.states = response.data;
-      this.stateUnits = this.states.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
-      this.states = this.states.filter(({name}) => (name !== 'Mumbai'));
-    }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
   }
@@ -443,5 +442,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.autoFillData = [];
 
   }
+
 
 }

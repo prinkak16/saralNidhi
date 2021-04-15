@@ -10,9 +10,11 @@ function createWindow () {
     height: 768,
     minWidth:1024,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+      nativeWindowOpen: true
+    },
   })
+
 
   mainWindow.loadURL(
     url.format({
