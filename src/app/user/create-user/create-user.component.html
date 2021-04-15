@@ -1,87 +1,98 @@
-<!--<div *ngIf="!showLoader" class="container">-->
-<!--  <h2> User Creation</h2>-->
-<!--  <h5> *Fields are mandatory</h5>-->
-<!--  <div class="row">-->
-<!--    <form [formGroup]="userForm" class="col-md-6 form-container">-->
-<!--      <mat-form-field appearance="outline" class="col-md-12">-->
-<!--        <mat-label>Full Name</mat-label>-->
-<!--        <input matInput placeholder="Full name" formControlName="name" required>-->
-<!--      </mat-form-field>-->
-<!--      <mat-form-field appearance="outline" class="col-md-12">-->
-<!--        <mat-label>Phone Number</mat-label>-->
-<!--        <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"-->
-<!--               placeholder="Phone Number" formControlName="phone_no" required>-->
-<!--        <mat-error-->
-<!--          *ngIf="((userForm.controls['phone_no'].touched)&& userForm.controls['phone_no'].hasError('required'))">-->
-<!--          Phone number is required-->
-<!--        </mat-error>-->
-<!--        <mat-error-->
-<!--          *ngIf="((userForm.controls['phone_no'].touched)&& userForm.controls['phone_no'].hasError('pattern'))">-->
-<!--          Please enter a valid phone number-->
-<!--        </mat-error>-->
-<!--      </mat-form-field>-->
-<!--      <mat-form-field appearance="outline" class="col-md-12">-->
-<!--        <mat-label>Email</mat-label>-->
-<!--        <input matInput type="email" placeholder="Email Address" formControlName="email" name="email"-->
-<!--               required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">-->
-<!--        <mat-error class="modal-error" *ngIf="userForm.controls['email'].hasError('required')">Email is required-->
-<!--        </mat-error>-->
-<!--        <mat-error class="modal-error" *ngIf="userForm.controls['email'].hasError('pattern')">Enter a valid email-->
-<!--        </mat-error>-->
-<!--      </mat-form-field>-->
-<!--      <mat-form-field appearance="outline" class="col-md-12" *ngIf="userId === null">-->
-<!--        <mat-label>Password</mat-label>-->
-<!--        <input matInput id="password" style="padding-bottom: 4px;" [type]="hide ? 'password' : 'text'"-->
-<!--               name="password"-->
-<!--               placeholder="Password"-->
-<!--               required formControlName="password">-->
-<!--        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-<!--        <mat-error class="modal-error" *ngIf="userForm.controls['password'].hasError('required')">Password is-->
-<!--          required-->
-<!--        </mat-error>-->
-<!--        <mat-error class="modal-error" *ngIf="userForm.controls['password'].hasError('pattern')">-->
-<!--          Password should be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number-->
-<!--          and one special character-->
-<!--        </mat-error>-->
-<!--      </mat-form-field>-->
-<!--      <label class="single-label col-md-12">Roles</label>-->
-<!--      <mat-radio-group formControlName="role" class="col-md-12">-->
-<!--        <mat-radio-button *ngIf="utilsService.isNational()" value="national_manager">National Manager-->
-<!--        </mat-radio-button>-->
-<!--        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="state_manager">State Office-->
-<!--        </mat-radio-button>-->
-<!--        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="zila_manager">Zila Office-->
-<!--        </mat-radio-button>-->
-<!--        <mat-radio-button *ngIf="utilsService.isStateAdmin()" value="mandal_manager">-->
-<!--          Mandal Office-->
-<!--        </mat-radio-button>-->
-<!--      </mat-radio-group>-->
-<!--      <mat-form-field class="col-md-12"-->
-<!--                      *ngIf="showLocation && locations && (userForm.controls.role.value !== 'national_manager')"-->
-<!--                      appearance="outline">-->
-<!--        <mat-label>{{placeholder}}</mat-label>-->
-<!--        <mat-select formControlName="location" multiple="true"-->
-<!--                    disableOptionCentering required>-->
-<!--          <mat-option *ngFor="let item of locations" value="{{item.id}}">{{item.name}}</mat-option>-->
-<!--        </mat-select>-->
-<!--      </mat-form-field>-->
-<!--      <mat-form-field class="col-md-12"-->
-<!--                      *ngIf="showLocation && locations && (userForm.controls.role.value === 'national_manager')"-->
-<!--                      appearance="outline">-->
-<!--        <mat-label>Select Locations</mat-label>-->
-<!--        <mat-select formControlName="location" multiple="true"-->
-<!--                    disableOptionCentering required>-->
-<!--          <mat-option *ngFor="let item of locations" value="{{item.id}}">{{item.name}}</mat-option>-->
-<!--        </mat-select>-->
-<!--      </mat-form-field>-->
-<!--      <button mat-flat-button [disabled]="!userForm.valid" color="warn"-->
-<!--              class="col-md-12"-->
-<!--              (click)="submitForm()"-->
-<!--      >Submit-->
-<!--      </button>-->
-<!--    </form>-->
-<!--  </div>-->
-<!--</div>-->
-<!--<div class="loader-container" *ngIf="showLoader">-->
-<!--  <mat-spinner color="warn"></mat-spinner>-->
-<!--</div>-->
+<div *ngIf="!showLoader" class="container">
+  <div class="col-md-6 form-container">
+    <h2> User Creation</h2>
+    <h5> *Fields are mandatory</h5>
+  </div>
+  <div class="row">
+    <form [formGroup]="userForm" class="col-md-6 form-container">
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Full Name</mat-label>
+        <input matInput placeholder="Full name" formControlName="name" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Phone Number</mat-label>
+        <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
+               placeholder="Phone Number" formControlName="phone_no" required>
+        <mat-error
+          *ngIf="((userForm.controls['phone_no'].touched)&& userForm.controls['phone_no'].hasError('required'))">
+          Phone number is required
+        </mat-error>
+        <mat-error
+          *ngIf="((userForm.controls['phone_no'].touched)&& userForm.controls['phone_no'].hasError('pattern'))">
+          Please enter a valid phone number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="Email Address" formControlName="email" name="email"
+               required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+        <mat-error class="modal-error" *ngIf="userForm.controls['email'].hasError('required')">Email is required
+        </mat-error>
+        <mat-error class="modal-error" *ngIf="userForm.controls['email'].hasError('pattern')">Enter a valid email
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12" *ngIf="userId === null">
+        <mat-label>Password</mat-label>
+        <input matInput id="password" style="padding-bottom: 4px;" [type]="hide ? 'password' : 'text'"
+               name="password"
+               placeholder="Password"
+               required formControlName="password">
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error class="modal-error" *ngIf="userForm.controls['password'].hasError('required')">Password is
+          required
+        </mat-error>
+        <mat-error class="modal-error" *ngIf="userForm.controls['password'].hasError('pattern')">
+          Password should be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number
+          and one special character
+        </mat-error>
+      </mat-form-field>
+      <label class="single-label col-md-12">Roles</label>
+      <mat-radio-group formControlName="role" class="col-md-12">
+        <mat-radio-button *ngIf="utilsService.isNationalAccountant()" value="national_treasurer">National Treasurer
+        </mat-radio-button>
+        <mat-radio-button *ngIf="utilsService.isStateAccountant()" value="state_treasurer">State Treasurer
+        </mat-radio-button>
+        <mat-radio-button *ngIf="utilsService.isStateAccountant()" value="zila_treasurer">Zila Treasurer
+        </mat-radio-button>
+        <mat-radio-button *ngIf="utilsService.isStateAccountant()" value="mandal_treasurer">
+          Mandal Treasurer
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field class="col-md-12"
+                      *ngIf="showLocation && locations && (userForm.controls.role.value !== 'national_treasurer')"
+                      appearance="outline">
+        <mat-label>{{placeholder}}</mat-label>
+        <mat-select formControlName="location_ids" multiple="true"
+                    disableOptionCentering required>
+          <mat-option *ngFor="let item of locations" value="{{item.id}}">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-md-12"
+                      *ngIf="showLocation && locations && (userForm.controls.role.value === 'national_treasurer')"
+                      appearance="outline">
+        <mat-label>Select Locations</mat-label>
+        <mat-select formControlName="location_ids" multiple="true"
+                    disableOptionCentering required>
+          <mat-option *ngFor="let item of locations" value="{{item.id}}">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <hr>
+      <ng-container *ngFor="let item of permissions | keyvalue">
+        <label class="single-label col-md-12">{{item.key}}</label>
+        <ng-container *ngFor="let option of getValue(item.value) ">
+          <mat-checkbox (change)="onCheckChange($event)" [value]="option.id"
+                        [checked]="this.selectedPermissionIds.includes(option.id)">
+            {{option.action}}
+          </mat-checkbox>
+        </ng-container>
+      </ng-container>
+      <button mat-flat-button [disabled]="!userForm.valid" color="warn"
+              class="col-md-12"
+              (click)="submitForm()">Submit
+      </button>
+    </form>
+  </div>
+</div>
+<div class="loader-container" *ngIf="showLoader">
+  <mat-spinner color="warn"></mat-spinner>
+</div>

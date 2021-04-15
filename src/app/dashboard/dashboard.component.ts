@@ -3,6 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
+import {UtilsService} from '../services/utils.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,8 @@ import {MessageService} from '../services/message.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private router: Router, private restService: RestService, private messageService: MessageService) {
+  constructor(private router: Router, private restService: RestService,
+              private messageService: MessageService, public utilsService: UtilsService) {
   }
 
   total = 0;
