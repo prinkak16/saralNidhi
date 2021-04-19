@@ -29,9 +29,12 @@
       </mat-error>
       <div *ngIf="autoFillData">
         <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
-          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span> <span
+          class="ml-4 text-secondary"><b>PAN Card:</b></span> <span
+          class="ml-4 text-secondary">{{option.data.pan_card}}</span>
           <br>
-          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
+          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}
+          , {{option.data.pincode}}</span>
         </mat-option>
       </div>
       <mat-error
@@ -123,8 +126,8 @@
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">PAN Card<sup>*</sup></label>
-      <ng-otp-input  #ngOtpInput (onInputChange)="onPanCardChange($event)"
-                    [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
+      <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
+                    [config]="{length:10, containerClass: 'pan-card-container', disableAutoFocus: true}"></ng-otp-input>
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
         Please enter a valid pan card number
       </mat-error>
