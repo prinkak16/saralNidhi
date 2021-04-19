@@ -49,7 +49,6 @@ import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
-import { DateDifference } from './date-difference.pipe';
 
 
 @NgModule({
@@ -68,8 +67,7 @@ import { DateDifference } from './date-difference.pipe';
     ListComponent,
     ListTableComponent,
     ChangePasswordBottomSheetComponent,
-    ChequeDetailComponent,
-    DateDifference
+    ChequeDetailComponent
   ],
   imports: [
     BrowserModule,
