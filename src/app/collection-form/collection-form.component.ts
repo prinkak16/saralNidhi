@@ -299,7 +299,22 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
   }
 
+  checkAndUpdateToUpperCase(panNumber: string): void {
+    let i = 0;
+    while (i <= panNumber.length) {
+      const character: any = panNumber.charAt(i);
+      if (!isNaN(character * 1)) {
+      } else {
+        if (character === character.toLowerCase()) {
+          this.ngOtpInputRef.setValue(panNumber.toUpperCase());
+        }
+      }
+      i++;
+    }
+  }
+
   onPanCardChange(panNumber: string): void {
+    this.checkAndUpdateToUpperCase(panNumber);
     this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: null, pattern: null, nameMismatch: null});
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
