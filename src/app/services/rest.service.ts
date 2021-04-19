@@ -104,6 +104,10 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
 
+  updateCollectionPayment(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/update_collection_payment', data, this.authHttpOptions());
+  }
+
   downloadReceipt(id = ''): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {

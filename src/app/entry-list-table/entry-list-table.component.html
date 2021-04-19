@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-md-12 date-filter">
     <div class=" mt-4">
-      <mat-form-field appearance="outline" >
+      <mat-form-field appearance="outline">
         <input matInput placeholder="Name / Pan / Phone " (keyup.enter)="getPaymentList()" [(ngModel)]="query">
       </mat-form-field>
       <mat-form-field appearance="outline" class="ml-2">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker" >
-          <input matStartDate placeholder="Start date"  [formControl]="startdate" >
-          <input matEndDate placeholder="End date" [formControl]="enddate" (dateChange)="getPaymentList()" >
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" [formControl]="startdate">
+          <input matEndDate placeholder="End date" [formControl]="enddate" (dateChange)="getPaymentList()">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -16,6 +16,7 @@
     </div>
   </div>
 </div>
+
 <ng-container *ngIf="paymentDetails.length > 0;else emptyList">
   <mat-table [dataSource]="paymentDetails">
     <!-- Serial Number Column -->
@@ -33,7 +34,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.data.name}} </mat-cell>
+      <mat-cell *matCellDef="let element"><span>{{element.data.name}}</span></mat-cell>
     </ng-container>
 
     <!-- Category Column -->
@@ -64,23 +65,44 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
-      <div>
-        <button mat-raised-button><mat-icon>edit</mat-icon>Edit</button>
-        <button mat-raised-button><mat-icon>remove_red_eye</mat-icon>View</button>
-      </div>
-          <div>
-            <mat-radio-button value="released" (click)="openChequeDialog('released')">Releases</mat-radio-button>
-            <mat-radio-button value="bounced" (click)="openChequeDialog('bounced')">Bounced</mat-radio-button>
-            <mat-radio-button value="reserved" (click)="openChequeDialog('reserved')">Reversed</mat-radio-button>
+        <div>
+          <button mat-raised-button *ngIf="element.is_editable === true">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+          <button mat-raised-button class="ml-4">
+            <mat-icon>remove_red_eye</mat-icon>
+            View
+          </button>
+          <div class="ml-2 mt-2 display-grid">
+            <div
+              *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft' || element.is_realizable"
+              class="display-grid">
+              <mat-radio-button value="realized" (click)="openChequeDialog('realized', element)">Realized
+              </mat-radio-button>
+            </div>
+            <mat-radio-button value="bounced" *ngIf="element.mode_of_payment.name === 'Cheque' "
+                              (click)="openChequeDialog('bounced' , element)">Bounced
+            </mat-radio-button>
+            <mat-radio-button value="reserved" (click)="openChequeDialog('reserved', element)">Reversed
+            </mat-radio-button>
           </div>
+        </div>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="receipt-print">
       <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon class="pointer" matTooltip="Print Receipt"
-                  (click)="openDialog(element)">print
+        <mat-icon (click)="openDialog(element)"
+                  *ngIf="element.payment_realize_date
+                  || element.mode_of_payment.name === 'IMPS'
+                  || element.mode_of_payment.name === 'NEFT'
+                  || element.mode_of_payment.name === 'RTGS'
+                  || element.mode_of_payment.name === 'UPI'
+                  "
+                  class="pointer"
+                  matTooltip="Print Receipt">print
         </mat-icon>
       </mat-cell>
     </ng-container>

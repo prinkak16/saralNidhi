@@ -132,6 +132,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.collectionForm.controls.date_of_transaction.setValidators(Validators.required);
       this.collectionForm.controls.cheque_number.setValue(null);
       this.collectionForm.controls.date_of_cheque.setValue(null);
+      this.collectionForm.controls.draft_number.setValue(null);
+      this.collectionForm.controls.date_of_draft.setValue(null);
       this.collectionForm.controls.utr_number.setValue(null);
       this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
       this.collectionForm.controls.cheque_number.clearValidators();

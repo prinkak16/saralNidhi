@@ -6,7 +6,7 @@ import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
-import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
 
@@ -17,6 +17,10 @@ import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
 })
 export class EntryListTableComponent implements OnInit {
 
+  constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute, private messageService: MessageService,
+              public utilService: UtilsService) {
+  }
+
   @Input() paymentModeId: any = null;
   @Input() query: any = null;
   showLoader = false;
@@ -24,22 +28,19 @@ export class EntryListTableComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'action', 'receipt-print'];
   private dialog: any;
-
-  constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute,  private messageService: MessageService,
-              public utilService: UtilsService) {
-  }
-
-  ngOnInit(): void {
-      this.getPaymentList();
-  }
   startdate = new FormControl('');
   enddate = new FormControl('');
+
+  ngOnInit(): void {
+    this.getPaymentList();
+  }
 
   getPaymentList(): void {
     this.showLoader = true;
     this.restService.getPaymentRecords(this.paymentModeId, this.query, this.startdate.value, this.enddate.value).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
+
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
@@ -52,15 +53,17 @@ export class EntryListTableComponent implements OnInit {
     dialogConfig.data = {
       element: data
     };
-    this.matDialog.open(ReceiptDialogComponent, {data: {data: data}});
+    this.matDialog.open(ReceiptDialogComponent, {data: {data}});
   }
 
-  openChequeDialog(data: any): void{
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = {
-      element: data
-    };
-    this.matDialog.open(ChequeDetailComponent,{data: {data: data}});
+  openChequeDialog(type: any, row: any): void {
+    const paymentData = {type, id: row.id};
+    const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        row.payment_realize_date = result.date;
+      }
+    });
   }
 
   downloadReceipt(row: any): void {
