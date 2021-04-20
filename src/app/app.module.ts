@@ -48,6 +48,8 @@ import {ListComponent} from './user/list/list.component';
 import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     CreateUserComponent,
     ListComponent,
     ListTableComponent,
-    ChangePasswordBottomSheetComponent
+    ChangePasswordBottomSheetComponent,
+    ChequeDetailComponent
   ],
   imports: [
     BrowserModule,

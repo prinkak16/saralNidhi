@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as Constant from '../AppConstants';
 import {environment} from '../../environments/environment';
+import {query} from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,10 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
+  getAutofilSearch(query: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/search_records?query=' + query, this.authHttpOptions());
+  }
+
   getYearsSlab(): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_years', this.authHttpOptions());
   }
@@ -97,6 +102,10 @@ export class RestService {
 
   submitForm(data: any): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
+  }
+
+  updateCollectionPayment(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/update_collection_payment', data, this.authHttpOptions());
   }
 
   downloadReceipt(id = ''): any {
