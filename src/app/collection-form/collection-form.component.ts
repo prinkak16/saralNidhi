@@ -23,7 +23,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
-  @ViewChild('ngOtpInput', {static: false}) ngOtpInput: any;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @Input() query: any = null;
@@ -217,7 +216,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   getDonorData(): void {
     this.showProgress = true;
-    this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.name.value, this.testParam, this.testParam).subscribe((response: any) => {
+    this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.name.value,
+      this.testParam, this.testParam).subscribe((response: any) => {
       this.autoFillData = response.data.data as PaymentModel[];
       this.showProgress = false;
     }, (error: string) => {
@@ -301,7 +301,22 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
   }
 
+  checkAndUpdateToUpperCase(panNumber: string): void {
+    let i = 0;
+    while (i <= panNumber.length) {
+      const character: any = panNumber.charAt(i);
+      if (!isNaN(character * 1)) {
+      } else {
+        if (character === character.toLowerCase()) {
+          this.ngOtpInputRef.setValue(panNumber.toUpperCase());
+        }
+      }
+      i++;
+    }
+  }
+
   onPanCardChange(panNumber: string): void {
+    this.checkAndUpdateToUpperCase(panNumber);
     this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: null, pattern: null, nameMismatch: null});
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
@@ -345,9 +360,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   checkLastNameValidation(panNumber: string): boolean {
-    const splitted = this.collectionForm.controls.name.value.split(' ');
-    const value = splitted[splitted.length - 1][0];
+    const value = this.getFifthLetter();
     return value?.toUpperCase() === panNumber[4]?.toUpperCase();
+  }
+
+  getFifthLetter(): any {
+    const category = this.collectionForm.controls.category.value;
+    let splitted = this.collectionForm.controls.name.value.split(' ');
+    let value = '';
+    if (category === 'individual') {
+      if (this.collectionForm.controls.is_proprietorship.value === 'true') {
+        splitted = this.collectionForm.controls.proprietorship_name.value.split(' ');
+      }
+      value = splitted[splitted.length - 1][0];
+    } else {
+      value = splitted[0][0];
+    }
+    return value;
   }
 
   getCategoryTypes(): any {
