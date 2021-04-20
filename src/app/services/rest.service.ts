@@ -149,6 +149,10 @@ export class RestService {
     return this.http.get(this.baseUrl + 'events/get_zilas?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
+  getMandalsForZila(zilaId: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/mandals?zila_id=' + zilaId, this.authHttpOptions());
+  }
+
   getMandalsForState(countryStateId: string): any {
     return this.http.get(this.baseUrl + 'events/get_mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }

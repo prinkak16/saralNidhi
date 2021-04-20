@@ -185,7 +185,8 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>Locality & Near about.</mat-label>
-      <input matInput placeholder="Locality & Near about" formControlName="locality" [required]="isRequiredField('locality')">
+      <input matInput placeholder="Locality & Near about" formControlName="locality"
+             [required]="isRequiredField('locality')">
       <mat-error
         *ngIf="((collectionForm.controls.locality.touched)&& collectionForm.controls.locality.hasError('required'))">
         Locality is required
@@ -363,21 +364,79 @@
     <mat-radio-group formControlName="party_unit" aria-label="party_unit"
                      class="col-md-12 radio-group-container-margin">
       <mat-radio-button value="CountryState">State</mat-radio-button>
+      <mat-radio-button value="Zila">Zila</mat-radio-button>
+      <mat-radio-button value="Mandal">Mandal</mat-radio-button>
     </mat-radio-group>
     <mat-error
       *ngIf="((collectionForm.controls.party_unit.touched)&& collectionForm.controls.party_unit.hasError('required'))">
       Party Unit is required
     </mat-error>
-    <mat-form-field appearance="outline" class="col-md-12">
-      <mat-label>State</mat-label>
-      <mat-select formControlName="location_id" [required]="isRequiredField('location_id')">
-        <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
-      </mat-select>
-      <mat-error
-        *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
-        State is required
-      </mat-error>
-    </mat-form-field>
+    <ng-container *ngIf="collectionForm.controls.party_unit.value === 'CountryState'">
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>State</mat-label>
+        <mat-select formControlName="location_id" [required]="isRequiredField('location_id')">
+          <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+          State is required
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>State</mat-label>
+        <mat-select [formControl]="stateControl" required>
+          <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
+          State is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Zila</mat-label>
+        <mat-select formControlName="location_id" [required]="isRequiredField('location_id')">
+          <mat-option *ngFor="let option of zilaUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+          Zila is required
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Mandal'">
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>State</mat-label>
+        <mat-select [formControl]="stateControl" required>
+          <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
+          State is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Zila</mat-label>
+        <mat-select [formControl]="zilaControl" required>
+          <mat-option *ngFor="let option of zilaUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((zilaControl.touched)&& zilaControl.hasError('required'))">
+          Zila is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-12">
+        <mat-label>Mandal</mat-label>
+        <mat-select formControlName="location_id" [required]="isRequiredField('location_id')">
+          <mat-option *ngFor="let option of mandalUnits" value="{{option.id}}">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+          Mandal is required
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
     <div class="col-md-12 mb-3">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">Submit</button>
     </div>

@@ -45,6 +45,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   collectionForm: FormGroup = new FormGroup({});
   states: any[] = [];
   stateUnits: any[] = [];
+  zilaUnits: any[] = [];
+  mandalUnits: any[] = [];
   paymentModes: PaymentModeModel[] = [];
   validPaymentModes: PaymentModeModel[] = [];
   selectedModeOfPayment: any = {};
@@ -58,6 +60,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
   transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
 
+  stateControl = new FormControl('');
+  zilaControl = new FormControl('');
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
@@ -186,6 +190,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
           this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
         }
       }
+    });
+
+    this.stateControl.valueChanges.subscribe(value => {
+      this.getZilas();
+    });
+
+    this.zilaControl.valueChanges.subscribe(value => {
+      this.getMandals();
     });
   }
 
@@ -332,6 +344,22 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.states = response.data;
       this.stateUnits = this.states.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
       this.states = this.states.filter(({name}) => (name !== 'Mumbai'));
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getZilas(): void {
+    this.restService.getZilasForState(this.stateControl.value).subscribe((response: any) => {
+      this.zilaUnits = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getMandals(): void {
+    this.restService.getMandalsForZila(this.zilaControl.value).subscribe((response: any) => {
+      this.mandalUnits = response.data;
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
