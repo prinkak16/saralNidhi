@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as Constant from '../AppConstants';
 import {environment} from '../../environments/environment';
-import {query} from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +78,7 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
-  getAutofilSearch(query: string): any {
+  getAutofillSearch(query: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/search_records?query=' + query, this.authHttpOptions());
   }
 
@@ -87,9 +86,9 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_years', this.authHttpOptions());
   }
 
-  getPaymentRecords(paymentTypeId: string, query: string, startdate: string, enddate: string): any {
+  getPaymentRecords(paymentTypeId: string, query: string, startDate: string, endDate: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId +
-      '&query=' + query + '&start_date=' + startdate + '&end_date=' + enddate, this.authHttpOptions());
+      '&query=' + query + '&start_date=' + startDate + '&end_date=' + endDate, this.authHttpOptions());
   }
 
   getTotalCount(): any {
