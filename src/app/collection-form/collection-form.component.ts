@@ -14,6 +14,7 @@ import {PaymentModel} from '../models/payment.model';
   templateUrl: './collection-form.component.html',
   styleUrls: ['./collection-form.component.css']
 })
+
 export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder, private restService: RestService,
@@ -67,7 +68,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
       keyword: new FormControl(''),
-      date: new FormControl( [Validators.required]),
+      date: new FormControl(new Date(), [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null, [Validators.required]),
       other_category: new FormControl(null),

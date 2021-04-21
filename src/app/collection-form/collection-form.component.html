@@ -20,7 +20,7 @@
       <mat-label translate>Enter Date</mat-label>
       <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
              [matDatepicker]="picker" (click)="picker.open()" [min]="allowedDate" [max]="today"
-             placeholder="DD / MM / YYYY"
+             placeholder="Enter date"
              formControlName="date" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

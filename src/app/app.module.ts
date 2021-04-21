@@ -49,6 +49,7 @@ import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core'
 
 
 @NgModule({
@@ -105,7 +106,8 @@ import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
     AuthGuard,
     MatDatepickerModule,
     DatePipe,
-    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true},
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   entryComponents: [
     ChangePasswordBottomSheetComponent

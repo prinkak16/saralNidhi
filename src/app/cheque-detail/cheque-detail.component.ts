@@ -28,7 +28,7 @@ export class ChequeDetailComponent implements OnInit {
   ngOnInit(): void {
     this.chequeDetailForm = this.formBuilder.group({
       id: new FormControl(null, [Validators.required]),
-      date: new FormControl( [Validators.required]),
+      date: new FormControl(new Date(), [Validators.required]),
       remark: new FormControl('', [Validators.required])
     });
     this.chequeDetailForm.controls.id.setValue(this.data.id);
