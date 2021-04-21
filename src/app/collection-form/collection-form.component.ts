@@ -43,6 +43,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   };
   showProgress = false;
   testParam = '';
+  testData = 'Hello';
   collectionForm: FormGroup = new FormGroup({});
   states: any[] = [];
   stateUnits: any[] = [];
@@ -58,12 +59,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
   transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
+  amountWord: any;
 
 
   ngOnInit(): void {
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
+      keyword: new FormControl(''),
       date: new FormControl(new Date(), [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null, [Validators.required]),
@@ -216,14 +219,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   getDonorData(): void {
-    this.showProgress = true;
-    this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.name.value, this.testParam, this.testParam).subscribe((response: any) => {
-      this.autoFillData = response.data.data as PaymentModel[];
-      this.showProgress = false;
-    }, (error: string) => {
-      this.showProgress = false;
-      this.messageService.somethingWentWrong(error);
-    });
+    if (this.collectionForm.controls.keyword.value === ''){
+        this.autoFillData = [];
+    }else{
+      this.showProgress = true;
+      this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value, this.testParam, this.testParam).subscribe((response: any) => {
+        this.autoFillData = response.data.data as PaymentModel[];
+        this.showProgress = false;
+      }, (error: string) => {
+        this.showProgress = false;
+        this.messageService.somethingWentWrong(error);
+      });
+    }
+
   }
 
   getModeOfPayments(): void {
@@ -302,7 +310,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   onPanCardChange(panNumber: string): void {
-    this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: null, pattern: null, nameMismatch: null});
+    this.collectionForm.get('pan_card')?.setErrors({ pattern: null, nameMismatch: null});
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
@@ -311,7 +319,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
           this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
         }
       } else {
-        this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
+        // this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
       }
     } else {
       this.collectionForm.get('pan_card')?.setErrors({pattern: true});

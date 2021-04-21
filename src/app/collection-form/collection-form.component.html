@@ -1,14 +1,25 @@
 <div *ngIf="!showLoader" class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm" class="row">
+    <div class="parent position-relative">
+      <div class="search-div">
+        <input type="text" placeholder="Search by / PAN No." class="search-input" formControlName="keyword" (keyup)="getDonorData()"
+        >
+        <mat-icon class="search-icon">search</mat-icon>
+      </div>
+      <div *ngIf="autoFillData" class="search-result">
+        <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
+          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          <br>
+          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
+        </mat-option>
+      </div>
+    </div>
+
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label translate>Enter Date</mat-label>
-      <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
-             [matDatepicker]="picker" (click)="picker.open()" [min]="allowedDate" [max]="today"
-             placeholder="Enter Date"
-             formControlName="date" required>
+      <input matInput [matDatepicker]="picker" formControlName="date" required placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+      <mat-datepicker #picker ></mat-datepicker>
       <mat-error *ngIf="(collectionForm.controls.date.hasError('required'))">
         Date is required
       </mat-error>
@@ -113,19 +124,11 @@
 
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" formControlName="name" required (keyup.enter)="getDonorData()">
-      <mat-spinner *ngIf="showProgress" matSuffix diameter="20"></mat-spinner>
+      <input matInput placeholder="Name" formControlName="name" required >
       <mat-error
         *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
         Name is required
       </mat-error>
-      <div *ngIf="autoFillData">
-        <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
-          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
-          <br>
-          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
-        </mat-option>
-      </div>
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">Category? <sup>*</sup></label>
@@ -215,8 +218,8 @@
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">PAN Card<sup>*</sup></label>
-      <ng-otp-input  #ngOtpInput (onInputChange)="onPanCardChange($event)"
-                     [config]="{length:10, containerClass: 'pan-card-container'}"></ng-otp-input>
+      <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
+                    [config]="{length:10, containerClass: 'pan-card-container', disableAutoFocus: true}"></ng-otp-input>
       <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
         Please enter a valid pan card number
       </mat-error>
@@ -267,14 +270,18 @@
         </mat-form-field>
       </div>
     </ng-container>
-    <mat-form-field appearance="outline" class="col-md-12">
+    <mat-form-field appearance="outline" class="col-md-4">
       <mat-label>Amount (₹) </mat-label>
-      <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
+      <input matInput placeholder="Please enter amount in Rupee" [(ngModel)]="amountWord" formControlName="amount"
              (change)="getValidModeOfPayments($event)" (keypress)="utilsService.validateNumber($event)" required>
       <mat-error
         *ngIf="((collectionForm.controls.amount.touched)&& collectionForm.controls.amount.hasError('required'))">
         Amount is required
       </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-8">
+      <mat-label>Amount in words </mat-label>
+      <input matInput value='{{amountWord | toWords | titlecase}}' readonly>
     </mat-form-field>
 
     <label class="single-label col-md-12">Bank Details</label>
