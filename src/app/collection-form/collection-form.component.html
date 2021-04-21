@@ -1,11 +1,26 @@
 <div *ngIf="!showLoader" class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm" class="row">
+    <div class="parent position-relative">
+      <div class="search-div">
+        <input type="text" placeholder="Search by / PAN No." class="search-input" formControlName="keyword" (keyup)="getDonorData()"
+        >
+        <mat-icon class="search-icon">search</mat-icon>
+      </div>
+      <div *ngIf="autoFillData" class="search-result">
+        <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
+          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          <br>
+          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
+        </mat-option>
+      </div>
+    </div>
+
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label translate>Enter Date</mat-label>
       <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
              [matDatepicker]="picker" (click)="picker.open()" [min]="allowedDate" [max]="today"
-             placeholder="Enter Date"
+             placeholder="Enter date"
              formControlName="date" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -46,7 +61,31 @@
         Date of transaction is required
       </mat-error>
     </mat-form-field>
-
+    <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
+      <label class="single-label col-md-12">Please upload
+        <span *ngIf="['Cheque'].includes(this.selectedModeOfPayment.name)">Cheque</span>
+        <span *ngIf="['Demand Draft'].includes(this.selectedModeOfPayment.name)">Demand Draft</span>
+        Card photo</label>
+      <div class="pan-card-image-upload-container col-md-12">
+          <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+            <ng-container *ngIf="collectionForm.controls.cheque_dd_photo.value;else uploadChequeDDText">
+              <div>
+                <img src="assets/icons/upload_success_icon.svg" alt="cheque dd photo" class="upload-icon"/>
+                Cheque/ Demand Draft card uploaded
+              </div>
+              <img src="assets/icons/eye.svg" alt="View pan card"/>
+            </ng-container>
+            <ng-template #uploadChequeDDText>
+              <div>
+                <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
+                Upload Cheque/ Demand Draft
+              </div>
+            </ng-template>
+            <input type="file" hidden accept="image/png, image/jpeg"
+                   (change)="onFileChange($event, 'cheque_dd_photo')" #fileInputPhoto/>
+          </div>
+      </div>
+    </ng-container>
     <ng-container *ngIf="selectedModeOfPayment.name === 'Cheque'">
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Date of cheque</mat-label>
@@ -113,22 +152,11 @@
 
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" formControlName="name" required (keyup.enter)="getDonorData()">
-      <mat-spinner *ngIf="showProgress" matSuffix diameter="20"></mat-spinner>
+      <input matInput placeholder="Name" formControlName="name" required >
       <mat-error
         *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
         Name is required
       </mat-error>
-      <div *ngIf="autoFillData">
-        <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
-          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span> <span
-          class="ml-4 text-secondary"><b>PAN Card:</b></span> <span
-          class="ml-4 text-secondary">{{option.data.pan_card}}</span>
-          <br>
-          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}
-          , {{option.data.pincode}}</span>
-        </mat-option>
-      </div>
     </mat-form-field>
     <div class="col-md-12">
       <label class="single-label">Category? <sup>*</sup></label>
@@ -231,7 +259,7 @@
       </mat-error>
       <mat-form-field appearance="outline" hidden>
         <mat-label>PAN Card</mat-label>
-        <input matInput placeholder="PAN Card" formControlName="pan_card" maxlength="10" minlength="10" required>
+        <input matInput placeholder="PAN Card" formControlName="pan_card" maxlength="10" minlength="10">
         <mat-error
           *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('required'))">
           PAN Card is required
@@ -270,14 +298,18 @@
         </mat-form-field>
       </div>
     </ng-container>
-    <mat-form-field appearance="outline" class="col-md-12">
+    <mat-form-field appearance="outline" class="col-md-4">
       <mat-label>Amount (₹) </mat-label>
-      <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
+      <input matInput placeholder="Please enter amount in Rupee" [(ngModel)]="amountWord" formControlName="amount"
              (change)="getValidModeOfPayments($event)" (keypress)="utilsService.validateNumber($event)" required>
       <mat-error
         *ngIf="((collectionForm.controls.amount.touched)&& collectionForm.controls.amount.hasError('required'))">
         Amount is required
       </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-8">
+      <mat-label>Amount in words </mat-label>
+      <input matInput value='{{amountWord | toWords | titlecase}}' readonly>
     </mat-form-field>
 
     <label class="single-label col-md-12">Bank Details</label>

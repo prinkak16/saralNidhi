@@ -39,6 +39,7 @@
   padding: 10px;
   border-radius: 5px;
   margin-top: 5px;
+  margin-bottom: 15px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -56,4 +57,31 @@
 ::ng-deep .mat-option{
   padding: 37px!important;
   line-height: 30px!important;
+}
+.search-input{
+  width: 150%;
+  border-radius: 16px;
+  outline: none;
+  padding: 8px 8px 8px 33px;
+  border: 1px solid darkgrey;
+}
+.search-div{
+  position: absolute;
+  top: -5rem;
+  right: -39rem;
+}
+.search-result{
+  position: absolute;
+  left: 19rem;
+  z-index: 9999;
+  background-color: #fff;
+  top: -2rem;
+  box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
+  border-radius: 10px;
+}
+.search-icon{
+  position: absolute;
+  top: 9px;
+  left: 6px;
+  color: rgba(0,0,0,.6);
 }

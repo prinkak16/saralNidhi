@@ -13,9 +13,15 @@
 
           <p><b>Received with thanks from
             <span *ngIf="receipt_data.data.data.category === 'individual' && receipt_data.data.data.is_proprietorship === 'false'">Sh/Smt</span>
-            <span *ngIf="receipt_data.data.data.category === 'individual' && receipt_data.data.data.is_proprietorship === 'true'">M/Ms</span>
+            <span *ngIf="receipt_data.data.data.category === 'huf'
+            || receipt_data.data.data.category === 'partnership'
+            || receipt_data.data.data.category === 'others'
+            || receipt_data.data.data.category === 'trust'
+            || receipt_data.data.data.category === 'corporation'
+            ">M/Ms</span>
           </b> {{receipt_data.data.data.name}}
           </p>
+          <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
           <p><b>Address:</b> {{receipt_data.data.data.house}}, {{receipt_data.data.data.locality}}, <b>District:</b> {{receipt_data.data.data.district}},  <b>State:</b> {{receipt_data.data.data.state}},
              <b>Pincode:</b> {{receipt_data.data.data.pincode}} </p>
           <p><b>Rs:</b> {{receipt_data.data.data.amount | toWords | titlecase}} Rupees Only.</p>
@@ -29,7 +35,6 @@
             <span *ngIf="receipt_data.data.data.utr_number">{{receipt_data.data.data.date || '--------------------'}}</span>
             <b> drawn
               on</b>...........................<b>as donation</b>.</p>
-          <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
           <h2>RS: ₹{{receipt_data.data.data.amount}}</h2>
           <br>
           <h5><b>Donation to the Party are exempt from Income Tax u/s 80GGB for Companies and u/s 80 GGC for Others as
