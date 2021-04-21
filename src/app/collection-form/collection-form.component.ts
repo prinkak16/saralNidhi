@@ -279,7 +279,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.cd.markForCheck();
       }
       if (control === 'cheque_dd_photo') {
-        debugger
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (ev) => {
