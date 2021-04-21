@@ -23,6 +23,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
+  @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @Input() query: any = null;
@@ -58,7 +59,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
   transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
-  amountWord: any;
+  amountWord = '';
 
 
   ngOnInit(): void {
@@ -66,7 +67,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
       keyword: new FormControl(''),
-      date: new FormControl(new Date(), [Validators.required]),
+      date: new FormControl( [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null, [Validators.required]),
       other_category: new FormControl(null),
@@ -79,6 +80,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       state: new FormControl({value: null, disabled: true}, [Validators.required]),
       pan_card: new FormControl(null, [Validators.required, Validators.pattern(this.panCardPattern)]),
       pan_card_photo: new FormControl(null),
+      cheque_dd_photo: new FormControl(null),
       pan_card_remarks: new FormControl(null),
       amount: new FormControl(null, [Validators.required]),
       mode_of_payment: new FormControl(null, [Validators.required]),
@@ -276,6 +278,21 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         };
         this.cd.markForCheck();
       }
+      if (control === 'cheque_dd_photo') {
+        debugger
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (ev) => {
+          console.log('image loaded');
+          const fileReader = ev.target as FileReader;
+          if (this.chequeDdPhoto) {
+            this.chequeDdPhoto.nativeElement.src = fileReader.result;
+          } else {
+            this.collectionForm.controls.cheque_dd_photo.setValue(fileReader.result);
+          }
+        };
+        this.cd.markForCheck();
+      }
       this.uploadCMFile(control);
     }
   }
@@ -332,7 +349,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
           this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
         }
       } else {
-        // this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
+         this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
       }
     } else {
       this.collectionForm.get('pan_card')?.setErrors({pattern: true});
