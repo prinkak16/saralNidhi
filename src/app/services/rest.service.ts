@@ -78,13 +78,8 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
-<<<<<<< HEAD
   viewTransaction(transaction_id: number): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/search_records?transaction_id=' + transaction_id, this.authHttpOptions());
-=======
-  getAutofillSearch(query: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/search_records?query=' + query, this.authHttpOptions());
->>>>>>> 854be580580e1fe61acde9ada0e10bc364987cf1
   }
 
   getYearsSlab(): any {
