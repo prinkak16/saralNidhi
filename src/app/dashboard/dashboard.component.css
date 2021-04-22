@@ -177,7 +177,3 @@
   bottom: 1rem;
   left: 1rem;
 }
-::ng-deep .mat-option{
-  padding: 37px!important;
-  line-height: 30px!important;
-}
