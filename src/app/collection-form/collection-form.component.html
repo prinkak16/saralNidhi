@@ -102,7 +102,7 @@
       </mat-form-field>
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Cheque No.</mat-label>
-        <input matInput placeholder="Cheque Number" formControlName="cheque_number" [pattern]="'[0-9]{6}'"
+        <input matInput placeholder="Cheque Number" formControlName="cheque_number"
                (keypress)="utilsService.validateNumber($event)" maxlength="6" required>
         <mat-error
           *ngIf="((collectionForm.controls.cheque_number.touched)&& collectionForm.controls.cheque_number.hasError('required'))">

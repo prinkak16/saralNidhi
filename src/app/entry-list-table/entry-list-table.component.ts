@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -34,13 +34,11 @@ export class EntryListTableComponent implements OnInit {
   ngOnInit(): void {
     this.getPaymentList();
   }
-
   getPaymentList(): void {
     this.showLoader = true;
     this.restService.getPaymentRecords(this.paymentModeId, this.query, this.startdate.value, this.enddate.value).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
-
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
@@ -60,7 +58,9 @@ export class EntryListTableComponent implements OnInit {
     const paymentData = {type, id: row.id};
     const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result.remark){
+        row.bounce_cheque_remark = result.remark;
+      }else{
         row.payment_realize_date = result.date;
       }
     });
