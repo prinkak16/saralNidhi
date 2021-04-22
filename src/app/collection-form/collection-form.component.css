@@ -54,10 +54,7 @@
   width: 35px;
   height: 35px;
 }
-::ng-deep .mat-option{
-  padding: 37px!important;
-  line-height: 30px!important;
-}
+
 .search-input{
   width: 150%;
   border-radius: 16px;
