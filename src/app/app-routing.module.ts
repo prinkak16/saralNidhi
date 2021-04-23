@@ -40,13 +40,6 @@ const routes: Routes = [
         },
       },
       {
-        path: 'transaction_view/:id',
-        component: CollectionFormComponent,
-        data: {
-          breadcrumb: 'Donor data',
-        },
-      },
-      {
         path: 'users',
         data: {
           breadcrumb: 'Users',
