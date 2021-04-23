@@ -70,7 +70,7 @@
             <mat-icon>edit</mat-icon>
             Edit
           </button>
-          <button mat-raised-button class="ml-4">
+          <button mat-raised-button class="ml-4" [routerLink]="['/dashboard/transaction_view', element.id]">
             <mat-icon>remove_red_eye</mat-icon>
             View
           </button>
@@ -88,7 +88,7 @@
                               (click)="openChequeDialog('bounced' , element)">Bounced
             </mat-radio-button>
             </div>
-            <mat-radio-button value="reserved" *ngIf="!element.payment_remark" (click)="openChequeDialog('reserved', element)">Reversed
+            <mat-radio-button value="reserved"  (click)="openChequeDialog('reserved', element)">Reversed
             </mat-radio-button>
           </div>
         </div>
