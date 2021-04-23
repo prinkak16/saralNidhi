@@ -8,7 +8,7 @@
         <mat-icon class="search-icon">search</mat-icon>
       </div>
       <div *ngIf="autoFillData" class="search-result">
-        <mat-option *ngFor="let option of autoFillData" class="mt-2" (click)="setFormValues(option)">
+        <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setFormValues(option)">
           <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
           <br>
           <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
