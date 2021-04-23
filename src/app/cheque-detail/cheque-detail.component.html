@@ -5,8 +5,8 @@
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
-<mat-form-field class="example-full-width" *ngIf="data.type === 'bounced' ">
-  <mat-label>Remarks *</mat-label>
+<mat-form-field class="example-full-width" *ngIf="data.type === 'bounced' || data.type === 'reserved'">
+  <mat-label>Add Remarks *</mat-label>
   <textarea matInput placeholder="Add remarks.." formControlName="remark"></textarea>
 </mat-form-field>
 <br>

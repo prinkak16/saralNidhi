@@ -70,21 +70,25 @@
             <mat-icon>edit</mat-icon>
             Edit
           </button>
-          <button mat-raised-button class="ml-4">
+          <button mat-raised-button class="ml-4" [routerLink]="['/dashboard/transaction_view', element.id]">
             <mat-icon>remove_red_eye</mat-icon>
             View
           </button>
           <div class="ml-2 mt-2 display-grid">
+            <p *ngIf="element.payment_realize_date">Cheque Realized on: <span>{{element.payment_realize_date | date: 'dd/MM/yyyy'}}</span></p>
+            <p *ngIf="element.payment_remark">Remark: <span>{{element.payment_remark }}</span></p>
             <div
-              *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft' || element.is_realizable"
+              *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'"
               class="display-grid">
-              <mat-radio-button value="realized" (click)="openChequeDialog('realized', element)">Realized
+              <mat-radio-button value="realized" *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">Realized
               </mat-radio-button>
             </div>
-            <mat-radio-button value="bounced" *ngIf="element.mode_of_payment.name === 'Cheque' "
+            <div *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date" class="display-grid">
+            <mat-radio-button value="bounced" *ngIf="!element.payment_remark"
                               (click)="openChequeDialog('bounced' , element)">Bounced
             </mat-radio-button>
-            <mat-radio-button value="reserved" (click)="openChequeDialog('reserved', element)">Reversed
+            </div>
+            <mat-radio-button value="reserved"  (click)="openChequeDialog('reserved', element)">Reversed
             </mat-radio-button>
           </div>
         </div>

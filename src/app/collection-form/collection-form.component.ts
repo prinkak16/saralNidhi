@@ -373,7 +373,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   getDonorData(): void {
     if (this.collectionForm.controls.keyword.value === ''){
-        this.autoFillData = [];
+      this.autoFillData = [];
     }else{
       this.showProgress = true;
       this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value, this.testParam, this.testParam).subscribe((response: any) => {
@@ -464,7 +464,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   submitForm(): void {
     if (this.checkCashLimit()) {
       this.showLoader = true;
-      this.collectionForm.enable();
+      this.collectionForm.controls.state.enable();
+      this.collectionForm.controls.district.enable();
       this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
         this.showLoader = false;
         this.messageService.closableSnackBar(response.message);
@@ -508,7 +509,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
           this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
         }
       } else {
-         this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
+        this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
       }
     } else {
       this.collectionForm.get('pan_card')?.setErrors({pattern: true});
