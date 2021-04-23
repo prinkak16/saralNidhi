@@ -82,3 +82,7 @@
   left: 6px;
   color: rgba(0,0,0,.6);
 }
+.result-option{
+  padding: 37px!important;
+  line-height: 30px!important;
+}
