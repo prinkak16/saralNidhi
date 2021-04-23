@@ -59,7 +59,7 @@ export class EntryListTableComponent implements OnInit {
     const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
       if (result.remark){
-        row.bounce_cheque_remark = result.remark;
+        row.payment_remark = result.remark;
       }else{
         row.payment_realize_date = result.date;
       }

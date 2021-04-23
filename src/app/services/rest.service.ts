@@ -100,7 +100,6 @@ export class RestService {
   }
 
   submitForm(data: any): any {
-    debugger
     return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
 

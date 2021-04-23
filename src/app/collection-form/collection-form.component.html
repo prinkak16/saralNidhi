@@ -67,23 +67,23 @@
         <span *ngIf="['Demand Draft'].includes(this.selectedModeOfPayment.name)">Demand Draft</span>
         Card photo</label>
       <div class="pan-card-image-upload-container col-md-12">
-          <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-            <ng-container *ngIf="collectionForm.controls.cheque_dd_photo.value;else uploadChequeDDText">
-              <div>
-                <img src="assets/icons/upload_success_icon.svg" alt="cheque dd photo" class="upload-icon"/>
-                Cheque/ Demand Draft card uploaded
-              </div>
-              <img src="assets/icons/eye.svg" alt="View pan card"/>
-            </ng-container>
-            <ng-template #uploadChequeDDText>
-              <div>
-                <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
-                Upload Cheque/ Demand Draft
-              </div>
-            </ng-template>
-            <input type="file" hidden accept="image/png, image/jpeg"
-                   (change)="onFileChange($event, 'cheque_dd_photo')" #fileInputPhoto/>
-          </div>
+        <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+          <ng-container *ngIf="collectionForm.controls.cheque_dd_photo.value;else uploadChequeDDText">
+            <div>
+              <img src="assets/icons/upload_success_icon.svg" alt="cheque dd photo" class="upload-icon"/>
+              Cheque/ Demand Draft card uploaded
+            </div>
+            <img src="assets/icons/eye.svg" alt="View pan card"/>
+          </ng-container>
+          <ng-template #uploadChequeDDText>
+            <div>
+              <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
+              Upload Cheque/ Demand Draft
+            </div>
+          </ng-template>
+          <input type="file" hidden accept="image/png, image/jpeg"
+                 (change)="onFileChange($event, 'cheque_dd_photo')" #fileInputPhoto/>
+        </div>
       </div>
     </ng-container>
     <ng-container *ngIf="selectedModeOfPayment.name === 'Cheque'">

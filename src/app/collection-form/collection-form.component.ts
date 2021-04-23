@@ -4,7 +4,7 @@ import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {PaymentModeModel} from '../models/payment-mode.model';
 import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
@@ -18,7 +18,6 @@ import {PaymentModel} from '../models/payment.model';
 export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder, private restService: RestService,
-              private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
               private router: Router) {
@@ -52,7 +51,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   zilaUnits: any[] = [];
   mandalUnits: any[] = [];
   paymentModes: PaymentModeModel[] = [];
-  transactionDetails: any = {};
   validPaymentModes: PaymentModeModel[] = [];
   selectedModeOfPayment: any = {};
   panCardPattern = '[A-Z]{5}[0-9]{4}[A-Z]{1}';
@@ -65,17 +63,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
   transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
   amountWord = '';
-  viewDisable = false;
 
   stateControl = new FormControl('');
   zilaControl = new FormControl('');
 
   ngOnInit(): void {
-    const transactionId = parseInt(this.route.snapshot.params.id);
-    if (transactionId){
-      this.viewDisable = true;
-      this.viewTransaction(transactionId);
-    }
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
@@ -381,7 +373,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   getDonorData(): void {
     if (this.collectionForm.controls.keyword.value === ''){
-        this.autoFillData = [];
+      this.autoFillData = [];
     }else{
       this.showProgress = true;
       this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value, this.testParam, this.testParam).subscribe((response: any) => {
@@ -472,7 +464,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   submitForm(): void {
     if (this.checkCashLimit()) {
       this.showLoader = true;
-      this.collectionForm.enable();
+      this.collectionForm.controls.state.enable();
+      this.collectionForm.controls.district.enable();
       this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
         this.showLoader = false;
         this.messageService.closableSnackBar(response.message);
@@ -516,7 +509,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
           this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
         }
       } else {
-         this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
+        this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
       }
     } else {
       this.collectionForm.get('pan_card')?.setErrors({pattern: true});
@@ -652,7 +645,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   setFormValues(values: any): void {
     this.collectionForm.controls.name.setValue(values.data.name);
     this.collectionForm.controls.category.setValue(values.data.category);
-    this.collectionForm.controls.date.setValue(values.data.date);
     this.collectionForm.controls.is_proprietorship.setValue(values.data.is_proprietorship);
     this.collectionForm.controls.house.setValue(values.data.house);
     this.collectionForm.controls.locality.setValue(values.data.locality);
@@ -675,16 +667,4 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
 
-   viewTransaction(transactionId: number): void {
-    this.showLoader = true;
-    this.restService.viewTransaction(transactionId).subscribe((response: any) => {
-       this.showLoader = false;
-       this.transactionDetails = response.data.data;
-       this.amountWord = this.transactionDetails.data.amount;
-       this.setFormValues(this.transactionDetails);
-     }, (error: string) => {
-       this.showLoader = false;
-       this.messageService.somethingWentWrong(error);
-     });
-  }
 }
