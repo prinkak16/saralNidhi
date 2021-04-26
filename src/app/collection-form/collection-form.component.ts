@@ -198,6 +198,29 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       }
     });
 
+    this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
+        if (value === 'CountryState') {
+          if (this.utilsService.isStateAccountant()) {
+            this.getAllottedStates();
+          }
+        } else if (value === 'Zila') {
+          if (this.utilsService.isStateAccountant()) {
+            this.getAllottedStates();
+          } else if (this.utilsService.isZilaAccountant()) {
+            this.getAllottedZilas();
+          }
+        } else if (value === 'Mandal') {
+          if (this.utilsService.isStateAccountant()) {
+            this.getAllottedStates();
+          } else if (this.utilsService.isZilaAccountant()) {
+            this.getAllottedZilas();
+          } else if (this.utilsService.isMandalAccountant()) {
+            this.getAllottedMandals();
+          }
+        }
+      }
+    );
+
     this.stateControl.valueChanges.subscribe(value => {
       this.getZilas();
     });
@@ -371,12 +394,38 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getAllottedStates(): void {
+    this.restService.getAllottedCountryStates().subscribe((response: any) => {
+      this.stateUnits = response.data;
+      this.stateUnits = this.stateUnits.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getAllottedZilas(): void {
+    this.restService.getAllottedZilas().subscribe((response: any) => {
+      this.zilaUnits = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getAllottedMandals(): void {
+    this.restService.getAllottedMandals().subscribe((response: any) => {
+      this.mandalUnits = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
   getDonorData(): void {
-    if (this.collectionForm.controls.keyword.value === ''){
+    if (this.collectionForm.controls.keyword.value === '') {
       this.autoFillData = [];
-    }else{
+    } else {
       this.showProgress = true;
-      this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value, this.testParam, this.testParam).subscribe((response: any) => {
+      this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value,
+        this.testParam, this.testParam).subscribe((response: any) => {
         this.autoFillData = response.data.data as PaymentModel[];
         this.showProgress = false;
       }, (error: string) => {

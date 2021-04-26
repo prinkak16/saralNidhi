@@ -81,24 +81,28 @@ export class UtilsService {
     }
   }
 
-  public isNationalAccountant(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'national_accountant';
-  }
-
   public isNationalTreasurer(): boolean {
     return localStorage.getItem(Constant.USERROLE) === 'national_treasurer';
   }
 
-  public isStateAccountant(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'state_accountant';
+  public isNationalAccountant(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'national_accountant';
   }
 
   public isStateTreasurer(): boolean {
     return localStorage.getItem(Constant.USERROLE) === 'state_treasurer';
   }
 
-  public isZilaTreasurer(): boolean {
-    return localStorage.getItem(Constant.USERROLE) === 'zila_treasurer';
+  public isStateAccountant(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'state_accountant';
+  }
+
+  public isZilaAccountant(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'zila_accountant';
+  }
+
+  public isMandalAccountant(): boolean {
+    return localStorage.getItem(Constant.USERROLE) === 'mandal_accountant';
   }
 
   checkPermission(permissionName: string, action: string): boolean {
