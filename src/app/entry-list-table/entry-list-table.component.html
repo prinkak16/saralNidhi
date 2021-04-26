@@ -18,7 +18,7 @@
 </div>
 
 <ng-container *ngIf="paymentDetails.length > 0;else emptyList">
-  <mat-table [dataSource]="paymentDetails">
+  <mat-table [dataSource]="paymentDetails" class="entry-list-table">
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
       <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
@@ -66,11 +66,11 @@
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <div>
-          <button mat-raised-button *ngIf="element.is_editable === true">
+          <button mat-raised-button *ngIf="element.is_editable">
             <mat-icon>edit</mat-icon>
             Edit
           </button>
-          <button mat-raised-button class="ml-4" [routerLink]="['/dashboard/transaction_view', element.id]">
+          <button mat-raised-button class="ml-4" [routerLink]="['transaction_view', element.id]">
             <mat-icon>remove_red_eye</mat-icon>
             View
           </button>
