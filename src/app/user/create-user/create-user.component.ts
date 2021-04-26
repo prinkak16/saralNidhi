@@ -97,6 +97,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.userForm.controls.location_type.setValue('CountryState');
         this.userForm.controls.location_ids.setValue(null);
         this.getCountryStates();
+        this.getAppPermissions();
         this.placeholder = 'Select State';
       }
       if (value === 'state_accountant') {

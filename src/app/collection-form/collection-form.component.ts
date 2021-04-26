@@ -199,18 +199,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
-        if (value === 'CountryState') {
-          if (this.utilsService.isStateAccountant()) {
-            this.getAllottedStates();
-          }
-        } else if (value === 'Zila') {
-          if (this.utilsService.isStateAccountant()) {
-            this.getAllottedStates();
-          } else if (this.utilsService.isZilaAccountant()) {
-            this.getAllottedZilas();
-          }
-        } else if (value === 'Mandal') {
-          if (this.utilsService.isStateAccountant()) {
+        if (value) {
+          if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
             this.getAllottedStates();
           } else if (this.utilsService.isZilaAccountant()) {
             this.getAllottedZilas();
