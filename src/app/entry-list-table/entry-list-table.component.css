@@ -7,7 +7,8 @@
 .filter-btn {
   margin-left: 1rem;
 }
-::ng-deep mat-header-cell, mat-cell {
+
+.entry-list-table mat-cell{
   border: 1px solid #e0e0e0;
   color: black !important;
   font-size: 13px !important;
@@ -25,21 +26,15 @@
 .mat-column-category{
   flex: 0 0 150px;
 }
-::ng-deep .mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-   padding-left: 0px;
-}
-::ng-deep .mat-cell:last-of-type, mat-header-cell:last-of-type, mat-footer-cell:last-of-type {
-  padding-right: 0px;
-}
 
-::ng-deep mat-row, mat-header-row, mat-footer-row {
+.entry-list-table mat-row, mat-header-row, mat-footer-row {
   border: 1px solid #e0e0e0;
 }
-::ng-deep .mat-row, mat-header-row, mat-footer-row {
+.entry-list-table .mat-row, mat-header-row, mat-footer-row {
   align-items: unset!important;
 }
 
-::ng-deep mat-row {
+.entry-list-table mat-row {
   border-width: 1px !important;
   border-top-width: 0 !important;
 }
