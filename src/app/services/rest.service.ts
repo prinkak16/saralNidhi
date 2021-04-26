@@ -78,9 +78,6 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_mop', this.authHttpOptions());
   }
 
-  getAutofillSearch(query: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/search_records?query=' + query, this.authHttpOptions());
-  }
 
   getYearsSlab(): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_years', this.authHttpOptions());
@@ -95,9 +92,6 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/total_count', this.authHttpOptions());
   }
 
-  getCollectionData(data: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/search_records?query=' + data, this.authHttpOptions());
-  }
 
   submitForm(data: any): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
