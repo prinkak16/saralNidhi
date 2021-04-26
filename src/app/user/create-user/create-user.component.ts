@@ -71,7 +71,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
 
   getUserDetails(): void {
     // @ts-ignore
-    this.restService.getTreasurerDetails(this.userId).subscribe(reply => {
+    this.restService.getAccountantDetails(this.userId).subscribe(reply => {
       console.log(reply);
       const response = reply as any;
       this.userForm.controls.id.setValue(response.data.id);
@@ -79,7 +79,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       this.userForm.controls.phone_no.setValue(response.data.phone);
       this.userForm.controls.email.setValue(response.data.email);
       this.userForm.controls.role.setValue(response.data.role);
-      this.userForm.controls.location_ids.setValue([response.data.location]);
+      this.userForm.controls.location_ids.setValue(response.data.location);
       this.userForm.controls.password.clearValidators();
       this.userForm.controls.password.updateValueAndValidity();
       this.userForm.controls.permission_ids.setValue(response.data.permissions);
@@ -93,20 +93,21 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   onFormChange(): void {
     this.userForm.controls.role.valueChanges.subscribe(value => {
       this.showLocation = true;
-      if (value === 'national_treasurer') {
+      if (value === 'national_accountant') {
         this.userForm.controls.location_type.setValue('CountryState');
         this.userForm.controls.location_ids.setValue(null);
         this.getCountryStates();
+        this.getAppPermissions();
         this.placeholder = 'Select State';
       }
-      if (value === 'state_treasurer') {
+      if (value === 'state_accountant') {
         this.userForm.controls.location_type.setValue('CountryState');
         this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
         this.locations = this.userStates;
         this.placeholder = 'Select State';
       }
-      if (value === 'zila_treasurer') {
+      if (value === 'zila_accountant') {
         this.userForm.controls.location_type.setValue('Zila');
         this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
@@ -114,7 +115,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.getZilas(this.userStates[0].id);
         this.placeholder = 'Select Zila';
       }
-      if (value === 'mandal_treasurer') {
+      if (value === 'mandal_accountant') {
         this.userForm.controls.location_type.setValue('Mandal');
         this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
@@ -156,7 +157,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   }
 
   getAppPermissions(): void {
-    this.restService.appPermissions().subscribe((reply: any) => {
+    this.restService.appPermissions(this.userForm.controls.role.value).subscribe((reply: any) => {
       const response = reply as any;
       this.permissions = response.data;
     }, (error: any) => {

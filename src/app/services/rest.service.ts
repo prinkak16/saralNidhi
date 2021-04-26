@@ -123,12 +123,12 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
-  getTreasurerDetails(userId: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/treasurer_details?id=' + userId, this.authHttpOptions());
+  getAccountantDetails(userId: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/accountant_details?id=' + userId, this.authHttpOptions());
   }
 
-  appPermissions(): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/user_permissions', this.authHttpOptions());
+  appPermissions(role: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/user_permissions?role=' + role, this.authHttpOptions());
   }
 
   submitUserForm(data: any): any {
@@ -145,6 +145,14 @@ export class RestService {
 
   getMandalsForZila(zilaId: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/mandals?zila_id=' + zilaId, this.authHttpOptions());
+  }
+
+  getAllottedZilas(): any {
+    return this.http.get(this.baseUrl + 'data/get_allotted_zilas', this.authHttpOptions());
+  }
+
+  getAllottedMandals(): any {
+    return this.http.get(this.baseUrl + 'data/get_allotted_mandals', this.authHttpOptions());
   }
 
   getMandalsForState(countryStateId: string): any {

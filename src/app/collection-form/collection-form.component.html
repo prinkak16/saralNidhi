@@ -3,15 +3,19 @@
   <form [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
-        <input type="text" placeholder="Search by / PAN No." class="search-input" formControlName="keyword" (keyup)="getDonorData()"
+        <input type="text" placeholder="Search by / PAN No." class="search-input" formControlName="keyword"
+               (keyup)="getDonorData()"
         >
         <mat-icon class="search-icon">search</mat-icon>
       </div>
       <div *ngIf="autoFillData" class="search-result">
         <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setFormValues(option)">
-          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span>  <span class="ml-4 text-secondary"><b>PAN Card:</b></span> <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span> <span
+          class="ml-4 text-secondary"><b>PAN Card:</b></span> <span
+          class="ml-4 text-secondary">{{option.data.pan_card}}</span>
           <br>
-          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}, {{option.data.pincode}}</span>
+          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}
+          , {{option.data.pincode}}</span>
         </mat-option>
       </div>
     </div>
@@ -409,9 +413,11 @@
     <mat-radio-group formControlName="party_unit" aria-label="party_unit"
 
                      class="col-md-12 radio-group-container-margin">
-      <mat-radio-button value="CountryState">State</mat-radio-button>
-      <mat-radio-button value="Zila">Zila</mat-radio-button>
-      <mat-radio-button value="Mandal">Mandal</mat-radio-button>
+      <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState">State
+      </mat-radio-button>
+      <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Zila')" value="Zila">Zila</mat-radio-button>
+      <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Mandal')" value="Mandal">Mandal
+      </mat-radio-button>
     </mat-radio-group>
     <mat-error
       *ngIf="((collectionForm.controls.party_unit.touched)&& collectionForm.controls.party_unit.hasError('required'))">
@@ -430,7 +436,7 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
-      <mat-form-field appearance="outline" class="col-md-12">
+      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()" appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
           <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
@@ -452,7 +458,7 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Mandal'">
-      <mat-form-field appearance="outline" class="col-md-12">
+      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()" appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
           <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
@@ -462,7 +468,8 @@
           State is required
         </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="col-md-12">
+      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant() || utilsService.isZilaAccountant()" appearance="outline"
+                      class="col-md-12">
         <mat-label>Zila</mat-label>
         <mat-select [formControl]="zilaControl" required>
           <mat-option *ngFor="let option of zilaUnits" value="{{option.id}}">{{option.name}}</mat-option>

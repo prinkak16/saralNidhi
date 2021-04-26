@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="actions-container">
-    <div class="action-div pointer" *ngIf="utilsService.isStateAccountant()" [routerLink]="['/dashboard/users']">
+    <div class="action-div pointer" *ngIf="utilsService.isStateTreasurer() || utilsService.isNationalTreasurer()" [routerLink]="['/dashboard/users']">
       <img src="assets/icons/required_action.svg" alt="Other action required">
       <div class="action-text">User Management</div>
     </div>

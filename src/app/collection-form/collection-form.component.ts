@@ -239,6 +239,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       }
     });
 
+    this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
+        if (value) {
+          if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
+            this.getAllottedStates();
+          } else if (this.utilsService.isZilaAccountant()) {
+            this.getAllottedZilas();
+          } else if (this.utilsService.isMandalAccountant()) {
+            this.getAllottedMandals();
+          }
+        }
+      }
+    );
+
     this.stateControl.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
         this.getZilas();
@@ -408,6 +421,31 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   getMandals(): void {
     this.restService.getMandalsForZila(this.zilaControl.value).subscribe((response: any) => {
+      this.mandalUnits = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getAllottedStates(): void {
+    this.restService.getAllottedCountryStates().subscribe((response: any) => {
+      this.stateUnits = response.data;
+      this.stateUnits = this.stateUnits.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getAllottedZilas(): void {
+    this.restService.getAllottedZilas().subscribe((response: any) => {
+      this.zilaUnits = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  getAllottedMandals(): void {
+    this.restService.getAllottedMandals().subscribe((response: any) => {
       this.mandalUnits = response.data;
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
