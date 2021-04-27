@@ -175,7 +175,10 @@ export class RestService {
     return this.http.get(this.baseUrl + 'zila_manager/activate_deactivate?id=' + id, this.authHttpOptions());
   }
 
-  viewTransaction(transactionId: number): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/search_records?transaction_id=' + transactionId, this.authHttpOptions());
+  getTransaction(transactionId: number): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_transaction?transaction_id=' + transactionId, this.authHttpOptions());
+  }
+  updateTransaction(data: any): any{
+    return this.http.post(this.apiUrl + 'nidhi_collection/update_transaction', data,  this.authHttpOptions());
   }
 }

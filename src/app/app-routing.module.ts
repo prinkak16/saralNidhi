@@ -46,6 +46,36 @@ const routes: Routes = [
       },
 
       {
+        path: 'list',
+        data: {
+          breadcrumb: 'Donation List',
+        },
+        children: [
+          {
+            path: '',
+            component: EntryListComponent,
+          },
+          {
+            path: 'transaction_edit/:id',
+            component: CollectionFormComponent,
+            data: {
+              breadcrumb: 'Edit'
+            },
+
+            children: [
+              {
+                path: '',
+                component: CollectionFormComponent,
+                data: {
+                  breadcrumb: 'Edit'
+                },
+              },
+            ]
+          },
+        ]
+      },
+
+      {
         path: 'indian_donation_form',
         component: CollectionFormComponent,
         data: {

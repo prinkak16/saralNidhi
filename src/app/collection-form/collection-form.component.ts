@@ -19,6 +19,7 @@ import {ToWords} from 'to-words';
 
 export class CollectionFormComponent implements OnInit, AfterViewInit {
   transactionId: any;
+  actionParam: any;
 
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private route: ActivatedRoute,
@@ -88,6 +89,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.transactionId = params.id;
       }
     });
+    this.actionParam = this.route.snapshot.data.breadcrumb;
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
@@ -743,7 +745,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   getTransaction(transactionId: number): void {
     this.showLoader = true;
-    this.restService.viewTransaction(transactionId).subscribe((response: any) => {
+    this.restService.getTransaction(transactionId).subscribe((response: any) => {
       this.showLoader = false;
       this.transactionDetails = response.data.data;
       this.setTransactioDetailsValues(this.transactionDetails);
@@ -779,13 +781,33 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.party_unit.setValue(Transaction.data.party_unit);
     this.collectionForm.controls.amount.setValue(Transaction.data.amount);
     this.collectionForm.controls.pan_card.setValue(Transaction.pan_card);
+    this.collectionForm.controls.location_id.setValue(Transaction.data.location_id);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef) {
         this.ngOtpInputRef.setValue(Transaction.pan_card);
       }
     }, 2000);
-    this.allowedValueNull = false;
-    this.collectionForm.disable();
+    if (this.actionParam === 'Edit'){
+      this.allowedValueNull = false;
+      this.collectionForm.enable();
+    } else{
+      this.allowedValueNull = false;
+      this.collectionForm.disable();
+    }
+  }
+
+  updateTransaction(transactionId: number): void {
+    this.showLoader = true;
+    this.collectionForm.controls.id.setValue(transactionId);
+    this.restService.updateTransaction(this.collectionForm.value).subscribe((response: any) => {
+      this.showLoader = false;
+      this.messageService.closableSnackBar(response.message);
+      this.router.navigate(['dashboard/list'],
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+    }, (error: any) => {
+      this.showLoader = false;
+      this.messageService.somethingWentWrong(error.error.message);
+    });
   }
 
   isRequiredField(field: string): boolean {
