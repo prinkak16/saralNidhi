@@ -89,7 +89,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.transactionId = params.id;
       }
     });
-    this.actionParam = this.route.snapshot.data.breadcrumb;
+
+    this.route.data.subscribe(data => {
+      if (data) {
+        this.actionParam = data.breadcrumb;
+      }
+    });
+
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
@@ -755,41 +761,40 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
   }
 
-  setTransactioDetailsValues(Transaction: any): void {
-    this.collectionForm.controls.date.setValue(Transaction.data.date);
-    this.collectionForm.controls.mode_of_payment.setValue(Transaction.mode_of_payment.id.toString());
-    this.collectionForm.controls.date_of_cheque.setValue(Transaction.data.date_of_cheque);
-    this.collectionForm.controls.date_of_transaction.setValue(Transaction.data.date_of_transaction);
-    this.collectionForm.controls.cheque_number.setValue(Transaction.data.cheque_number);
-    this.collectionForm.controls.utr_number.setValue(Transaction.data.utr_number);
-    this.collectionForm.controls.name.setValue(Transaction.data.name);
-    this.collectionForm.controls.category.setValue(Transaction.data.category);
-    this.collectionForm.controls.is_proprietorship.setValue(Transaction.data.is_proprietorship);
-    this.collectionForm.controls.house.setValue(Transaction.data.house);
-    this.collectionForm.controls.locality.setValue(Transaction.data.locality);
-    this.collectionForm.controls.pincode.setValue(Transaction.data.pincode);
-    this.collectionForm.controls.district.setValue(Transaction.data.district);
-    this.collectionForm.controls.state.setValue(Transaction.data.state);
-    this.collectionForm.controls.account_number.setValue(Transaction.data.account_number);
-    this.collectionForm.controls.ifsc_code.setValue(Transaction.data.ifsc_code);
-    this.collectionForm.controls.bank_name.setValue(Transaction.data.bank_name);
-    this.collectionForm.controls.branch_name.setValue(Transaction.data.branch_name);
-    this.collectionForm.controls.branch_address.setValue(Transaction.data.branch_address);
-    this.collectionForm.controls.nature_of_donation.setValue(Transaction.data.nature_of_donation);
-    this.collectionForm.controls.collector_name.setValue(Transaction.data.collector_name);
-    this.collectionForm.controls.collector_phone.setValue(Transaction.data.collector_phone);
-    this.collectionForm.controls.party_unit.setValue(Transaction.data.party_unit);
-    this.collectionForm.controls.amount.setValue(Transaction.data.amount);
-    this.collectionForm.controls.pan_card.setValue(Transaction.pan_card);
-    this.collectionForm.controls.location_id.setValue(Transaction.data.location_id);
+  setTransactioDetailsValues(transaction: any): void {
+    this.collectionForm.controls.date.setValue(transaction.data.date);
+    this.collectionForm.controls.mode_of_payment.setValue(transaction.mode_of_payment.id.toString());
+    this.collectionForm.controls.date_of_cheque.setValue(transaction.data.date_of_cheque);
+    this.collectionForm.controls.date_of_transaction.setValue(transaction.data.date_of_transaction);
+    this.collectionForm.controls.cheque_number.setValue(transaction.data.cheque_number);
+    this.collectionForm.controls.utr_number.setValue(transaction.data.utr_number);
+    this.collectionForm.controls.name.setValue(transaction.data.name);
+    this.collectionForm.controls.category.setValue(transaction.data.category);
+    this.collectionForm.controls.is_proprietorship.setValue(transaction.data.is_proprietorship);
+    this.collectionForm.controls.house.setValue(transaction.data.house);
+    this.collectionForm.controls.locality.setValue(transaction.data.locality);
+    this.collectionForm.controls.pincode.setValue(transaction.data.pincode);
+    this.collectionForm.controls.district.setValue(transaction.data.district);
+    this.collectionForm.controls.state.setValue(transaction.data.state);
+    this.collectionForm.controls.account_number.setValue(transaction.data.account_number);
+    this.collectionForm.controls.ifsc_code.setValue(transaction.data.ifsc_code);
+    this.collectionForm.controls.bank_name.setValue(transaction.data.bank_name);
+    this.collectionForm.controls.branch_name.setValue(transaction.data.branch_name);
+    this.collectionForm.controls.branch_address.setValue(transaction.data.branch_address);
+    this.collectionForm.controls.nature_of_donation.setValue(transaction.data.nature_of_donation);
+    this.collectionForm.controls.collector_name.setValue(transaction.data.collector_name);
+    this.collectionForm.controls.collector_phone.setValue(transaction.data.collector_phone);
+    this.collectionForm.controls.party_unit.setValue(transaction.data.party_unit);
+    this.collectionForm.controls.amount.setValue(transaction.data.amount);
+    this.collectionForm.controls.pan_card.setValue(transaction.pan_card);
+    this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef) {
-        this.ngOtpInputRef.setValue(Transaction.pan_card);
+        this.ngOtpInputRef.setValue(transaction.pan_card);
       }
     }, 2000);
     if (this.actionParam === 'Edit'){
       this.allowedValueNull = false;
-      this.collectionForm.enable();
     } else{
       this.allowedValueNull = false;
       this.collectionForm.disable();

@@ -57,7 +57,6 @@ const routes: Routes = [
           },
           {
             path: 'transaction_edit/:id',
-            component: CollectionFormComponent,
             data: {
               breadcrumb: 'Edit'
             },
