@@ -17,7 +17,8 @@ import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
 })
 export class EntryListTableComponent implements OnInit {
 
-  constructor(private restService: RestService, private matDialog: MatDialog, private activatedRoute: ActivatedRoute, private messageService: MessageService,
+  constructor(private restService: RestService, private matDialog: MatDialog,
+              private activatedRoute: ActivatedRoute, private messageService: MessageService,
               public utilService: UtilsService) {
   }
 
@@ -34,9 +35,11 @@ export class EntryListTableComponent implements OnInit {
   ngOnInit(): void {
     this.getPaymentList();
   }
+
   getPaymentList(): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords(this.paymentModeId, this.query, this.startdate.value, this.enddate.value).subscribe((response: any) => {
+    this.restService.getPaymentRecords(this.paymentModeId, this.query,
+      this.startdate.value, this.enddate.value).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
     }, (error: string) => {
@@ -58,9 +61,9 @@ export class EntryListTableComponent implements OnInit {
     const paymentData = {type, id: row.id};
     const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
-      if (result.remark){
+      if (result.remark) {
         row.payment_remark = result.remark;
-      }else{
+      } else {
         row.payment_realize_date = result.date;
       }
     });
@@ -76,5 +79,21 @@ export class EntryListTableComponent implements OnInit {
     }, (error: any) => {
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  allowedEdit(createdDate: string): boolean {
+    const dateOfCreation = new Date(createdDate);
+    const today = new Date();
+    if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+      const allowedDate = new Date(new Date().setDate(today.getDate() - 15));
+      return dateOfCreation.getTime() >= allowedDate.getTime();
+    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      const allowedDate = new Date(new Date().setDate(today.getDate() - 30));
+      return dateOfCreation.getTime() >= allowedDate.getTime();
+    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      return true;
+    } else {
+      return true;
+    }
   }
 }
