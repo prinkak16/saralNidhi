@@ -76,7 +76,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
-  transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 10));
+  transactionAllowedDate = new Date();
   numberToWord = '';
   stateControl = new FormControl('');
   zilaControl = new FormControl('');
@@ -168,6 +168,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
     this.collectionForm.controls.mode_of_payment.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
+        this.updateDateOfTransaction();
         this.removeAllValidations();
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
@@ -400,6 +401,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
     this.collectionForm.controls.state.setValidators(Validators.required);
     this.collectionForm.controls.state.updateValueAndValidity();
+  }
+
+  updateDateOfTransaction(): void {
+    if (this.utilsService.checkPermission('DateOfTransaction', '15 Days')) {
+      this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 15));
+    } else if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
+      this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
+    } else {
+      this.transactionAllowedDate = new Date();
+    }
   }
 
   getStates(): void {
