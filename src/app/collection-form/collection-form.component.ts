@@ -9,6 +9,7 @@ import {PaymentModeModel} from '../models/payment-mode.model';
 import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
+import * as Constant from '../AppConstants';
 
 
 @Component({
@@ -356,7 +357,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.date_of_cheque.setValidators(Validators.required);
     this.collectionForm.controls.date_of_cheque.updateValueAndValidity();
 
-    this.collectionForm.controls.cheque_number.setValidators(Validators.required);
+    this.collectionForm.controls.cheque_number.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
 
     this.setBankDetailsValidations();
@@ -547,6 +548,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   submitForm(): void {
+    if (Constant.NOT_ALLOWED_CHEQUE_NUMBERS.includes(this.collectionForm.controls.cheque_number.value)) {
+      return this.messageService.closableSnackBar('Cheque number with all same digit is not allowed');
+    }
     if (this.checkCashLimit()) {
       this.showLoader = true;
       this.collectionForm.controls.state.enable();
