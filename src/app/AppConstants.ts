@@ -24,7 +24,7 @@ export const IMAGE_UPLOAD_LIMIT = 30;
 export const MANDAL_MANAGER_STATES = ['Himachal Pradesh'];
 export const SYSTEM_LANGUAGE = 'systemLanguage';
 
-export const NOT_ALLOWED_PHONE_NUMBERS = ['9999999999', '8888888888', '7777777777', '6666666666'];
+export const NOT_ALLOWED_CHEQUE_NUMBERS = ['999999', '888888', '777777', '666666', '555555', '444444', '333333', '222222', '111111'];
 
 // callingConstants
 export const STATUS_EMPTY = '';
