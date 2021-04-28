@@ -86,3 +86,18 @@
   padding: 37px!important;
   line-height: 30px!important;
 }
+.bank-details{
+  position: absolute;
+  margin-top: 1rem;
+  left: -12px;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
+  width: 100%;
+  z-index: 99;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.bank-details p{
+  margin: 0;
+}
