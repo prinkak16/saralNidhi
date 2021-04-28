@@ -113,7 +113,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       pincode: new FormControl(null),
       district: new FormControl({value: null, disabled: true}),
       state: new FormControl({value: null, disabled: true}),
-      pan_card: new FormControl(null, [Validators.pattern(this.panCardPattern)]),
+      pan_card: new FormControl(null),
       pan_card_photo: new FormControl(null),
       cheque_dd_photo: new FormControl(null),
       pan_card_remarks: new FormControl(null),
@@ -851,7 +851,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     if (!formField.validator) {
       return false;
     }
-
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }

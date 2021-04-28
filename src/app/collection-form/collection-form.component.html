@@ -294,7 +294,9 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <ng-container *ngIf="collectionForm.controls.pan_card.invalid">
+    <ng-container *ngIf="collectionForm.controls.pan_card.hasError('pattern') ||
+     collectionForm.controls.pan_card.hasError('categoryMismatch') ||
+     collectionForm.controls.pan_card.hasError('nameMismatch')">
       <label class="single-label col-md-12">Please upload Pan Card photo <sup *ngIf="isRequiredField('pan_card_photo')">*</sup></label>
       <div class="pan-card-image-upload-container col-md-12">
         <div>
