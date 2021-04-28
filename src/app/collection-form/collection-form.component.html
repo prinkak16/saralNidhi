@@ -347,11 +347,17 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>IFSC Code</mat-label>
-      <input matInput placeholder="IFSC code" formControlName="ifsc_code" [required]="isRequiredField('ifsc_code')">
+      <input matInput placeholder="IFSC code" oninput="this.value = this.value.toUpperCase()"  formControlName="ifsc_code" [required]="isRequiredField('ifsc_code')">
       <mat-error
         *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
         Please enter correct ifsc code
       </mat-error>
+      <div class="position-relative" *ngIf="bankDetails.BANK">
+        <div class="bank-details" (click)="setBankDetails(bankDetails)">
+          <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
+          <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
+        </div>
+      </div>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>Bank Name</mat-label>

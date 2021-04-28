@@ -74,6 +74,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
   yearsSlab: any = [];
+  bankDetails: any = [];
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
@@ -163,6 +164,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
           this.collectionForm.controls.proprietorship_name.clearValidators();
         }
         this.collectionForm.controls.proprietorship_name.updateValueAndValidity();
+      }
+    });
+
+    this.collectionForm.controls.ifsc_code.valueChanges.subscribe( value => {
+      if (this.collectionForm.controls.ifsc_code.valid){
+        this.restService.getBankDetails(value).subscribe((response: any) => {
+          this.bankDetails = response;
+        }, (error: any) => {
+          this.showLoader = false;
+          this.messageService.somethingWentWrong(error.error.message);
+        });
+      } else {
+        this.bankDetails = [];
       }
     });
 
@@ -775,6 +789,20 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.messageService.somethingWentWrong(error);
     });
   }
+  disablePaymentMode(): void{
+    this.collectionForm.controls.mode_of_payment.disable();
+    this.collectionForm.controls.date_of_transaction.disable();
+    this.collectionForm.controls.date_of_cheque.disable();
+    this.collectionForm.controls.cheque_number.disable();
+    this.collectionForm.controls.utr_number.disable();
+  }
+  enablePaymentMode(): void{
+    this.collectionForm.controls.mode_of_payment.enable();
+    this.collectionForm.controls.date_of_transaction.enable();
+    this.collectionForm.controls.date_of_cheque.enable();
+    this.collectionForm.controls.cheque_number.enable();
+    this.collectionForm.controls.utr_number.enable();
+  }
 
   setTransactioDetailsValues(transaction: any): void {
     this.collectionForm.controls.date.setValue(transaction.data.date);
@@ -810,6 +838,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     }, 2000);
     if (this.actionParam === 'Edit'){
       this.allowedValueNull = false;
+      this.disablePaymentMode();
     } else{
       this.allowedValueNull = false;
       this.collectionForm.disable();
@@ -818,8 +847,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   updateTransaction(transactionId: number): void {
     this.showLoader = true;
+    this.enablePaymentMode();
     this.collectionForm.controls.id.setValue(transactionId);
-    this.restService.updateTransaction(this.collectionForm.value).subscribe((response: any) => {
+    this.restService.updateTransaction({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
@@ -829,7 +859,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.messageService.somethingWentWrong(error.error.message);
     });
   }
-
   isRequiredField(field: string): boolean {
     const formField = this.collectionForm.get(field) as FormControl;
     if (!formField.validator) {
@@ -840,4 +869,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     return (validator && validator.required);
   }
 
+  setBankDetails(bankDetails: any): void {
+    if (bankDetails){
+      this.collectionForm.controls.bank_name.setValue(bankDetails.BANK);
+      this.collectionForm.controls.branch_name.setValue(bankDetails.BRANCH);
+      this.collectionForm.controls.branch_address.setValue(bankDetails.ADDRESS);
+      this.bankDetails = [];
+    }
+  }
 }
