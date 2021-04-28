@@ -167,19 +167,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.collectionForm.controls.ifsc_code.valueChanges.subscribe( value => {
-      if (this.collectionForm.controls.ifsc_code.valid){
-        this.restService.getBankDetails(value).subscribe((response: any) => {
-          this.bankDetails = response;
-        }, (error: any) => {
-          this.showLoader = false;
-          this.messageService.somethingWentWrong(error.error.message);
-        });
-      } else {
-        this.bankDetails = [];
-      }
-    });
-
     this.collectionForm.controls.amount.valueChanges.subscribe(value => {
       if (value) {
         this.amountWord.setValue(this.toWords.convert(value));
@@ -867,6 +854,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
+  }
+  getBankDetails(value: string): void {
+    if (this.collectionForm.controls.ifsc_code.valid){
+      this.restService.getBankDetails(value).subscribe((response: any) => {
+        this.bankDetails = response;
+      }, (error: any) => {
+        this.showLoader = false;
+        this.messageService.somethingWentWrong(error.error.message);
+      });
+    } else {
+      this.bankDetails = [];
+    }
   }
 
   setBankDetails(bankDetails: any): void {
