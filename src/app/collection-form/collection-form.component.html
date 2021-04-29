@@ -161,7 +161,82 @@
         UTR number is required
       </mat-error>
     </mat-form-field>
-
+    <div *ngIf="actionParam === 'Edit' ">
+      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name) && allowedEdit(transactionDetails.data.date)">
+        <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Account No.</mat-label>
+          <input matInput placeholder="Account number" formControlName="account_number"
+                 [required]="isRequiredField('account_number')">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>IFSC Code</mat-label>
+          <input matInput placeholder="IFSC code" oninput="this.value = this.value.toUpperCase()"  (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code" [required]="isRequiredField('ifsc_code')">
+          <mat-error
+            *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
+            Please enter correct ifsc code
+          </mat-error>
+          <div class="position-relative" *ngIf="bankDetails.BANK">
+            <div class="bank-details" (click)="setBankDetails(bankDetails)">
+              <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
+              <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
+            </div>
+          </div>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Bank Name</mat-label>
+          <input matInput placeholder="Bank name" formControlName="bank_name" [required]="isRequiredField('bank_name')">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Branch Name</mat-label>
+          <input matInput placeholder="Branch name" formControlName="branch_name"
+                 [required]="isRequiredField('branch_name')">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Branch Address</mat-label>
+          <input matInput placeholder="Branch address" formControlName="branch_address"
+                 [required]="isRequiredField('branch_address')">
+        </mat-form-field>
+      </ng-container>
+    </div>
+    <div *ngIf="actionParam === 'Indian Donation Form' ">
+      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name)">
+        <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Account No.</mat-label>
+          <input matInput placeholder="Account number" formControlName="account_number"
+                 [required]="isRequiredField('account_number')">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>IFSC Code</mat-label>
+          <input matInput placeholder="IFSC code" oninput="this.value = this.value.toUpperCase()"  (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code" [required]="isRequiredField('ifsc_code')">
+          <mat-error
+            *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
+            Please enter correct ifsc code
+          </mat-error>
+          <div class="position-relative" *ngIf="bankDetails.BANK">
+            <div class="bank-details" (click)="setBankDetails(bankDetails)">
+              <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
+              <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
+            </div>
+          </div>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Bank Name</mat-label>
+          <input matInput placeholder="Bank name" formControlName="bank_name" [required]="isRequiredField('bank_name')">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Branch Name</mat-label>
+          <input matInput placeholder="Branch name" formControlName="branch_name"
+                 [required]="isRequiredField('branch_name')">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Branch Address</mat-label>
+          <input matInput placeholder="Branch address" formControlName="branch_address"
+                 [required]="isRequiredField('branch_address')">
+        </mat-form-field>
+      </ng-container>
+    </div>
     <mat-form-field appearance="outline" class="col-md-12">
       <mat-label>Name</mat-label>
       <input [required]="isRequiredField('name')" formControlName="name" matInput
@@ -341,40 +416,6 @@
       <input matInput placeholder="Amount in word" [formControl]="amountWord">
     </mat-form-field>
 
-    <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
-    <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>Account No.</mat-label>
-      <input matInput placeholder="Account number" formControlName="account_number"
-             [required]="isRequiredField('account_number')">
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>IFSC Code</mat-label>
-      <input matInput placeholder="IFSC code" oninput="this.value = this.value.toUpperCase()"  (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code" [required]="isRequiredField('ifsc_code')">
-      <mat-error
-        *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
-        Please enter correct ifsc code
-      </mat-error>
-      <div class="position-relative" *ngIf="bankDetails.BANK">
-        <div class="bank-details" (click)="setBankDetails(bankDetails)">
-          <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
-          <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
-        </div>
-      </div>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>Bank Name</mat-label>
-      <input matInput placeholder="Bank name" formControlName="bank_name" [required]="isRequiredField('bank_name')">
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>Branch Name</mat-label>
-      <input matInput placeholder="Branch name" formControlName="branch_name"
-             [required]="isRequiredField('branch_name')">
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="col-md-12">
-      <mat-label>Branch Address</mat-label>
-      <input matInput placeholder="Branch address" formControlName="branch_address"
-             [required]="isRequiredField('branch_address')">
-    </mat-form-field>
     <label class="single-label col-md-12">Person responsible for collecting donation <sup
       *ngIf="isRequiredField('collector_name')">*</sup></label>
     <mat-form-field appearance="outline" class="col-md-6">

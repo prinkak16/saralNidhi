@@ -65,32 +65,54 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <div>
-          <button mat-raised-button *ngIf="element.is_editable && allowedEdit(element.data.date)" [routerLink]="['transaction_edit', element.id]">
-            <mat-icon>edit</mat-icon>
-            Edit
+        <div class="col-md-4">
+          <mat-icon *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">info</mat-icon>
+          <mat-icon *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">info</mat-icon>
+        </div>
+        <div class="col-md-4" *ngIf="
+        utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') ||
+        utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')
+">
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
+        </div>
+        <div class="col-md-4" *ngIf="
+        utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')">
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="Please donor and bank details.">access_time</mat-icon>
+        </div>
+
+        <div class="col-md-4">
+          <!-- Three dot dropdown-->
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-raised-button class="ml-4" [routerLink]="['transaction_view', element.id]">
-            <mat-icon>remove_red_eye</mat-icon>
-            View
-          </button>
-          <div class="ml-2 mt-2 display-grid">
-            <p *ngIf="element.payment_realize_date">Cheque Realized on: <span>{{element.payment_realize_date | date: 'dd/MM/yyyy'}}</span></p>
-            <p *ngIf="element.payment_remark">Remark: <span>{{element.payment_remark }}</span></p>
-            <div
-              *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'"
-              class="display-grid">
-              <mat-radio-button value="realized" *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">Realized
-              </mat-radio-button>
-            </div>
-            <div *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date" class="display-grid">
-            <mat-radio-button value="bounced" *ngIf="!element.payment_remark"
-                              (click)="openChequeDialog('bounced' , element)">Bounced
-            </mat-radio-button>
-            </div>
-            <mat-radio-button value="reserved"  (click)="openChequeDialog('reserved', element)">Reversed
-            </mat-radio-button>
-          </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)" [routerLink]="['transaction_edit', element.id]">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item [routerLink]="['transaction_view', element.id]">
+              <mat-icon>remove_red_eye</mat-icon>
+              <span>View</span>
+            </button>
+            <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
+            <button mat-menu-item  *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">
+              <mat-icon>date_range</mat-icon>
+              <span>Realized</span>
+            </button>
+              </span>
+            <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
+            <button mat-menu-item  *ngIf="!element.payment_remark"
+                    (click)="openChequeDialog('bounced' , element)">
+              <mat-icon>note_add</mat-icon>
+              <span>Bounced</span>
+            </button>
+              </span>
+            <button mat-menu-item (click)="openChequeDialog('reserved', element)">
+              <mat-icon>refresh</mat-icon>
+              <span>Reversed</span>
+            </button>
+          </mat-menu>
+          <!-- Three dot dropdown-->
         </div>
       </mat-cell>
     </ng-container>

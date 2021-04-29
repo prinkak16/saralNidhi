@@ -26,6 +26,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
+              public utilService: UtilsService,
               private router: Router) {
   }
 
@@ -82,7 +83,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   numberToWord = '';
   stateControl = new FormControl('');
   zilaControl = new FormControl('');
-
   amountWord = new FormControl('');
 
   ngOnInit(): void {
@@ -379,19 +379,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   setBankDetailsValidations(): void {
-    this.collectionForm.controls.account_number.setValidators(Validators.required);
+    this.collectionForm.controls.account_number.setValidators(null);
     this.collectionForm.controls.account_number.updateValueAndValidity();
 
-    this.collectionForm.controls.ifsc_code.setValidators([Validators.required, Validators.pattern(this.ifscPattern)]);
+    this.collectionForm.controls.ifsc_code.setValidators([Validators.pattern(this.ifscPattern)]);
     this.collectionForm.controls.ifsc_code.updateValueAndValidity();
 
-    this.collectionForm.controls.bank_name.setValidators(Validators.required);
+    this.collectionForm.controls.bank_name.setValidators(null);
     this.collectionForm.controls.bank_name.updateValueAndValidity();
 
-    this.collectionForm.controls.branch_name.setValidators(Validators.required);
+    this.collectionForm.controls.branch_name.setValidators(null);
     this.collectionForm.controls.branch_name.updateValueAndValidity();
 
-    this.collectionForm.controls.branch_address.setValidators(Validators.required);
+    this.collectionForm.controls.branch_address.setValidators(null);
     this.collectionForm.controls.branch_address.updateValueAndValidity();
   }
 
@@ -819,7 +819,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.pan_card.setValue(transaction.pan_card);
     this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     setTimeout((_: any) => {
-      if (this.ngOtpInputRef) {
+      if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
       }
     }, 2000);
@@ -835,6 +835,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   updateTransaction(transactionId: number): void {
     this.showLoader = true;
     this.enablePaymentMode();
+    this.collectionForm.controls.state.enable();
+    this.collectionForm.controls.district.enable();
     this.collectionForm.controls.id.setValue(transactionId);
     this.restService.updateTransaction({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
@@ -855,6 +857,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     return (validator && validator.required);
   }
   getBankDetails(value: string): void {
+    this.setBankDetailsValidations();
     if (this.collectionForm.controls.ifsc_code.valid){
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
@@ -873,6 +876,21 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.collectionForm.controls.branch_name.setValue(bankDetails.BRANCH);
       this.collectionForm.controls.branch_address.setValue(bankDetails.ADDRESS);
       this.bankDetails = [];
+    }
+  }
+  allowedEdit(createdDate: string): boolean {
+    const dateOfCreation = new Date(createdDate);
+    const today = new Date();
+    if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+      const allowedDate = new Date(new Date().setDate(today.getDate() - 15));
+      return dateOfCreation.getTime() >= allowedDate.getTime();
+    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      const allowedDate = new Date(new Date().setDate(today.getDate() - 30));
+      return dateOfCreation.getTime() >= allowedDate.getTime();
+    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
