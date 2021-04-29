@@ -180,7 +180,7 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_transaction?transaction_id=' + transactionId, this.authHttpOptions());
   }
   updateTransaction(data: any): any{
-    return this.http.post(this.apiUrl + 'nidhi_collection/update_transaction', data,  this.authHttpOptions());
+    return this.http.post(this.apiUrl + 'nidhi_collection/add', data,  this.authHttpOptions());
   }
   getBankDetails(ifscCode: string): any{
     return this.http.get(this.ifscUrl + ifscCode);
