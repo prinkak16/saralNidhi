@@ -4,11 +4,11 @@
       <mat-form-field appearance="outline">
         <input matInput placeholder="Name / Pan / Phone " (keyup.enter)="getPaymentList()" [(ngModel)]="query">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="ml-2">
+      <mat-form-field appearance="outline" class="ml-4">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
+        <mat-date-range-input [rangePicker]="picker" >
           <input matStartDate placeholder="Start date" [formControl]="startdate">
-          <input matEndDate placeholder="End date" [formControl]="enddate" (dateChange)="getPaymentList()">
+          <input matEndDate placeholder="End date" [formControl]="enddate"  (dateChange)="getTransactionByDate()">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -66,14 +66,21 @@
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <div class="col-md-4">
-          <mat-icon *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">info</mat-icon>
-          <mat-icon *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">info</mat-icon>
+          <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+          <span class="badge info-badge badge-warning" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
         <div class="col-md-4" *ngIf="
         utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') ||
         utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')
 ">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
+          <span *ngIf="
+                   element.mode_of_payment.name === 'IMPS'
+                  || element.mode_of_payment.name === 'NEFT'
+                  || element.mode_of_payment.name === 'RTGS'
+                  || element.mode_of_payment.name === 'UPI'
+           ">
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null " matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
+        </span>
         </div>
         <div class="col-md-4" *ngIf="
         utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')">

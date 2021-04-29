@@ -44,19 +44,10 @@ margin-top: -3rem;
 .mat-raised-button{
   padding: 0!important;
 }
-.menu-items{
-  user-select: none;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  padding: 0 16px;
-  text-align: left;
-  text-decoration: none;
-  max-width: 100%;
-  position: relative;
+.info-badge{
+  width: 55%;
+  height: 23px;
+  line-height: 17px;
+  border-radius: 16px;
+  font-size: 16px;
 }

@@ -37,6 +37,12 @@ export class EntryListTableComponent implements OnInit {
     this.getPaymentList();
   }
 
+  getTransactionByDate(): void {
+    if (this.startdate.value && this.enddate.value){
+      this.getPaymentList();
+    }
+  }
+
   getPaymentList(): void {
     this.showLoader = true;
     this.restService.getPaymentRecords(this.paymentModeId, this.query,
