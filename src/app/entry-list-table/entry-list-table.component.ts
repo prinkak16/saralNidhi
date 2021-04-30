@@ -93,12 +93,14 @@ export class EntryListTableComponent implements OnInit {
     const today = new Date();
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
       const allowedDate = new Date(new Date().setDate(today.getDate() - 15));
-      const differenceInTime = today.getTime() - allowedDate.getTime();
+      const allowDays = new Date(new Date().setDate(dateOfCreation.getDate() + 15));
+      const differenceInTime = allowDays.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       return dateOfCreation.getTime() >= allowedDate.getTime();
     } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
       const allowedDate = new Date(new Date().setDate(today.getDate() - 30));
-      const differenceInTime = today.getTime() - allowedDate.getTime();
+      const allowDays = new Date(new Date().setDate(dateOfCreation.getDate() + 30));
+      const differenceInTime = allowDays.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       return dateOfCreation.getTime() >= allowedDate.getTime();
     } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
