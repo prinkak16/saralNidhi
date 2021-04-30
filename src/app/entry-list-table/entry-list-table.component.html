@@ -67,7 +67,7 @@
       <mat-cell *matCellDef="let element">
         <div class="col-md-4">
           <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
-          <span class="badge info-badge badge-warning" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
+          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
         <div class="col-md-4" *ngIf="
         utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') ||
