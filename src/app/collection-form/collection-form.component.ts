@@ -878,15 +878,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.bankDetails = [];
     }
   }
-  allowedEdit(createdDate: string): boolean {
+  allowBankDetailEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
-      const allowedDate = new Date(new Date().setDate(today.getDate() - 15));
-      return dateOfCreation.getTime() >= allowedDate.getTime();
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      return today.getTime() <= dateOfCreation.getTime();
     } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
-      const allowedDate = new Date(new Date().setDate(today.getDate() - 30));
-      return dateOfCreation.getTime() >= allowedDate.getTime();
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      return today.getTime() <= dateOfCreation.getTime();
     } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
       return true;
     } else {

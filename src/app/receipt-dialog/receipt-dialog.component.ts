@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import {RestService} from '../services/rest.service';
 class UsersData {
 }
 
@@ -16,12 +16,22 @@ export class ReceiptDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ReceiptDialogComponent>,
+    private restService: RestService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData) {
-    console.log(data);
     this.receipt_data = {...data};
   }
-
+  financialYear: any = [];
   ngOnInit(): void {
+    this.getFinancialYears();
+  }
+  getFinancialYears(): void {
+    this.restService.getYearsSlab().subscribe((response: any) => {
+      const yearsSlab = response.data;
+      this.financialYear = yearsSlab.find((f: any) => {
+        return f.id === this.receipt_data.data.financial_year_id;
+      });
+    }, (error: string) => {
+    });
   }
   print(): void {
     window.print();

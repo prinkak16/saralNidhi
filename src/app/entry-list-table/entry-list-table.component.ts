@@ -91,21 +91,31 @@ export class EntryListTableComponent implements OnInit {
   allowedEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
+
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
-      const allowedDate = new Date(new Date().setDate(today.getDate() - 15));
-      const allowDays = new Date(new Date().setDate(dateOfCreation.getDate() + 15));
-      const differenceInTime = allowDays.getTime() - today.getTime();
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      return dateOfCreation.getTime() >= allowedDate.getTime();
+      return today.getTime() <= dateOfCreation.getTime();
     } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
-      const allowedDate = new Date(new Date().setDate(today.getDate() - 30));
-      const allowDays = new Date(new Date().setDate(dateOfCreation.getDate() + 30));
-      const differenceInTime = allowDays.getTime() - today.getTime();
+      dateOfCreation.setDate(dateOfCreation.getDate() + 30);
+      const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      return dateOfCreation.getTime() >= allowedDate.getTime();
+      return today.getTime() <= dateOfCreation.getTime();
     } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  allowPrint(date: string): boolean {
+    const dateOfCreation = new Date(date);
+    const today = new Date();
+    const allowDate = new Date(new Date().setDate(dateOfCreation.getDate() + 7));
+    if (today.getTime() >= allowDate.getTime()){
+      return true;
+    } else{
       return false;
     }
   }

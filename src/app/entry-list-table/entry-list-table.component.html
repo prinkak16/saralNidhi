@@ -127,16 +127,17 @@
     <ng-container matColumnDef="receipt-print">
       <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon (click)="openDialog(element)"
-                  *ngIf="element.payment_realize_date
+        <span *ngIf="element.payment_realize_date
                   || element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
-                  "
+                  ">
+        <mat-icon (click)="openDialog(element)" *ngIf="allowPrint(element.data.date)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
+          </span>
       </mat-cell>
     </ng-container>
 

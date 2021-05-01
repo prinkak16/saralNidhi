@@ -9,7 +9,7 @@
         <img src="assets/images/bjp_logo_new.png" class="bjp-new-logo">
         <div class="mt-4">
           <p class="float-right"><b>Date: </b> {{receipt_data.data.data.date | date: 'dd/MM/yyyy'}}</p>
-          <p><b>No: </b>{{receipt_data.data.data.date | date:'yyy'}}-22/{{receipt_data.data.mode_of_payment.name[0] | titlecase}}/{{receipt_data.data.id}}</p>
+          <p><b>No: </b>{{financialYear.slab}}/{{receipt_data.data.state_code}}/{{receipt_data.data.id}}</p>
 
           <p><b>Received with thanks from
             <span *ngIf="receipt_data.data.data.category === 'individual' && receipt_data.data.data.is_proprietorship === 'false'">Sh/Smt</span>

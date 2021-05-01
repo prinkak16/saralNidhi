@@ -162,12 +162,11 @@
       </mat-error>
     </mat-form-field>
     <div *ngIf="actionParam === 'Edit' ">
-      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name) && allowedEdit(transactionDetails.data.date)">
+      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.date)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
-          <input matInput placeholder="Account number" formControlName="account_number"
-                 [required]="isRequiredField('account_number')">
+          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="9" >
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>IFSC Code</mat-label>
@@ -204,7 +203,7 @@
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
-          <input matInput placeholder="Account number" formControlName="account_number"
+          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="9"
                  [required]="isRequiredField('account_number')">
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-md-6">
