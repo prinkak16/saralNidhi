@@ -112,11 +112,7 @@ export class EntryListTableComponent implements OnInit {
   allowPrint(date: string): boolean {
     const dateOfCreation = new Date(date);
     const today = new Date();
-    const allowDate = new Date(new Date().setDate(dateOfCreation.getDate() + 7));
-    if (today.getTime() >= allowDate.getTime()){
-      return true;
-    } else{
-      return false;
-    }
+    dateOfCreation.setDate(dateOfCreation.getDate() + 7);
+    return today.getTime() >= dateOfCreation.getTime();
   }
 }
