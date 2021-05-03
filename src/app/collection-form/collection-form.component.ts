@@ -144,6 +144,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.safeFocus(this.focusDate);
+    if (this.transactionId && this.transactionDetails) {
+      setTimeout((_: any) => {
+        this.collectionForm.controls.party_unit.setValue(this.transactionDetails.data.location_type);
+      }, 1000);
+    }
   }
 
   disableKeyPress(event: any): boolean {
@@ -367,7 +372,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
     this.collectionForm.controls.cheque_number.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
-
 
 
   }
@@ -756,8 +760,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.showLoader = true;
     this.restService.getTransaction(transactionId).subscribe((response: any) => {
       this.showLoader = false;
-      this.transactionDetails = response.data.data;
-      this.setTransactioDetailsValues(this.transactionDetails);
+      this.transactionDetails = response.data;
+      this.setTransactioDetailsValues(this.transactionDetails.data);
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
@@ -801,10 +805,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.nature_of_donation.setValue(transaction.data.nature_of_donation);
     this.collectionForm.controls.collector_name.setValue(transaction.data.collector_name);
     this.collectionForm.controls.collector_phone.setValue(transaction.data.collector_phone);
-    this.collectionForm.controls.party_unit.setValue(transaction.data.party_unit);
     this.collectionForm.controls.amount.setValue(transaction.data.amount);
     this.collectionForm.controls.pan_card.setValue(transaction.pan_card);
-    this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    this.collectionForm.controls.party_unit.setValue(transaction.location_type);
+    if (transaction.location_type === 'CountryState') {
+      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    } else if (transaction.location_type === 'Zila') {
+      this.stateControl.setValue(this.transactionDetails.country_state_id.toString());
+      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    } else if (transaction.location_type === 'Mandal') {
+      this.stateControl.setValue(this.transactionDetails.country_state_id.toString());
+      this.zilaControl.setValue(this.transactionDetails.zila_id.toString());
+      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    }
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -835,6 +848,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.messageService.somethingWentWrong(error.error.message);
     });
   }
+
   isRequiredField(field: string): boolean {
     const formField = this.collectionForm.get(field) as FormControl;
     if (!formField.validator) {
