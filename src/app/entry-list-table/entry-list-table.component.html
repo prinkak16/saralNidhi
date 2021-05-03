@@ -4,11 +4,11 @@
       <mat-form-field appearance="outline">
         <input matInput placeholder="Name / Pan / Phone " (keyup.enter)="getPaymentList()" [(ngModel)]="query">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="ml-2">
+      <mat-form-field appearance="outline" class="ml-4">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
+        <mat-date-range-input [rangePicker]="picker" >
           <input matStartDate placeholder="Start date" [formControl]="startdate">
-          <input matEndDate placeholder="End date" [formControl]="enddate" (dateChange)="getPaymentList()">
+          <input matEndDate placeholder="End date" [formControl]="enddate"  (dateChange)="getTransactionByDate()">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -65,32 +65,61 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <div>
-          <button mat-raised-button *ngIf="element.is_editable && allowedEdit(element.data.date)" [routerLink]="['transaction_edit', element.id]">
-            <mat-icon>edit</mat-icon>
-            Edit
+        <div class="col-md-4">
+          <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
+        </div>
+        <div class="col-md-4" *ngIf="
+        utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') ||
+        utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')
+">
+          <span *ngIf="
+                   element.mode_of_payment.name === 'IMPS'
+                  || element.mode_of_payment.name === 'NEFT'
+                  || element.mode_of_payment.name === 'RTGS'
+                  || element.mode_of_payment.name === 'UPI'
+           ">
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null " matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
+        </span>
+        </div>
+        <div class="col-md-4" *ngIf="
+        utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')">
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="Please donor and bank details.">access_time</mat-icon>
+        </div>
+
+        <div class="col-md-4">
+          <!-- Three dot dropdown-->
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-raised-button class="ml-4" [routerLink]="['transaction_view', element.id]">
-            <mat-icon>remove_red_eye</mat-icon>
-            View
-          </button>
-          <div class="ml-2 mt-2 display-grid">
-            <p *ngIf="element.payment_realize_date">Cheque Realized on: <span>{{element.payment_realize_date | date: 'dd/MM/yyyy'}}</span></p>
-            <p *ngIf="element.payment_remark">Remark: <span>{{element.payment_remark }}</span></p>
-            <div
-              *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'"
-              class="display-grid">
-              <mat-radio-button value="realized" *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">Realized
-              </mat-radio-button>
-            </div>
-            <div *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date" class="display-grid">
-            <mat-radio-button value="bounced" *ngIf="!element.payment_remark"
-                              (click)="openChequeDialog('bounced' , element)">Bounced
-            </mat-radio-button>
-            </div>
-            <mat-radio-button value="reserved"  (click)="openChequeDialog('reserved', element)">Reversed
-            </mat-radio-button>
-          </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)" [routerLink]="['transaction_edit', element.id]">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item [routerLink]="['transaction_view', element.id]">
+              <mat-icon>remove_red_eye</mat-icon>
+              <span>View</span>
+            </button>
+            <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
+            <button mat-menu-item  *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">
+              <mat-icon>date_range</mat-icon>
+              <span>Realized</span>
+            </button>
+              </span>
+            <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
+            <button mat-menu-item  *ngIf="!element.payment_remark"
+                    (click)="openChequeDialog('bounced' , element)">
+              <mat-icon>note_add</mat-icon>
+              <span>Bounced</span>
+            </button>
+              </span>
+            <button mat-menu-item (click)="openChequeDialog('reserved', element)">
+              <mat-icon>refresh</mat-icon>
+              <span>Reversed</span>
+            </button>
+          </mat-menu>
+          <!-- Three dot dropdown-->
         </div>
       </mat-cell>
     </ng-container>
@@ -98,16 +127,17 @@
     <ng-container matColumnDef="receipt-print">
       <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon (click)="openDialog(element)"
-                  *ngIf="element.payment_realize_date
+        <span *ngIf="element.payment_realize_date
                   || element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
-                  "
+                  ">
+        <mat-icon (click)="openDialog(element)" *ngIf="allowPrint(element.data.date)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
+          </span>
       </mat-cell>
     </ng-container>
 

@@ -41,6 +41,13 @@
 .date-filter{
 margin-top: -3rem;
 }
-.display-grid{
-  display: grid;
+.mat-raised-button{
+  padding: 0!important;
+}
+.info-badge{
+  width: 55%;
+  height: 23px;
+  line-height: 17px;
+  border-radius: 16px;
+  font-size: 16px;
 }

@@ -82,7 +82,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   numberToWord = '';
   stateControl = new FormControl('');
   zilaControl = new FormControl('');
-
   amountWord = new FormControl('');
 
   ngOnInit(): void {
@@ -358,7 +357,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.draft_number.setValidators(Validators.required);
     this.collectionForm.controls.draft_number.updateValueAndValidity();
 
-    this.setBankDetailsValidations();
   }
 
   setChequeValidations(): void {
@@ -370,7 +368,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.cheque_number.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
 
-    this.setBankDetailsValidations();
+
+
   }
 
   setCategoryValidation(): void {
@@ -378,21 +377,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.category.updateValueAndValidity();
   }
 
-  setBankDetailsValidations(): void {
-    this.collectionForm.controls.account_number.setValidators(Validators.required);
-    this.collectionForm.controls.account_number.updateValueAndValidity();
-
-    this.collectionForm.controls.ifsc_code.setValidators([Validators.required, Validators.pattern(this.ifscPattern)]);
+  setIfscValidation(): void {
+    this.collectionForm.controls.ifsc_code.setValidators([Validators.pattern(this.ifscPattern)]);
     this.collectionForm.controls.ifsc_code.updateValueAndValidity();
-
-    this.collectionForm.controls.bank_name.setValidators(Validators.required);
-    this.collectionForm.controls.bank_name.updateValueAndValidity();
-
-    this.collectionForm.controls.branch_name.setValidators(Validators.required);
-    this.collectionForm.controls.branch_name.updateValueAndValidity();
-
-    this.collectionForm.controls.branch_address.setValidators(Validators.required);
-    this.collectionForm.controls.branch_address.updateValueAndValidity();
   }
 
   setAddressValidations(): void {
@@ -819,7 +806,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.pan_card.setValue(transaction.pan_card);
     this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     setTimeout((_: any) => {
-      if (this.ngOtpInputRef) {
+      if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
       }
     }, 2000);
@@ -835,6 +822,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   updateTransaction(transactionId: number): void {
     this.showLoader = true;
     this.enablePaymentMode();
+    this.collectionForm.controls.state.enable();
+    this.collectionForm.controls.district.enable();
     this.collectionForm.controls.id.setValue(transactionId);
     this.restService.updateTransaction({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
@@ -855,6 +844,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     return (validator && validator.required);
   }
   getBankDetails(value: string): void {
+    this.setIfscValidation();
     if (this.collectionForm.controls.ifsc_code.valid){
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
@@ -873,6 +863,21 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.collectionForm.controls.branch_name.setValue(bankDetails.BRANCH);
       this.collectionForm.controls.branch_address.setValue(bankDetails.ADDRESS);
       this.bankDetails = [];
+    }
+  }
+  allowBankDetailEdit(createdDate: string): boolean {
+    const dateOfCreation = new Date(createdDate);
+    const today = new Date();
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      return today.getTime() <= dateOfCreation.getTime();
+    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      return today.getTime() <= dateOfCreation.getTime();
+    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
