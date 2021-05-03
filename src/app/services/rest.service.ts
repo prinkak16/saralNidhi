@@ -145,7 +145,7 @@ export class RestService {
   }
 
   getMandalsForZila(zilaId: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/mandals?zila_id=' + zilaId, this.authHttpOptions());
+    return this.http.get(this.apiUrl + 'nidhi_collection/zila_mandals?zila_id=' + zilaId, this.authHttpOptions());
   }
 
   getAllottedZilas(): any {
