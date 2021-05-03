@@ -155,10 +155,14 @@
     <mat-form-field appearance="outline" class="col-md-6"
                     *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name)">
       <mat-label>Enter UTR No</mat-label>
-      <input matInput placeholder="UTR number" formControlName="utr_number" [required]="isRequiredField('utr_number')">
+      <input matInput placeholder="UTR number" formControlName="utr_number" pattern="^[A-Za-z0-9]+$" maxlength="22" [required]="isRequiredField('utr_number')">
       <mat-error
         *ngIf="((collectionForm.controls.utr_number.touched)&& collectionForm.controls.utr_number.hasError('required'))">
         UTR number is required
+      </mat-error>
+      <mat-error
+        *ngIf="((collectionForm.controls.utr_number.touched)&& collectionForm.controls.utr_number.hasError('pattern'))">
+        UTR number is invalid
       </mat-error>
     </mat-form-field>
     <div *ngIf="actionParam === 'Edit' ">
@@ -166,7 +170,7 @@
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
-          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="9" >
+          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="7" >
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>IFSC Code</mat-label>
@@ -203,7 +207,7 @@
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
-          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="9"
+          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="7"
                  [required]="isRequiredField('account_number')">
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-md-6">
