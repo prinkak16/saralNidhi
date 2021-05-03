@@ -26,7 +26,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
-              public utilService: UtilsService,
               private router: Router) {
   }
 
@@ -358,7 +357,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.draft_number.setValidators(Validators.required);
     this.collectionForm.controls.draft_number.updateValueAndValidity();
 
-    this.setBankDetailsValidations();
   }
 
   setChequeValidations(): void {
@@ -370,7 +368,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.cheque_number.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
 
-    this.setBankDetailsValidations();
+
+
   }
 
   setCategoryValidation(): void {
@@ -378,21 +377,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.category.updateValueAndValidity();
   }
 
-  setBankDetailsValidations(): void {
-    this.collectionForm.controls.account_number.setValidators(null);
-    this.collectionForm.controls.account_number.updateValueAndValidity();
-
+  setIfscValidation(): void {
     this.collectionForm.controls.ifsc_code.setValidators([Validators.pattern(this.ifscPattern)]);
     this.collectionForm.controls.ifsc_code.updateValueAndValidity();
-
-    this.collectionForm.controls.bank_name.setValidators(null);
-    this.collectionForm.controls.bank_name.updateValueAndValidity();
-
-    this.collectionForm.controls.branch_name.setValidators(null);
-    this.collectionForm.controls.branch_name.updateValueAndValidity();
-
-    this.collectionForm.controls.branch_address.setValidators(null);
-    this.collectionForm.controls.branch_address.updateValueAndValidity();
   }
 
   setAddressValidations(): void {
@@ -857,7 +844,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     return (validator && validator.required);
   }
   getBankDetails(value: string): void {
-    this.setBankDetailsValidations();
+    this.setIfscValidation();
     if (this.collectionForm.controls.ifsc_code.valid){
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
@@ -881,13 +868,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   allowBankDetailEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
-    if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
       return true;
     } else {
       return false;
