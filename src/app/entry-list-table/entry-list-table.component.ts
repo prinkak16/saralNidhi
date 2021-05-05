@@ -28,7 +28,7 @@ export class EntryListTableComponent implements OnInit {
   showLoader = false;
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
-    'mode_of_payment', 'pan_card', 'action', 'receipt-print'];
+    'mode_of_payment', 'pan_card', 'party_unit', 'location_type', 'action', 'receipt-print'];
 
   private dialog: any;
   startdate = new FormControl('');
