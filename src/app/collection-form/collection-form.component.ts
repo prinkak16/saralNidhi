@@ -37,6 +37,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   showLoader = false;
   autoFillData: any;
   allowedValueNull = true;
+  transactionTypes = [{name: 'Regular', value: 'regular'}, {name: 'Supplementary', value: 'supplementary'}];
 
   toWords = new ToWords({
     localeCode: 'en-IN',
@@ -99,6 +100,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
+      transaction_type: new FormControl('regular', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       keyword: new FormControl(''),
       date: new FormControl(new Date(), [Validators.required]),
@@ -273,6 +275,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.getMandals();
       }
     });
+
+    this.collectionForm.controls.transaction_type.valueChanges.subscribe(value => {
+      if (this.allowedValueNull) {
+        if (value === 'supplementary') {
+          this.allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 2));
+        } else {
+          this.allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
+        }
+      }
+    });
   }
 
   removeAllValidations(): void {
@@ -367,7 +379,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
     this.collectionForm.controls.cheque_number.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
-
 
 
   }
@@ -763,14 +774,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.messageService.somethingWentWrong(error);
     });
   }
-  disablePaymentMode(): void{
+
+  disablePaymentMode(): void {
     this.collectionForm.controls.mode_of_payment.disable();
     this.collectionForm.controls.date_of_transaction.disable();
     this.collectionForm.controls.date_of_cheque.disable();
     this.collectionForm.controls.cheque_number.disable();
     this.collectionForm.controls.utr_number.disable();
   }
-  enablePaymentMode(): void{
+
+  enablePaymentMode(): void {
     this.collectionForm.controls.mode_of_payment.enable();
     this.collectionForm.controls.date_of_transaction.enable();
     this.collectionForm.controls.date_of_cheque.enable();
@@ -810,10 +823,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.ngOtpInputRef.setValue(transaction.pan_card);
       }
     }, 2000);
-    if (this.actionParam === 'Edit'){
+    if (this.actionParam === 'Edit') {
       this.allowedValueNull = false;
       this.disablePaymentMode();
-    } else{
+    } else {
       this.allowedValueNull = false;
       this.collectionForm.disable();
     }
@@ -835,6 +848,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.messageService.somethingWentWrong(error.error.message);
     });
   }
+
   isRequiredField(field: string): boolean {
     const formField = this.collectionForm.get(field) as FormControl;
     if (!formField.validator) {
@@ -843,9 +857,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }
+
   getBankDetails(value: string): void {
     this.setIfscValidation();
-    if (this.collectionForm.controls.ifsc_code.valid){
+    if (this.collectionForm.controls.ifsc_code.valid) {
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
       }, (error: any) => {
@@ -858,13 +873,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   }
 
   setBankDetails(bankDetails: any): void {
-    if (bankDetails){
+    if (bankDetails) {
       this.collectionForm.controls.bank_name.setValue(bankDetails.BANK);
       this.collectionForm.controls.branch_name.setValue(bankDetails.BRANCH);
       this.collectionForm.controls.branch_address.setValue(bankDetails.ADDRESS);
       this.bankDetails = [];
     }
   }
+
   allowBankDetailEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
