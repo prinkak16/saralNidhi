@@ -36,9 +36,8 @@ export class EntryListTableComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()){
-      this.displayedColumns.splice(0, 9);
-      this.displayedColumns.push('sno', 'date', 'name', 'category', 'amount',
-        'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print');
+      this.displayedColumns =  ['sno', 'date', 'name', 'category', 'amount',
+        'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.getPaymentList();
   }
