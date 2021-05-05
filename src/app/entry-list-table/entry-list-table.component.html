@@ -60,8 +60,25 @@
       <mat-header-cell *matHeaderCellDef> Pan Card No.</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.data.pan_card}} </mat-cell>
     </ng-container>
-
     <!-- Pan Card No. Column -->
+    <!--State-->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state_name}} </mat-cell>
+    </ng-container>
+    <!--State -->
+    <!--Party Unit-->
+    <ng-container matColumnDef="party_unit">
+      <mat-header-cell *matHeaderCellDef> Party Unit</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.location_type}} </mat-cell>
+    </ng-container>
+    <!--Party Unit-->
+    <!--Location-->
+    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef> Location</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.location_name}} </mat-cell>
+    </ng-container>
+    <!--Location-->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
