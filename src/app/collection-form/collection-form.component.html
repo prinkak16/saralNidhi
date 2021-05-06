@@ -562,7 +562,7 @@
     </div>
     <div class="col-md-12 mb-3" *ngIf="actionParam === 'Edit'">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="warn"
-              (click)="updateTransaction(transactionDetails.id)">Update
+              (click)="updateTransaction(transactionDetails.data.id)">Update
       </button>
     </div>
   </form>
