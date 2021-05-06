@@ -89,7 +89,7 @@
     <mat-form-field class="col-md-6" appearance="outline">
       <mat-label>Donor email</mat-label>
       <input matInput type="email" placeholder="Email Address" formControlName="donor_email"
-             required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+             pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
       <mat-error class="modal-error" *ngIf="collectionForm.controls['donor_email'].hasError('required')">Email is required
       </mat-error>
       <mat-error class="modal-error" *ngIf="collectionForm.controls['donor_email'].hasError('pattern')">Enter a valid email
