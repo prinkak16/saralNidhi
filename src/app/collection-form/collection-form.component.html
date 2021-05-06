@@ -72,6 +72,30 @@
         Date of transaction is required
       </mat-error>
     </mat-form-field>
+    <ng-container *ngIf="['Cash'].includes(this.selectedModeOfPayment.name)">
+    <mat-form-field class="col-md-6" appearance="outline">
+      <mat-label>Donor phone no</mat-label>
+      <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
+             formControlName="donor_phone">
+      <mat-error
+        *ngIf="((collectionForm.controls['donor_phone'].touched)&& collectionForm.controls['donor_phone'].hasError('required'))">
+        Phone number is required
+      </mat-error>
+      <mat-error
+        *ngIf="((collectionForm.controls['donor_phone'].touched)&& collectionForm.controls['donor_phone'].hasError('pattern'))">
+        Please enter a valid phone number
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6" appearance="outline">
+      <mat-label>Donor email</mat-label>
+      <input matInput type="email" placeholder="Email Address" formControlName="donor_email"
+             required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+      <mat-error class="modal-error" *ngIf="collectionForm.controls['donor_email'].hasError('required')">Email is required
+      </mat-error>
+      <mat-error class="modal-error" *ngIf="collectionForm.controls['donor_email'].hasError('pattern')">Enter a valid email
+      </mat-error>
+    </mat-form-field>
+    </ng-container>
     <ng-container *ngIf="allowedValueNull">
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
         <label class="single-label col-md-12">Please upload
@@ -174,7 +198,7 @@
     </mat-form-field>
     <div *ngIf="actionParam === 'Edit' ">
       <ng-container
-        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.date)">
+        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.date)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
@@ -213,7 +237,7 @@
       </ng-container>
     </div>
     <div *ngIf="actionParam === 'Indian Donation Form' ">
-      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name)">
+      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>

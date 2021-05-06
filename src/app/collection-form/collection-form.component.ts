@@ -121,6 +121,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       amount: new FormControl(null, [Validators.required]),
       mode_of_payment: new FormControl(null, [Validators.required]),
       date_of_transaction: new FormControl(new Date().toDateString()),
+      donor_phone: new FormControl('', [Validators.required, Validators.pattern(this.utilsService.phonePattern)]),
+      donor_email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date_of_cheque: new FormControl(new Date().toDateString()),
       cheque_number: new FormControl(null),
       date_of_draft: new FormControl(new Date().toDateString()),
@@ -347,6 +349,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.cheque_number.setValue(null);
     this.collectionForm.controls.cheque_number.clearValidators();
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
+
+    this.collectionForm.controls.donor_phone.setValue(null);
+    this.collectionForm.controls.donor_phone.clearValidators();
+    this.collectionForm.controls.donor_phone.updateValueAndValidity();
+
+    this.collectionForm.controls.donor_email.setValue(null);
+    this.collectionForm.controls.donor_email.clearValidators();
+    this.collectionForm.controls.donor_email.updateValueAndValidity();
   }
 
   setCashValidations(): void {
@@ -832,6 +842,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.zilaControl.setValue(this.transactionDetails.zila_id.toString());
       this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     }
+    this.collectionForm.controls.donor_phone.setValue(transaction.data.donor_phone);
+    this.collectionForm.controls.donor_email.setValue(transaction.data.donor_email);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
