@@ -198,7 +198,7 @@
     </mat-form-field>
     <div *ngIf="actionParam === 'Edit' ">
       <ng-container
-        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.date)">
+        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.data.date)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>

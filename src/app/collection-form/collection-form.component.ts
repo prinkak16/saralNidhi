@@ -130,7 +130,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       utr_number: new FormControl(null),
       account_number: new FormControl(null),
       ifsc_code: new FormControl(null, [Validators.pattern(this.ifscPattern)]),
-      bank_name: new FormControl(null),
+      bank_name: new FormControl(''),
       branch_name: new FormControl(null),
       branch_address: new FormControl(null),
       collector_name: new FormControl(null),
@@ -910,7 +910,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   allowBankDetailEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
-    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
+      this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days') &&
+      this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      return true;
+  } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
+      this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')){
+      dateOfCreation.setDate(dateOfCreation.getDate() + 30);
+      return today.getTime() <= dateOfCreation.getTime();
+  } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       return today.getTime() <= dateOfCreation.getTime();
     } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {

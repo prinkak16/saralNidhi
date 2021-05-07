@@ -86,24 +86,16 @@
           <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
           <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
-        <div class="col-md-4" *ngIf="
-        utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') ||
-        utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')
-">
+        <div class="col-md-4">
           <span *ngIf="
                    element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
            ">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null " matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) " matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
         </span>
         </div>
-        <div class="col-md-4" *ngIf="
-        utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="Please donor and bank details.">access_time</mat-icon>
-        </div>
-
         <div class="col-md-4">
           <!-- Three dot dropdown-->
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -146,8 +138,8 @@
       <mat-cell *matCellDef="let element">
         <span *ngIf="
                   element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
-        <mat-icon (click)="openDialog(element)" *ngIf="allowPrint(element.data.date)
-        && element.payment_realize_date && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        <mat-icon (click)="openDialog(element)" *ngIf="
+         element.payment_realize_date && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.receipt_number_generated"
                   class="pointer"
                   matTooltip="Print Receipt">print
@@ -159,8 +151,8 @@
                   || element.mode_of_payment.name === 'UPI'
                   || element.mode_of_payment.name === 'Cash'
                   ">
-        <mat-icon (click)="openDialog(element)" *ngIf="allowPrint(element.data.date)
-        && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        <mat-icon (click)="openDialog(element)" *ngIf="
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.receipt_number_generated"
                   class="pointer"
                   matTooltip="Print Receipt">print
