@@ -23,6 +23,7 @@ export class ChequeDetailComponent implements OnInit {
   }
 
   chequeData: any;
+  today = new Date();
   chequeDetailForm: FormGroup = new FormGroup({});
 
   ngOnInit(): void {

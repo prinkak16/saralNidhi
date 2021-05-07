@@ -123,7 +123,7 @@
               <span>Bounced</span>
             </button>
               </span>
-            <button mat-menu-item (click)="openChequeDialog('reserved', element)">
+            <button mat-menu-item *ngIf="element.is_editable && isRealized(element)" (click)="openChequeDialog('reserved', element)">
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>

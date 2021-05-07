@@ -844,6 +844,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     }
     this.collectionForm.controls.donor_phone.setValue(transaction.data.donor_phone);
     this.collectionForm.controls.donor_email.setValue(transaction.data.donor_email);
+    this.collectionForm.controls.other_category.setValue(transaction.data.other_category);
+    this.collectionForm.controls.date_of_draft.setValue(transaction.data.date_of_draft);
+    this.collectionForm.controls.draft_number.setValue(transaction.data.draft_number);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -854,6 +857,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.disablePaymentMode();
     } else {
       this.allowedValueNull = false;
+      this.amountWord.disable();
+      this.stateControl.disable();
+      this.zilaControl.disable();
       this.collectionForm.disable();
     }
   }
