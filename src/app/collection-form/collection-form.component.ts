@@ -149,11 +149,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.safeFocus(this.focusDate);
+    this.cd.detectChanges();
     if (this.transactionId && this.transactionDetails) {
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.transactionDetails.data.location_type);
       }, 1000);
     }
+  }
+  ngAfterViewChecked(): void {
+    this.cd.detectChanges();
   }
 
   disableKeyPress(event: any): boolean {

@@ -1,6 +1,6 @@
 import {Component, OnInit, Inject, Optional, ChangeDetectorRef} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {LoaderService} from '../services/loader.service';
@@ -25,14 +25,40 @@ export class ChequeDetailComponent implements OnInit {
   chequeData: any;
   today = new Date();
   chequeDetailForm: FormGroup = new FormGroup({});
-
   ngOnInit(): void {
     this.chequeDetailForm = this.formBuilder.group({
-      id: new FormControl(null, [Validators.required]),
-      date: new FormControl(null,[Validators.required]),
-      remark: new FormControl('', [Validators.required])
+      id: new FormControl(null),
+      date: new FormControl(null),
+      remark: new FormControl('')
     });
     this.chequeDetailForm.controls.id.setValue(this.data.id);
+    this.onFormChange();
+  }
+// Detect changes
+  ngAfterViewChecked(): void {
+    this.cd.detectChanges();
+  }
+  ngAfterContentInit(): void{
+    this.cd.detectChanges();
+  }
+  ngAfterViewInit(): void{
+    this.cd.detectChanges();
+  }
+  onFormChange(): void {
+    this.chequeDetailForm.controls.date.valueChanges.subscribe(value => {
+      this.chequeDetailForm.controls.date.setValidators(Validators.required);
+    });
+    this.chequeDetailForm.controls.remark.valueChanges.subscribe(value => {
+      this.chequeDetailForm.controls.remark.setValidators(Validators.required);
+    });
+  }
+  isRequiredField(field: string): boolean {
+    const formField = this.chequeDetailForm.get(field) as FormControl;
+    if (!formField.validator) {
+      return false;
+    }
+    const validator = formField.validator({} as AbstractControl);
+    return (validator && validator.required);
   }
 
   updatePaymentMode(): void {
@@ -50,5 +76,4 @@ export class ChequeDetailComponent implements OnInit {
   close(): void {
     this.dialogRef.close(false);
   }
-
 }

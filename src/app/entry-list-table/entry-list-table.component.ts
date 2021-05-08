@@ -131,6 +131,7 @@ export class EntryListTableComponent implements OnInit {
   }
 
   isRealized(data: any): boolean {
+    if (data.payment_realize_date){
     const realizedDate = new Date(data.payment_realize_date);
     if (data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft'){
       const allowedDate = new Date(new Date().setDate(realizedDate.getDate() + 60));
@@ -138,5 +139,9 @@ export class EntryListTableComponent implements OnInit {
     } else{
       return true;
     }
+  } else {
+      return true;
+    }
   }
+
 }
