@@ -601,6 +601,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       }, (error: any) => {
         this.showLoader = false;
         this.messageService.somethingWentWrong(error.error.message);
+        setTimeout((_: any) => {
+          this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+        }, 1000);
       });
     } else {
       this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
