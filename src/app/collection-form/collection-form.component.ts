@@ -586,63 +586,25 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     if (Constant.NOT_ALLOWED_CHEQUE_NUMBERS.includes(this.collectionForm.controls.cheque_number.value)) {
       return this.messageService.closableSnackBar('Cheque number with all same digit is not allowed');
     }
-    if (this.checkCashLimit()) {
-      this.showLoader = true;
-      this.collectionForm.controls.state.enable();
-      this.collectionForm.controls.district.enable();
-      this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
-        this.showLoader = false;
-        this.messageService.closableSnackBar(response.message);
-        this.router.navigate(['dashboard/list'],
-          {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
-      }, (error: any) => {
-        this.showLoader = false;
-        this.resetDateFields();
-        this.messageService.somethingWentWrong(error.error.message);
-      });
-    } else {
+    if (!this.checkCashLimit()) {
       this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
+    this.showLoader = true;
+    this.collectionForm.controls.state.enable();
+    this.collectionForm.controls.district.enable();
+    this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
+      this.showLoader = false;
+      this.messageService.closableSnackBar(response.message);
+      this.router.navigate(['dashboard/list'],
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+    }, (error: any) => {
+      this.showLoader = false;
+      this.messageService.somethingWentWrong(error.error.message);
+    });
   }
 
   checkCashLimit(): boolean {
     return !(this.selectedModeOfPayment.name === 'Cash' && this.collectionForm.controls.amount.value > 2000);
-  }
-
-  changeDateFields(): void {
-    if (this.collectionForm.controls.date.value) {
-      this.collectionForm.controls.date.setValue(this.collectionForm.controls.date.value.toLocaleDateString());
-    }
-    if (this.collectionForm.controls.date_of_transaction.value) {
-      this.collectionForm.controls.date_of_transaction.setValue(
-        this.collectionForm.controls.date_of_transaction.value.toLocaleDateString());
-    }
-    if (this.collectionForm.controls.date_of_cheque.value) {
-      this.collectionForm.controls.date_of_cheque.setValue(
-        this.collectionForm.controls.date_of_cheque.value.toLocaleDateString());
-    }
-    if (this.collectionForm.controls.date_of_draft.value) {
-      this.collectionForm.controls.date_of_draft.setValue(
-        this.collectionForm.controls.date_of_draft.value.toLocaleDateString());
-    }
-  }
-
-  resetDateFields(): void {
-    if (this.collectionForm.controls.date.value) {
-      this.collectionForm.controls.date.setValue(new Date(this.collectionForm.controls.date.value.toLocaleDateString()));
-    }
-    if (this.collectionForm.controls.date_of_transaction.value) {
-      this.collectionForm.controls.date_of_transaction.setValue(
-        new Date(this.collectionForm.controls.date_of_transaction.value.toLocaleDateString()));
-    }
-    if (this.collectionForm.controls.date_of_cheque.value) {
-      this.collectionForm.controls.date_of_cheque.setValue(
-        new Date(this.collectionForm.controls.date_of_cheque.value.toLocaleDateString()));
-    }
-    if (this.collectionForm.controls.date_of_draft.value) {
-      this.collectionForm.controls.date_of_draft.setValue(
-        new Date(this.collectionForm.controls.date_of_draft.value.toLocaleDateString()));
-    }
   }
 
   checkAndUpdateToUpperCase(panNumber: string): void {
