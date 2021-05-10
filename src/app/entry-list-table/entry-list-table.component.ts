@@ -26,6 +26,7 @@ export class EntryListTableComponent implements OnInit {
   @Input() paymentModeId: any = null;
   @Input() query: any = null;
   showLoader = false;
+  editTimerTooltip = '';
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
@@ -35,15 +36,15 @@ export class EntryListTableComponent implements OnInit {
   enddate = new FormControl('');
 
   ngOnInit(): void {
-    if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()){
-      this.displayedColumns =  ['sno', 'date', 'name', 'category', 'amount',
+    if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
+      this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
         'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.getPaymentList();
   }
 
   getTransactionByDate(): void {
-    if (this.startdate.value && this.enddate.value){
+    if (this.startdate.value && this.enddate.value) {
       this.getPaymentList();
     }
   }
@@ -96,28 +97,39 @@ export class EntryListTableComponent implements OnInit {
   allowedEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
-
+    let result = false;
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      this.editTimerTooltip = this.differenceInDays + 'Days are pending to update the Bank & donor details.';
+      result = today.getTime() <= dateOfCreation.getTime();
+    }
+    if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
-      return true;
+      this.editTimerTooltip = this.differenceInDays + 'Days are pending to update the Bank & donor details.';
+      result = today.getTime() <= dateOfCreation.getTime();
+    }
+    if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      result = true;
+    }
+    return result;
+  }
+
+  isRealized(data: any): boolean {
+    if (data.payment_realize_date) {
+      const realizedDate = new Date(data.payment_realize_date);
+      if (data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
+        const allowedDate = new Date(new Date().setDate(realizedDate.getDate() + 60));
+        return new Date() <= allowedDate;
+      } else {
+        return true;
+      }
     } else {
-      return false;
+      return true;
     }
   }
 
-  allowPrint(date: string): boolean {
-    const dateOfCreation = new Date(date);
-    const today = new Date();
-    dateOfCreation.setDate(dateOfCreation.getDate() + 7);
-    return today.getTime() >= dateOfCreation.getTime();
-  }
 }

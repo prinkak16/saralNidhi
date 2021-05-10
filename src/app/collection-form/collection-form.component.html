@@ -3,8 +3,8 @@
   <form [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
-        <input type="text" placeholder="Search by / PAN No." class="search-input" formControlName="keyword"
-               (keyup)="getDonorData()">
+        <input type="text" placeholder="Search by / PAN No." class="search-input" [formControl]="keyword"
+               (keyup)="getDonorData(keyword.value)">
         <mat-icon class="search-icon">search</mat-icon>
       </div>
       <div *ngIf="autoFillData" class="search-result">
@@ -74,6 +74,30 @@
         Date of transaction is required
       </mat-error>
     </mat-form-field>
+    <ng-container *ngIf="['Cash'].includes(this.selectedModeOfPayment.name)">
+    <mat-form-field class="col-md-6" appearance="outline">
+      <mat-label>Donor phone no</mat-label>
+      <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
+             formControlName="phone">
+      <mat-error
+        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
+        Phone number is required
+      </mat-error>
+      <mat-error
+        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('pattern'))">
+        Please enter a valid phone number
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6" appearance="outline">
+      <mat-label>Donor email</mat-label>
+      <input matInput type="email" placeholder="Email Address" formControlName="email"
+             pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
+      </mat-error>
+      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('pattern')">Enter a valid email
+      </mat-error>
+    </mat-form-field>
+    </ng-container>
     <ng-container *ngIf="allowedValueNull">
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
         <label class="single-label col-md-12">Please upload
@@ -106,8 +130,7 @@
         <mat-label>Date of cheque</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
-               [min]="checkAllowedDate" [max]="today"
-               (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_cheque)"
+               [min]="previous3Month" [max]="next3Month"
                [required]="isRequiredField('date_of_cheque')">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -136,8 +159,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="checkAllowedDate" [max]="today"
-               (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_draft)"
+               [min]="previous3Month" [max]="next3Month"
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
@@ -176,7 +198,7 @@
     </mat-form-field>
     <div *ngIf="actionParam === 'Edit' ">
       <ng-container
-        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.date)">
+        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.data.date)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
@@ -215,7 +237,7 @@
       </ng-container>
     </div>
     <div *ngIf="actionParam === 'Indian Donation Form' ">
-      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name)">
+      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
@@ -329,9 +351,7 @@
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>Pincode</mat-label>
       <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6" [pattern]="'[0-9]{6}'"
-
-             (keypress)="utilsService.validateNumber($event)"
-             (keyup)="getPinCodeDetails(collectionForm.controls.pincode.value, 'state', 'district')"
+             (keyup)="utilsService.validateNumber($event)"
              [required]="isRequiredField('pincode')">
       <mat-error
         *ngIf="((collectionForm.controls.pincode.touched)&& collectionForm.controls.pincode.hasError('required'))">

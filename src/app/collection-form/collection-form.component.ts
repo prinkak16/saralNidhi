@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -18,7 +18,7 @@ import * as Constant from '../AppConstants';
   styleUrls: ['./collection-form.component.css']
 })
 
-export class CollectionFormComponent implements OnInit, AfterViewInit {
+export class CollectionFormComponent implements OnInit, AfterViewInit, AfterViewChecked {
   transactionId: any;
   actionParam: any;
 
@@ -78,12 +78,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   bankDetails: any = [];
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
-  checkAllowedDate = new Date(new Date().setMonth(this.today.getMonth() - 3));
+  previous3Month = new Date(new Date().setMonth(this.today.getMonth() - 3));
+  next3Month = new Date(new Date().setMonth(this.today.getMonth() + 3));
   transactionAllowedDate = new Date();
   numberToWord = '';
   stateControl = new FormControl('');
   zilaControl = new FormControl('');
   amountWord = new FormControl('');
+  keyword = new FormControl('');
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -102,7 +104,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       id: new FormControl(''),
       transaction_type: new FormControl('regular', [Validators.required]),
       name: new FormControl('', [Validators.required]),
-      keyword: new FormControl(''),
+      phone: new FormControl('', [Validators.pattern(this.utilsService.phonePattern)]),
+      email: new FormControl('', [Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date: new FormControl(new Date(), [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null),
@@ -128,7 +131,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       utr_number: new FormControl(null),
       account_number: new FormControl(null),
       ifsc_code: new FormControl(null, [Validators.pattern(this.ifscPattern)]),
-      bank_name: new FormControl(null),
+      bank_name: new FormControl(''),
       branch_name: new FormControl(null),
       branch_address: new FormControl(null),
       collector_name: new FormControl(null),
@@ -146,11 +149,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.safeFocus(this.focusDate);
+    this.cd.detectChanges();
     if (this.transactionId && this.transactionDetails) {
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.transactionDetails.data.location_type);
       }, 1000);
     }
+  }
+
+  ngAfterViewChecked(): void {
+    this.cd.detectChanges();
   }
 
   disableKeyPress(event: any): boolean {
@@ -302,6 +310,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         }
       }
     });
+    this.collectionForm.controls.pincode.valueChanges.subscribe(value => {
+      if (value) {
+        this.getPinCodeDetails(value, 'state', 'district');
+      }
+    });
   }
 
   removeAllValidations(): void {
@@ -359,6 +372,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.cheque_number.setValue(null);
     this.collectionForm.controls.cheque_number.clearValidators();
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
+
+    this.collectionForm.controls.phone.setValue(null);
+    this.collectionForm.controls.phone.clearValidators();
+    this.collectionForm.controls.phone.updateValueAndValidity();
+
+    this.collectionForm.controls.email.setValue(null);
+    this.collectionForm.controls.email.clearValidators();
+    this.collectionForm.controls.email.updateValueAndValidity();
   }
 
   setCashValidations(): void {
@@ -488,12 +509,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getDonorData(): void {
-    if (this.collectionForm.controls.keyword.value === '') {
-      this.autoFillData = [];
-    } else {
+  getDonorData(query: string): void {
+    if (query) {
       this.showProgress = true;
-      this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value,
+      this.restService.getPaymentRecords('', query,
         this.testParam, this.testParam).subscribe((response: any) => {
         this.autoFillData = response.data.data as PaymentModel[];
         this.showProgress = false;
@@ -501,6 +520,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.showProgress = false;
         this.messageService.somethingWentWrong(error);
       });
+    } else {
+      this.autoFillData = [];
     }
   }
 
@@ -731,24 +752,28 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     if (value && value.length === 6) {
       this.restService.getPinCodeDetails(value).subscribe((reply: any[]) => {
         const response = reply[0] as any;
-        if (response && response.PostOffice) {
-          if (response.PostOffice[0].State === 'Delhi') {
-            response.PostOffice[0].State = 'Delhi';
-          } else if (response.PostOffice[0].State === 'Andaman & Nicobar') {
-            response.PostOffice[0].State = 'Andaman and Nicobar Islands';
-          } else if (response.PostOffice[0].State === 'Daman & Diu') {
-            response.PostOffice[0].State = 'Daman and Diu';
-          } else if (response.PostOffice[0].State === 'Jammu & Kashmir') {
-            response.PostOffice[0].State = 'Jammu and Kashmir';
-          } else if (response.PostOffice[0].State === 'Dadra & Nagar Haveli') {
-            response.PostOffice[0].State = 'Dadra and Nagar Haveli';
-          } else if (response.PostOffice[0].State === 'Chattisgarh') {
-            response.PostOffice[0].State = 'Chhattisgarh';
+        if (response.Status === 'Success') {
+          if (response && response.PostOffice) {
+            if (response.PostOffice[0].State === 'Delhi') {
+              response.PostOffice[0].State = 'Delhi';
+            } else if (response.PostOffice[0].State === 'Andaman & Nicobar') {
+              response.PostOffice[0].State = 'Andaman and Nicobar Islands';
+            } else if (response.PostOffice[0].State === 'Daman & Diu') {
+              response.PostOffice[0].State = 'Daman and Diu';
+            } else if (response.PostOffice[0].State === 'Jammu & Kashmir') {
+              response.PostOffice[0].State = 'Jammu and Kashmir';
+            } else if (response.PostOffice[0].State === 'Dadra & Nagar Haveli') {
+              response.PostOffice[0].State = 'Dadra and Nagar Haveli';
+            } else if (response.PostOffice[0].State === 'Chattisgarh') {
+              response.PostOffice[0].State = 'Chhattisgarh';
+            }
+            // @ts-ignore
+            this.collectionForm.get(stateControlName).setValue(response.PostOffice[0].State);
+            // @ts-ignore
+            this.collectionForm.get(districtControlName).setValue(response.PostOffice[0].District);
           }
-          // @ts-ignore
-          this.collectionForm.get(stateControlName).setValue(response.PostOffice[0].State);
-          // @ts-ignore
-          this.collectionForm.get(districtControlName).setValue(response.PostOffice[0].District);
+        } else {
+          this.messageService.somethingWentWrong('Please enter valid pincode.');
         }
       });
     } else {
@@ -843,6 +868,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.zilaControl.setValue(this.transactionDetails.zila_id.toString());
       this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     }
+    this.collectionForm.controls.phone.setValue(transaction.data.phone);
+    this.collectionForm.controls.email.setValue(transaction.data.email);
+    this.collectionForm.controls.other_category.setValue(transaction.data.other_category);
+    this.collectionForm.controls.date_of_draft.setValue(transaction.data.date_of_draft);
+    this.collectionForm.controls.draft_number.setValue(transaction.data.draft_number);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -853,6 +883,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.disablePaymentMode();
     } else {
       this.allowedValueNull = false;
+      this.amountWord.disable();
+      this.stateControl.disable();
+      this.zilaControl.disable();
       this.collectionForm.disable();
     }
   }
@@ -909,17 +942,25 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   allowBankDetailEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
+    let result = false;
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
+      this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      dateOfCreation.setDate(dateOfCreation.getDate() + 30);
+      return today.getTime() <= dateOfCreation.getTime();
+    }
     if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
-      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
-      return true;
-    } else {
-      return false;
+      result = today.getTime() <= dateOfCreation.getTime();
     }
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      result = today.getTime() <= dateOfCreation.getTime();
+    }
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      result = true;
+    }
+    return result;
+
   }
 
   _dateChangeHandler(chosenDate: any, control: AbstractControl): void {
