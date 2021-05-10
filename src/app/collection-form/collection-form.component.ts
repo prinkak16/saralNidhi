@@ -156,6 +156,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }, 1000);
     }
   }
+
   ngAfterViewChecked(): void {
     this.cd.detectChanges();
   }
@@ -298,7 +299,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     });
     this.collectionForm.controls.pincode.valueChanges.subscribe(value => {
-      if (value){
+      if (value) {
         this.getPinCodeDetails(value, 'state', 'district');
       }
     });
@@ -507,7 +508,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.showProgress = false;
         this.messageService.somethingWentWrong(error);
       });
-  } else {
+    } else {
       this.autoFillData = [];
     }
   }
@@ -933,24 +934,24 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   allowBankDetailEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
+    let result = false;
     if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
-      this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days') &&
-      this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
-      return true;
-  } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
-      this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')){
+      this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
       return today.getTime() <= dateOfCreation.getTime();
-  } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
-      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
-      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
-      return true;
-    } else {
-      return false;
     }
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      result = today.getTime() <= dateOfCreation.getTime();
+    }
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+      result = today.getTime() <= dateOfCreation.getTime();
+    }
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      result = true;
+    }
+    return result;
+
   }
 }
