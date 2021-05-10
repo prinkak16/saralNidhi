@@ -6,9 +6,9 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="ml-4">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker" >
+        <mat-date-range-input [rangePicker]="picker">
           <input matStartDate placeholder="Start date" [formControl]="startdate">
-          <input matEndDate placeholder="End date" [formControl]="enddate"  (dateChange)="getTransactionByDate()">
+          <input matEndDate placeholder="End date" [formControl]="enddate" (dateChange)="getTransactionByDate()">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -82,35 +82,39 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <div class="col-md-4">
-          <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
-          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
+        <div class="col-md-3">
+          <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date"
+                matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark"
+                matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
-        <div class="col-md-4" *ngIf="
+        <div class="col-md-3" *ngIf="
         utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') ||
-        utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')
-">
+        utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')">
           <span *ngIf="
                    element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
            ">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null " matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null"
+                    matTooltip="{{differenceInDays}} Days are pending to update the Bank and donor details.">access_time</mat-icon>
         </span>
         </div>
-        <div class="col-md-4" *ngIf="
+        <div class="col-md-3" *ngIf="
         utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="Please donor and bank details.">access_time</mat-icon>
+          <mat-icon class="ml-2" *ngIf="element.data.bank_name === null" matTooltip="Please donor and bank details.">
+            access_time
+          </mat-icon>
         </div>
-
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!-- Three dot dropdown-->
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)" [routerLink]="['transaction_edit', element.id]">
+            <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)"
+                    [routerLink]="['transaction_edit', element.id]">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
@@ -119,13 +123,13 @@
               <span>View</span>
             </button>
             <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
-            <button mat-menu-item  *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">
+            <button mat-menu-item *ngIf="!element.payment_realize_date" (click)="openChequeDialog('realized', element)">
               <mat-icon>date_range</mat-icon>
               <span>Realized</span>
             </button>
               </span>
             <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
-            <button mat-menu-item  *ngIf="!element.payment_remark"
+            <button mat-menu-item *ngIf="!element.payment_remark"
                     (click)="openChequeDialog('bounced' , element)">
               <mat-icon>note_add</mat-icon>
               <span>Bounced</span>
