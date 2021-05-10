@@ -352,8 +352,8 @@
       <mat-label>Pincode</mat-label>
       <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6" [pattern]="'[0-9]{6}'"
 
-             (keypress)="utilsService.validateNumber($event)"
-             (keyup)="getPinCodeDetails(collectionForm.controls.pincode.value, 'state', 'district')"
+             (keyup)="utilsService.validateNumber($event)"
+             (keyup.enter)="getPinCodeDetails(collectionForm.controls.pincode.value, 'state', 'district')"
              [required]="isRequiredField('pincode')">
       <mat-error
         *ngIf="((collectionForm.controls.pincode.touched)&& collectionForm.controls.pincode.hasError('required'))">
