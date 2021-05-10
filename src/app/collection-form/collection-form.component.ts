@@ -248,7 +248,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.collectionForm.controls.date.valueChanges.subscribe(value => {
+    this.collectionForm.controls.date_of_transaction.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
         if (value) {
           value = new Date(value);
