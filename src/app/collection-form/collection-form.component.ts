@@ -85,6 +85,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   stateControl = new FormControl('');
   zilaControl = new FormControl('');
   amountWord = new FormControl('');
+  keyword = new FormControl('');
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -103,7 +104,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       id: new FormControl(''),
       transaction_type: new FormControl('regular', [Validators.required]),
       name: new FormControl('', [Validators.required]),
-      keyword: new FormControl(''),
       date: new FormControl(new Date(), [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null),
@@ -491,12 +491,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getDonorData(): void {
-    if (this.collectionForm.controls.keyword.value === '') {
-      this.autoFillData = [];
-    } else {
+  getDonorData(query: string): void {
+    if (query) {
       this.showProgress = true;
-      this.restService.getPaymentRecords(this.testParam, this.collectionForm.controls.keyword.value,
+      this.restService.getPaymentRecords('', query,
         this.testParam, this.testParam).subscribe((response: any) => {
         this.autoFillData = response.data.data as PaymentModel[];
         this.showProgress = false;
@@ -504,6 +502,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         this.showProgress = false;
         this.messageService.somethingWentWrong(error);
       });
+  } else {
+      this.autoFillData = [];
     }
   }
 
