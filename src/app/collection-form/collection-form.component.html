@@ -10,8 +10,8 @@
       <div *ngIf="autoFillData" class="search-result">
         <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setFormValues(option)">
           <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span> <span
-          class="ml-4 text-secondary"><b>PAN Card:</b></span> <span
-          class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          class="ml-4 text-secondary"><b>PAN Card:</b></span>
+          <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
           <br>
           <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}
           , {{option.data.pincode}}</span>
@@ -19,8 +19,8 @@
       </div>
     </div>
 
-    <mat-form-field appearance="outline"
-                    *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')" class="col-md-12">
+    <mat-form-field appearance="outline" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
+                    class="col-md-12">
       <mat-label>Transaction Type</mat-label>
       <mat-select formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
         <mat-option *ngFor="let option of transactionTypes" value="{{option.value}}">{{option.name}}</mat-option>
@@ -30,9 +30,10 @@
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label translate>Enter Date</mat-label>
       <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
-             [matDatepicker]="picker" (click)="picker.open()" [min]="allowedDate" [max]="today"
+             [matDatepicker]="picker" (click)="picker.open()" [min]="today" [max]="today"
              placeholder="Enter date"
-             formControlName="date" [required]="isRequiredField('date')">
+             formControlName="date" [required]="isRequiredField('date')"
+             (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date)">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="(collectionForm.controls.date.hasError('required'))">
@@ -64,7 +65,8 @@
              (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
              formControlName="date_of_transaction"
              [min]="transactionAllowedDate" [max]="today"
-             [required]="isRequiredField('date_of_transaction')">
+             [required]="isRequiredField('date_of_transaction')"
+             (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_transaction)">
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-datepicker #picker4></mat-datepicker>
       <mat-error
@@ -129,7 +131,6 @@
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
                [min]="previous3Month" [max]="next3Month"
-
                [required]="isRequiredField('date_of_cheque')">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -159,7 +160,6 @@
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
                [min]="previous3Month" [max]="next3Month"
-
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>

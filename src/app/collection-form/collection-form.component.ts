@@ -189,6 +189,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     });
 
+    this.collectionForm.controls.date_of_cheque.valueChanges.subscribe(value => {
+      if (value) {
+        this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_cheque.value);
+      }
+    });
+
+    this.collectionForm.controls.date_of_draft.valueChanges.subscribe(value => {
+      if (value) {
+        this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_draft.value);
+      }
+    });
+
     this.collectionForm.controls.mode_of_payment.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
         this.updateDateOfTransaction();
@@ -244,7 +256,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     });
 
-    this.collectionForm.controls.date.valueChanges.subscribe(value => {
+    this.collectionForm.controls.date_of_transaction.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
         if (value) {
           value = new Date(value);
@@ -595,25 +607,21 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     if (Constant.NOT_ALLOWED_CHEQUE_NUMBERS.includes(this.collectionForm.controls.cheque_number.value)) {
       return this.messageService.closableSnackBar('Cheque number with all same digit is not allowed');
     }
-    if (this.checkCashLimit()) {
-      this.showLoader = true;
-      this.collectionForm.controls.state.enable();
-      this.collectionForm.controls.district.enable();
-      this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
-        this.showLoader = false;
-        this.messageService.closableSnackBar(response.message);
-        this.router.navigate(['dashboard/list'],
-          {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
-      }, (error: any) => {
-        this.showLoader = false;
-        this.messageService.somethingWentWrong(error.error.message);
-        setTimeout((_: any) => {
-          this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
-        }, 1000);
-      });
-    } else {
+    if (!this.checkCashLimit()) {
       this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
+    this.showLoader = true;
+    this.collectionForm.controls.state.enable();
+    this.collectionForm.controls.district.enable();
+    this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
+      this.showLoader = false;
+      this.messageService.closableSnackBar(response.message);
+      this.router.navigate(['dashboard/list'],
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+    }, (error: any) => {
+      this.showLoader = false;
+      this.messageService.somethingWentWrong(error.error.message);
+    });
   }
 
   checkCashLimit(): boolean {
@@ -801,7 +809,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.restService.getTransaction(transactionId).subscribe((response: any) => {
       this.showLoader = false;
       this.transactionDetails = response.data;
-      this.setTransactioDetailsValues(this.transactionDetails.data);
+      this.setTransactionDetailsValues(this.transactionDetails.data);
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
@@ -824,7 +832,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.utr_number.enable();
   }
 
-  setTransactioDetailsValues(transaction: any): void {
+  setTransactionDetailsValues(transaction: any): void {
     this.collectionForm.controls.date.setValue(transaction.data.date);
     this.collectionForm.controls.mode_of_payment.setValue(transaction.mode_of_payment.id.toString());
     this.collectionForm.controls.date_of_cheque.setValue(transaction.data.date_of_cheque);
@@ -953,5 +961,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     return result;
 
+  }
+
+  _dateChangeHandler(chosenDate: any, control: AbstractControl): void {
+    control.setValue(new Date(chosenDate.setHours(9)));
   }
 }
