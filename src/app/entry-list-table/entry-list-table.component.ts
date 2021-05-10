@@ -97,36 +97,24 @@ export class EntryListTableComponent implements OnInit {
   allowedEdit(createdDate: string): boolean {
     const dateOfCreation = new Date(createdDate);
     const today = new Date();
-    if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
-      this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days') &&
-      this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
-      this.editTimerTooltip = 'Please update donor & bank details.';
-      return true;
-  } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days') &&
-      this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')
-    ) {
-      dateOfCreation.setDate(dateOfCreation.getDate() + 30);
-      const differenceInTime = dateOfCreation.getTime() - today.getTime();
-      this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays +  'Days are pending to update the Bank & donor details.';
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
-      dateOfCreation.setDate(dateOfCreation.getDate() + 30);
-      const differenceInTime = dateOfCreation.getTime() - today.getTime();
-      this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays +  'Days are pending to update the Bank & donor details.';
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
-      dateOfCreation.setDate(dateOfCreation.getDate() + 15);
-      const differenceInTime = dateOfCreation.getTime() - today.getTime();
-      this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays +  'Days are pending to update the Bank & donor details.';
-      return today.getTime() <= dateOfCreation.getTime();
-    } else if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
-      this.editTimerTooltip = 'Please update donor & bank details.';
-      return true;
+     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
+       const differenceInTime = dateOfCreation.getTime() - today.getTime();
+       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+       this.editTimerTooltip = this.differenceInDays +  'Days are pending to update the Bank & donor details.';
+       return today.getTime() <= dateOfCreation.getTime();
+    }
+     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
+       const differenceInTime = dateOfCreation.getTime() - today.getTime();
+       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+       this.editTimerTooltip = this.differenceInDays +  'Days are pending to update the Bank & donor details.';
+       return today.getTime() <= dateOfCreation.getTime();
+    }
+     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+       return  true;
     } else {
-      return false;
+       return  false;
     }
   }
 

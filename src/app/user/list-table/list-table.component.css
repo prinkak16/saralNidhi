@@ -33,10 +33,6 @@
   flex-wrap: wrap;
 }
 
-::ng-deep mat-cell{
-  word-wrap: break-word!important;
-  word-break: break-all!important;
-}
 
 
 

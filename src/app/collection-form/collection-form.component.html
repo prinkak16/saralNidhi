@@ -76,23 +76,23 @@
     <mat-form-field class="col-md-6" appearance="outline">
       <mat-label>Donor phone no</mat-label>
       <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
-             formControlName="donor_phone">
+             formControlName="phone">
       <mat-error
-        *ngIf="((collectionForm.controls['donor_phone'].touched)&& collectionForm.controls['donor_phone'].hasError('required'))">
+        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
         Phone number is required
       </mat-error>
       <mat-error
-        *ngIf="((collectionForm.controls['donor_phone'].touched)&& collectionForm.controls['donor_phone'].hasError('pattern'))">
+        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('pattern'))">
         Please enter a valid phone number
       </mat-error>
     </mat-form-field>
     <mat-form-field class="col-md-6" appearance="outline">
       <mat-label>Donor email</mat-label>
-      <input matInput type="email" placeholder="Email Address" formControlName="donor_email"
+      <input matInput type="email" placeholder="Email Address" formControlName="email"
              pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
-      <mat-error class="modal-error" *ngIf="collectionForm.controls['donor_email'].hasError('required')">Email is required
+      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
       </mat-error>
-      <mat-error class="modal-error" *ngIf="collectionForm.controls['donor_email'].hasError('pattern')">Enter a valid email
+      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('pattern')">Enter a valid email
       </mat-error>
     </mat-form-field>
     </ng-container>
@@ -128,7 +128,7 @@
         <mat-label>Date of cheque</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
-               [min]="Previous3Month" [max]="Next3Month"
+               [min]="previous3Month" [max]="next3Month"
 
                [required]="isRequiredField('date_of_cheque')">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -158,7 +158,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="Previous3Month" [max]="Next3Month"
+               [min]="previous3Month" [max]="next3Month"
 
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -351,9 +351,7 @@
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>Pincode</mat-label>
       <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6" [pattern]="'[0-9]{6}'"
-
              (keyup)="utilsService.validateNumber($event)"
-             (keyup.enter)="getPinCodeDetails(collectionForm.controls.pincode.value, 'state', 'district')"
              [required]="isRequiredField('pincode')">
       <mat-error
         *ngIf="((collectionForm.controls.pincode.touched)&& collectionForm.controls.pincode.hasError('required'))">

@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Optional, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Inject, Optional, ChangeDetectorRef, AfterViewInit, AfterViewChecked, AfterContentInit} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
   templateUrl: './cheque-detail.component.html',
   styleUrls: ['./cheque-detail.component.css']
 })
-export class ChequeDetailComponent implements OnInit {
+export class ChequeDetailComponent implements OnInit, AfterViewChecked, AfterContentInit, AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder, private restService: RestService,
@@ -32,7 +32,12 @@ export class ChequeDetailComponent implements OnInit {
       remark: new FormControl('')
     });
     this.chequeDetailForm.controls.id.setValue(this.data.id);
-    this.onFormChange();
+    if (this.data.type === 'realized') {
+      this.chequeDetailForm.controls.date.setValidators(Validators.required);
+    }
+    if (this.data.type === 'reserved' || this.data.type === 'bounced'){
+      this.chequeDetailForm.controls.remark.setValidators(Validators.required);
+    }
   }
 // Detect changes
   ngAfterViewChecked(): void {
@@ -44,14 +49,7 @@ export class ChequeDetailComponent implements OnInit {
   ngAfterViewInit(): void{
     this.cd.detectChanges();
   }
-  onFormChange(): void {
-    this.chequeDetailForm.controls.date.valueChanges.subscribe(value => {
-      this.chequeDetailForm.controls.date.setValidators(Validators.required);
-    });
-    this.chequeDetailForm.controls.remark.valueChanges.subscribe(value => {
-      this.chequeDetailForm.controls.remark.setValidators(Validators.required);
-    });
-  }
+
   isRequiredField(field: string): boolean {
     const formField = this.chequeDetailForm.get(field) as FormControl;
     if (!formField.validator) {

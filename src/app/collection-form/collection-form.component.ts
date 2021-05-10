@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -18,7 +18,7 @@ import * as Constant from '../AppConstants';
   styleUrls: ['./collection-form.component.css']
 })
 
-export class CollectionFormComponent implements OnInit, AfterViewInit {
+export class CollectionFormComponent implements OnInit, AfterViewInit, AfterViewChecked {
   transactionId: any;
   actionParam: any;
 
@@ -78,8 +78,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
   bankDetails: any = [];
   today = new Date();
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
-  Previous3Month = new Date(new Date().setMonth(this.today.getMonth() - 3));
-  Next3Month = new Date(new Date().setMonth(this.today.getMonth() + 3));
+  previous3Month = new Date(new Date().setMonth(this.today.getMonth() - 3));
+  next3Month = new Date(new Date().setMonth(this.today.getMonth() + 3));
   transactionAllowedDate = new Date();
   numberToWord = '';
   stateControl = new FormControl('');
@@ -104,6 +104,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       id: new FormControl(''),
       transaction_type: new FormControl('regular', [Validators.required]),
       name: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.pattern(this.utilsService.phonePattern)]),
+      email: new FormControl('', [Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date: new FormControl(new Date(), [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
       category: new FormControl(null),
@@ -122,8 +124,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       amount: new FormControl(null, [Validators.required]),
       mode_of_payment: new FormControl(null, [Validators.required]),
       date_of_transaction: new FormControl(new Date().toDateString()),
-      donor_phone: new FormControl('', [Validators.required, Validators.pattern(this.utilsService.phonePattern)]),
-      donor_email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date_of_cheque: new FormControl(new Date().toDateString()),
       cheque_number: new FormControl(null),
       date_of_draft: new FormControl(new Date().toDateString()),
@@ -297,6 +297,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
         }
       }
     });
+    this.collectionForm.controls.pincode.valueChanges.subscribe(value => {
+      if (value){
+        this.getPinCodeDetails(value, 'state', 'district');
+      }
+    });
   }
 
   removeAllValidations(): void {
@@ -355,13 +360,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
     this.collectionForm.controls.cheque_number.clearValidators();
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
 
-    this.collectionForm.controls.donor_phone.setValue(null);
-    this.collectionForm.controls.donor_phone.clearValidators();
-    this.collectionForm.controls.donor_phone.updateValueAndValidity();
+    this.collectionForm.controls.phone.setValue(null);
+    this.collectionForm.controls.phone.clearValidators();
+    this.collectionForm.controls.phone.updateValueAndValidity();
 
-    this.collectionForm.controls.donor_email.setValue(null);
-    this.collectionForm.controls.donor_email.clearValidators();
-    this.collectionForm.controls.donor_email.updateValueAndValidity();
+    this.collectionForm.controls.email.setValue(null);
+    this.collectionForm.controls.email.clearValidators();
+    this.collectionForm.controls.email.updateValueAndValidity();
   }
 
   setCashValidations(): void {
@@ -759,7 +764,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
             this.collectionForm.get(districtControlName).setValue(response.PostOffice[0].District);
           }
         } else {
-          this.messageService.somethingWentWrong(response.Message);
+          this.messageService.somethingWentWrong('Please enter valid pincode.');
         }
       });
     } else {
@@ -854,8 +859,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit {
       this.zilaControl.setValue(this.transactionDetails.zila_id.toString());
       this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     }
-    this.collectionForm.controls.donor_phone.setValue(transaction.data.donor_phone);
-    this.collectionForm.controls.donor_email.setValue(transaction.data.donor_email);
+    this.collectionForm.controls.phone.setValue(transaction.data.phone);
+    this.collectionForm.controls.email.setValue(transaction.data.email);
     this.collectionForm.controls.other_category.setValue(transaction.data.other_category);
     this.collectionForm.controls.date_of_draft.setValue(transaction.data.date_of_draft);
     this.collectionForm.controls.draft_number.setValue(transaction.data.draft_number);
