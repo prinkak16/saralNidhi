@@ -111,7 +111,7 @@
               <span>View</span>
             </button>
             <div *ngIf="checkFutureDate(element)">
-            <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft' && element.data.date_of_cheque < today">
+            <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
             <button mat-menu-item  *ngIf="!element.payment_realize_date && !element.payment_remark" (click)="openChequeDialog('realized', element)">
               <mat-icon>date_range</mat-icon>
               <span>Realized</span>
