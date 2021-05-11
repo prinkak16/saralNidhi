@@ -50,6 +50,7 @@ import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
+import { TwoDigitDecimaNumberDirective } from './two-digit-decima-number.directive';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core'
     ListComponent,
     ListTableComponent,
     ChangePasswordBottomSheetComponent,
-    ChequeDetailComponent
+    ChequeDetailComponent,
+    TwoDigitDecimaNumberDirective
   ],
   imports: [
     BrowserModule,

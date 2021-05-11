@@ -27,10 +27,10 @@ export class EntryListTableComponent implements OnInit {
   @Input() query: any = null;
   showLoader = false;
   editTimerTooltip = '';
+  today = new Date();
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
-
   private dialog: any;
   startdate = new FormControl('');
   enddate = new FormControl('');
@@ -71,7 +71,7 @@ export class EntryListTableComponent implements OnInit {
   }
 
   openChequeDialog(type: any, row: any): void {
-    const paymentData = {type, id: row.id};
+    const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
     const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
       if (result.remark) {
@@ -131,5 +131,11 @@ export class EntryListTableComponent implements OnInit {
       return true;
     }
   }
-
+// Show/hide actions if cheque & dd date is in future
+  checkFutureDate(element: any): boolean {
+    if (element.mode_of_payment.name === 'Cheque' && new Date(element.data.date_of_cheque) >= this.today) {
+      return  false;
+    }
+    return !(element.mode_of_payment.name === 'Demand Draft' && new Date(element.data.date_of_draft) >= this.today);
+  }
 }

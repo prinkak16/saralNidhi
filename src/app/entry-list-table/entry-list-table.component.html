@@ -110,7 +110,8 @@
               <mat-icon>remove_red_eye</mat-icon>
               <span>View</span>
             </button>
-            <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
+            <div *ngIf="checkFutureDate(element)">
+            <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft' && element.data.date_of_cheque < today">
             <button mat-menu-item  *ngIf="!element.payment_realize_date && !element.payment_remark" (click)="openChequeDialog('realized', element)">
               <mat-icon>date_range</mat-icon>
               <span>Realized</span>
@@ -124,11 +125,12 @@
             </button>
               </span>
             <span *ngIf="element.is_editable && isRealized(element)">
-            <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_realize_date" (click)="openChequeDialog('reserved', element)">
+            <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_remark" (click)="openChequeDialog('reserved', element)">
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
             </span>
+            </div>
           </mat-menu>
           <!-- Three dot dropdown-->
         </div>

@@ -98,33 +98,60 @@
       </mat-error>
     </mat-form-field>
     </ng-container>
+<!-- Cheque dd back & front image-->
     <ng-container *ngIf="allowedValueNull">
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
         <label class="single-label col-md-12">Please upload
           <span *ngIf="['Cheque'].includes(this.selectedModeOfPayment.name)">Cheque</span>
           <span *ngIf="['Demand Draft'].includes(this.selectedModeOfPayment.name)">Demand Draft</span>
-          photo</label>
+          front photo</label>
         <div class="pan-card-image-upload-container col-md-12">
           <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-            <ng-container *ngIf="collectionForm.controls.cheque_dd_photo.value;else uploadChequeDDText">
+            <ng-container *ngIf="collectionForm.controls.cheque_dd_front_photo.value;else uploadChequeDDFrontText">
               <div>
-                <img src="assets/icons/upload_success_icon.svg" alt="cheque dd photo" class="upload-icon"/>
+                <img src="assets/icons/upload_success_icon.svg" alt="cheque dd front photo" class="upload-icon"/>
                 Cheque/ Demand Draft card uploaded
               </div>
               <img src="assets/icons/eye.svg" alt="View pan card"/>
             </ng-container>
-            <ng-template #uploadChequeDDText>
+            <ng-template #uploadChequeDDFrontText>
               <div>
                 <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
                 Upload Cheque/ Demand Draft
               </div>
             </ng-template>
             <input type="file" hidden accept="image/png, image/jpeg"
-                   (change)="onFileChange($event, 'cheque_dd_photo')" #fileInputPhoto/>
+                   (change)="onFileChange($event, 'cheque_dd_front_photo')" #fileInputPhoto/>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
+        <label class="single-label col-md-12">Please upload
+          <span *ngIf="['Cheque'].includes(this.selectedModeOfPayment.name)">Cheque</span>
+          <span *ngIf="['Demand Draft'].includes(this.selectedModeOfPayment.name)">Demand Draft</span>
+         back photo</label>
+        <div class="pan-card-image-upload-container col-md-12">
+          <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+            <ng-container *ngIf="collectionForm.controls.cheque_dd_back_photo.value;else uploadChequeDDBackText">
+              <div>
+                <img src="assets/icons/upload_success_icon.svg" alt="cheque dd back photo" class="upload-icon"/>
+                Cheque/ Demand Draft card uploaded
+              </div>
+              <img src="assets/icons/eye.svg" alt="View pan card"/>
+            </ng-container>
+            <ng-template #uploadChequeDDBackText>
+              <div>
+                <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
+                Upload Cheque/ Demand Draft
+              </div>
+            </ng-template>
+            <input type="file" hidden accept="image/png, image/jpeg"
+                   (change)="onFileChange($event, 'cheque_dd_back_photo')" #fileInputPhoto/>
           </div>
         </div>
       </ng-container>
     </ng-container>
+    <!-- Cheque dd back & front image-->
     <ng-container *ngIf="selectedModeOfPayment.name === 'Cheque'">
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Date of cheque</mat-label>
@@ -182,6 +209,21 @@
         </mat-error>
       </mat-form-field>
     </ng-container>
+   <!--Show uploaded image preview-->
+    <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
+      <div *ngIf="!transactionId">
+        <img src="{{collectionForm.controls.cheque_dd_front_photo.value}}"  height="75" width="75" class="ml-3">
+        <img src="{{collectionForm.controls.cheque_dd_back_photo.value}}"  height="75" width="75" class="ml-2">
+        <br>
+      </div>
+      <div *ngIf="transactionId">
+        <img src="{{transactionDetails.data.data.cheque_dd_front_photo}}"  height="75" width="75" class="ml-3">
+        <img src="{{transactionDetails.data.data.cheque_dd_back_photo}}"  height="75" width="75" class="ml-2 mb">
+        <br>
+      </div>
+    </ng-container>
+    <!--Show uploaded image preview-->
+
     <mat-form-field appearance="outline" class="col-md-6"
                     *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(selectedModeOfPayment.name)">
       <mat-label>Enter UTR No</mat-label>
@@ -196,7 +238,7 @@
         UTR number is invalid
       </mat-error>
     </mat-form-field>
-    <div *ngIf="actionParam === 'Edit' ">
+    <div *ngIf="transactionId">
       <ng-container
         *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.data.date)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
@@ -441,7 +483,7 @@
     <mat-form-field appearance="outline" class="col-md-4">
       <mat-label>Amount (₹)</mat-label>
       <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
-             (keypress)="utilsService.validateNumber($event)"
+             appTwoDigitDecimaNumber
              [required]="isRequiredField('amount')">
       <mat-error
         *ngIf="((collectionForm.controls.amount.touched)&& collectionForm.controls.amount.hasError('required'))">
