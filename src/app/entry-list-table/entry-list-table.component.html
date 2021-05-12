@@ -124,13 +124,17 @@
               <span>Bounced</span>
             </button>
               </span>
+            </div>
+<!--            In case of future date of cheque show message-->
             <span *ngIf="element.is_editable && isRealized(element)">
             <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_remark" (click)="openChequeDialog('reserved', element)">
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
             </span>
-            </div>
+            <button mat-menu-item *ngIf="checkFutureDate(element) == false">
+              <mat-icon  class="text-center" matTooltip="Realize action button will be available on this date of cheque">info</mat-icon>
+            </button>
           </mat-menu>
           <!-- Three dot dropdown-->
         </div>
