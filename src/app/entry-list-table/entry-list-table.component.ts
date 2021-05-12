@@ -95,10 +95,10 @@ export class EntryListTableComponent implements OnInit {
   }
 
   allowedEdit(createdDate: string): boolean {
-    const dateOfCreation = new Date(createdDate);
     const today = new Date();
     let result = false;
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+      const dateOfCreation = new Date(createdDate);
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
@@ -106,6 +106,7 @@ export class EntryListTableComponent implements OnInit {
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      const dateOfCreation = new Date(createdDate);
       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
