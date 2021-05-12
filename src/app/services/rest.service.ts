@@ -84,9 +84,11 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_years', this.authHttpOptions());
   }
 
-  getPaymentRecords(paymentTypeId: string, query: string, startDate: string, endDate: string): any {
+  getPaymentRecords(paymentTypeId: string, query: string, startDate: string, endDate: string,
+                    limit: number, offset: number): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId +
-      '&query=' + query + '&start_date=' + startDate + '&end_date=' + endDate, this.authHttpOptions());
+      '&query=' + query + '&start_date=' + startDate + '&end_date=' + endDate +
+      '&limit=' + limit + '&offset=' + offset, this.authHttpOptions());
   }
 
   getTotalCount(): any {
@@ -179,10 +181,12 @@ export class RestService {
   getTransaction(transactionId: number): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_transaction?transaction_id=' + transactionId, this.authHttpOptions());
   }
-  updateTransaction(data: any): any{
-    return this.http.post(this.apiUrl + 'nidhi_collection/add', data,  this.authHttpOptions());
+
+  updateTransaction(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
-  getBankDetails(ifscCode: string): any{
+
+  getBankDetails(ifscCode: string): any {
     return this.http.get(this.ifscUrl + ifscCode);
   }
 }
