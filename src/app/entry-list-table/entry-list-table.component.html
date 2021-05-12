@@ -81,22 +81,23 @@
     <!--Location-->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <div class="col-md-4">
-          <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+      <mat-cell *matCellDef="let element" class="action-btn">
+        <div class="w-100">
+<!--          <mat-icon>info</mat-icon>-->
+          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
           <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
-        <div class="col-md-4">
+        <div class="w-100">
           <span *ngIf="
                    element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
            ">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) " matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
+          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
         </span>
         </div>
-        <div class="col-md-4">
+        <div class="w-100">
           <!-- Three dot dropdown-->
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
