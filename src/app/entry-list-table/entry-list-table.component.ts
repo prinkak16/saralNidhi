@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, ViewChild} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -16,7 +16,7 @@ import {PageEvent} from '@angular/material/paginator';
   templateUrl: './entry-list-table.component.html',
   styleUrls: ['./entry-list-table.component.css']
 })
-export class EntryListTableComponent implements OnInit {
+export class EntryListTableComponent implements OnInit, OnChanges {
   differenceInDays: any;
 
   constructor(private restService: RestService, private matDialog: MatDialog,
@@ -25,7 +25,7 @@ export class EntryListTableComponent implements OnInit {
   }
 
   @Input() paymentModeId: any = null;
-  @Input() query: any = null;
+  @Input() filters: any = null;
   showLoader = false;
   editTimerTooltip = '';
   today = new Date();
@@ -36,13 +36,9 @@ export class EntryListTableComponent implements OnInit {
   length = 0;
   pageSize = 10;
   pageEvent = new PageEvent();
-  filters = null;
 
   offset = 0;
   limit = 10;
-
-  startDate = new FormControl('');
-  endDate = new FormControl('');
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
@@ -52,16 +48,18 @@ export class EntryListTableComponent implements OnInit {
     this.getPaymentList();
   }
 
-  getTransactionByDate(): void {
-    if (this.startDate.value && this.endDate.value) {
-      this.getPaymentList();
-    }
+  ngOnChanges(): void {
+    this.getPaymentList();
   }
 
   getPaymentList(): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords(this.paymentModeId, this.query,
-      this.startDate.value, this.endDate.value, this.limit, this.offset).subscribe((response: any) => {
+    const data = {
+      filters: this.filters ? this.filters : {},
+      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
+      limit: this.limit, offset: this.offset
+    };
+    this.restService.getPaymentRecords(data).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
       this.length = response.data.length;
@@ -142,6 +140,7 @@ export class EntryListTableComponent implements OnInit {
       return true;
     }
   }
+
 // Show/hide actions if cheque & dd date is in future
   checkFutureDate(element: any): boolean {
     if (element.mode_of_payment.name === 'Cheque' && new Date(element.data.date_of_cheque) >= this.today) {
@@ -149,6 +148,7 @@ export class EntryListTableComponent implements OnInit {
     }
     return !(element.mode_of_payment.name === 'Demand Draft' && new Date(element.data.date_of_draft) >= this.today);
   }
+
   paginationClicked(eve: PageEvent): PageEvent {
     this.offset = (eve.pageIndex === 0 ? 0 : (eve.pageIndex * eve.pageSize));
     this.getPaymentList();

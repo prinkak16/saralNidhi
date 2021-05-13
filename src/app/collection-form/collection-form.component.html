@@ -4,7 +4,7 @@
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
         <input type="text" placeholder="Search by / PAN No." class="search-input" [formControl]="keyword"
-               (keyup)="getDonorData(keyword.value)">
+               (keyup)="getDonorList(keyword.value)">
         <mat-icon class="search-icon">search</mat-icon>
       </div>
       <div *ngIf="autoFillData" class="search-result">

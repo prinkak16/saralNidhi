@@ -510,12 +510,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
   }
 
-  getDonorData(query: string): void {
+  getDonorList(query: string): void {
     if (query) {
       this.showProgress = true;
-      this.restService.getPaymentRecords('', query,
-        '', '', 1, 0).subscribe((response: any) => {
-        this.autoFillData = response.data.data as PaymentModel[];
+      this.restService.getDonorList(query).subscribe((response: any) => {
+        this.autoFillData = response.data as PaymentModel[];
         this.showProgress = false;
       }, (error: string) => {
         this.showProgress = false;
