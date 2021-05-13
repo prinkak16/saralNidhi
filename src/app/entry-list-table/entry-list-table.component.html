@@ -6,9 +6,9 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="ml-4">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker" >
-          <input matStartDate placeholder="Start date" [formControl]="startdate">
-          <input matEndDate placeholder="End date" [formControl]="enddate"  (dateChange)="getTransactionByDate()">
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" [formControl]="startDate">
+          <input matEndDate placeholder="End date" [formControl]="endDate" (dateChange)="getTransactionByDate()">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -22,7 +22,7 @@
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
       <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </mat-cell>
+      <mat-cell *matCellDef="let element; let i = index;"> {{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0)  * this.pageSize) + i + 1}} </mat-cell>
     </ng-container>
 
     <!-- Date Column -->
@@ -103,7 +103,8 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)" [routerLink]="['transaction_edit', element.id]">
+            <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)"
+                    [routerLink]="['transaction_edit', element.id]">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
@@ -113,13 +114,14 @@
             </button>
             <div *ngIf="checkFutureDate(element)">
             <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
-            <button mat-menu-item  *ngIf="!element.payment_realize_date && !element.payment_remark" (click)="openChequeDialog('realized', element)">
+            <button mat-menu-item *ngIf="!element.payment_realize_date && !element.payment_remark"
+                    (click)="openChequeDialog('realized', element)">
               <mat-icon>date_range</mat-icon>
               <span>Realized</span>
             </button>
               </span>
             <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
-            <button mat-menu-item  *ngIf="!element.payment_remark"
+            <button mat-menu-item *ngIf="!element.payment_remark"
                     (click)="openChequeDialog('bounced' , element)">
               <mat-icon>note_add</mat-icon>
               <span>Bounced</span>
@@ -173,9 +175,11 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+  <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
+                 [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
 </ng-container>
 <ng-template #emptyList>
-  <h3 class="text-center">No records found</h3>
+  <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
 </ng-template>
 <div class="loader-container" *ngIf="showLoader">
   <mat-spinner color="warn"></mat-spinner>

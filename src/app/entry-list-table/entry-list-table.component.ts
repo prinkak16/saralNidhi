@@ -9,6 +9,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
+import {PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -32,8 +33,16 @@ export class EntryListTableComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
-  startdate = new FormControl('');
-  enddate = new FormControl('');
+  length = 0;
+  pageSize = 10;
+  pageEvent = new PageEvent();
+  filters = null;
+
+  offset = 0;
+  limit = 10;
+
+  startDate = new FormControl('');
+  endDate = new FormControl('');
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
@@ -44,7 +53,7 @@ export class EntryListTableComponent implements OnInit {
   }
 
   getTransactionByDate(): void {
-    if (this.startdate.value && this.enddate.value) {
+    if (this.startDate.value && this.endDate.value) {
       this.getPaymentList();
     }
   }
@@ -52,9 +61,10 @@ export class EntryListTableComponent implements OnInit {
   getPaymentList(): void {
     this.showLoader = true;
     this.restService.getPaymentRecords(this.paymentModeId, this.query,
-      this.startdate.value, this.enddate.value).subscribe((response: any) => {
+      this.startDate.value, this.endDate.value, this.limit, this.offset).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
+      this.length = response.data.length;
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
@@ -135,8 +145,13 @@ export class EntryListTableComponent implements OnInit {
 // Show/hide actions if cheque & dd date is in future
   checkFutureDate(element: any): boolean {
     if (element.mode_of_payment.name === 'Cheque' && new Date(element.data.date_of_cheque) >= this.today) {
-      return  false;
+      return false;
     }
     return !(element.mode_of_payment.name === 'Demand Draft' && new Date(element.data.date_of_draft) >= this.today);
+  }
+  paginationClicked(eve: PageEvent): PageEvent {
+    this.offset = (eve.pageIndex === 0 ? 0 : (eve.pageIndex * eve.pageSize));
+    this.getPaymentList();
+    return eve;
   }
 }
