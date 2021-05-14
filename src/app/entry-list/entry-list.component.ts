@@ -4,7 +4,6 @@ import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
-import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-entry-list',
@@ -16,8 +15,11 @@ export class EntryListComponent implements OnInit {
   modeOfPayments: PaymentModeModel[] = [];
   selectedModeOfPayment = '';
   query = '';
+  startDate = '';
+  endDate = '';
   selectedIndex = 0;
   counting = [];
+  filters: any;
 
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
@@ -38,8 +40,9 @@ export class EntryListComponent implements OnInit {
 
   getPaymentModes(): void {
     this.restService.getPaymentModes().subscribe((response: any) => {
+      const allIds = [this.utilService.pluck(response.data, 'id')];
       this.modeOfPayments.push({
-        id: [this.utilService.pluck(response.data, 'id')],
+        id: allIds,
         name: 'All', description: '', count: ''
       });
       response.data.forEach((data: any) => {
@@ -57,9 +60,7 @@ export class EntryListComponent implements OnInit {
   }
 
   getCount(): any {
-    this.restService.getCounts({
-      states: this.utilService.pluck(this.modeOfPayments, 'id'),
-      query: this.query
+    this.restService.getCounts({states: this.utilService.pluck(this.modeOfPayments, 'id'), filters: this.filters
     }).subscribe((response: any) => {
       this.counting = [];
       setTimeout((_: any) => {
@@ -68,5 +69,10 @@ export class EntryListComponent implements OnInit {
     }, (error: any) => {
       this.messageService.somethingWentWrong();
     });
+  }
+
+  setFilters(event: any): void {
+    this.filters = event;
+    this.getCount();
   }
 }

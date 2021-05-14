@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, ViewChild} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -16,7 +16,7 @@ import {PageEvent} from '@angular/material/paginator';
   templateUrl: './entry-list-table.component.html',
   styleUrls: ['./entry-list-table.component.css']
 })
-export class EntryListTableComponent implements OnInit {
+export class EntryListTableComponent implements OnInit, OnChanges {
   differenceInDays: any;
 
   constructor(private restService: RestService, private matDialog: MatDialog,
@@ -25,23 +25,20 @@ export class EntryListTableComponent implements OnInit {
   }
 
   @Input() paymentModeId: any = null;
-  @Input() query: any = null;
+  @Input() filters: any = null;
   showLoader = false;
   editTimerTooltip = '';
+  today = new Date();
   paymentDetails: PaymentModel[] = [];
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
-
+  private dialog: any;
   length = 0;
   pageSize = 10;
   pageEvent = new PageEvent();
-  filters = null;
 
   offset = 0;
   limit = 10;
-
-  startDate = new FormControl('');
-  endDate = new FormControl('');
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
@@ -51,16 +48,18 @@ export class EntryListTableComponent implements OnInit {
     this.getPaymentList();
   }
 
-  getTransactionByDate(): void {
-    if (this.startDate.value && this.endDate.value) {
-      this.getPaymentList();
-    }
+  ngOnChanges(): void {
+    this.getPaymentList();
   }
 
   getPaymentList(): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords(this.paymentModeId, this.query,
-      this.startDate.value, this.endDate.value, this.limit, this.offset).subscribe((response: any) => {
+    const data = {
+      filters: this.filters ? this.filters : {},
+      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
+      limit: this.limit, offset: this.offset
+    };
+    this.restService.getPaymentRecords(data).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
       this.length = response.data.length;
@@ -80,7 +79,7 @@ export class EntryListTableComponent implements OnInit {
   }
 
   openChequeDialog(type: any, row: any): void {
-    const paymentData = {type, id: row.id};
+    const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
     const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
       if (result.remark) {
@@ -104,10 +103,10 @@ export class EntryListTableComponent implements OnInit {
   }
 
   allowedEdit(createdDate: string): boolean {
-    const dateOfCreation = new Date(createdDate);
     const today = new Date();
     let result = false;
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 15 Days')) {
+      const dateOfCreation = new Date(createdDate);
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
@@ -115,6 +114,7 @@ export class EntryListTableComponent implements OnInit {
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
+      const dateOfCreation = new Date(createdDate);
       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
@@ -139,6 +139,14 @@ export class EntryListTableComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+// Show/hide actions if cheque & dd date is in future
+  checkFutureDate(element: any): boolean {
+    if (element.mode_of_payment.name === 'Cheque' && new Date(element.data.date_of_cheque) >= this.today) {
+      return false;
+    }
+    return !(element.mode_of_payment.name === 'Demand Draft' && new Date(element.data.date_of_draft) >= this.today);
   }
 
   paginationClicked(eve: PageEvent): PageEvent {

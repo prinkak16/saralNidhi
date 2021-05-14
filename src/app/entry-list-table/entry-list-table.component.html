@@ -1,22 +1,3 @@
-<div class="row">
-  <div class="col-md-12 date-filter">
-    <div class=" mt-4">
-      <mat-form-field appearance="outline">
-        <input matInput placeholder="Name / Pan / Phone " (keyup.enter)="getPaymentList()" [(ngModel)]="query">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="ml-4">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="Start date" [formControl]="startDate">
-          <input matEndDate placeholder="End date" [formControl]="endDate" (dateChange)="getTransactionByDate()">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
-    </div>
-  </div>
-</div>
-
 <ng-container *ngIf="paymentDetails.length > 0;else emptyList">
   <mat-table [dataSource]="paymentDetails" class="entry-list-table">
     <!-- Serial Number Column -->
@@ -81,25 +62,23 @@
     <!--Location-->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <div class="col-md-4">
-          <span class="badge info-badge badge-success" *ngIf="element.payment_realize_date"
-                matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
-          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark"
-                matTooltip="Remark: {{element.payment_remark }}">i</span>
+      <mat-cell *matCellDef="let element" class="action-btn">
+        <div class="w-100">
+<!--          <mat-icon>info</mat-icon>-->
+          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
-        <div class="col-md-4">
+        <div class="w-100">
           <span *ngIf="
                    element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
            ">
-          <mat-icon class="ml-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) "
-                    matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
+          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
         </span>
         </div>
-        <div class="col-md-4">
+        <div class="w-100">
           <!-- Three dot dropdown-->
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
@@ -114,6 +93,7 @@
               <mat-icon>remove_red_eye</mat-icon>
               <span>View</span>
             </button>
+            <div *ngIf="checkFutureDate(element)">
             <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
             <button mat-menu-item *ngIf="!element.payment_realize_date && !element.payment_remark"
                     (click)="openChequeDialog('realized', element)">
@@ -128,13 +108,17 @@
               <span>Bounced</span>
             </button>
               </span>
+            </div>
             <span *ngIf="element.is_editable && isRealized(element)">
-            <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_realize_date"
-                    (click)="openChequeDialog('reserved', element)">
+            <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_remark" (click)="openChequeDialog('reserved', element)">
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
             </span>
+            <!--  In case of future date of cheque show message-->
+            <button mat-menu-item *ngIf="checkFutureDate(element) == false">
+              <mat-icon  class="text-center" matTooltip="Realize action button will be available on this date of cheque">info</mat-icon>
+            </button>
           </mat-menu>
           <!-- Three dot dropdown-->
         </div>

@@ -23,7 +23,7 @@ export class ChequeDetailComponent implements OnInit, AfterViewChecked, AfterCon
   }
 
   chequeData: any;
-  today = new Date();
+  allowMinDate = new Date();
   chequeDetailForm: FormGroup = new FormGroup({});
   ngOnInit(): void {
     this.chequeDetailForm = this.formBuilder.group({
@@ -37,6 +37,13 @@ export class ChequeDetailComponent implements OnInit, AfterViewChecked, AfterCon
     }
     if (this.data.type === 'reserved' || this.data.type === 'bounced'){
       this.chequeDetailForm.controls.remark.setValidators(Validators.required);
+    }
+    // Getting realize date should be >= cheque & dd date
+    if (this.data.date_of_cheque) {
+      this.allowMinDate = new Date(this.data.date_of_cheque);
+    }
+    if (this.data.date_of_draft) {
+      this.allowMinDate = new Date(this.data.date_of_draft);
     }
   }
 // Detect changes

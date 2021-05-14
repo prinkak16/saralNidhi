@@ -119,7 +119,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       state: new FormControl({value: null, disabled: true}),
       pan_card: new FormControl(null),
       pan_card_photo: new FormControl(null),
-      cheque_dd_photo: new FormControl(null),
+      cheque_dd_photo1: new FormControl(null),
+      cheque_dd_photo2: new FormControl(null),
       pan_card_remarks: new FormControl(null),
       amount: new FormControl(null, [Validators.required]),
       mode_of_payment: new FormControl(null, [Validators.required]),
@@ -509,12 +510,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
   }
 
-  getDonorData(query: string): void {
+  getDonorList(query: string): void {
     if (query) {
       this.showProgress = true;
-      this.restService.getPaymentRecords('', query,
-        '', '', 1, 0).subscribe((response: any) => {
-        this.autoFillData = response.data.data as PaymentModel[];
+      this.restService.getDonorList(query).subscribe((response: any) => {
+        this.autoFillData = response.data as PaymentModel[];
         this.showProgress = false;
       }, (error: string) => {
         this.showProgress = false;
@@ -550,6 +550,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   onFileChange(event: Event, control: string): void {
+    const reader = new FileReader();
     // @ts-ignore
     if (event.target.files && event.target.files.length) {
       // @ts-ignore
@@ -559,7 +560,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         file
       });
       if (control === 'pan_card_photo') {
-        const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (ev) => {
           console.log('image loaded');
@@ -572,8 +572,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         };
         this.cd.markForCheck();
       }
-      if (control === 'cheque_dd_photo') {
-        const reader = new FileReader();
+      if (control === 'cheque_dd_photo1') {
         reader.readAsDataURL(file);
         reader.onload = (ev) => {
           console.log('image loaded');
@@ -581,7 +580,20 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           if (this.chequeDdPhoto) {
             this.chequeDdPhoto.nativeElement.src = fileReader.result;
           } else {
-            this.collectionForm.controls.cheque_dd_photo.setValue(fileReader.result);
+            this.collectionForm.controls.cheque_dd_photo1.setValue(fileReader.result);
+          }
+        };
+        this.cd.markForCheck();
+      }
+      if (control === 'cheque_dd_photo2') {
+        reader.readAsDataURL(file);
+        reader.onload = (ev) => {
+          console.log('image loaded');
+          const fileReader = ev.target as FileReader;
+          if (this.chequeDdPhoto) {
+            this.chequeDdPhoto.nativeElement.src = fileReader.result;
+          } else {
+            this.collectionForm.controls.cheque_dd_photo2.setValue(fileReader.result);
           }
         };
         this.cd.markForCheck();
@@ -822,6 +834,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_cheque.disable();
     this.collectionForm.controls.cheque_number.disable();
     this.collectionForm.controls.utr_number.disable();
+    this.collectionForm.controls.date_of_draft.disable();
+    this.collectionForm.controls.draft_number.disable();
+    this.collectionForm.controls.phone.disable();
+    this.collectionForm.controls.email.disable();
+
   }
 
   enablePaymentMode(): void {
@@ -830,6 +847,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_cheque.enable();
     this.collectionForm.controls.cheque_number.enable();
     this.collectionForm.controls.utr_number.enable();
+    this.collectionForm.controls.date_of_draft.enable();
+    this.collectionForm.controls.draft_number.enable();
+    this.collectionForm.controls.phone.enable();
+    this.collectionForm.controls.email.enable();
   }
 
   setTransactionDetailsValues(transaction: any): void {

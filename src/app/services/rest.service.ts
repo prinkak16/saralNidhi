@@ -84,11 +84,11 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_years', this.authHttpOptions());
   }
 
-  getPaymentRecords(paymentTypeId: string, query: string, startDate: string, endDate: string,
-                    limit: number, offset: number): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/get_records?type_id=' + paymentTypeId +
-      '&query=' + query + '&start_date=' + startDate + '&end_date=' + endDate +
-      '&limit=' + limit + '&offset=' + offset, this.authHttpOptions());
+  getPaymentRecords(data: object): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/fetch_records', data, this.authHttpOptions());
+  }
+  getDonorList(data: any): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/get_donor_list?query=' + data, this.authHttpOptions());
   }
 
   getTotalCount(): any {
@@ -122,7 +122,7 @@ export class RestService {
     return this.http.get(this.pinCodeUrl + pinCode);
   }
 
-  getCounts(data: { dates?: string[], states?: string[], query?: any }): any {
+  getCounts(data: { states?: string[], filters?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
