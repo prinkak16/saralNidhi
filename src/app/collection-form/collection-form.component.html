@@ -107,7 +107,7 @@
           front photo</label>
         <div class="pan-card-image-upload-container col-md-12">
           <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-            <ng-container *ngIf="collectionForm.controls.cheque_dd_front_photo.value;else uploadChequeDDFrontText">
+            <ng-container *ngIf="collectionForm.controls.cheque_dd_photo1.value;else uploadChequeDDFrontText">
               <div>
                 <img src="assets/icons/upload_success_icon.svg" alt="cheque dd front photo" class="upload-icon"/>
                 Cheque/ Demand Draft card uploaded
@@ -121,7 +121,7 @@
               </div>
             </ng-template>
             <input type="file" hidden accept="image/png, image/jpeg"
-                   (change)="onFileChange($event, 'cheque_dd_front_photo')" #fileInputPhoto/>
+                   (change)="onFileChange($event, 'cheque_dd_photo1')" #fileInputPhoto/>
           </div>
         </div>
       </ng-container>
@@ -132,7 +132,7 @@
          back photo</label>
         <div class="pan-card-image-upload-container col-md-12">
           <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-            <ng-container *ngIf="collectionForm.controls.cheque_dd_back_photo.value;else uploadChequeDDBackText">
+            <ng-container *ngIf="collectionForm.controls.cheque_dd_photo2.value;else uploadChequeDDBackText">
               <div>
                 <img src="assets/icons/upload_success_icon.svg" alt="cheque dd back photo" class="upload-icon"/>
                 Cheque/ Demand Draft card uploaded
@@ -146,7 +146,7 @@
               </div>
             </ng-template>
             <input type="file" hidden accept="image/png, image/jpeg"
-                   (change)="onFileChange($event, 'cheque_dd_back_photo')" #fileInputPhoto/>
+                   (change)="onFileChange($event, 'cheque_dd_photo2')" #fileInputPhoto/>
           </div>
         </div>
       </ng-container>
@@ -212,13 +212,13 @@
    <!--Show uploaded image preview-->
     <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
       <div *ngIf="!transactionId">
-        <img src="{{collectionForm.controls.cheque_dd_front_photo.value}}"  height="75" width="75" class="ml-3">
-        <img src="{{collectionForm.controls.cheque_dd_back_photo.value}}"  height="75" width="75" class="ml-2">
+        <img src="{{collectionForm.controls.cheque_dd_photo1.value}}"  height="75" width="75" class="ml-3">
+        <img src="{{collectionForm.controls.cheque_dd_photo2.value}}"  height="75" width="75" class="ml-2">
         <br>
       </div>
       <div *ngIf="transactionId">
-        <img src="{{transactionDetails.data.data.cheque_dd_front_photo}}"  height="75" width="75" class="ml-3">
-        <img src="{{transactionDetails.data.data.cheque_dd_back_photo}}"  height="75" width="75" class="ml-2 mb">
+        <img src="{{transactionDetails.data.data.cheque_dd_photo1}}"  height="75" width="75" class="ml-3">
+        <img src="{{transactionDetails.data.data.cheque_dd_photo2}}"  height="75" width="75" class="ml-2 mb">
         <br>
       </div>
     </ng-container>
