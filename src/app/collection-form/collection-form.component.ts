@@ -842,11 +842,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   enablePaymentMode(): void {
-    this.collectionForm.controls.mode_of_payment.enable();
-    this.collectionForm.controls.date_of_transaction.enable();
-    this.collectionForm.controls.date_of_cheque.enable();
-    this.collectionForm.controls.cheque_number.enable();
-    this.collectionForm.controls.utr_number.enable();
+    this.collectionForm.controls.mode_of_payment.disable();
+    this.collectionForm.controls.date_of_transaction.disable();
+    this.collectionForm.controls.date_of_cheque.disable();
+    this.collectionForm.controls.cheque_number.disable();
+    this.collectionForm.controls.utr_number.disable();
+    this.collectionForm.controls.date_of_draft.disable();
+    this.collectionForm.controls.draft_number.disable();
+    this.collectionForm.controls.phone.disable();
+    this.collectionForm.controls.email.disable();
   }
 
   setTransactionDetailsValues(transaction: any): void {
