@@ -137,19 +137,9 @@
                   matTooltip="Print Receipt">print
         </mat-icon>
           </span>
-        <span *ngIf="element.mode_of_payment.name === 'IMPS'
-                  || element.mode_of_payment.name === 'NEFT'
-                  || element.mode_of_payment.name === 'RTGS'
-                  || element.mode_of_payment.name === 'UPI'
-                  || element.mode_of_payment.name === 'Cash'
-                  ">
-        <mat-icon (click)="openDialog(element)" *ngIf="
-         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated"
-                  class="pointer"
+        <mat-icon (click)="openDialog(element)"
                   matTooltip="Print Receipt">print
         </mat-icon>
-          </span>
       </mat-cell>
     </ng-container>
 

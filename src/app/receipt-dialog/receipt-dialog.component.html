@@ -1,4 +1,4 @@
-<mat-dialog-content id="print-section" xmlns="http://www.w3.org/1999/html">
+<mat-dialog-content>
 
   <div class="page-container">
     <div class="box-border position-relative">
@@ -47,8 +47,13 @@
     </div>
   </div>
 </mat-dialog-content>
-<button [useExistingCss]="true" class="float-right mt-4 ml-1" mat-flat-button color="primary"
-  printSectionId="print-section"
-  ngxPrint>Print
-</button>
-<button class="float-right mt-4" mat-flat-button color="warn" (click)="close()">Cancel</button>
+<a class="mt-4 ml-2 float-right"
+   mat-flat-button color="primary"
+   href="http://localhost:3000/nidhi_collection/{{receipt_data.data.id}}/get_pdf.pdf"
+   download><span>Download</span></a>
+<!--<a class="mt-4 ml-2 float-right"-->
+<!--   mat-flat-button color="primary"-->
+<!--   href="https://www.mapsland.com/maps/world/large-scale-detailed-satellite-map-of-the-world.jpg"-->
+<!--   download><span>Download</span></a>-->
+<button class="mt-4 float-right" mat-flat-button color="warn" (click)="close()">Close</button>
+
