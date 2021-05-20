@@ -75,4 +75,11 @@ export class EntryListComponent implements OnInit {
     this.filters = event;
     this.getCount();
   }
+
+  updateList($event: any): void {
+    if ($event){
+      this.modeOfPayments = [];
+      this.getPaymentModes();
+    }
+  }
 }

@@ -114,7 +114,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       proprietorship_name: new FormControl(null),
       house: new FormControl(null),
       locality: new FormControl(null),
-      pincode: new FormControl(null),
+      pincode: new FormControl(null, [Validators.pattern('^[0-9]{6,6}$')]),
       district: new FormControl({value: null, disabled: true}),
       state: new FormControl({value: null, disabled: true}),
       pan_card: new FormControl(null),
@@ -170,6 +170,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   onFormChange(): void {
+    this.collectionForm.controls.date.disable();
+    this.collectionForm.controls.financial_year_id.disable();
+    this.amountWord.disable();
     this.collectionForm.controls.is_proprietorship.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
         this.collectionForm.controls.proprietorship_name.setValue(null);
@@ -278,6 +281,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
+        this.removePartyUnitValue();
         if (value) {
           if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
             this.getAllottedStates();
@@ -291,15 +295,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     );
 
     this.stateControl.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
-        this.getZilas();
-      }
+      this.getZilas();
     });
 
     this.zilaControl.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
-        this.getMandals();
-      }
+      this.getMandals();
     });
 
     this.collectionForm.controls.transaction_type.valueChanges.subscribe(value => {
@@ -316,6 +316,17 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.getPinCodeDetails(value, 'state', 'district');
       }
     });
+  }
+// Party unit fields value removing on value change
+  removePartyUnitValue(): void {
+    if (!this.transactionId) {
+      this.stateControl.setValue(null);
+      this.stateControl.clearValidators();
+      this.zilaControl.setValue(null);
+      this.zilaControl.clearValidators();
+      this.collectionForm.controls.location_id.setValue(null);
+      this.collectionForm.controls.location_id.clearValidators();
+    }
   }
 
   removeAllValidations(): void {
@@ -439,7 +450,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.setValidators(Validators.required);
     this.collectionForm.controls.locality.updateValueAndValidity();
 
-    this.collectionForm.controls.pincode.setValidators(Validators.required);
+    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValidators(Validators.required);
@@ -470,19 +481,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   getZilas(): void {
-    this.restService.getZilasForState(this.stateControl.value).subscribe((response: any) => {
-      this.zilaUnits = response.data;
-    }, (error: string) => {
-      this.messageService.somethingWentWrong(error);
-    });
+    if (this.stateControl.value) {
+      this.restService.getZilasForState(this.stateControl.value).subscribe((response: any) => {
+        this.zilaUnits = response.data;
+      }, (error: string) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
   }
 
   getMandals(): void {
-    this.restService.getMandalsForZila(this.zilaControl.value).subscribe((response: any) => {
-      this.mandalUnits = response.data;
-    }, (error: string) => {
-      this.messageService.somethingWentWrong(error);
-    });
+    if (this.zilaControl.value) {
+      this.restService.getMandalsForZila(this.zilaControl.value).subscribe((response: any) => {
+        this.mandalUnits = response.data;
+      }, (error: string) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
   }
 
   getAllottedStates(): void {
@@ -625,6 +640,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.showLoader = true;
     this.collectionForm.controls.state.enable();
     this.collectionForm.controls.district.enable();
+    this.collectionForm.controls.date.enable();
+    this.collectionForm.controls.financial_year_id.enable();
     this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
@@ -633,6 +650,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }, (error: any) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
+      setTimeout((_: any) => {
+        this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+      }, 1000);
     });
   }
 
@@ -863,6 +883,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.name.setValue(transaction.data.name);
     this.collectionForm.controls.category.setValue(transaction.data.category);
     this.collectionForm.controls.is_proprietorship.setValue(transaction.data.is_proprietorship);
+    this.collectionForm.controls.proprietorship_name.setValue(transaction.data.proprietorship_name);
     this.collectionForm.controls.house.setValue(transaction.data.house);
     this.collectionForm.controls.locality.setValue(transaction.data.locality);
     this.collectionForm.controls.pincode.setValue(transaction.data.pincode);
@@ -916,6 +937,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.enablePaymentMode();
     this.collectionForm.controls.state.enable();
     this.collectionForm.controls.district.enable();
+    this.collectionForm.controls.date.enable();
+    this.collectionForm.controls.financial_year_id.enable();
     this.collectionForm.controls.id.setValue(transactionId);
     this.restService.updateTransaction({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
