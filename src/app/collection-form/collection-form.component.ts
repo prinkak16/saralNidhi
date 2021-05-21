@@ -320,11 +320,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 // Party unit fields value removing on value change
   removePartyUnitValue(): void {
     if (!this.transactionId) {
-      this.stateControl.clearValidators();
+      this.stateControl.setValue(null);
       this.zilaControl.setValue(null);
-      this.zilaControl.clearValidators();
       this.collectionForm.controls.location_id.setValue(null);
-      this.collectionForm.controls.location_id.clearValidators();
     }
   }
 
@@ -634,7 +632,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       return this.messageService.closableSnackBar('Cheque number with all same digit is not allowed');
     }
     if (!this.checkCashLimit()) {
-      this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
+      return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
     this.showLoader = true;
     this.collectionForm.controls.state.enable();
