@@ -130,11 +130,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       date_of_draft: new FormControl(new Date().toDateString()),
       draft_number: new FormControl(null),
       utr_number: new FormControl(null),
-      account_number: new FormControl(null),
+      account_number: new FormControl(''),
       ifsc_code: new FormControl('', [Validators.pattern(this.ifscPattern)]),
       bank_name: new FormControl(''),
-      branch_name: new FormControl(null),
-      branch_address: new FormControl(null),
+      branch_name: new FormControl(''),
+      branch_address: new FormControl(''),
       collector_name: new FormControl(null),
       collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
       nature_of_donation: new FormControl(null),
@@ -212,8 +212,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.setChequeValidations();
+          this.setBankDetailValidation();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.setDDValidations();
+          this.setBankDetailValidation();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.setTransferValidations();
         } else {
@@ -433,6 +435,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   setCategoryValidation(): void {
     this.collectionForm.controls.category.setValidators(Validators.required);
     this.collectionForm.controls.category.updateValueAndValidity();
+  }
+  // Set Bank fields validation on Cheque && DD
+  setBankDetailValidation(): void {
+    this.collectionForm.controls.account_number.setValidators(Validators.required);
+    this.collectionForm.controls.ifsc_code.setValidators(Validators.required);
+    this.collectionForm.controls.bank_name.setValidators(Validators.required);
+    this.collectionForm.controls.branch_name.setValidators(Validators.required);
+    this.collectionForm.controls.branch_address.setValidators(Validators.required);
   }
 
   setIfscValidation(): void {

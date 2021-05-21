@@ -69,14 +69,19 @@
           <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
         <div class="w-100">
-          <span *ngIf="
-                   element.mode_of_payment.name === 'IMPS'
-                  || element.mode_of_payment.name === 'NEFT'
-                  || element.mode_of_payment.name === 'RTGS'
-                  || element.mode_of_payment.name === 'UPI'
-           ">
-          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && element.data.ifsc_code === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
-        </span>
+
+          <mat-icon class="mt-2" *ngIf="(element.mode_of_payment.name === 'IMPS'
+          || element.mode_of_payment.name === 'NEFT'
+          || element.mode_of_payment.name === 'RTGS'
+          || element.mode_of_payment.name === 'UPI') &&
+          element.data.account_number === '' &&
+          element.data.ifsc_code === '' &&
+          element.data.bank_name === '' &&
+          element.data.branch_name === '' &&
+          element.data.branch_address === '' &&
+          allowedEdit(element.data.date) &&
+          !element.payment_remark" matTooltip="{{editTimerTooltip}}
+          ">access_time</mat-icon>
         </div>
         <div class="w-100">
           <!-- Three dot dropdown-->
