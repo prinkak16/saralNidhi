@@ -131,7 +131,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       draft_number: new FormControl(null),
       utr_number: new FormControl(null),
       account_number: new FormControl(null),
-      ifsc_code: new FormControl(null, [Validators.pattern(this.ifscPattern)]),
+      ifsc_code: new FormControl('', [Validators.pattern(this.ifscPattern)]),
       bank_name: new FormControl(''),
       branch_name: new FormControl(null),
       branch_address: new FormControl(null),
@@ -320,7 +320,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 // Party unit fields value removing on value change
   removePartyUnitValue(): void {
     if (!this.transactionId) {
-      this.stateControl.setValue(null);
       this.stateControl.clearValidators();
       this.zilaControl.setValue(null);
       this.zilaControl.clearValidators();
@@ -895,6 +894,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.branch_name.setValue(transaction.data.branch_name);
     this.collectionForm.controls.branch_address.setValue(transaction.data.branch_address);
     this.collectionForm.controls.nature_of_donation.setValue(transaction.data.nature_of_donation);
+    this.collectionForm.controls.other_nature_of_donation.setValue(transaction.data.other_nature_of_donation);
     this.collectionForm.controls.collector_name.setValue(transaction.data.collector_name);
     this.collectionForm.controls.collector_phone.setValue(transaction.data.collector_phone);
     this.collectionForm.controls.amount.setValue(transaction.data.amount);
@@ -959,7 +959,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }
-
+// Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
     if (this.collectionForm.controls.ifsc_code.valid) {
@@ -967,13 +967,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.bankDetails = response;
       }, (error: any) => {
         this.showLoader = false;
-        this.messageService.somethingWentWrong(error.error.message);
+        this.removeBankDetails();
+        if (error.error === 'Not Found') {
+          this.messageService.somethingWentWrong('Please enter valid ifsc code');
+        } else  {
+          this.messageService.somethingWentWrong('Please enter ifsc code');
+        }
       });
     } else {
       this.bankDetails = [];
     }
   }
-
+// Set bank details from ifsc.
   setBankDetails(bankDetails: any): void {
     if (bankDetails) {
       this.collectionForm.controls.bank_name.setValue(bankDetails.BANK);
@@ -981,6 +986,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.branch_address.setValue(bankDetails.ADDRESS);
       this.bankDetails = [];
     }
+  }
+// Removing bank details.
+  removeBankDetails(): void {
+    this.collectionForm.controls.bank_name.setValue(null);
+    this.collectionForm.controls.branch_name.setValue(null);
+    this.collectionForm.controls.branch_address.setValue(null);
   }
 
   allowBankDetailEdit(createdDate: string): boolean {

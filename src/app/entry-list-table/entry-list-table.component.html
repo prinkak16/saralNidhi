@@ -75,7 +75,7 @@
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
            ">
-          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
+          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && element.data.ifsc_code === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
         </span>
         </div>
         <div class="w-100">
