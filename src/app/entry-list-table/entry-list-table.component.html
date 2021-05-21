@@ -122,7 +122,7 @@
             </span>
             <!--  In case of future date of cheque show message-->
             <button mat-menu-item *ngIf="checkFutureDate(element) == false">
-              <mat-icon  class="text-center" matTooltip="Realize action button will be available on this date of cheque">info</mat-icon>
+              <mat-icon  class="text-center"  matTooltip="{{element.mode_of_payment.name}} Realize option will available on {{utilService.formatDate(element.data.date_of_cheque) || utilService.formatDate(element.data.date_of_draft)}}">info</mat-icon>
             </button>
           </mat-menu>
           <!-- Three dot dropdown-->

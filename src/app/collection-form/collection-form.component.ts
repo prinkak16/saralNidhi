@@ -117,7 +117,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       pincode: new FormControl(null, [Validators.pattern('^[0-9]{6,6}$')]),
       district: new FormControl({value: null, disabled: true}),
       state: new FormControl({value: null, disabled: true}),
-      pan_card: new FormControl(null),
+      pan_card: new FormControl(''),
       pan_card_photo: new FormControl(null),
       cheque_dd_photo1: new FormControl(null),
       cheque_dd_photo2: new FormControl(null),
