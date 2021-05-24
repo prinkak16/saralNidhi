@@ -48,7 +48,7 @@ import {ListComponent} from './user/list/list.component';
 import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
+import { UpdatePaymentComponent } from './update-payment/update-payment.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { TwoDigitDecimaNumberDirective } from './two-digit-decima-number.directive';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -71,7 +71,7 @@ import { FilterSearchComponent } from './filter-search/filter-search.component';
     ListComponent,
     ListTableComponent,
     ChangePasswordBottomSheetComponent,
-    ChequeDetailComponent,
+    UpdatePaymentComponent,
     TwoDigitDecimaNumberDirective,
     FilterSearchComponent
   ],

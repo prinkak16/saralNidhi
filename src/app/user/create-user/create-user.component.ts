@@ -112,7 +112,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
         // @ts-ignore
-        this.getZilas(this.userStates[0].id);
+        this.getZilas();
         this.placeholder = 'Select Zila';
       }
       if (value === 'mandal_accountant') {
@@ -136,8 +136,8 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getZilas(stateId: any): void {
-    this.restService.getZilasForState(stateId).subscribe((reply: any) => {
+  getZilas(): void {
+    this.restService.getZilasForState('').subscribe((reply: any) => {
       const response = reply as any;
       this.locations = response.data;
     }, (error: { message: string; }) => {

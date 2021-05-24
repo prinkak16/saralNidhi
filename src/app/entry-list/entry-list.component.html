@@ -14,7 +14,7 @@
         </span>
       </ng-template>
       <div class="table-container">
-        <app-entry-list-table [paymentModeId]="tab.id" [filters]="filters" ></app-entry-list-table>
+        <app-entry-list-table [paymentModeId]="tab.id" [filters]="filters"  (updateList)="updateList($event)"></app-entry-list-table>
       </div>
     </mat-tab>
   </mat-tab-group>

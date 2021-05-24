@@ -80,6 +80,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   previous3Month = new Date(new Date().setMonth(this.today.getMonth() - 3));
   next3Month = new Date(new Date().setMonth(this.today.getMonth() + 3));
+  ddPast2Month = new Date(new Date().setMonth(this.today.getMonth() - 2));
   transactionAllowedDate = new Date();
   numberToWord = '';
   stateControl = new FormControl('');
@@ -114,7 +115,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       proprietorship_name: new FormControl(null),
       house: new FormControl(null),
       locality: new FormControl(null),
-      pincode: new FormControl(null),
+      pincode: new FormControl(null, [Validators.pattern('^[0-9]{6,6}$')]),
       district: new FormControl({value: null, disabled: true}),
       state: new FormControl({value: null, disabled: true}),
       pan_card: new FormControl(null),
@@ -130,11 +131,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       date_of_draft: new FormControl(new Date().toDateString()),
       draft_number: new FormControl(null),
       utr_number: new FormControl(null),
-      account_number: new FormControl(null),
-      ifsc_code: new FormControl(null, [Validators.pattern(this.ifscPattern)]),
+      account_number: new FormControl(''),
+      ifsc_code: new FormControl('', [Validators.pattern(this.ifscPattern)]),
       bank_name: new FormControl(''),
-      branch_name: new FormControl(null),
-      branch_address: new FormControl(null),
+      branch_name: new FormControl(''),
+      branch_address: new FormControl(''),
       collector_name: new FormControl(null),
       collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
       nature_of_donation: new FormControl(null),
@@ -170,6 +171,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   onFormChange(): void {
+    this.collectionForm.controls.date.disable();
+    this.collectionForm.controls.financial_year_id.disable();
+    this.amountWord.disable();
     this.collectionForm.controls.is_proprietorship.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
         this.collectionForm.controls.proprietorship_name.setValue(null);
@@ -209,8 +213,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.setChequeValidations();
+          this.setBankDetailValidation();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.setDDValidations();
+          this.setBankDetailValidation();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.setTransferValidations();
         } else {
@@ -278,6 +284,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
+        this.removePartyUnitValue();
         if (value) {
           if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
             this.getAllottedStates();
@@ -291,15 +298,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     );
 
     this.stateControl.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
-        this.getZilas();
-      }
+      this.getZilas();
     });
 
     this.zilaControl.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
-        this.getMandals();
-      }
+      this.getMandals();
     });
 
     this.collectionForm.controls.transaction_type.valueChanges.subscribe(value => {
@@ -316,6 +319,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.getPinCodeDetails(value, 'state', 'district');
       }
     });
+  }
+// Party unit fields value removing on value change
+  removePartyUnitValue(): void {
+    if (!this.transactionId) {
+      this.stateControl.setValue(null);
+      this.zilaControl.setValue(null);
+      this.collectionForm.controls.location_id.setValue(null);
+    }
   }
 
   removeAllValidations(): void {
@@ -426,6 +437,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.setValidators(Validators.required);
     this.collectionForm.controls.category.updateValueAndValidity();
   }
+  // Set Bank fields validation on Cheque && DD
+  setBankDetailValidation(): void {
+    this.collectionForm.controls.account_number.setValidators(Validators.required);
+    this.collectionForm.controls.ifsc_code.setValidators(Validators.required);
+    this.collectionForm.controls.bank_name.setValidators(Validators.required);
+    this.collectionForm.controls.branch_name.setValidators(Validators.required);
+    this.collectionForm.controls.branch_address.setValidators(Validators.required);
+  }
 
   setIfscValidation(): void {
     this.collectionForm.controls.ifsc_code.setValidators([Validators.pattern(this.ifscPattern)]);
@@ -439,7 +458,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.setValidators(Validators.required);
     this.collectionForm.controls.locality.updateValueAndValidity();
 
-    this.collectionForm.controls.pincode.setValidators(Validators.required);
+    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValidators(Validators.required);
@@ -470,19 +489,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   getZilas(): void {
-    this.restService.getZilasForState(this.stateControl.value).subscribe((response: any) => {
-      this.zilaUnits = response.data;
-    }, (error: string) => {
-      this.messageService.somethingWentWrong(error);
-    });
+    if (this.stateControl.value) {
+      this.restService.getZilasForState(this.stateControl.value).subscribe((response: any) => {
+        this.zilaUnits = response.data;
+      }, (error: string) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
   }
 
   getMandals(): void {
-    this.restService.getMandalsForZila(this.zilaControl.value).subscribe((response: any) => {
-      this.mandalUnits = response.data;
-    }, (error: string) => {
-      this.messageService.somethingWentWrong(error);
-    });
+    if (this.zilaControl.value) {
+      this.restService.getMandalsForZila(this.zilaControl.value).subscribe((response: any) => {
+        this.mandalUnits = response.data;
+      }, (error: string) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
   }
 
   getAllottedStates(): void {
@@ -620,11 +643,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       return this.messageService.closableSnackBar('Cheque number with all same digit is not allowed');
     }
     if (!this.checkCashLimit()) {
-      this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
+      return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
     this.showLoader = true;
     this.collectionForm.controls.state.enable();
     this.collectionForm.controls.district.enable();
+    this.collectionForm.controls.date.enable();
+    this.collectionForm.controls.financial_year_id.enable();
     this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
@@ -633,6 +658,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }, (error: any) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
+      setTimeout((_: any) => {
+        this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+      }, 1000);
     });
   }
 
@@ -863,6 +891,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.name.setValue(transaction.data.name);
     this.collectionForm.controls.category.setValue(transaction.data.category);
     this.collectionForm.controls.is_proprietorship.setValue(transaction.data.is_proprietorship);
+    this.collectionForm.controls.proprietorship_name.setValue(transaction.data.proprietorship_name);
     this.collectionForm.controls.house.setValue(transaction.data.house);
     this.collectionForm.controls.locality.setValue(transaction.data.locality);
     this.collectionForm.controls.pincode.setValue(transaction.data.pincode);
@@ -874,6 +903,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.branch_name.setValue(transaction.data.branch_name);
     this.collectionForm.controls.branch_address.setValue(transaction.data.branch_address);
     this.collectionForm.controls.nature_of_donation.setValue(transaction.data.nature_of_donation);
+    this.collectionForm.controls.other_nature_of_donation.setValue(transaction.data.other_nature_of_donation);
     this.collectionForm.controls.collector_name.setValue(transaction.data.collector_name);
     this.collectionForm.controls.collector_phone.setValue(transaction.data.collector_phone);
     this.collectionForm.controls.amount.setValue(transaction.data.amount);
@@ -916,6 +946,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.enablePaymentMode();
     this.collectionForm.controls.state.enable();
     this.collectionForm.controls.district.enable();
+    this.collectionForm.controls.date.enable();
+    this.collectionForm.controls.financial_year_id.enable();
     this.collectionForm.controls.id.setValue(transactionId);
     this.restService.updateTransaction({data: this.collectionForm.value}).subscribe((response: any) => {
       this.showLoader = false;
@@ -936,7 +968,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }
-
+// Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
     if (this.collectionForm.controls.ifsc_code.valid) {
@@ -944,13 +976,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.bankDetails = response;
       }, (error: any) => {
         this.showLoader = false;
-        this.messageService.somethingWentWrong(error.error.message);
+        this.removeBankDetails();
+        if (error.error === 'Not Found') {
+          this.messageService.somethingWentWrong('Please enter valid ifsc code');
+        } else  {
+          this.messageService.somethingWentWrong('Please enter ifsc code');
+        }
       });
     } else {
       this.bankDetails = [];
     }
   }
-
+// Set bank details from ifsc.
   setBankDetails(bankDetails: any): void {
     if (bankDetails) {
       this.collectionForm.controls.bank_name.setValue(bankDetails.BANK);
@@ -958,6 +995,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.branch_address.setValue(bankDetails.ADDRESS);
       this.bankDetails = [];
     }
+  }
+// Removing bank details.
+  removeBankDetails(): void {
+    this.collectionForm.controls.bank_name.setValue(null);
+    this.collectionForm.controls.branch_name.setValue(null);
+    this.collectionForm.controls.branch_address.setValue(null);
   }
 
   allowBankDetailEdit(createdDate: string): boolean {

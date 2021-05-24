@@ -69,14 +69,19 @@
           <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
         <div class="w-100">
-          <span *ngIf="
-                   element.mode_of_payment.name === 'IMPS'
-                  || element.mode_of_payment.name === 'NEFT'
-                  || element.mode_of_payment.name === 'RTGS'
-                  || element.mode_of_payment.name === 'UPI'
-           ">
-          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
-        </span>
+
+          <mat-icon class="mt-2" *ngIf="(element.mode_of_payment.name === 'IMPS'
+          || element.mode_of_payment.name === 'NEFT'
+          || element.mode_of_payment.name === 'RTGS'
+          || element.mode_of_payment.name === 'UPI') &&
+          element.data.account_number === '' &&
+          element.data.ifsc_code === '' &&
+          element.data.bank_name === '' &&
+          element.data.branch_name === '' &&
+          element.data.branch_address === '' &&
+          allowedEdit(element.data.date) &&
+          !element.payment_remark" matTooltip="{{editTimerTooltip}}
+          ">access_time</mat-icon>
         </div>
         <div class="w-100">
           <!-- Three dot dropdown-->
@@ -117,7 +122,7 @@
             </span>
             <!--  In case of future date of cheque show message-->
             <button mat-menu-item *ngIf="checkFutureDate(element) == false">
-              <mat-icon  class="text-center" matTooltip="Realize action button will be available on this date of cheque">info</mat-icon>
+              <mat-icon  class="text-center"  matTooltip="{{element.mode_of_payment.name}} Realize option will available on {{utilService.formatDate(element.data.date_of_cheque) || ('-'))}}">info</mat-icon>
             </button>
           </mat-menu>
           <!-- Three dot dropdown-->

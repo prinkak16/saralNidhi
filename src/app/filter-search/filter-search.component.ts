@@ -16,7 +16,7 @@ export class FilterSearchComponent implements OnInit {
   @Output() applyFilter = new EventEmitter<any>();
   @Input() query: any = null;
   filterForm: FormGroup = new FormGroup({});
-
+  today =  new Date();
   ngOnInit(): void {
     this.filterForm = this.formBuilder.group({
       query: new FormControl(this.query),
@@ -29,8 +29,10 @@ export class FilterSearchComponent implements OnInit {
     this.applyFilter.emit(this.filterForm.value);
   }
 
-  clearDateRange(): void {
+  clearInputFields(): void {
     this.filterForm.controls.start_date.setValue(null);
     this.filterForm.controls.end_date.setValue(null);
+    this.filterForm.controls.query.setValue(null);
+    this.getFilteredData();
   }
 }

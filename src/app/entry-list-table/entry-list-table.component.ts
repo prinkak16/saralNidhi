@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, ViewChild} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -8,7 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
-import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
+import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {PageEvent} from '@angular/material/paginator';
 
 @Component({
@@ -26,6 +26,7 @@ export class EntryListTableComponent implements OnInit, OnChanges {
 
   @Input() paymentModeId: any = null;
   @Input() filters: any = null;
+  @Output() updateList = new EventEmitter<any>();
   showLoader = false;
   editTimerTooltip = '';
   today = new Date();
@@ -69,8 +70,7 @@ export class EntryListTableComponent implements OnInit, OnChanges {
     });
   }
 
-  // tslint:disable-next-line:typedef
-  openDialog(data: any) {
+  openDialog(data: any): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       element: data
@@ -80,12 +80,10 @@ export class EntryListTableComponent implements OnInit, OnChanges {
 
   openChequeDialog(type: any, row: any): void {
     const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
-    const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
+    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
-      if (result.remark) {
-        row.payment_remark = result.remark;
-      } else {
-        row.payment_realize_date = result.date;
+      if (result){
+        this.updateList.emit(true);
       }
     });
   }
