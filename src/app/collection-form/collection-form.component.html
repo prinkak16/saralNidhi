@@ -618,7 +618,7 @@
       </mat-form-field>
     </ng-container>
      <div class="container mb-2">
-       <mat-error *ngIf="!collectionForm.valid">
+       <mat-error *ngIf="!collectionForm.valid && !transactionId">
          Please fill all * mandatory fields.
        </mat-error>
      </div>
