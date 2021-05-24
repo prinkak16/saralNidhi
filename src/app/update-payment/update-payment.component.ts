@@ -47,7 +47,7 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     }
     if (this.data.date_of_draft) {
       this.allowMinDate = new Date(this.data.date_of_draft);
-      const maxDate = new Date(new Date().setMonth(new Date(this.data.date_of_cheque).getMonth() + 3));
+      const maxDate = new Date(new Date().setMonth(new Date(this.data.date_of_draft).getMonth() + 2));
       this.allowMaxDate = maxDate;
     }
   }

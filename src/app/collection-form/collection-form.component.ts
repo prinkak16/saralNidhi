@@ -80,6 +80,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   previous3Month = new Date(new Date().setMonth(this.today.getMonth() - 3));
   next3Month = new Date(new Date().setMonth(this.today.getMonth() + 3));
+  ddPast2Month = new Date(new Date().setMonth(this.today.getMonth() - 2));
   transactionAllowedDate = new Date();
   numberToWord = '';
   stateControl = new FormControl('');

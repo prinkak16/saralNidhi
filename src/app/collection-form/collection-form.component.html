@@ -186,7 +186,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="previous3Month" [max]="next3Month"
+               [min]="ddPast2Month" [max]="today"
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
