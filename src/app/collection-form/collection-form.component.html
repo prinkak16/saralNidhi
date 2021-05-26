@@ -537,7 +537,7 @@
       </mat-form-field>
     </ng-container>
     <label class="single-label col-md-12">Party Unit: <sup *ngIf="isRequiredField('party_unit')">*</sup></label>
-    <mat-radio-group formControlName="party_unit" aria-label="party_unit"
+    <mat-radio-group formControlName="party_unit" aria-label="party_unit" (click)="removePartyUnitValue()"
                      class="col-md-12 radio-group-container-margin">
       <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState">State
       </mat-radio-button>

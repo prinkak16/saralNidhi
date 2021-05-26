@@ -285,7 +285,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
-        this.removePartyUnitValue();
         if (value) {
           if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
             this.getAllottedStates();
@@ -323,11 +322,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 // Party unit fields value removing on value change
   removePartyUnitValue(): void {
-    if (!this.transactionId) {
       this.stateControl.setValue(null);
       this.zilaControl.setValue(null);
       this.collectionForm.controls.location_id.setValue(null);
-    }
   }
 
   removeAllValidations(): void {
