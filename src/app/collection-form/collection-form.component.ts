@@ -236,6 +236,17 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     });
 
+    // Check validation on pan card If is it a proprietorship yes
+    this.collectionForm.controls.proprietorship_name.valueChanges.pipe(debounceTime(500)).subscribe(value => {
+      if (this.allowedValueNull) {
+        if (value) {
+          if (this.collectionForm.controls.pan_card.value) {
+            this.onPanCardChange(this.collectionForm.controls.pan_card.value);
+          }
+        }
+      }
+    });
+
     this.collectionForm.controls.category.valueChanges.pipe(debounceTime(500)).subscribe(value => {
       if (this.allowedValueNull) {
         if (value) {
