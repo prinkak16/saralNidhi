@@ -15,7 +15,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"><span>{{element.data.name | titlecase}}</span></mat-cell>
+      <mat-cell *matCellDef="let element"><span>{{element.data.name}}</span></mat-cell>
     </ng-container>
 
     <!-- Category Column -->
@@ -65,7 +65,7 @@
       <mat-cell *matCellDef="let element" class="action-btn">
         <div class="w-100">
 <!--          <mat-icon>info</mat-icon>-->
-          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date" matTooltip="{{element.mode_of_payment.name}} Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
           <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
         <div class="w-100">
@@ -114,10 +114,12 @@
             </button>
               </span>
             </div>
-            <button mat-menu-item *ngIf="isReversable(element)" (click)="openChequeDialog('reserved', element)">
+            <span *ngIf="element.is_editable && isRealized(element)">
+            <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_remark" (click)="openChequeDialog('reserved', element)">
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
+            </span>
             <!--  In case of future date of cheque show message-->
             <button mat-menu-item *ngIf="checkFutureDate(element) == false">
               <mat-icon  class="text-center"  matTooltip="{{element.mode_of_payment.name}} Realize option will available on {{utilService.formatDate(element.data.date_of_cheque) || ('-')}}">info</mat-icon>

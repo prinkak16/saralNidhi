@@ -124,17 +124,21 @@ export class EntryListTableComponent implements OnInit, OnChanges {
     }
     return result;
   }
-// if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
-  isReversable(data: any): boolean {
-    const realizedDate = new Date(data.payment_realize_date);
-    const transactionDate = new Date(data.data.date);
-    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
-        const chequeDdDate = new Date(new Date().setDate(realizedDate.getDate() + 30));
-        return new Date() <= chequeDdDate;
+
+  isRealized(data: any): boolean {
+    if (data.payment_realize_date) {
+      const realizedDate = new Date(data.payment_realize_date);
+      if (data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
+        const allowedDate = new Date(new Date().setDate(realizedDate.getDate() + 60));
+        return new Date() <= allowedDate;
+      } else {
+        return true;
       }
-    const otherPaymentDate = new Date(new Date().setDate(transactionDate.getDate() + 30));
-    return new Date() <= otherPaymentDate;
+    } else {
+      return true;
+    }
   }
+
 // Show/hide actions if cheque & dd date is in future
   checkFutureDate(element: any): boolean {
     if (element.mode_of_payment.name === 'Cheque' && new Date(element.data.date_of_cheque) >= this.today) {

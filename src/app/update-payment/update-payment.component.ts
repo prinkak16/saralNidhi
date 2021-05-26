@@ -42,12 +42,12 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     // Getting realize date should be >= cheque & dd date
     if (this.data.date_of_cheque) {
       this.allowMinDate = new Date(this.data.date_of_cheque);
-      const maxDate = new Date(new Date().setDate(new Date(this.data.date_of_cheque).getDate() + 90));
+      const maxDate = new Date(new Date().setMonth(new Date(this.data.date_of_cheque).getMonth() + 3));
       this.allowMaxDate = maxDate;
     }
     if (this.data.date_of_draft) {
       this.allowMinDate = new Date(this.data.date_of_draft);
-      const maxDate = new Date(new Date().setDate(new Date(this.data.date_of_draft).getDate() + 60));
+      const maxDate = new Date(new Date().setMonth(new Date(this.data.date_of_draft).getMonth() + 2));
       this.allowMaxDate = maxDate;
     }
   }
