@@ -41,7 +41,7 @@ app.on('activate', function () {
 
 // auto update feature
 const electron = require('electron');
-const squirrelUrl = "http://localhost";
+const squirrelUrl = "http://34.93.128.21";
 
 const startAutoUpdater = (squirrelUrl) => {
   // The Squirrel application will watch the provided URL
