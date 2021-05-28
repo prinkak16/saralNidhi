@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild, OnDestroy} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -9,14 +9,16 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {Observable, Subscription} from 'rxjs';
+import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
   styleUrls: ['./entry-list-table.component.css']
 })
-export class EntryListTableComponent implements OnInit, OnChanges {
+export class EntryListTableComponent implements OnInit, OnDestroy {
   differenceInDays: any;
 
   constructor(private restService: RestService, private matDialog: MatDialog,
@@ -27,6 +29,12 @@ export class EntryListTableComponent implements OnInit, OnChanges {
   @Input() paymentModeId: any = null;
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
+  @Input() fetchWithFilters = new Observable<any>();
+
+  private subscription: Subscription = new Subscription();
+
+  @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
+
   showLoader = false;
   editTimerTooltip = '';
   today = new Date();
@@ -37,7 +45,6 @@ export class EntryListTableComponent implements OnInit, OnChanges {
   length = 0;
   pageSize = 10;
   pageEvent = new PageEvent();
-
   offset = 0;
   limit = 10;
 
@@ -46,11 +53,23 @@ export class EntryListTableComponent implements OnInit, OnChanges {
       this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
         'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
-    this.getPaymentList();
+    this.subscribeToSubject();
   }
 
-  ngOnChanges(): void {
-    this.getPaymentList();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  subscribeToSubject(): void {
+    this.subscription = this.fetchWithFilters.subscribe(value => {
+      this.filters = value;
+      this.pageEvent = new PageEvent();
+      if (this.paginator) {
+        this.paginator.pageIndex = 0;
+      }
+      this.offset = 0;
+      this.getPaymentList();
+    });
   }
 
   getPaymentList(): void {
@@ -82,7 +101,7 @@ export class EntryListTableComponent implements OnInit, OnChanges {
     const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
     const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
-      if (result){
+      if (result) {
         this.updateList.emit(true);
       }
     });
@@ -129,9 +148,9 @@ export class EntryListTableComponent implements OnInit, OnChanges {
     const realizedDate = new Date(data.payment_realize_date);
     const transactionDate = new Date(data.data.date);
     if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
-        const chequeDdDate = new Date(new Date().setDate(realizedDate.getDate() + 30));
-        return new Date() <= chequeDdDate;
-      }
+      const chequeDdDate = new Date(new Date().setDate(realizedDate.getDate() + 30));
+      return new Date() <= chequeDdDate;
+    }
     const otherPaymentDate = new Date(new Date().setDate(transactionDate.getDate() + 30));
     return new Date() <= otherPaymentDate;
   }

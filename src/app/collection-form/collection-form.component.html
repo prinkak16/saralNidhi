@@ -562,7 +562,10 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
-      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()"
+      <mat-form-field *ngIf="utilsService.isNationalAccountant() ||
+      utilsService.isStateAccountant() ||
+      utilsService.isNationalTreasurer() ||
+      utilsService.isStateTreasurer()"
                       appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
@@ -585,7 +588,10 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Mandal'">
-      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()"
+      <mat-form-field *ngIf="utilsService.isNationalAccountant()
+      || utilsService.isNationalTreasurer()
+      || utilsService.isStateTreasurer()
+      || utilsService.isStateAccountant()"
                       appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
@@ -597,7 +603,11 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field
-        *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant() || utilsService.isZilaAccountant()"
+        *ngIf="utilsService.isNationalAccountant()
+        || utilsService.isNationalTreasurer()
+        || utilsService.isStateTreasurer()
+        || utilsService.isStateAccountant()
+        || utilsService.isZilaAccountant()"
         appearance="outline"
         class="col-md-12">
         <mat-label>Zila</mat-label>
