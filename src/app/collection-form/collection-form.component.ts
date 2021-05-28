@@ -377,23 +377,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.draft_number.clearValidators();
     this.collectionForm.controls.draft_number.updateValueAndValidity();
 
-    this.collectionForm.controls.account_number.setValue(null);
+    this.collectionForm.controls.account_number.setValue('');
     this.collectionForm.controls.account_number.clearValidators();
     this.collectionForm.controls.account_number.updateValueAndValidity();
 
-    this.collectionForm.controls.ifsc_code.setValue(null);
+    this.collectionForm.controls.ifsc_code.setValue('');
     this.collectionForm.controls.ifsc_code.clearValidators();
     this.collectionForm.controls.ifsc_code.updateValueAndValidity();
 
-    this.collectionForm.controls.bank_name.setValue(null);
+    this.collectionForm.controls.bank_name.setValue('');
     this.collectionForm.controls.bank_name.clearValidators();
     this.collectionForm.controls.bank_name.updateValueAndValidity();
 
-    this.collectionForm.controls.branch_name.setValue(null);
+    this.collectionForm.controls.branch_name.setValue('');
     this.collectionForm.controls.branch_name.clearValidators();
     this.collectionForm.controls.branch_name.updateValueAndValidity();
 
-    this.collectionForm.controls.branch_address.setValue(null);
+    this.collectionForm.controls.branch_address.setValue('');
     this.collectionForm.controls.branch_address.clearValidators();
     this.collectionForm.controls.branch_address.updateValueAndValidity();
 
