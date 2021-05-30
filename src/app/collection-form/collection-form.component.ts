@@ -339,7 +339,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   removeAllValidations(): void {
-    this.collectionForm.controls.category.setValue(null)
+    this.collectionForm.controls.category.setValue(null);
     this.collectionForm.controls.category.clearValidators();
     this.collectionForm.controls.category.updateValueAndValidity();
 
