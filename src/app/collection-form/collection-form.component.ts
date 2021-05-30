@@ -176,6 +176,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.amountWord.disable();
     this.collectionForm.controls.is_proprietorship.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
+        if (this.collectionForm.controls.pan_card.value) {
+          this.onPanCardChange(this.collectionForm.controls.pan_card.value);
+        }
         this.collectionForm.controls.proprietorship_name.setValue(null);
         if (value === 'true') {
           this.collectionForm.controls.proprietorship_name.setValidators(Validators.required);
@@ -756,7 +759,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     let splitted = this.collectionForm.controls.name.value.split(' ');
     let value = '';
     if (category === 'individual') {
-      if (this.collectionForm.controls.is_proprietorship.value === 'true') {
+      if (this.collectionForm.controls.is_proprietorship.value === 'true'
+        && this.collectionForm.controls.proprietorship_name.value) {
         splitted = this.collectionForm.controls.proprietorship_name.value.split(' ');
       }
       value = splitted[splitted.length - 1][0];
