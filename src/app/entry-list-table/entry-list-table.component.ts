@@ -19,7 +19,6 @@ import {any} from 'codelyzer/util/function';
   styleUrls: ['./entry-list-table.component.css']
 })
 export class EntryListTableComponent implements OnInit, OnDestroy {
-  differenceInDays: any;
 
   constructor(private restService: RestService, private matDialog: MatDialog,
               private activatedRoute: ActivatedRoute, private messageService: MessageService,
@@ -47,6 +46,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   pageEvent = new PageEvent();
   offset = 0;
   limit = 10;
+  differenceInDays: any;
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {

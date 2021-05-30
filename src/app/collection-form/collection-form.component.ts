@@ -663,7 +663,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       return this.messageService.closableSnackBar('Cheque number with all same digit is not allowed');
     }
     if (!this.checkCashLimit()) {
-      return this.messageService.closableSnackBar('You can not donate more than ₹ 1900 Cash');
+      return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
     this.showLoader = true;
     this.collectionForm.controls.state.enable();
@@ -685,7 +685,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   checkCashLimit(): boolean {
-    return !(this.selectedModeOfPayment.name === 'Cash' && this.collectionForm.controls.amount.value > 1999);
+    return !(this.selectedModeOfPayment.name === 'Cash' && this.collectionForm.controls.amount.value > 2000);
   }
 
   checkAndUpdateToUpperCase(panNumber: string): void {
