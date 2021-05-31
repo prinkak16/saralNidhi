@@ -30,7 +30,7 @@ export class EntryListTableComponent implements OnInit, OnChanges {
   showLoader = false;
   editTimerTooltip = '';
   today = new Date();
-  paymentDetails: PaymentModel[] = [];
+  paymentDetails: any;
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
