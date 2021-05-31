@@ -40,4 +40,8 @@ export class DashboardComponent implements OnInit {
       this.messageService.somethingWentWrong(error);
     });
   }
+
+  showUpdateMsg(): void {
+    this.messageService.closableSnackBar('App Updated');
+  }
 }
