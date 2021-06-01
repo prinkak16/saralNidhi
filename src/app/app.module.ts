@@ -49,11 +49,13 @@ import {ListTableComponent} from './user/list-table/list-table.component';
 import {ChangePasswordBottomSheetComponent} from './change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UpdatePaymentComponent } from './update-payment/update-payment.component';
-import { MAT_DATE_LOCALE } from '@angular/material/core'
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { TwoDigitDecimaNumberDirective } from './two-digit-decima-number.directive';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FilterSearchComponent } from './filter-search/filter-search.component';
-
+import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
+import { MomentUtcDateAdapter } from './moment-utc-date-adapter';
+import { MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -75,45 +77,47 @@ import { FilterSearchComponent } from './filter-search/filter-search.component';
     TwoDigitDecimaNumberDirective,
     FilterSearchComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatInputModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatMenuModule,
-        ReactiveFormsModule,
-        MatButtonToggleModule,
-        MatDatepickerModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatTabsModule,
-        MatTableModule,
-        MatProgressSpinnerModule,
-        MatNativeDateModule,
-        NgOtpInputModule,
-        MatTooltipModule,
-        MatDialogModule,
-        NgxPrintModule,
-        MatBadgeModule,
-        MatProgressBarModule,
-        MatBottomSheetModule,
-        MatCheckboxModule,
-        NgNumber2wordsModule,
-        MatPaginatorModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    MatButtonToggleModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatTabsModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatNativeDateModule,
+    NgOtpInputModule,
+    MatTooltipModule,
+    MatDialogModule,
+    NgxPrintModule,
+    MatBadgeModule,
+    MatProgressBarModule,
+    MatBottomSheetModule,
+    MatCheckboxModule,
+    NgNumber2wordsModule,
+    MatPaginatorModule
+  ],
   providers: [
     AuthGuard,
     MatDatepickerModule,
     DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true},
-    {provide: MAT_DATE_LOCALE, useValue: 'en-IN'}
+    { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentUtcDateAdapter }
   ],
   entryComponents: [
     ChangePasswordBottomSheetComponent
