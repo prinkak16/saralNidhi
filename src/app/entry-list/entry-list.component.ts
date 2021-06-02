@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PaymentModeModel} from '../models/payment-mode.model';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-entry-list',
   templateUrl: './entry-list.component.html',
   styleUrls: ['./entry-list.component.css']
 })
-export class EntryListComponent implements OnInit {
+export class EntryListComponent implements OnInit, AfterViewInit {
 
+  transactionsSubject: Subject<any> = new Subject<any>();
   modeOfPayments: PaymentModeModel[] = [];
   selectedModeOfPayment = '';
   query = '';
@@ -33,6 +35,12 @@ export class EntryListComponent implements OnInit {
       }
     });
     this.getPaymentModes();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout((_: any) => {
+      this.transactionsSubject.next({});
+    }, 1000);
   }
 
   tabChange(event: any): any {
@@ -60,7 +68,8 @@ export class EntryListComponent implements OnInit {
   }
 
   getCount(): any {
-    this.restService.getCounts({states: this.utilService.pluck(this.modeOfPayments, 'id'), filters: this.filters
+    this.restService.getCounts({
+      states: this.utilService.pluck(this.modeOfPayments, 'id'), filters: this.filters
     }).subscribe((response: any) => {
       this.counting = [];
       setTimeout((_: any) => {
@@ -71,13 +80,14 @@ export class EntryListComponent implements OnInit {
     });
   }
 
-  setFilters(event: any): void {
-    this.filters = event;
+  setFilters(filters: any): void {
+    this.filters = filters;
     this.getCount();
+    this.transactionsSubject.next(this.filters);
   }
 
   updateList($event: any): void {
-    if ($event){
+    if ($event) {
       this.modeOfPayments = [];
       this.getPaymentModes();
     }

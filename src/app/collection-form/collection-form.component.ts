@@ -176,6 +176,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.amountWord.disable();
     this.collectionForm.controls.is_proprietorship.valueChanges.subscribe(value => {
       if (this.allowedValueNull) {
+        if (this.collectionForm.controls.pan_card.value) {
+          this.onPanCardChange(this.collectionForm.controls.pan_card.value);
+        }
         this.collectionForm.controls.proprietorship_name.setValue(null);
         if (value === 'true') {
           this.collectionForm.controls.proprietorship_name.setValidators(Validators.required);
@@ -221,11 +224,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           this.setTransferValidations();
         } else {
           this.setCashValidations();
+
         }
       }
     });
 
     this.collectionForm.controls.name.valueChanges.pipe(debounceTime(500)).subscribe(value => {
+      if (this.allowedValueNull) {
+        if (value) {
+          if (this.collectionForm.controls.pan_card.value) {
+            this.onPanCardChange(this.collectionForm.controls.pan_card.value);
+          }
+        }
+      }
+    });
+
+    // Check validation on pan card If is it a proprietorship yes
+    this.collectionForm.controls.proprietorship_name.valueChanges.pipe(debounceTime(500)).subscribe(value => {
       if (this.allowedValueNull) {
         if (value) {
           if (this.collectionForm.controls.pan_card.value) {
@@ -284,7 +299,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
-        this.removePartyUnitValue();
         if (value) {
           if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
             this.getAllottedStates();
@@ -322,29 +336,33 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 // Party unit fields value removing on value change
   removePartyUnitValue(): void {
-    if (!this.transactionId) {
       this.stateControl.setValue(null);
       this.zilaControl.setValue(null);
       this.collectionForm.controls.location_id.setValue(null);
-    }
   }
 
   removeAllValidations(): void {
+    this.collectionForm.controls.category.setValue(null);
     this.collectionForm.controls.category.clearValidators();
     this.collectionForm.controls.category.updateValueAndValidity();
 
+    this.collectionForm.controls.house.setValue(null);
     this.collectionForm.controls.house.clearValidators();
     this.collectionForm.controls.house.updateValueAndValidity();
 
+    this.collectionForm.controls.locality.setValue(null);
     this.collectionForm.controls.locality.clearValidators();
     this.collectionForm.controls.locality.updateValueAndValidity();
 
+    this.collectionForm.controls.pincode.setValue(null);
     this.collectionForm.controls.pincode.clearValidators();
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
+    this.collectionForm.controls.district.setValue(null);
     this.collectionForm.controls.district.clearValidators();
     this.collectionForm.controls.district.updateValueAndValidity();
 
+    this.collectionForm.controls.state.setValue(null);
     this.collectionForm.controls.state.clearValidators();
     this.collectionForm.controls.state.updateValueAndValidity();
 
@@ -362,18 +380,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.draft_number.clearValidators();
     this.collectionForm.controls.draft_number.updateValueAndValidity();
 
+    this.collectionForm.controls.account_number.setValue('');
     this.collectionForm.controls.account_number.clearValidators();
     this.collectionForm.controls.account_number.updateValueAndValidity();
 
+    this.collectionForm.controls.ifsc_code.setValue('');
     this.collectionForm.controls.ifsc_code.clearValidators();
     this.collectionForm.controls.ifsc_code.updateValueAndValidity();
 
+    this.collectionForm.controls.bank_name.setValue('');
     this.collectionForm.controls.bank_name.clearValidators();
     this.collectionForm.controls.bank_name.updateValueAndValidity();
 
+    this.collectionForm.controls.branch_name.setValue('');
     this.collectionForm.controls.branch_name.clearValidators();
     this.collectionForm.controls.branch_name.updateValueAndValidity();
 
+    this.collectionForm.controls.branch_address.setValue('');
     this.collectionForm.controls.branch_address.clearValidators();
     this.collectionForm.controls.branch_address.updateValueAndValidity();
 
@@ -688,7 +711,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
-          this.collectionForm.get('pan_card')?.setValue(panNumber);
+          this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
         } else {
           this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
         }
@@ -736,7 +759,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     let splitted = this.collectionForm.controls.name.value.split(' ');
     let value = '';
     if (category === 'individual') {
-      if (this.collectionForm.controls.is_proprietorship.value === 'true') {
+      if (this.collectionForm.controls.is_proprietorship.value === 'true'
+        && this.collectionForm.controls.proprietorship_name.value) {
         splitted = this.collectionForm.controls.proprietorship_name.value.split(' ');
       }
       value = splitted[splitted.length - 1][0];
@@ -840,6 +864,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.district.setValue(values.data.locality);
     this.collectionForm.controls.state.setValue(values.data.state);
     this.collectionForm.controls.pan_card.setValue(values.pan_card);
+    this.collectionForm.controls.transaction_type.setValue(values.transaction_type);
     this.ngOtpInputRef.setValue(values.pan_card);
     this.autoFillData = [];
   }
@@ -924,6 +949,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.other_category.setValue(transaction.data.other_category);
     this.collectionForm.controls.date_of_draft.setValue(transaction.data.date_of_draft);
     this.collectionForm.controls.draft_number.setValue(transaction.data.draft_number);
+    this.collectionForm.controls.transaction_type.setValue(transaction.transaction_type);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -971,7 +997,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 // Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
-    if (this.collectionForm.controls.ifsc_code.valid) {
+    if (this.collectionForm.controls.ifsc_code.valid && value.length === 11) {
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
       }, (error: any) => {
@@ -985,6 +1011,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       });
     } else {
       this.bankDetails = [];
+      this.removeBankDetails();
     }
   }
 // Set bank details from ifsc.

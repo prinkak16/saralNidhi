@@ -391,16 +391,19 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>Pincode</mat-label>
+      <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
       <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6"
              (keyup)="utilsService.validateNumber($event)"
              >
+      <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
+        Please enter a pincode
+      </mat-error>
       <mat-error *ngIf="(collectionForm.controls.pincode.hasError('pattern'))">
         Please enter a valid pincode
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>District</mat-label>
+      <mat-label>District <sup *ngIf="isRequiredField('district')">*</sup></mat-label>
       <input matInput placeholder="District" formControlName="district" [required]="isRequiredField('district')">
       <mat-error
         *ngIf="((collectionForm.controls.district.touched)&& collectionForm.controls.district.hasError('required'))">
@@ -408,7 +411,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>State</mat-label>
+      <mat-label>State <sup *ngIf="isRequiredField('state')">*</sup></mat-label>
       <mat-select formControlName="state" [required]="isRequiredField('state')">
         <mat-option *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
       </mat-select>
@@ -534,7 +537,7 @@
       </mat-form-field>
     </ng-container>
     <label class="single-label col-md-12">Party Unit: <sup *ngIf="isRequiredField('party_unit')">*</sup></label>
-    <mat-radio-group formControlName="party_unit" aria-label="party_unit"
+    <mat-radio-group formControlName="party_unit" aria-label="party_unit" (click)="removePartyUnitValue()"
                      class="col-md-12 radio-group-container-margin">
       <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState">State
       </mat-radio-button>
@@ -559,7 +562,10 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
-      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()"
+      <mat-form-field *ngIf="utilsService.isNationalAccountant() ||
+      utilsService.isStateAccountant() ||
+      utilsService.isNationalTreasurer() ||
+      utilsService.isStateTreasurer()"
                       appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
@@ -582,7 +588,10 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Mandal'">
-      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()"
+      <mat-form-field *ngIf="utilsService.isNationalAccountant()
+      || utilsService.isNationalTreasurer()
+      || utilsService.isStateTreasurer()
+      || utilsService.isStateAccountant()"
                       appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
@@ -594,7 +603,11 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field
-        *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant() || utilsService.isZilaAccountant()"
+        *ngIf="utilsService.isNationalAccountant()
+        || utilsService.isNationalTreasurer()
+        || utilsService.isStateTreasurer()
+        || utilsService.isStateAccountant()
+        || utilsService.isZilaAccountant()"
         appearance="outline"
         class="col-md-12">
         <mat-label>Zila</mat-label>
