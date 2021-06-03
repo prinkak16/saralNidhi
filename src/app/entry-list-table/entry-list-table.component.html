@@ -1,4 +1,4 @@
-<ng-container *ngIf="paymentDetails.length > 0;else emptyList">
+<ng-container *ngIf="length > 0 ; else emptyList">
   <mat-table [dataSource]="paymentDetails" class="entry-list-table">
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
