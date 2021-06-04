@@ -41,7 +41,7 @@ export class AppComponent {
       this.messageService.somethingWentWrong('Internet not connected');
     }
   }
-
+// Open a link in new window for how to set automatic date & time according to os
   openUrl(): void {
     if (navigator.platform.includes('Linux')) {
       window.open(
