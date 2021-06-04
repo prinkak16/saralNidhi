@@ -42,7 +42,7 @@ export class AppComponent {
     }
   }
 
-  gotoExternalDomain(): void {
+  openUrl(): void {
     if (navigator.platform.includes('Linux')) {
       window.open(
         'https://help.ubuntu.com/stable/ubuntu-help/clock-set.html.en',

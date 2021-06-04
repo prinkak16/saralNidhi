@@ -6,7 +6,7 @@
   <router-outlet *ngIf="appVisible" (activate)="onActivate($event)"></router-outlet>
   <div *ngIf="!appVisible && onlineStatus">
     <p class="text-center">Your system's Date & Time setting is not set to "Automatic". Please follow the
-      <mat-icon (click)="gotoExternalDomain()" color="primary" title="Click here">launch</mat-icon>
+      <mat-icon (click)="openUrl()" color="primary" title="Click here">launch</mat-icon>
       link to set the Date & Time and then click on refresh icon.
     </p>
     <div class="text-center" style="cursor: pointer">
