@@ -355,7 +355,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.updateValueAndValidity();
 
     this.collectionForm.controls.pincode.setValue(null);
-    this.collectionForm.controls.pincode.clearValidators();
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValue(null);
@@ -680,6 +679,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
       this.showLoader = false;
+      this.collectionForm.controls.date.disable();
+      this.collectionForm.controls.financial_year_id.disable();
       this.messageService.somethingWentWrong(error.error.message);
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);

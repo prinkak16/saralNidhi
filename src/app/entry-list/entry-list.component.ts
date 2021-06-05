@@ -90,6 +90,9 @@ export class EntryListComponent implements OnInit, AfterViewInit {
     if ($event) {
       this.modeOfPayments = [];
       this.getPaymentModes();
+      setTimeout((_: any) => {
+        this.transactionsSubject.next({});
+      }, 500);
     }
   }
 }
