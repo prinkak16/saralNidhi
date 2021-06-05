@@ -355,6 +355,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.updateValueAndValidity();
 
     this.collectionForm.controls.pincode.setValue(null);
+    this.collectionForm.controls.pincode.clearValidators();
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValue(null);
