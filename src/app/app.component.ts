@@ -25,7 +25,6 @@ export class AppComponent {
 
   onActivate(event: any): any {
     if (navigator.onLine) {
-      this.onlineStatus = true;
       this.getGolablTimezone();
       const scrollToTop = window.setInterval(() => {
         const pos = window.pageYOffset;
@@ -60,17 +59,18 @@ export class AppComponent {
   getGolablTimezone(): void {
     this.restService.getGlobalTimeZone().subscribe((reply: any) => {
       this.globalTimezone = reply.currentDateTime;
+      this.onlineStatus = true;
       const systemFormattedDate = formatDate(new Date(), 'dd/MM/yyyy', 'en-IN');
       const globalFormattedDate = formatDate(this.globalTimezone, 'dd/MM/yyyy', 'en-IN');
-      setTimeout((_: any) => {
-        if (systemFormattedDate === globalFormattedDate && this.onlineStatus) {
+      if (systemFormattedDate === globalFormattedDate && this.onlineStatus) {
           this.appVisible = true;
         } else {
           this.appVisible = false;
           this.messageService.somethingWentWrong('Please Set Timezone Automatic in your system');
         }
-      }, 500);
     }, (error: any) => {
+      this.appVisible = false;
+      this.onlineStatus = false;
       this.messageService.somethingWentWrong(error.error.message);
     });
   }
