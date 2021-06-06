@@ -355,7 +355,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.updateValueAndValidity();
 
     this.collectionForm.controls.pincode.setValue(null);
-    this.collectionForm.controls.pincode.clearValidators();
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValue(null);
@@ -481,7 +480,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.setValidators(Validators.required);
     this.collectionForm.controls.locality.updateValueAndValidity();
 
-    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
+    this.collectionForm.controls.pincode.setValidators(Validators.pattern('^[0-9]{6,6}$'));
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValidators(Validators.required);
