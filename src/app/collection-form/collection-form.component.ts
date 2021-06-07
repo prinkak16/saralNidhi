@@ -300,7 +300,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
         if (value) {
-          if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
+          if (this.utilsService.isNationalAccountant()
+            || this.utilsService.isStateAccountant()
+            || this.utilsService.isNationalTreasurer()
+            || this.utilsService.isStateTreasurer()) {
             this.getAllottedStates();
           } else if (this.utilsService.isZilaAccountant()) {
             this.getAllottedZilas();
