@@ -292,7 +292,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
             this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
           } else {
             const slab: any = this.yearsSlab.find((f: any) => {
-              return f.slab === this.fiscalYear.substr(0,5) + this.fiscalYear.substr(7,9);
+              return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
             this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
           }
@@ -600,8 +600,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   getFinancialYears(): void {
     this.restService.getYearsSlab().subscribe((response: any) => {
       this.yearsSlab = response.data;
+      this.getCurrentFy(new Date());
       const slab: any = this.yearsSlab.find((f: any) => {
-        return f.slab === '2020-21';
+        return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
       });
       this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
     }, (error: string) => {
