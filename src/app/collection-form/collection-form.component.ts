@@ -87,6 +87,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   zilaControl = new FormControl('');
   amountWord = new FormControl('');
   keyword = new FormControl('');
+  fiscalYear = '';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -282,15 +283,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       if (this.allowedValueNull) {
         if (value) {
           value = new Date(value);
+          this.getCurrentFy(value);
           const month = value.getMonth();
           if (month < 3) {
             const slab: any = this.yearsSlab.find((f: any) => {
-              return f.slab === '2020-21';
+              return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
             this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
           } else {
             const slab: any = this.yearsSlab.find((f: any) => {
-              return f.slab === '2021-22';
+              return f.slab === this.fiscalYear.substr(0,5) + this.fiscalYear.substr(7,9);
             });
             this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
           }
@@ -501,6 +503,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
     } else {
       this.transactionAllowedDate = new Date();
+    }
+  }
+
+  getCurrentFy(value: any): void{
+    const FyDate = value;
+    if ((FyDate.getMonth()) < 3) {
+       this.fiscalYear = (FyDate.getFullYear() - 1) + '-' + FyDate.getFullYear();
+    } else {
+      this.fiscalYear = FyDate.getFullYear() + '-' + (FyDate.getFullYear() + 1);
     }
   }
 
@@ -913,6 +924,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   setTransactionDetailsValues(transaction: any): void {
     this.collectionForm.controls.date.setValue(transaction.data.date);
+    this.collectionForm.controls.financial_year_id.setValue(transaction.financial_year_id.toString());
     this.collectionForm.controls.mode_of_payment.setValue(transaction.mode_of_payment.id.toString());
     this.collectionForm.controls.date_of_cheque.setValue(transaction.data.date_of_cheque);
     this.collectionForm.controls.date_of_transaction.setValue(transaction.data.date_of_transaction);
