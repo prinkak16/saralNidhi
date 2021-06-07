@@ -496,7 +496,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   updateDateOfTransaction(): void {
     if (this.utilsService.checkPermission('DateOfTransaction', '15 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 15));
-    } else if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
+    }
+    if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
     } else {
       this.transactionAllowedDate = new Date();
