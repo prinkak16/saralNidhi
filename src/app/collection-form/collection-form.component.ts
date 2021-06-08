@@ -87,6 +87,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   zilaControl = new FormControl('');
   amountWord = new FormControl('');
   keyword = new FormControl('');
+  fiscalYear = '';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -282,15 +283,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       if (this.allowedValueNull) {
         if (value) {
           value = new Date(value);
+          this.getCurrentFy(value);
           const month = value.getMonth();
           if (month < 3) {
             const slab: any = this.yearsSlab.find((f: any) => {
-              return f.slab === '2020-21';
+              return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
             this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
           } else {
             const slab: any = this.yearsSlab.find((f: any) => {
-              return f.slab === '2021-22';
+              return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
             this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
           }
@@ -300,7 +302,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
     this.collectionForm.controls.party_unit.valueChanges.subscribe(value => {
         if (value) {
-          if (this.utilsService.isNationalAccountant() || this.utilsService.isStateAccountant()) {
+          if (this.utilsService.isNationalAccountant()
+            || this.utilsService.isStateAccountant()
+            || this.utilsService.isNationalTreasurer()
+            || this.utilsService.isStateTreasurer()) {
             this.getAllottedStates();
           } else if (this.utilsService.isZilaAccountant()) {
             this.getAllottedZilas();
@@ -356,6 +361,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
     this.collectionForm.controls.pincode.setValue(null);
     this.collectionForm.controls.pincode.clearValidators();
+    this.collectionForm.controls.pincode.setValidators(Validators.pattern('^[0-9]{6,6}$'));
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValue(null);
@@ -494,10 +500,20 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   updateDateOfTransaction(): void {
     if (this.utilsService.checkPermission('DateOfTransaction', '15 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 15));
-    } else if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
+    }
+    if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
     } else {
       this.transactionAllowedDate = new Date();
+    }
+  }
+// Getting current financial year according to date.
+  getCurrentFy(value: any): void{
+    const FyDate = value;
+    if ((FyDate.getMonth()) < 3) {
+       this.fiscalYear = (FyDate.getFullYear() - 1) + '-' + FyDate.getFullYear();
+    } else {
+      this.fiscalYear = FyDate.getFullYear() + '-' + (FyDate.getFullYear() + 1);
     }
   }
 
@@ -586,8 +602,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   getFinancialYears(): void {
     this.restService.getYearsSlab().subscribe((response: any) => {
       this.yearsSlab = response.data;
+      this.getCurrentFy(new Date());
       const slab: any = this.yearsSlab.find((f: any) => {
-        return f.slab === '2020-21';
+        return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
       });
       this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
     }, (error: string) => {
@@ -680,6 +697,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
       this.showLoader = false;
+      this.collectionForm.controls.date.disable();
+      this.collectionForm.controls.financial_year_id.disable();
       this.messageService.somethingWentWrong(error.error.message);
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
@@ -908,6 +927,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   setTransactionDetailsValues(transaction: any): void {
     this.collectionForm.controls.date.setValue(transaction.data.date);
+    this.collectionForm.controls.financial_year_id.setValue(transaction.financial_year_id.toString());
     this.collectionForm.controls.mode_of_payment.setValue(transaction.mode_of_payment.id.toString());
     this.collectionForm.controls.date_of_cheque.setValue(transaction.data.date_of_cheque);
     this.collectionForm.controls.date_of_transaction.setValue(transaction.data.date_of_transaction);
