@@ -64,7 +64,7 @@
       <input matInput (keydown.enter)="false" [matDatepicker]="picker4" (click)="picker4.open()"
              (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
              formControlName="date_of_transaction"
-             [min]="transactionAllowedDate" [max]="today"
+
              [required]="isRequiredField('date_of_transaction')"
              (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_transaction)">
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
@@ -157,7 +157,7 @@
         <mat-label>Date of cheque</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
-               [min]="previous3Month" [max]="next3Month"
+
                [required]="isRequiredField('date_of_cheque')">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -186,7 +186,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="ddPast2Month" [max]="today"
+
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
@@ -390,28 +390,14 @@
         Locality is required
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline"
-                    *ngIf="['Cash'].includes(this.selectedModeOfPayment.name)"
-                    required="required"
-                    class="col-md-6" >
-      <mat-label>Pincode * </mat-label>
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
       <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6"
              (keyup)="utilsService.validateNumber($event)"
       >
       <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
         Please enter a pincode
       </mat-error>
-      <mat-error *ngIf="(collectionForm.controls.pincode.hasError('pattern'))">
-        Please enter a valid pincode
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline"
-                    *ngIf="!['Cash'].includes(this.selectedModeOfPayment.name)"
-                    class="col-md-6" >
-      <mat-label>Pincode </mat-label>
-      <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6"
-             (keyup)="utilsService.validateNumber($event)"
-      >
       <mat-error *ngIf="(collectionForm.controls.pincode.hasError('pattern'))">
         Please enter a valid pincode
       </mat-error>
