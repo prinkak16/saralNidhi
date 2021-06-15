@@ -148,10 +148,10 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     const realizedDate = new Date(data.payment_realize_date);
     const transactionDate = new Date(data.data.date);
     if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
-      const chequeDdDate = new Date(new Date().setDate(realizedDate.getDate() + 30));
+      const chequeDdDate = new Date(new Date(realizedDate).setDate(realizedDate.getDate() + 30));
       return new Date() <= chequeDdDate;
     }
-    const otherPaymentDate = new Date(new Date().setDate(transactionDate.getDate() + 30));
+    const otherPaymentDate = new Date(new Date(transactionDate).setDate(transactionDate.getDate() + 30));
     return new Date() <= otherPaymentDate;
   }
 // Show/hide actions if cheque & dd date is in future
@@ -166,5 +166,17 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.offset = (eve.pageIndex === 0 ? 0 : (eve.pageIndex * eve.pageSize));
     this.getPaymentList();
     return eve;
+  }
+// Checking bank details are empty or not
+  checkBankDetails(element: any): boolean{
+    if (element.data.account_number === '' ||
+      element.data.ifsc_code === '' ||
+      element.data.bank_name === '' ||
+      element.data.branch_name === '' ||
+      element.data.branch_address === ''){
+      return true;
+    } else {
+      return false;
+    }
   }
 }
