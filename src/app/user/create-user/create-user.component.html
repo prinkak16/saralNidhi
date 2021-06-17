@@ -46,8 +46,8 @@
           and one special character
         </mat-error>
       </mat-form-field>
-      <label class="single-label col-md-12">Roles</label>
-      <mat-radio-group formControlName="role" class="col-md-12">
+      <label class="single-label col-md-12">Roles <sup *ngIf="isRequiredField('role')">*</sup></label>
+      <mat-radio-group  formControlName="role" class="col-md-12">
         <mat-radio-button *ngIf="utilsService.isNationalTreasurer()" value="national_accountant">National Accountant
         </mat-radio-button>
         <mat-radio-button *ngIf="utilsService.isStateTreasurer()" value="state_accountant">State Accountant

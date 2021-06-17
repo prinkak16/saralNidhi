@@ -73,13 +73,15 @@
         </div>
         <div class="w-100">
 
-          <mat-icon class="mt-2 cursor-pointer" *ngIf="(element.mode_of_payment.name === 'IMPS'
+          <mat-icon class="mt-2 cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
+          " *ngIf="(element.mode_of_payment.name === 'IMPS'
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
           || element.mode_of_payment.name === 'UPI') &&
-          checkBankDetails(element) &&
+          (checkBankDetails(element) &&
           allowedEdit(element.data.date) &&
-          !element.payment_remark" matTooltip="{{editTimerTooltip}}
+          !element.payment_remark ) ||
+          element.data.name === ''
           ">access_time
           </mat-icon>
         </div>
@@ -143,19 +145,23 @@
                   matTooltip="Print Receipt">print
         </mat-icon>
           </span>
-        <span *ngIf="element.mode_of_payment.name === 'IMPS'
+        <mat-icon (click)="openDialog(element)" *ngIf="(
+                  element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
                   || element.mode_of_payment.name === 'UPI'
-                  || element.mode_of_payment.name === 'Cash'
-                  ">
-        <mat-icon (click)="openDialog(element)" *ngIf="
+        ) &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.receipt_number_generated && !checkBankDetails(element)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
-          </span>
+        <mat-icon (click)="openDialog(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated"
+                  class="pointer"
+                  matTooltip="Print Receipt">print
+        </mat-icon>
       </mat-cell>
     </ng-container>
 

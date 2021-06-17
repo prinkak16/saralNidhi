@@ -35,7 +35,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
 
   showLoader = false;
-  editTimerTooltip = '';
+  updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
@@ -127,7 +127,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays + 'Days are pending to update the Bank & donor details.';
+      this.updateAllowedDays = this.differenceInDays;
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
@@ -135,10 +135,11 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays + 'Days are pending to update the Bank & donor details.';
+      this.updateAllowedDays = this.differenceInDays;
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      this.updateAllowedDays = 'Lifetime';
       result = true;
     }
     return result;
@@ -146,7 +147,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 // if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
-    const transactionDate = new Date(data.data.date);
+    const transactionDate = new Date(data.data.date_of_transaction);
     if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
       const chequeDdDate = new Date(new Date(realizedDate).setDate(realizedDate.getDate() + 30));
       return new Date() <= chequeDdDate;
@@ -154,6 +155,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     const otherPaymentDate = new Date(new Date(transactionDate).setDate(transactionDate.getDate() + 30));
     return new Date() <= otherPaymentDate;
   }
+
 // Show/hide actions if cheque & dd date is in future
   checkFutureDate(element: any): boolean {
     if (element.mode_of_payment.name === 'Cheque' && new Date(element.data.date_of_cheque) >= this.today) {
@@ -168,12 +170,12 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     return eve;
   }
 // Checking bank details are empty or not
-  checkBankDetails(element: any): boolean{
+  checkBankDetails(element: any): boolean {
     if (element.data.account_number === '' ||
       element.data.ifsc_code === '' ||
       element.data.bank_name === '' ||
       element.data.branch_name === '' ||
-      element.data.branch_address === ''){
+      element.data.branch_address === '') {
       return true;
     } else {
       return false;

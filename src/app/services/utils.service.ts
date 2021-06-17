@@ -122,4 +122,15 @@ export class UtilsService {
     }
     return allowed;
   }
+// Checking user have any party unit permission or not
+  isAnyPartyUnit(): boolean{
+    if (this.checkPermission('PartyUnit', 'State') ||
+      this.checkPermission('PartyUnit', 'Zila') ||
+      this.checkPermission('PartyUnit', 'Mandal')){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
