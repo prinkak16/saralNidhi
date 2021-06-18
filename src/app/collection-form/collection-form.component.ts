@@ -216,12 +216,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.removeAllValidations();
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
+          this.collectionForm.controls.name.setValidators(Validators.required);
           this.setChequeValidations();
           this.setBankDetailValidation();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
+          this.collectionForm.controls.name.setValidators(Validators.required);
           this.setDDValidations();
           this.setBankDetailValidation();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
+          this.collectionForm.controls.name.clearValidators();
           this.setTransferValidations();
         } else {
           this.setCashValidations();
@@ -424,6 +427,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   setCashValidations(): void {
+    this.collectionForm.controls.name.setValidators(Validators.required);
     this.setCategoryValidation();
     this.setAddressValidations();
     this.setTransactionDateValidation();

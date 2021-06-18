@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../../services/rest.service';
 import {MessageService} from '../../services/message.service';
 import {LoaderService} from '../../services/loader.service';
@@ -167,15 +167,21 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   }
 
   submitForm(): void {
-    this.showLoader = true;
-    this.restService.submitUserForm(this.userForm.value).subscribe((response: any) => {
-      this.showLoader = false;
-      this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['dashboard/users']);
-    }, (error: any) => {
-      this.showLoader = false;
-      this.messageService.somethingWentWrong(error.error.message);
-    });
+    const partyUnitIds = this.utilsService.pluck(this.permissions['Party Unit'], 'id');
+    const partyUnitExist = partyUnitIds.find((element: any) => this.userForm.value.permission_ids.includes(element));
+    if (partyUnitExist){
+      this.showLoader = true;
+      this.restService.submitUserForm(this.userForm.value).subscribe((response: any) => {
+        this.showLoader = false;
+        this.messageService.closableSnackBar(response.message);
+        this.router.navigate(['dashboard/users']);
+      }, (error: any) => {
+        this.showLoader = false;
+        this.messageService.somethingWentWrong(error.error.message);
+      });
+    } else {
+      this.messageService.somethingWentWrong('Please select any party unit');
+    }
   }
 
   getValue(items: any): any {
@@ -204,6 +210,15 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       });
     }
     this.userForm.controls.permission_ids.setValue(this.selectedPermissionIds);
+  }
+  // Checking required field
+  isRequiredField(field: string): boolean {
+    const formField = this.userForm.get(field) as FormControl;
+    if (!formField.validator) {
+      return false;
+    }
+    const validator = formField.validator({} as AbstractControl);
+    return (validator && validator.required);
   }
 
 }

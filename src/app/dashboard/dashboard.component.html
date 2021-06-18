@@ -16,7 +16,7 @@
 <!--    </svg>-->
     <input  placeholder="Search by name / Phone no / Pan no" class="search-bar"
            (keyup.enter)="collectionDataSearch()" [formControl]="query">
-  <div class="total-count-container pointer" (click)="showTotalEntryList()">
+  <div class="total-count-container pointer" (click)="showTotalEntryList()" *ngIf="utilsService.isAnyPartyUnit()">
     <div class="total-count-div">
       <div class="count">{{total}}</div>
     </div>
