@@ -24,7 +24,7 @@
           </p>
           <p><b>Donor Pan no</b>. {{receipt_data.data.data.pan_card}}</p>
 
-          <p><b>Address:</b> {{receipt_data.data.data.house}} {{receipt_data.data.data.locality}},
+          <p><b>Address:</b> {{receipt_data.data.data.house}} <span *ngIf="receipt_data.data.data.locality">,</span> {{receipt_data.data.data.locality}} ,
             <b>District:</b> {{receipt_data.data.data.district}}, <b>State:</b> {{receipt_data.data.data.state}},
             <b>Pincode:</b> {{receipt_data.data.data.pincode}} </p>
 
