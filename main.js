@@ -72,7 +72,7 @@ function handleSquirrelEvent() {
 
 const path = require('path')
 const electron = require('electron');
-let squirrelUrl =  'http://update.saral-nidhi.ccdms.in/staging/';
+let squirrelUrl =  'http://update.saral-nidhi.ccdms.in/prod/';
 const url = require("url");
 
 let mainWindow

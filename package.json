@@ -14,7 +14,7 @@
     "electron-build": "ng build --optimization=false && electron .",
     "electron-build-prod-run": "ng build --optimization=false --prod && electron .",
     "build:installer": "node build.js",
-    "pack:win": "./node_modules/.bin/electron-packager . SkaralNidhi --overwrite --asar=true --icon=nidhi_logo.ico --out=builds --platform=win32 --arch=x64 --version-string.CompanyName='Jarvis Consulting' --version-string.ProductName='Saral Nidhi Application'",
+    "pack:win": "./node_modules/.bin/electron-packager . SaralNidhi --overwrite --icon=nidhi_logo.ico --out=builds --platform=win32 --arch=x64 --version-string.CompanyName='Jarvis Consulting' --version-string.ProductName='Saral Nidhi Application'",
     "electron-build-prod": "ng build --optimization=false --prod && npm run pack:win && npm run build:installer"
   },
   "private": true,
