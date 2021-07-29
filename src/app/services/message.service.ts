@@ -34,4 +34,13 @@ export class MessageService {
       verticalPosition: 'top'
     });
   }
+  // Show session expire message
+  sessionExpired(message = 'Your session has expired, please login again', duration = 5000) {
+    this.snackBar.open(message, 'Okey', {
+      politeness: 'assertive',
+      duration,
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    });
+  }
 }
