@@ -12,7 +12,8 @@ import {ListComponent} from './user/list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard',
@@ -24,20 +25,24 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'list',
         data: {
           breadcrumb: 'Donation List',
+          canActivate: [AuthGuard],
         },
         children: [
           {
             path: '',
             component: EntryListComponent,
+            canActivate: [AuthGuard],
           },
           {
             path: 'transaction_view/:id',
             component: CollectionFormComponent,
+            canActivate: [AuthGuard],
             data: {
               breadcrumb: 'Donor Details',
             },
@@ -49,14 +54,17 @@ const routes: Routes = [
         path: 'list',
         data: {
           breadcrumb: 'Donation List',
+          canActivate: [AuthGuard],
         },
         children: [
           {
             path: '',
             component: EntryListComponent,
+            canActivate: [AuthGuard],
           },
           {
             path: 'transaction_edit/:id',
+            canActivate: [AuthGuard],
             data: {
               breadcrumb: 'Edit'
             },
@@ -65,6 +73,7 @@ const routes: Routes = [
               {
                 path: '',
                 component: CollectionFormComponent,
+                canActivate: [AuthGuard],
                 data: {
                   breadcrumb: 'Edit'
                 },
@@ -77,6 +86,7 @@ const routes: Routes = [
       {
         path: 'indian_donation_form',
         component: CollectionFormComponent,
+        canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Indian Donation Form',
         },
@@ -84,17 +94,21 @@ const routes: Routes = [
 
       {
         path: 'users',
+        canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Users',
         },
         children: [
           {
             path: '',
-            component: ListComponent
+            component: ListComponent,
+            canActivate: [AuthGuard],
+
           },
           {
             path: 'add',
             component: CreateUserComponent,
+            canActivate: [AuthGuard],
             data: {
               breadcrumb: 'Add',
             }

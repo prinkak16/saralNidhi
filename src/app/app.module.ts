@@ -56,7 +56,7 @@ import { FilterSearchComponent } from './filter-search/filter-search.component';
 import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule} from '@angular/material-moment-adapter';
 import { MomentUtcDateAdapter } from './moment-utc-date-adapter';
 import { MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
-
+import {ErrorInterceptor} from './interceptors/error.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,6 +114,7 @@ import { MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
     AuthGuard,
     MatDatepickerModule,
     DatePipe,
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true},
     { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
