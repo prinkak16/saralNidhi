@@ -166,3 +166,20 @@
   bottom: 1rem;
   left: 1rem;
 }
+.downloadButtonCSV{
+  background: #ff7123;
+  position: fixed!important;
+  bottom: 1em;
+  left: 2em;
+  cursor: pointer!important;
+  z-index: 5!important;
+}
+.floating-btn{
+  display: inline-flex!important;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  font-size: 10px;
+  height: 100%;
+  line-height: 12px;
+}

@@ -194,4 +194,18 @@ export class RestService {
     return this.http.get(this.globalTimeUrl);
   }
 
+  downloadTransactionList() {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'custom_member_form/download_nidhi_data'
+    return this.http.get(url, authHttpOptions as any);
+  }
+
 }
