@@ -44,4 +44,15 @@ export class DashboardComponent implements OnInit {
   showUpdateMsg(): void {
     this.messageService.closableSnackBar('App Updated');
   }
+
+  downloadList(): void {
+    this.restService.downloadTransactionList().subscribe(reply => {
+      const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const blob = new Blob([reply], {type: mediaType});
+      const filename = `NidhiCollection.xlsx`;
+      saveAs(blob, filename);
+    }, error => {
+      this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+    });
+  }
 }
