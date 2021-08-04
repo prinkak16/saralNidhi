@@ -204,7 +204,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'custom_member_form/download_nidhi_collection_data'
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data'
     return this.http.get(url, authHttpOptions as any);
   }
 
