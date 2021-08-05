@@ -66,7 +66,7 @@ function handleSquirrelEvent() {
       app.quit();
       return true;
   }
-};
+}
 
 
 
@@ -95,7 +95,7 @@ function createWindow () {
     })
   );
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -133,6 +133,7 @@ const startAutoUpdater = (squirrelUrl) => {
 
 app.on('ready', function (){
   // Add this condition to avoid error when running your application locally
+  console.log(process.env.NODE_ENV)
   if (process.env.NODE_ENV === 'prod'){
     squirrelUrl =  'http://update.saral-nidhi.ccdms.in/prod/'
     console.log(process.env.NODE_ENV)
