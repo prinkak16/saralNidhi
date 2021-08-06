@@ -748,7 +748,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   onPanCardChange(panNumber: string): void {
     this.checkAndUpdateToUpperCase(panNumber);
     this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
-    // this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: null, pattern: null, nameMismatch: null});
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
@@ -758,21 +757,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           this.nameMismatch = false;
           this.incorrectPan = false;
         } else {
-          // this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
           this.categoryMismatch = false;
           this.nameMismatch = true;
           this.incorrectPan = false;
           this.pan_system_error.setValue('Name mismatch');
         }
       } else {
-        // this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
         this.categoryMismatch = true;
         this.nameMismatch = false;
         this.incorrectPan = false;
         this.pan_system_error.setValue('Category mismatch');
       }
     } else {
-      // this.collectionForm.get('pan_card')?.setErrors({pattern: true});
       this.categoryMismatch = false;
       this.nameMismatch = false;
       this.incorrectPan = true;
