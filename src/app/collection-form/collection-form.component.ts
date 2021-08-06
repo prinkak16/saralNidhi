@@ -168,9 +168,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
   }
 
-  onDateChange(model: any) {
-    this.dateValue = model
-  }
   ngAfterViewChecked(): void {
     this.cd.detectChanges();
   }
