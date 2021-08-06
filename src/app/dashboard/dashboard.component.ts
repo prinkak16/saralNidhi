@@ -46,12 +46,12 @@ export class DashboardComponent implements OnInit {
   }
 
   downloadList(): void {
-    this.restService.downloadTransactionList().subscribe(reply => {
+    this.restService.downloadTransactionList().subscribe((reply: any) => {
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const blob = new Blob([reply], {type: mediaType});
       const filename = `NidhiCollection.xlsx`;
       saveAs(blob, filename);
-    }, error => {
+    }, (error: any) => {
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
     });
   }
