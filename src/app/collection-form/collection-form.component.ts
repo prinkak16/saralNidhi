@@ -134,7 +134,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       amount: new FormControl(null, [Validators.required]),
       narration: new FormControl(null),
       mode_of_payment: new FormControl(null, [Validators.required]),
-      date_of_transaction: new FormControl(''),
+      date_of_transaction: new FormControl(new Date().toDateString()),
       date_of_cheque: new FormControl(new Date().toDateString()),
       cheque_number: new FormControl(null),
       date_of_draft: new FormControl(new Date().toDateString()),
