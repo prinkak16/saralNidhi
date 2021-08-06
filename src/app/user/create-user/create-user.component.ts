@@ -72,7 +72,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   getUserDetails(): void {
     // @ts-ignore
     this.restService.getAccountantDetails(this.userId).subscribe(reply => {
-      console.log(reply);
       const response = reply as any;
       this.userForm.controls.id.setValue(response.data.id);
       this.userForm.controls.name.setValue(response.data.name);
@@ -146,7 +145,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   }
 
   getMandalsForState(countryStateId: any): void {
-    console.log(countryStateId);
     this.restService.getMandalsForState(countryStateId).subscribe((reply: any) => {
       const response = reply as any;
       this.locations = response.data;

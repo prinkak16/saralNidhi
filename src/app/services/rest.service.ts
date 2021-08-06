@@ -88,6 +88,7 @@ export class RestService {
   getPaymentRecords(data: object): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/fetch_records', data, this.authHttpOptions());
   }
+
   getDonorList(data: any): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_donor_list?query=' + data, this.authHttpOptions());
   }
@@ -144,7 +145,7 @@ export class RestService {
   }
 
   getZilasForState(countryStateId: string): any {
-    return this.http.get(this.baseUrl + 'events/get_zilas?country_state_id=' + countryStateId, this.authHttpOptions());
+    return this.http.get(this.apiUrl + 'nidhi_collection/zilas?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
   getMandalsForZila(zilaId: string): any {
@@ -160,7 +161,7 @@ export class RestService {
   }
 
   getMandalsForState(countryStateId: string): any {
-    return this.http.get(this.baseUrl + 'events/get_mandals?country_state_id=' + countryStateId, this.authHttpOptions());
+    return this.http.get(this.apiUrl + 'nidhi_collection/mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
   getTreasurerList(data: any): any {
@@ -190,11 +191,12 @@ export class RestService {
   getBankDetails(ifscCode: string): any {
     return this.http.get(this.ifscUrl + ifscCode);
   }
+
   getGlobalTimeZone(): any {
     return this.http.get(this.globalTimeUrl);
   }
 
-  downloadTransactionList() {
+  downloadTransactionList(): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -204,7 +206,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data'
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
     return this.http.get(url, authHttpOptions as any);
   }
 
