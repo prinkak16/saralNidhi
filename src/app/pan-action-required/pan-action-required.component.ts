@@ -20,8 +20,9 @@ export class PanActionRequiredComponent implements OnInit {
   paymentDetails: any;
   showLoader = false;
   result: any;
+  paymentModeId = [];
   ngOnInit(): void {
-    this.getPaymentList();
+    this.getPaymentModes();
   }
 
   /* To copy any Text */
@@ -45,14 +46,29 @@ export class PanActionRequiredComponent implements OnInit {
     const dialogRef = this.dialog.open(UpdatePanStatusComponent,{width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if(response) {
-        this.getPaymentList();
+        this.getPaymentList(this.paymentModeId);
       }
     });
   }
 
-  getPaymentList(): void {
+  getPaymentModes(): void {
+    this.restService.getPaymentModes().subscribe((response: any) => {
+      this.paymentModeId = this.utilsService.pluck(response.data, 'id')
+      const data = {
+        filters: {},
+        type_id: this.paymentModeId
+      };
+      this.getPaymentList(data);
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+
+
+  getPaymentList(data: any): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords([]).subscribe((response: any) => {
+    this.restService.getPaymentRecords(data).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
     }, (error: string) => {
