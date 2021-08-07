@@ -1117,7 +1117,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   _dateChangeHandler(chosenDate: any, control: AbstractControl): void {
-    const date = new Date(chosenDate);
-    control.setValue(date.setHours(9));
+    control.setValue(new Date(chosenDate.setHours(9)));
   }
 }
