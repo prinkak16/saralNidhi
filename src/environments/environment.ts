@@ -6,8 +6,7 @@ export const environment = {
   production: false,
   baseUrl: 'http://localhost:3000/zila/api/',
   appUrl: 'http://localhost:3000/',
-  apiUrl: 'http://localhost:3000/api/v1/',
-  updateUrl: 'http://update.saral-nidhi.ccdms.in/staging/'
+  apiUrl: 'http://localhost:3000/api/v1/'
 };
 
 /*
