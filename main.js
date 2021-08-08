@@ -72,7 +72,7 @@ function handleSquirrelEvent() {
 
 const path = require('path')
 const electron = require('electron');
-let squirrelUrl =  'http://update.saral-nidhi.ccdms.in/prod/';
+let squirrelUrl =  config.updateUrl;
 const url = require("url");
 
 let mainWindow
@@ -135,9 +135,6 @@ const startAutoUpdater = (squirrelUrl) => {
 
 app.on('ready', function (){
   // Add this condition to avoid error when running your application locally
-  if (process.env.NODE_ENV === 'prod'){
-    squirrelUrl =  'http://update.saral-nidhi.ccdms.in/prod/'
-  }
   if (process.env.NODE_ENV !== "dev") startAutoUpdater(squirrelUrl)
 });
 
