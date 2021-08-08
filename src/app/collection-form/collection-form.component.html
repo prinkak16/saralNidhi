@@ -74,7 +74,7 @@
         Date of transaction is required
       </mat-error>
     </mat-form-field>
-    <ng-container *ngIf="['Cash'].includes(this.selectedModeOfPayment.name)">
+    <ng-container>
     <mat-form-field class="col-md-6" appearance="outline">
       <mat-label>Donor phone no</mat-label>
       <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
@@ -424,19 +424,19 @@
       <label class="single-label">PAN Card <sup *ngIf="isRequiredField('pan_card')">*</sup></label>
       <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
                     [config]="{length:10, containerClass: 'pan-card-container', disableAutoFocus: true}"></ng-otp-input>
-      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
+      <mat-error *ngIf="incorrectPan">
         Please enter a valid pan card number
       </mat-error>
-      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('categoryMismatch'))">
+      <mat-error *ngIf="categoryMismatch">
         Your category selection does not match your pan card number
       </mat-error>
-      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('nameMismatch'))">
+      <mat-error *ngIf="nameMismatch">
         Your name does not match your pan card number
       </mat-error>
       <mat-form-field appearance="outline" hidden>
         <mat-label>PAN Card</mat-label>
         <input matInput placeholder="PAN Card" formControlName="pan_card" maxlength="10" minlength="10"
-               [required]="isRequiredField('pan_card')">
+               >
         <mat-error
           *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('required'))">
           PAN Card is required
@@ -447,9 +447,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <ng-container *ngIf="collectionForm.controls.pan_card.hasError('pattern') ||
-     collectionForm.controls.pan_card.hasError('categoryMismatch') ||
-     collectionForm.controls.pan_card.hasError('nameMismatch')">
+    <ng-container *ngIf="nameMismatch || categoryMismatch || incorrectPan">
       <label class="single-label col-md-12">Please upload Pan Card photo <sup *ngIf="isRequiredField('pan_card_photo')">*</sup></label>
       <div class="pan-card-image-upload-container col-md-12">
         <div>
@@ -473,8 +471,7 @@
         </div>
         <mat-form-field appearance="outline">
           <mat-label>PAN Card Remarks:</mat-label>
-          <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks"
-                 [required]="isRequiredField('pan_card_remarks')">
+          <input matInput placeholder="Enter Remarks" [formControl]="accountant_pan_remarks">
         </mat-form-field>
       </div>
     </ng-container>
@@ -493,7 +490,10 @@
       <mat-label>Amount in words</mat-label>
       <input matInput placeholder="Amount in word" [formControl]="amountWord">
     </mat-form-field>
-
+    <mat-form-field class="col-md-12" appearance="outline">
+      <mat-label>Narration</mat-label>
+      <textarea matInput placeholder="Narration" maxlength="100" formControlName="narration"></textarea>
+    </mat-form-field>
     <label class="single-label col-md-12">Person responsible for collecting donation <sup
       *ngIf="isRequiredField('collector_name')">*</sup></label>
     <mat-form-field appearance="outline" class="col-md-6">
