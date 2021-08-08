@@ -14,7 +14,7 @@
     "electron-build": "ng build --optimization=false && electron .",
     "electron-build-prod-run": "ng build --optimization=false --prod && electron .",
     "electron-build-staging-run": "ng build --optimization=false --prod -c=staging && electron .",
-    "build:installer": "cross-env NODE_ENV=prod node build.js",
+    "build:installer": "node build.js",
     "pack:win": "./node_modules/.bin/electron-packager . SaralNidhi --overwrite --asar --icon=nidhi_logo.ico --prune --ignore=webpack.config.js --ignore=^/tmp --ignore=^/.git --out=builds --platform=win32 --arch=x64 --version-string.CompanyName='Jarvis Consulting' --version-string.ProductName='Saral Nidhi Application'",
     "electron-build-prod": "ng build --optimization=false --prod && npm run pack:win && npm run build:installer",
     "electron-build-staging": "ng build --optimization=false --prod -c=staging && npm run pack:win && npm run build:installer"
@@ -54,7 +54,6 @@
     "@types/node": "^12.11.1",
     "bootstrap": "^4.6.0",
     "codelyzer": "^6.0.0",
-    "cross-env": "^7.0.3",
     "electron": "^12.0.1",
     "electron-packager": "^15.2.0",
     "electron-winstaller": "^5.0.0",
