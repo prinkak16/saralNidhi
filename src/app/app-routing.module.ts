@@ -8,6 +8,7 @@ import {EntryListComponent} from './entry-list/entry-list.component';
 import {EntryListTableComponent} from './entry-list-table/entry-list-table.component';
 import {CreateUserComponent} from './user/create-user/create-user.component';
 import {ListComponent} from './user/list/list.component';
+import {PanActionRequiredComponent} from "./pan-action-required/pan-action-required.component";
 
 const routes: Routes = [
   {
@@ -89,6 +90,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Indian Donation Form',
+        },
+      },
+      {
+        path: 'pan_action',
+        component: PanActionRequiredComponent,
+        canActivate: [AuthGuard],
+        data: {
+          breadcrumb: 'Pan Required Actions',
         },
       },
 

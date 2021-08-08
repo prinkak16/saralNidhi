@@ -87,7 +87,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   zilaControl = new FormControl('');
   amountWord = new FormControl('');
   keyword = new FormControl('');
+  accountant_pan_remarks = new FormControl('');
+  pan_system_error = new FormControl(null);
+  pan_card_status = new FormControl('invalid');
+  pan_card_remark = new FormControl(null);
   fiscalYear = '';
+  categoryMismatch = false;
+  nameMismatch = false;
+  incorrectPan = false;
+  dateValue = '';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -123,8 +131,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       pan_card_photo: new FormControl(null),
       cheque_dd_photo1: new FormControl(null),
       cheque_dd_photo2: new FormControl(null),
-      pan_card_remarks: new FormControl(null),
       amount: new FormControl(null, [Validators.required]),
+      narration: new FormControl(null),
       mode_of_payment: new FormControl(null, [Validators.required]),
       date_of_transaction: new FormControl(new Date().toDateString()),
       date_of_cheque: new FormControl(new Date().toDateString()),
@@ -672,7 +680,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   uploadCMFile(control: string): void {
     this.loaderService.show();
     // @ts-ignore
-    this.restService.uploadNidhiFile(this.utilsService.toFormData(this[control].value)).subscribe((response: any) => {
+    this.restService.uploadNidhiFile(this.utilsService.toFormData(this.collectionForm.get(control).value)).subscribe((response: any) => {
       this.loaderService.hide();
       // @ts-ignore
       this.collectionForm.get(control).setValue(response.data.data);
@@ -689,12 +697,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     if (!this.checkCashLimit()) {
       return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
+    const panActionData = {
+      pan_system_error: this.pan_system_error.value,
+      accountant_pan_remarks: this.accountant_pan_remarks.value,
+      pan_card_status: this.pan_card_status.value
+    };
+
     this.showLoader = true;
     this.collectionForm.controls.state.enable();
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
-    this.restService.submitForm({data: this.collectionForm.value}).subscribe((response: any) => {
+    this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
@@ -730,19 +744,32 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   onPanCardChange(panNumber: string): void {
     this.checkAndUpdateToUpperCase(panNumber);
-    this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: null, pattern: null, nameMismatch: null});
+    this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
-          this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
+          this.pan_card_status.setValue('valid');
+          this.pan_system_error.setValue('');
+          this.categoryMismatch = false;
+          this.nameMismatch = false;
+          this.incorrectPan = false;
         } else {
-          this.collectionForm.get('pan_card')?.setErrors({nameMismatch: true});
+          this.categoryMismatch = false;
+          this.nameMismatch = true;
+          this.incorrectPan = false;
+          this.pan_system_error.setValue('Name mismatch');
         }
       } else {
-        this.collectionForm.get('pan_card')?.setErrors({categoryMismatch: true});
+        this.categoryMismatch = true;
+        this.nameMismatch = false;
+        this.incorrectPan = false;
+        this.pan_system_error.setValue('Category mismatch');
       }
     } else {
-      this.collectionForm.get('pan_card')?.setErrors({pattern: true});
+      this.categoryMismatch = false;
+      this.nameMismatch = false;
+      this.incorrectPan = true;
+      this.pan_system_error.setValue('Pan no incorrect');
     }
   }
 
@@ -956,6 +983,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.collector_name.setValue(transaction.data.collector_name);
     this.collectionForm.controls.collector_phone.setValue(transaction.data.collector_phone);
     this.collectionForm.controls.amount.setValue(transaction.data.amount);
+    this.collectionForm.controls.narration.setValue(transaction.data.narration);
     this.collectionForm.controls.pan_card.setValue(transaction.pan_card);
     this.collectionForm.controls.party_unit.setValue(transaction.location_type);
     if (transaction.location_type === 'CountryState') {
@@ -974,6 +1002,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_draft.setValue(transaction.data.date_of_draft);
     this.collectionForm.controls.draft_number.setValue(transaction.data.draft_number);
     this.collectionForm.controls.transaction_type.setValue(transaction.transaction_type);
+    this.pan_system_error.setValue(transaction.pan_data.pan_system_error);
+    this.accountant_pan_remarks.setValue(transaction.pan_data.accountant_pan_remarks);
+    this.pan_card_status.setValue(transaction.pan_data.pan_card_status);
+    this.collectionForm.controls.pan_card_photo.setValue(transaction.data.pan_card_photo);
+    this.pan_card_remark.setValue(transaction.pan_data.remark);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -999,7 +1032,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
     this.collectionForm.controls.id.setValue(transactionId);
-    this.restService.updateTransaction({data: this.collectionForm.value}).subscribe((response: any) => {
+    const panActionData = {
+      pan_system_error: this.pan_system_error.value,
+      accountant_pan_remarks: this.accountant_pan_remarks.value,
+      pan_card_status: this.pan_card_status.value
+    };
+    this.restService.updateTransaction({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],

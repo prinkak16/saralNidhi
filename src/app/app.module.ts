@@ -57,6 +57,8 @@ import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule} from '@angular/material-mo
 import { MomentUtcDateAdapter } from './moment-utc-date-adapter';
 import { MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
+import {PanActionRequiredComponent} from './pan-action-required/pan-action-required.component';
+import { UpdatePanStatusComponent } from './update-pan-status/update-pan-status.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +77,9 @@ import {ErrorInterceptor} from './interceptors/error.interceptor';
     ChangePasswordBottomSheetComponent,
     UpdatePaymentComponent,
     TwoDigitDecimaNumberDirective,
-    FilterSearchComponent
+    FilterSearchComponent,
+    PanActionRequiredComponent,
+    UpdatePanStatusComponent
   ],
   imports: [
     BrowserModule,
