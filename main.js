@@ -1,11 +1,11 @@
 const {app, BrowserWindow} = require('electron')
-
+const config = require("./config.json");
 // this should be placed at top of main.js to handle setup events quickly
 if (handleSquirrelEvent()) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
   return;
 }
-
+const isDevelopment = config.development
 function handleSquirrelEvent() {
   if (process.argv.length === 1) {
     return false;
@@ -66,7 +66,7 @@ function handleSquirrelEvent() {
       app.quit();
       return true;
   }
-};
+}
 
 
 
@@ -95,7 +95,9 @@ function createWindow () {
     })
   );
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  if (isDevelopment){
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -135,7 +137,6 @@ app.on('ready', function (){
   // Add this condition to avoid error when running your application locally
   if (process.env.NODE_ENV === 'prod'){
     squirrelUrl =  'http://update.saral-nidhi.ccdms.in/prod/'
-    console.log(process.env.NODE_ENV)
   }
   if (process.env.NODE_ENV !== "dev") startAutoUpdater(squirrelUrl)
 });
