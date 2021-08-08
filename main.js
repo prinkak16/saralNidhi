@@ -1,5 +1,5 @@
+require('dotenv').config()
 const {app, BrowserWindow} = require('electron')
-
 // this should be placed at top of main.js to handle setup events quickly
 if (handleSquirrelEvent()) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -95,7 +95,9 @@ function createWindow () {
     })
   );
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  if (process.env.FLAG){
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -134,6 +136,8 @@ const startAutoUpdater = (squirrelUrl) => {
 app.on('ready', function (){
   // Add this condition to avoid error when running your application locally
   console.log(process.env.NODE_ENV)
+  console.log(process.env.UPDATE_URL)
+  console.log(process.env.FLAG)
   if (process.env.NODE_ENV === 'prod'){
     squirrelUrl =  'http://update.saral-nidhi.ccdms.in/prod/'
     console.log(process.env.NODE_ENV)
