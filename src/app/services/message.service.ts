@@ -34,9 +34,10 @@ export class MessageService {
       verticalPosition: 'top'
     });
   }
+
   // Show session expire message
-  sessionExpired(message = 'Your session has expired, please login again', duration = 5000) {
-    this.snackBar.open(message, 'Okey', {
+  sessionExpired(message = 'Your session has expired, please login again', duration = 5000): void {
+    this.snackBar.open(message, 'Okay', {
       politeness: 'assertive',
       duration,
       horizontalPosition: 'right',
