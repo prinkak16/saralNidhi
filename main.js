@@ -134,6 +134,9 @@ const startAutoUpdater = (squirrelUrl) => {
 }
 
 app.on('ready', function (){
+  if (isDevelopment){
+    console.log(config.updateUrl)
+  }
   // Add this condition to avoid error when running your application locally
   if (process.env.NODE_ENV !== "dev") startAutoUpdater(squirrelUrl)
 });
