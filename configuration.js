@@ -25,4 +25,6 @@ console.log(originalJson)
 Object.keys(envObj).forEach(key => {
   originalJson[key] = envObj[key]
 })
+console.log("Writing " + process.env.NODE_ENV + " configuration to conf file")
 fs.writeFileSync(originalFile, JSON.stringify(originalJson, null, 2));
+console.log("Done.")

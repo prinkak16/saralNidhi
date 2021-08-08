@@ -1,4 +1,4 @@
 {
-  "development": false,
+  "development": true,
   "updateUrl": "http://update.sara-nidhi.ccdms.in/staging/installer/"
 }
