@@ -72,7 +72,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   getUserDetails(): void {
     // @ts-ignore
     this.restService.getAccountantDetails(this.userId).subscribe(reply => {
-      console.log(reply);
       const response = reply as any;
       this.userForm.controls.id.setValue(response.data.id);
       this.userForm.controls.name.setValue(response.data.name);
@@ -105,6 +104,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
         this.locations = this.userStates;
+        this.locations = this.locations.filter(({name}) => (name !== 'National'));
         this.placeholder = 'Select State';
       }
       if (value === 'zila_accountant') {
@@ -146,7 +146,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   }
 
   getMandalsForState(countryStateId: any): void {
-    console.log(countryStateId);
     this.restService.getMandalsForState(countryStateId).subscribe((reply: any) => {
       const response = reply as any;
       this.locations = response.data;
@@ -169,7 +168,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   submitForm(): void {
     const partyUnitIds = this.utilsService.pluck(this.permissions['Party Unit'], 'id');
     const partyUnitExist = partyUnitIds.find((element: any) => this.userForm.value.permission_ids.includes(element));
-    if (partyUnitExist){
+    if (partyUnitExist) {
       this.showLoader = true;
       this.restService.submitUserForm(this.userForm.value).subscribe((response: any) => {
         this.showLoader = false;
@@ -211,6 +210,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     }
     this.userForm.controls.permission_ids.setValue(this.selectedPermissionIds);
   }
+
   // Checking required field
   isRequiredField(field: string): boolean {
     const formField = this.userForm.get(field) as FormControl;

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {RestService} from '../services/rest.service';
 import * as Constant from '../AppConstants';
 import {UtilsService} from '../services/utils.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {MessageService} from '../services/message.service';
 
 @Component({
   selector: 'app-home',
@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   model = {fullName: '', email: '', phoneNumber: '', countryCode: '91', password: '', otp: ''};
   loginButtonText = 'Login';
 
-  constructor(private router: Router, private restService: RestService, private snackBar: MatSnackBar,
-              public utils: UtilsService) {
+  constructor(private router: Router, private restService: RestService,
+              public utils: UtilsService, private messageService: MessageService) {
   }
 
   mobile = false;
@@ -73,13 +73,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           }, 500);
         }
       }, (error: any) => {
-        if (error) {
-          this.snackBar.open(error.error.message, '', {
-            duration: 6000
-          });
-        } else {
-          this.snackBar.open('Unknown error found', 'Okay');
-        }
+        this.messageService.somethingWentWrong(error);
       });
   }
 
@@ -92,18 +86,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .subscribe((data: any) => {
         this.loginSuccessful(data);
       }, (error: any) => {
-        if (error) {
-          if (error === 'Your account has been deactivated due to incorrect login attempts. Please contact to your Admin') {
-            this.showOTPButton = true;
-            this.model.password = '';
-            this.model.otp = '';
-          }
-          this.snackBar.open(error.error.message, '', {
-            duration: 6000
-          });
-        } else {
-          this.snackBar.open('Unknown error found', 'Okay');
+        if (error === 'Your account has been deactivated due to incorrect login attempts. Please contact to your Admin') {
+          this.showOTPButton = true;
+          this.model.password = '';
+          this.model.otp = '';
         }
+        this.messageService.somethingWentWrong(error);
       });
   }
 
