@@ -695,12 +695,17 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
+      this.disablePaymentMode();
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
+      this.collectionForm.controls.branch_name.disable();
+      this.collectionForm.controls.branch_address.disable();
+      this.collectionForm.controls.bank_nafme.disable();
       this.messageService.somethingWentWrong(error.error.message);
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+        this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 1000);
     });
   }
@@ -1025,6 +1030,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
+      this.disablePaymentMode();
+      this.collectionForm.controls.date.disable();
+      this.collectionForm.controls.financial_year_id.disable();
+      this.collectionForm.controls.branch_name.disable();
+      this.collectionForm.controls.branch_address.disable();
+      this.collectionForm.controls.bank_name.disable();
+      setTimeout((_: any) => {
+        this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+        this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
+      }, 1000);
       this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
     });
