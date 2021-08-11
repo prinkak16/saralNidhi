@@ -52,7 +52,7 @@
     <!--Party Unit-->
     <ng-container matColumnDef="party_unit">
       <mat-header-cell *matHeaderCellDef> Party Unit</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.location_type}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{displayPartyUnit(element.location_type)}} </mat-cell>
     </ng-container>
     <!--Party Unit-->
     <!--Location-->
