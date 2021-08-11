@@ -74,30 +74,6 @@
         Date of transaction is required
       </mat-error>
     </mat-form-field>
-    <ng-container>
-    <mat-form-field class="col-md-6" appearance="outline">
-      <mat-label>Donor phone no</mat-label>
-      <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
-             formControlName="phone">
-      <mat-error
-        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
-        Phone number is required
-      </mat-error>
-      <mat-error
-        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('pattern'))">
-        Please enter a valid phone number
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-md-6" appearance="outline">
-      <mat-label>Donor email</mat-label>
-      <input matInput type="email" placeholder="Email Address" formControlName="email"
-             pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
-      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
-      </mat-error>
-      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('pattern')">Enter a valid email
-      </mat-error>
-    </mat-form-field>
-    </ng-container>
 <!-- Cheque dd back & front image-->
     <ng-container *ngIf="allowedValueNull">
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
@@ -328,6 +304,30 @@
         Name is required
       </mat-error>
     </mat-form-field>
+    <ng-container>
+      <mat-form-field class="col-md-6" appearance="outline">
+        <mat-label>Donor phone no</mat-label>
+        <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
+               formControlName="phone">
+        <mat-error
+          *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
+          Phone number is required
+        </mat-error>
+        <mat-error
+          *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('pattern'))">
+          Please enter a valid phone number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-6" appearance="outline">
+        <mat-label>Donor email</mat-label>
+        <input matInput type="email" placeholder="Email Address" formControlName="email"
+               pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+        <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
+        </mat-error>
+        <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('pattern')">Enter a valid email
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
     <div class="col-md-12">
       <label class="single-label">Category? <sup *ngIf="isRequiredField('category')">*</sup></label>
       <mat-radio-group formControlName="category" aria-label="category"

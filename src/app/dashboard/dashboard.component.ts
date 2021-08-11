@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   total = 0;
 
   query = new FormControl(null);
-
+  downloadCount = 1;
   ngOnInit(): void {
     this.getTotal();
   }
@@ -50,7 +50,8 @@ export class DashboardComponent implements OnInit {
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const blob = new Blob([reply], {type: mediaType});
       const filename = `NidhiCollection.xlsx`;
-      saveAs(blob, filename);
+      saveAs(blob, this.downloadCount+filename);
+      this.downloadCount = this.downloadCount+1;
     }, (error: any) => {
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
     });

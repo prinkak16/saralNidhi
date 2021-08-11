@@ -226,11 +226,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.collectionForm.controls.name.setValidators(Validators.required);
           this.setChequeValidations();
-          this.setBankDetailValidation();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.collectionForm.controls.name.setValidators(Validators.required);
           this.setDDValidations();
-          this.setBankDetailValidation();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.collectionForm.controls.name.clearValidators();
           this.setTransferValidations();
@@ -397,26 +395,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.draft_number.clearValidators();
     this.collectionForm.controls.draft_number.updateValueAndValidity();
 
-    this.collectionForm.controls.account_number.setValue('');
-    this.collectionForm.controls.account_number.clearValidators();
-    this.collectionForm.controls.account_number.updateValueAndValidity();
-
-    this.collectionForm.controls.ifsc_code.setValue('');
-    this.collectionForm.controls.ifsc_code.clearValidators();
-    this.collectionForm.controls.ifsc_code.updateValueAndValidity();
-
-    this.collectionForm.controls.bank_name.setValue('');
-    this.collectionForm.controls.bank_name.clearValidators();
-    this.collectionForm.controls.bank_name.updateValueAndValidity();
-
-    this.collectionForm.controls.branch_name.setValue('');
-    this.collectionForm.controls.branch_name.clearValidators();
-    this.collectionForm.controls.branch_name.updateValueAndValidity();
-
-    this.collectionForm.controls.branch_address.setValue('');
-    this.collectionForm.controls.branch_address.clearValidators();
-    this.collectionForm.controls.branch_address.updateValueAndValidity();
-
     this.collectionForm.controls.date_of_cheque.setValue(null);
     this.collectionForm.controls.date_of_cheque.clearValidators();
     this.collectionForm.controls.date_of_cheque.updateValueAndValidity();
@@ -426,11 +404,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
 
     this.collectionForm.controls.phone.setValue(null);
-    this.collectionForm.controls.phone.clearValidators();
     this.collectionForm.controls.phone.updateValueAndValidity();
 
     this.collectionForm.controls.email.setValue(null);
-    this.collectionForm.controls.email.clearValidators();
     this.collectionForm.controls.email.updateValueAndValidity();
   }
 
@@ -478,7 +454,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.setValidators(Validators.required);
     this.collectionForm.controls.category.updateValueAndValidity();
   }
-  // Set Bank fields validation on Cheque && DD
+  // Set Bank fields validation if ifsc exist
   setBankDetailValidation(): void {
     this.collectionForm.controls.account_number.setValidators(Validators.required);
     this.collectionForm.controls.ifsc_code.setValidators(Validators.required);
@@ -714,12 +690,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
+      this.disablePaymentMode();
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
       this.messageService.somethingWentWrong(error.error.message);
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+        this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 1000);
     });
   }
@@ -939,8 +917,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.utr_number.disable();
     this.collectionForm.controls.date_of_draft.disable();
     this.collectionForm.controls.draft_number.disable();
-    this.collectionForm.controls.phone.disable();
-    this.collectionForm.controls.email.disable();
 
   }
 
@@ -1043,6 +1019,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
+      this.disablePaymentMode();
+      this.collectionForm.controls.date.disable();
+      this.collectionForm.controls.financial_year_id.disable();
+      setTimeout((_: any) => {
+        this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
+        this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
+      }, 1000);
       this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
     });
