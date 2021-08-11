@@ -1,5 +1,4 @@
 const fs = require('fs')
-var htmlparser = require("htmlparser");
 
 console.log("Starting")
 let originalFile = "./config.json"
