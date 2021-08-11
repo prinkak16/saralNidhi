@@ -21,6 +21,7 @@ export class PanActionRequiredComponent implements OnInit {
   showLoader = false;
   result: any;
   paymentModeId = [];
+  downloadCount = 1;
   ngOnInit(): void {
     this.getPaymentModes();
   }
@@ -82,8 +83,9 @@ export class PanActionRequiredComponent implements OnInit {
     this.restService.downloadActionPanData().subscribe(reply => {
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const blob = new Blob([reply], {type: mediaType});
-      const filename = `NidhiCollection.xlsx`;
-      saveAs(blob, filename);
+      const filename = `ActionPanRequired.xlsx`;
+      saveAs(blob, this.downloadCount+filename);
+      this.downloadCount = this.downloadCount+1;
     }, error => {
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
     });
