@@ -26,9 +26,11 @@ if (versionArray.length === 3){
   fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
 }
 
+titleContent = fs.readFileSync("./src/index.html", 'utf8').toString()
+let datetime = new Date();
 
-
-
+titleContent = titleContent.replace(/<title>[\s\S]*?<\/title>/, '<title>' + "Nidhi Collection " + datetime.toDateString() + " - " + datetime.toLocaleTimeString()  + '<\/title>');
+fs.writeFileSync("./src/index.html", titleContent)
 
 
 
