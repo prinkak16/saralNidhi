@@ -32,6 +32,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
   @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
+  @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @Input() query: any = null;
   showLoader = false;
@@ -687,8 +688,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+      this.collectionForm.reset();
+      this.safeFocus(this.focusTransactionType);
+      this.collectionForm.controls.date.setValue(new Date());
+      this.collectionForm.controls.date.disable();
+     this.getFinancialYears();
+     this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
       this.disablePaymentMode();
       this.showLoader = false;
