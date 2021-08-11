@@ -6,13 +6,6 @@
     <div class="heading">Nidhi Collection</div>
   </div>
   <!--    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"-->
-  <button mat-fab color="primary" class="downloadButtonCSV"
-          (click)="downloadList()">
-    <div class="floating-btn">
-      <mat-icon>save_alt</mat-icon>
-      <span>XLSX</span>
-    </div>
-  </button>
 
 <!--         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="-->
 <!--    color: rgba(108,117,125,.6);-->
@@ -56,7 +49,7 @@
       <img src="assets/icons/required_action.svg" alt="Other action required">
       <div class="action-text">User Management</div>
     </div>
-    <div class="action-div pointer">
+    <div class="action-div pointer" [routerLink]="['/dashboard/pan_action']">
       <img src="assets/icons/required_action.svg" alt="Pan card action required">
       <div class="action-text">Action Required for Pancard</div>
     </div>

@@ -68,7 +68,7 @@ export class RestService {
   uploadNidhiFile(data: any): any {
     // @ts-ignore
     const authorization: string = localStorage.getItem(Constant.AUTH_TOKEN) ? localStorage.getItem(Constant.AUTH_TOKEN) : '';
-    return this.http.post(this.baseUrl + 'nidhi_collection/add_file', data, {
+    return this.http.post(this.apiUrl + 'nidhi_collection/add_file', data, {
       headers: new HttpHeaders({
         Authorization: authorization,
         Accept: 'application/json'
@@ -207,6 +207,24 @@ export class RestService {
       responseType: 'blob'
     };
     const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    return this.http.get(url, authHttpOptions as any);
+  }
+  //Update pan card status
+  updatePanData(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
+  }
+//Pan card Action required data download
+  downloadActionPanData() {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_action_pan_data'
     return this.http.get(url, authHttpOptions as any);
   }
 

@@ -181,4 +181,11 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+  // If party unit country state return  type state
+  displayPartyUnit(location_type: any){
+    if (location_type === 'CountryState') {
+      return 'State'
+    }
+      return location_type
+  }
 }
