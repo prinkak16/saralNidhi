@@ -694,11 +694,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
-      this.messageService.somethingWentWrong(error.error.message);
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
-      }, 1000);
+      }, 2000);
+      this.messageService.somethingWentWrong(error.error.message);
     });
   }
 
@@ -1025,7 +1025,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
-      }, 1000);
+      }, 2000);
       this.showLoader = false;
       this.messageService.somethingWentWrong(error.error.message);
     });
