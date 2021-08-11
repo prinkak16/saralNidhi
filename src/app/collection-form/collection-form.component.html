@@ -22,7 +22,7 @@
     <mat-form-field appearance="outline" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
                     class="col-md-12">
       <mat-label>Transaction Type</mat-label>
-      <mat-select formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
+      <mat-select #focusTransactionType formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
         <mat-option *ngFor="let option of transactionTypes" value="{{option.value}}">{{option.name}}</mat-option>
       </mat-select>
     </mat-form-field>
