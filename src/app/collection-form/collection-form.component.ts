@@ -532,7 +532,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   getStates(): void {
     this.restService.getAllStates().subscribe((response: any) => {
       this.states = response.data;
-      this.stateUnits = this.states.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
+      this.stateUnits = this.states.filter(({name}) => (name !== 'Mumbai'));
       this.states = this.states.filter(({name}) => (name !== 'Mumbai'));
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
@@ -562,7 +562,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   getAllottedStates(): void {
     this.restService.getAllottedCountryStates().subscribe((response: any) => {
       this.stateUnits = response.data;
-      this.stateUnits = this.stateUnits.filter(({name}) => (name !== 'Mumbai' && name !== 'National'));
+      this.stateUnits = this.stateUnits.filter(({name}) => (name !== 'Mumbai'));
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
