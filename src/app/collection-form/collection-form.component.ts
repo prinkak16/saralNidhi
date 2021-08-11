@@ -142,9 +142,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       utr_number: new FormControl(null),
       account_number: new FormControl(''),
       ifsc_code: new FormControl('', [Validators.pattern(this.ifscPattern)]),
-      bank_name: new FormControl({value: '', disabled: true}),
-      branch_name: new FormControl({value: '', disabled: true}),
-      branch_address: new FormControl({value: '', disabled: true}),
+      bank_name: new FormControl(''),
+      branch_name: new FormControl(''),
+      branch_address: new FormControl(''),
       collector_name: new FormControl(null),
       collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
       nature_of_donation: new FormControl(null),
@@ -686,9 +686,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
-    this.collectionForm.controls.branch_name.enable();
-    this.collectionForm.controls.branch_address.enable();
-    this.collectionForm.controls.bank_name.enable();
     this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
@@ -699,9 +696,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
-      this.collectionForm.controls.branch_name.disable();
-      this.collectionForm.controls.branch_address.disable();
-      this.collectionForm.controls.bank_nafme.disable();
       this.messageService.somethingWentWrong(error.error.message);
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
@@ -1015,9 +1009,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
-    this.collectionForm.controls.branch_name.enable();
-    this.collectionForm.controls.branch_address.enable();
-    this.collectionForm.controls.bank_name.enable();
     this.collectionForm.controls.id.setValue(transactionId);
     const panActionData = {
       pan_system_error: this.pan_system_error.value,
@@ -1033,9 +1024,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.disablePaymentMode();
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
-      this.collectionForm.controls.branch_name.disable();
-      this.collectionForm.controls.branch_address.disable();
-      this.collectionForm.controls.bank_name.disable();
       setTimeout((_: any) => {
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
