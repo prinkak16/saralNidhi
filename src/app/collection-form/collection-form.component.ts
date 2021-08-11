@@ -404,11 +404,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.cheque_number.updateValueAndValidity();
 
     this.collectionForm.controls.phone.setValue(null);
-    this.collectionForm.controls.phone.clearValidators();
     this.collectionForm.controls.phone.updateValueAndValidity();
 
     this.collectionForm.controls.email.setValue(null);
-    this.collectionForm.controls.email.clearValidators();
     this.collectionForm.controls.email.updateValueAndValidity();
   }
 
