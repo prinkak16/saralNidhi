@@ -687,8 +687,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+      this.collectionForm.reset();
+      this.collectionForm.controls.date.setValue(new Date());
+      this.collectionForm.controls.date.disable();
+     this.getFinancialYears();
+     this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
       this.disablePaymentMode();
       this.showLoader = false;
