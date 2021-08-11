@@ -21,10 +21,7 @@ console.log("changing version from : " + packageJson.version)
 versionArray = packageJson.version.split(".")
 
 if (versionArray.length === 3){
-  let value = parseInt(versionArray[2])
-  if (!isNaN(value)){
-    versionArray[2] = value + 1
-  }
+  versionArray[2] = Math.floor(Math.random()*90000) + 10000;
   packageJson.version = versionArray.join(".")
   console.log("New  version  : " + packageJson.version)
   fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
