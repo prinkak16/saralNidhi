@@ -32,6 +32,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
   @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
+  @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @Input() query: any = null;
   showLoader = false;
@@ -491,8 +492,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
-    } else {
-      this.transactionAllowedDate = new Date();
     }
   }
 // Getting current financial year according to date.
@@ -687,8 +686,18 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+      this.collectionForm.reset();
+      this.ngOtpInputRef.setValue(null);
+      this.categoryMismatch = false;
+      this.nameMismatch = false;
+      this.incorrectPan = false;
+      this.collectionForm.controls.date.setValue(new Date());
+      this.collectionForm.controls.date.disable();
+     this.getFinancialYears();
+     this.onFormChange();
+     window.scroll(0,0)
+      this.collectionForm.controls.transaction_type.setValue('regular');
+      this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
       this.disablePaymentMode();
       this.showLoader = false;

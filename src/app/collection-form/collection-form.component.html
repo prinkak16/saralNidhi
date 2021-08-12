@@ -1,4 +1,4 @@
-<div *ngIf="!showLoader" class="container">
+<div class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
@@ -22,7 +22,7 @@
     <mat-form-field appearance="outline" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
                     class="col-md-12">
       <mat-label>Transaction Type</mat-label>
-      <mat-select formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
+      <mat-select #focusTransactionType formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
         <mat-option *ngFor="let option of transactionTypes" value="{{option.value}}">{{option.name}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -636,7 +636,12 @@
        </mat-error>
      </div>
     <div class="col-md-12 mb-3" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">Submit</button>
+      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">
+        <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
+        <span *ngIf="showLoader"> Submitting</span>
+        <span *ngIf="!showLoader">Submit</span>
+      </button>
+
     </div>
     <div class="col-md-12 mb-3" *ngIf="transactionId">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="warn"
@@ -644,7 +649,4 @@
       </button>
     </div>
   </form>
-</div>
-<div class="loader-container" *ngIf="showLoader">
-  <mat-spinner color="warn"></mat-spinner>
 </div>
