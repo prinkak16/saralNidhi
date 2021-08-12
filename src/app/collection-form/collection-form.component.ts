@@ -32,7 +32,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
   @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
-  @ViewChild('focusTransactionType', {static: true}) focusTransactionType: ElementRef | any;
+  @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @Input() query: any = null;
   showLoader = false;
@@ -726,7 +726,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   onPanCardChange(panNumber: string): void {
     this.checkAndUpdateToUpperCase(panNumber);
-    this.collectionForm.controls.pan_card.setValue(panNumber.toUpperCase());
+    this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
