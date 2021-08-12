@@ -1,4 +1,4 @@
-<div *ngIf="!showLoader" class="container">
+<div class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
@@ -63,10 +63,10 @@
       <mat-label>Date of transaction</mat-label>
       <input matInput (keydown.enter)="false" [matDatepicker]="picker4" (click)="picker4.open()"
              (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
-             formControlName="date_of_transaction"
              [min]="transactionAllowedDate" [max]="today"
+             formControlName="date_of_transaction"
              [required]="isRequiredField('date_of_transaction')"
-             (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_transaction)">
+             >
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-datepicker #picker4></mat-datepicker>
       <mat-error
@@ -636,7 +636,11 @@
        </mat-error>
      </div>
     <div class="col-md-12 mb-3" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">Submit</button>
+      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">
+        <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
+        Submit
+      </button>
+
     </div>
     <div class="col-md-12 mb-3" *ngIf="transactionId">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="warn"
@@ -644,7 +648,4 @@
       </button>
     </div>
   </form>
-</div>
-<div class="loader-container" *ngIf="showLoader">
-  <mat-spinner color="warn"></mat-spinner>
 </div>

@@ -32,7 +32,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
   @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
-  @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
+  @ViewChild('focusTransactionType', {static: true}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @Input() query: any = null;
   showLoader = false;
@@ -492,8 +492,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
-    } else {
-      this.transactionAllowedDate = new Date();
     }
   }
 // Getting current financial year according to date.
@@ -689,11 +687,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.collectionForm.reset();
-      this.safeFocus(this.focusTransactionType);
       this.collectionForm.controls.date.setValue(new Date());
       this.collectionForm.controls.date.disable();
      this.getFinancialYears();
-     this.collectionForm.controls.financial_year_id.disable();
+     this.onFormChange();
+     window.scroll(0,0)
+      this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
       this.disablePaymentMode();
       this.showLoader = false;
@@ -727,7 +726,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   onPanCardChange(panNumber: string): void {
     this.checkAndUpdateToUpperCase(panNumber);
-    this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
+    this.collectionForm.controls.pan_card.setValue(panNumber.toUpperCase());
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
