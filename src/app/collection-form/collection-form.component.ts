@@ -492,8 +492,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     if (this.utilsService.checkPermission('DateOfTransaction', '30 Days')) {
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
-    } else {
-      this.transactionAllowedDate = new Date();
     }
   }
 // Getting current financial year according to date.
@@ -689,11 +687,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.collectionForm.reset();
-      this.safeFocus(this.focusTransactionType);
       this.collectionForm.controls.date.setValue(new Date());
       this.collectionForm.controls.date.disable();
      this.getFinancialYears();
-     this.collectionForm.controls.financial_year_id.disable();
+     this.onFormChange();
+     window.scroll(0,0)
+      this.collectionForm.controls.transaction_type.setValue('regular');
+      this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
       this.disablePaymentMode();
       this.showLoader = false;
