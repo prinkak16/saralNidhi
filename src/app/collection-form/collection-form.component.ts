@@ -692,6 +692,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
      this.getFinancialYears();
      this.onFormChange();
      window.scroll(0,0)
+      this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
       this.disablePaymentMode();
