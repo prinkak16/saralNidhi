@@ -687,6 +687,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.collectionForm.reset();
+      this.ngOtpInputRef.setValue(null);
+      this.categoryMismatch = false;
+      this.nameMismatch = false;
+      this.incorrectPan = false;
       this.collectionForm.controls.date.setValue(new Date());
       this.collectionForm.controls.date.disable();
      this.getFinancialYears();
