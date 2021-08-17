@@ -15,7 +15,7 @@ export class PanActionRequiredComponent implements OnInit {
 
   constructor(private restService: RestService, private loaderService: LoaderService,
               public dialog: MatDialog,
-              public utilsService: UtilsService, private messageService: MessageService,) {
+              public utilsService: UtilsService, private messageService: MessageService) {
   }
 
   displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'photo', 'pan_card_remark', 'status', 'action'];
