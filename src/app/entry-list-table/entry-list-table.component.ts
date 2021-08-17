@@ -5,13 +5,11 @@ import {PaymentModel} from '../models/payment.model';
 import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
-import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -98,7 +96,12 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   openChequeDialog(type: any, row: any): void {
-    const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
+    const paymentData = {
+      type,
+      id: row.id,
+      date_of_cheque: row.data.date_of_cheque,
+      date_of_draft: row.data.date_of_draft
+    };
     const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -144,6 +147,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return result;
   }
+
 // if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
@@ -169,6 +173,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.getPaymentList();
     return eve;
   }
+
 // Checking bank details are empty or not
   checkBankDetails(element: any): boolean {
     if (element.data.account_number === '' ||
@@ -181,11 +186,12 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+
   // If party unit country state return  type state
-  displayPartyUnit(location_type: any){
-    if (location_type === 'CountryState') {
-      return 'State'
+  displayPartyUnit(locationType: any): string {
+    if (locationType === 'CountryState') {
+      return 'State';
     }
-      return location_type
+    return locationType;
   }
 }

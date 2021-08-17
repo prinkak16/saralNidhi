@@ -1,4 +1,13 @@
-import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -349,11 +358,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     });
   }
+
 // Party unit fields value removing on value change
   removePartyUnitValue(): void {
-      this.stateControl.setValue(null);
-      this.zilaControl.setValue(null);
-      this.collectionForm.controls.location_id.setValue(null);
+    this.stateControl.setValue(null);
+    this.zilaControl.setValue(null);
+    this.collectionForm.controls.location_id.setValue(null);
   }
 
   removeAllValidations(): void {
@@ -385,6 +395,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_transaction.setValue(null);
     this.collectionForm.controls.date_of_transaction.clearValidators();
     this.collectionForm.controls.date_of_transaction.updateValueAndValidity();
+
+    this.collectionForm.controls.utr_number.setValue(null);
     this.collectionForm.controls.utr_number.clearValidators();
     this.collectionForm.controls.utr_number.updateValueAndValidity();
 
@@ -455,6 +467,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.setValidators(Validators.required);
     this.collectionForm.controls.category.updateValueAndValidity();
   }
+
   // Set Bank fields validation if ifsc exist
   setBankDetailValidation(): void {
     this.collectionForm.controls.account_number.setValidators(Validators.required);
@@ -494,11 +507,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
     }
   }
+
 // Getting current financial year according to date.
-  getCurrentFy(value: any): void{
+  getCurrentFy(value: any): void {
     const FyDate = value;
     if ((FyDate.getMonth()) < 3) {
-       this.fiscalYear = (FyDate.getFullYear() - 1) + '-' + FyDate.getFullYear();
+      this.fiscalYear = (FyDate.getFullYear() - 1) + '-' + FyDate.getFullYear();
     } else {
       this.fiscalYear = FyDate.getFullYear() + '-' + (FyDate.getFullYear() + 1);
     }
@@ -683,7 +697,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
-    this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
+    this.restService.submitForm({
+      data: this.collectionForm.value,
+      pan_data: panActionData
+    }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.collectionForm.reset();
@@ -693,9 +710,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.incorrectPan = false;
       this.collectionForm.controls.date.setValue(new Date());
       this.collectionForm.controls.date.disable();
-     this.getFinancialYears();
-     this.onFormChange();
-     window.scroll(0,0)
+      this.getFinancialYears();
+      this.onFormChange();
+      window.scroll(0, 0);
       this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
@@ -1022,7 +1039,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       accountant_pan_remarks: this.accountant_pan_remarks.value,
       pan_card_status: this.pan_card_status.value
     };
-    this.restService.updateTransaction({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
+    this.restService.updateTransaction({
+      data: this.collectionForm.value,
+      pan_data: panActionData
+    }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
@@ -1048,6 +1068,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }
+
 // Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
@@ -1059,7 +1080,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.removeBankDetails();
         if (error.error === 'Not Found') {
           this.messageService.somethingWentWrong('Please enter valid ifsc code');
-        } else  {
+        } else {
           this.messageService.somethingWentWrong('Please enter ifsc code');
         }
       });
@@ -1068,6 +1089,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.removeBankDetails();
     }
   }
+
 // Set bank details from ifsc.
   setBankDetails(bankDetails: any): void {
     if (bankDetails) {
@@ -1077,6 +1099,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.bankDetails = [];
     }
   }
+
 // Removing bank details.
   removeBankDetails(): void {
     this.collectionForm.controls.bank_name.setValue(null);

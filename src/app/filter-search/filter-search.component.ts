@@ -21,8 +21,9 @@ export class FilterSearchComponent implements OnInit {
   @Output() applyFilter = new EventEmitter<any>();
   @Input() query: any = null;
   filterForm: FormGroup = new FormGroup({});
-  today =  new Date();
+  today = new Date();
   downloadCount = 1;
+
   ngOnInit(): void {
     this.filterForm = this.formBuilder.group({
       query: new FormControl(this.query),
@@ -46,9 +47,10 @@ export class FilterSearchComponent implements OnInit {
     this.restService.downloadTransactionList().subscribe((reply: any) => {
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const blob = new Blob([reply], {type: mediaType});
-      const filename = `NidhiCollection.xlsx`;
-      saveAs(blob, this.downloadCount+filename);
-      this.downloadCount = this.downloadCount+1;
+      const name = `NidhiCollection`;
+      const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
+      saveAs(blob, this.downloadCount + filename);
+      this.downloadCount = this.downloadCount + 1;
     }, (error: any) => {
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
     });
