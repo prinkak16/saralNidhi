@@ -224,8 +224,11 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_action_pan_data'
+    const url = this.baseUrl + 'nidhi_collection/download_action_pan_data';
     return this.http.get(url, authHttpOptions as any);
   }
-
+//Get pan required records
+  getPanRequiredData() {
+    return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records', this.authHttpOptions());
+  }
 }

@@ -26,7 +26,7 @@ export class PanActionRequiredComponent implements OnInit {
   downloadCount = 1;
 
   ngOnInit(): void {
-    this.getPaymentModes();
+    this.getPanRequiredList();
   }
 
   /* To copy any Text */
@@ -50,28 +50,16 @@ export class PanActionRequiredComponent implements OnInit {
     const dialogRef = this.dialog.open(UpdatePanStatusComponent, {width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if (response) {
-        this.getPaymentList(this.paymentModeId);
+        this.getPanRequiredList();
       }
     });
   }
 
-  getPaymentModes(): void {
-    this.restService.getPaymentModes().subscribe((response: any) => {
-      this.paymentModeId = this.utilsService.pluck(response.data, 'id');
-      const data = {
-        filters: {},
-        type_id: this.paymentModeId
-      };
-      this.getPaymentList(data);
-    }, (error: string) => {
-      this.messageService.somethingWentWrong(error);
-    });
-  }
 
 
-  getPaymentList(data: any): void {
+  getPanRequiredList(): void {
     this.showLoader = true;
-    this.restService.getPaymentRecords(data).subscribe((response: any) => {
+    this.restService.getPanRequiredData().subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
     }, (error: string) => {
