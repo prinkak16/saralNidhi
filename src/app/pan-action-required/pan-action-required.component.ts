@@ -5,6 +5,7 @@ import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {MatDialog} from '@angular/material/dialog';
 import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.component';
+import {Observable, Observer} from 'rxjs';
 
 @Component({
   selector: 'app-pan-action-required',
@@ -13,9 +14,19 @@ import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.c
 })
 export class PanActionRequiredComponent implements OnInit {
 
+  asyncTabs: Observable<any>;
+
   constructor(private restService: RestService, private loaderService: LoaderService,
               public dialog: MatDialog,
               public utilsService: UtilsService, private messageService: MessageService) {
+    this.asyncTabs = new Observable((observer: Observer<any>) => {
+      setTimeout(() => {
+        observer.next([
+          {label: 'Invalid'},
+          {label: 'Approved'}
+        ]);
+      }, 1000);
+    });
   }
 
   displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'photo', 'pan_card_remark', 'status', 'action'];
@@ -26,7 +37,7 @@ export class PanActionRequiredComponent implements OnInit {
   downloadCount = 1;
 
   ngOnInit(): void {
-    this.getPanRequiredList();
+    this.getPanRequiredList('invalid');
   }
 
   /* To copy any Text */
@@ -45,21 +56,28 @@ export class PanActionRequiredComponent implements OnInit {
     document.body.removeChild(selBox);
   }
 
+  tabChange(event: any): any {
+    if (event.index === 0) {
+      this.getPanRequiredList('invalid');
+    } else if (event.index === 1) {
+      this.getPanRequiredList('valid');
+    }
+  }
+
 
   openDialog(data: any): void {
     const dialogRef = this.dialog.open(UpdatePanStatusComponent, {width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if (response) {
-        this.getPanRequiredList();
+        this.getPanRequiredList('invalid');
       }
     });
   }
 
 
-
-  getPanRequiredList(): void {
+  getPanRequiredList(status: string): void {
     this.showLoader = true;
-    this.restService.getPanRequiredData().subscribe((response: any) => {
+    this.restService.getPanRequiredData(status ? status : 'invalid').subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
     }, (error: string) => {
@@ -70,14 +88,14 @@ export class PanActionRequiredComponent implements OnInit {
 
   // Download action pan required data
   downloadList(): void {
-    this.restService.downloadActionPanData().subscribe(reply => {
+    this.restService.downloadActionPanData().subscribe((response: any) => {
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-      const blob = new Blob([reply], {type: mediaType});
+      const blob = new Blob([response], {type: mediaType});
       const name = `ActionRequiredForPancard`;
       const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
       saveAs(blob, filename);
       this.downloadCount = this.downloadCount + 1;
-    }, error => {
+    }, (error: any) => {
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
     });
   }

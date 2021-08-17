@@ -209,12 +209,14 @@ export class RestService {
     const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
     return this.http.get(url, authHttpOptions as any);
   }
-  //Update pan card status
+
+  // Update pan card status
   updatePanData(data: any): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
   }
-//Pan card Action required data download
-  downloadActionPanData() {
+
+// Pan card Action required data download
+  downloadActionPanData(): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -227,8 +229,9 @@ export class RestService {
     const url = this.baseUrl + 'nidhi_collection/download_action_pan_data';
     return this.http.get(url, authHttpOptions as any);
   }
-//Get pan required records
-  getPanRequiredData() {
-    return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records', this.authHttpOptions());
+
+// Get pan required records
+  getPanRequiredData(status: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records?status=' + status, this.authHttpOptions());
   }
 }
