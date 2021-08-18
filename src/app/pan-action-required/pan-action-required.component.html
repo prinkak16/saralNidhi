@@ -9,7 +9,7 @@
 <mat-tab-group (selectedTabChange)="tabChange($event)">
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{tab.label}}</ng-template>
-    <ng-container>
+    <ng-container *ngIf="!showLoader">
       <mat-table [dataSource]="paymentDetails">
         <ng-container matColumnDef="sno">
           <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
@@ -59,7 +59,7 @@
         <ng-container matColumnDef="action" >
           <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
           <mat-cell *matCellDef="let element" >
-            <a class="cursor-pointer" *ngIf="tab === 'Invalid'" (click)="openDialog(element)">Approve / Reject</a>
+            <a class="cursor-pointer" *ngIf="tab.label === 'Invalid'" (click)="openDialog(element)">Approve / Reject</a>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
