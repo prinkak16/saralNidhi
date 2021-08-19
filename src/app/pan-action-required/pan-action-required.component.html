@@ -58,12 +58,12 @@
         </ng-container>
         <ng-container matColumnDef="action" >
           <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-          <mat-cell *matCellDef="let element" >
+          <mat-cell *matCellDef="let element">
             <a class="cursor-pointer" *ngIf="tab.label === 'Invalid'" (click)="openDialog(element)">Approve / Reject</a>
           </mat-cell>
         </ng-container>
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.label);"></mat-row>
       </mat-table>
     </ng-container>
   </mat-tab>

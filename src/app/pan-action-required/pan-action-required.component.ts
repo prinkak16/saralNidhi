@@ -23,13 +23,15 @@ export class PanActionRequiredComponent implements OnInit {
       setTimeout(() => {
         observer.next([
           {label: 'Invalid'},
-          {label: 'Approved'}
+          {label: 'Approved'},
+          {label: 'Rejected'},
         ]);
       }, 1000);
     });
   }
 
   displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'photo', 'pan_card_remark', 'status', 'action'];
+  displayedColumnsForApprovedAndRejected: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'photo', 'pan_card_remark', 'status'];
   paymentDetails: any;
   showLoader = false;
   result: any;
@@ -61,6 +63,8 @@ export class PanActionRequiredComponent implements OnInit {
       this.getPanRequiredList('invalid');
     } else if (event.index === 1) {
       this.getPanRequiredList('approved');
+    } else if (event.index === 2) {
+      this.getPanRequiredList('rejected');
     }
   }
 
@@ -98,6 +102,14 @@ export class PanActionRequiredComponent implements OnInit {
     }, (error: any) => {
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
     });
+  }
+
+  getDisplayedColumns(tab: string): string[] {
+    if (tab === 'Invalid') {
+      return this.displayedColumns;
+    } else {
+      return this.displayedColumnsForApprovedAndRejected;
+    }
   }
 
 }
