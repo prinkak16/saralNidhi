@@ -1,4 +1,4 @@
-<div *ngIf="!showLoader" class="container">
+<div class="container">
   <h2> Nidhi Collection Form</h2>
   <form [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
@@ -22,7 +22,7 @@
     <mat-form-field appearance="outline" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
                     class="col-md-12">
       <mat-label>Transaction Type</mat-label>
-      <mat-select formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
+      <mat-select #focusTransactionType formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
         <mat-option *ngFor="let option of transactionTypes" value="{{option.value}}">{{option.name}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -74,30 +74,6 @@
         Date of transaction is required
       </mat-error>
     </mat-form-field>
-    <ng-container *ngIf="['Cash'].includes(this.selectedModeOfPayment.name)">
-    <mat-form-field class="col-md-6" appearance="outline">
-      <mat-label>Donor phone no</mat-label>
-      <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
-             formControlName="phone">
-      <mat-error
-        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
-        Phone number is required
-      </mat-error>
-      <mat-error
-        *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('pattern'))">
-        Please enter a valid phone number
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-md-6" appearance="outline">
-      <mat-label>Donor email</mat-label>
-      <input matInput type="email" placeholder="Email Address" formControlName="email"
-             pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
-      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
-      </mat-error>
-      <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('pattern')">Enter a valid email
-      </mat-error>
-    </mat-form-field>
-    </ng-container>
 <!-- Cheque dd back & front image-->
     <ng-container *ngIf="allowedValueNull">
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
@@ -186,7 +162,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="previous3Month" [max]="next3Month"
+               [min]="ddPast2Month" [max]="today"
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
@@ -212,13 +188,13 @@
    <!--Show uploaded image preview-->
     <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
       <div *ngIf="!transactionId">
-        <img src="{{collectionForm.controls.cheque_dd_photo1.value}}"  height="75" width="75" class="ml-3">
-        <img src="{{collectionForm.controls.cheque_dd_photo2.value}}"  height="75" width="75" class="ml-2">
+        <img src="{{collectionForm.controls.cheque_dd_photo1.value}}" *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3">
+        <img src="{{collectionForm.controls.cheque_dd_photo2.value}}" *ngIf="collectionForm.controls.cheque_dd_photo2.value"  height="75" width="75" class="ml-2">
         <br>
       </div>
       <div *ngIf="transactionId">
-        <img src="{{transactionDetails.data.data.cheque_dd_photo1}}"  height="75" width="75" class="ml-3">
-        <img src="{{transactionDetails.data.data.cheque_dd_photo2}}"  height="75" width="75" class="ml-2 mb">
+        <img src="{{transactionDetails.data.data.cheque_dd_photo1}}" *ngIf="transactionDetails.data.data.cheque_dd_photo1"  height="75" width="75" class="ml-3">
+        <img src="{{transactionDetails.data.data.cheque_dd_photo2}}" *ngIf="transactionDetails.data.data.cheque_dd_photo2"  height="75" width="75" class="ml-2 mb">
         <br>
       </div>
     </ng-container>
@@ -244,7 +220,7 @@
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
-          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="7">
+          <input matInput placeholder="Account number" formControlName="account_number" (keypress)="utilsService.validateNumber($event)" maxlength="18" minlength="7">
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>IFSC Code</mat-label>
@@ -278,12 +254,12 @@
         </mat-form-field>
       </ng-container>
     </div>
-    <div *ngIf="actionParam === 'Indian Donation Form' ">
+    <div *ngIf="!transactionId">
       <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name)">
         <label class="single-label col-md-12">Bank Details<sup *ngIf="isRequiredField('account_number')">*</sup></label>
         <mat-form-field appearance="outline" class="col-md-6">
           <mat-label>Account No.</mat-label>
-          <input matInput placeholder="Account number" formControlName="account_number" maxlength="18" minlength="7"
+          <input matInput placeholder="Account number" formControlName="account_number" (keypress)="utilsService.validateNumber($event)" maxlength="18" minlength="7"
                  [required]="isRequiredField('account_number')">
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-md-6">
@@ -328,6 +304,30 @@
         Name is required
       </mat-error>
     </mat-form-field>
+    <ng-container>
+      <mat-form-field class="col-md-6" appearance="outline">
+        <mat-label>Donor phone no</mat-label>
+        <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
+               formControlName="phone">
+        <mat-error
+          *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
+          Phone number is required
+        </mat-error>
+        <mat-error
+          *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('pattern'))">
+          Please enter a valid phone number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-6" appearance="outline">
+        <mat-label>Donor email</mat-label>
+        <input matInput type="email" placeholder="Email Address" formControlName="email"
+               pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
+        <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
+        </mat-error>
+        <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('pattern')">Enter a valid email
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
     <div class="col-md-12">
       <label class="single-label">Category? <sup *ngIf="isRequiredField('category')">*</sup></label>
       <mat-radio-group formControlName="category" aria-label="category"
@@ -391,20 +391,19 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>Pincode</mat-label>
-      <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6" [pattern]="'[0-9]{6}'"
+      <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
+      <input matInput placeholder="Pincode" formControlName="pincode" maxlength="6"
              (keyup)="utilsService.validateNumber($event)"
-             [required]="isRequiredField('pincode')">
-      <mat-error
-        *ngIf="((collectionForm.controls.pincode.touched)&& collectionForm.controls.pincode.hasError('required'))">
-        Pincode is required
+      >
+      <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
+        Please enter a pincode
       </mat-error>
       <mat-error *ngIf="(collectionForm.controls.pincode.hasError('pattern'))">
         Please enter a valid pincode
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>District</mat-label>
+      <mat-label>District <sup *ngIf="isRequiredField('district')">*</sup></mat-label>
       <input matInput placeholder="District" formControlName="district" [required]="isRequiredField('district')">
       <mat-error
         *ngIf="((collectionForm.controls.district.touched)&& collectionForm.controls.district.hasError('required'))">
@@ -412,7 +411,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
-      <mat-label>State</mat-label>
+      <mat-label>State <sup *ngIf="isRequiredField('state')">*</sup></mat-label>
       <mat-select formControlName="state" [required]="isRequiredField('state')">
         <mat-option *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
       </mat-select>
@@ -425,19 +424,19 @@
       <label class="single-label">PAN Card <sup *ngIf="isRequiredField('pan_card')">*</sup></label>
       <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
                     [config]="{length:10, containerClass: 'pan-card-container', disableAutoFocus: true}"></ng-otp-input>
-      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('pattern'))">
+      <mat-error *ngIf="incorrectPan">
         Please enter a valid pan card number
       </mat-error>
-      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('categoryMismatch'))">
+      <mat-error *ngIf="categoryMismatch">
         Your category selection does not match your pan card number
       </mat-error>
-      <mat-error *ngIf="(collectionForm.controls.pan_card.hasError('nameMismatch'))">
+      <mat-error *ngIf="nameMismatch">
         Your name does not match your pan card number
       </mat-error>
       <mat-form-field appearance="outline" hidden>
         <mat-label>PAN Card</mat-label>
         <input matInput placeholder="PAN Card" formControlName="pan_card" maxlength="10" minlength="10"
-               [required]="isRequiredField('pan_card')">
+               >
         <mat-error
           *ngIf="((collectionForm.controls.pan_card.touched)&& collectionForm.controls.pan_card.hasError('required'))">
           PAN Card is required
@@ -448,9 +447,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <ng-container *ngIf="collectionForm.controls.pan_card.hasError('pattern') ||
-     collectionForm.controls.pan_card.hasError('categoryMismatch') ||
-     collectionForm.controls.pan_card.hasError('nameMismatch')">
+    <ng-container *ngIf="nameMismatch || categoryMismatch || incorrectPan">
       <label class="single-label col-md-12">Please upload Pan Card photo <sup *ngIf="isRequiredField('pan_card_photo')">*</sup></label>
       <div class="pan-card-image-upload-container col-md-12">
         <div>
@@ -474,8 +471,7 @@
         </div>
         <mat-form-field appearance="outline">
           <mat-label>PAN Card Remarks:</mat-label>
-          <input matInput placeholder="Enter Remarks" formControlName="pan_card_remarks"
-                 [required]="isRequiredField('pan_card_remarks')">
+          <input matInput placeholder="Enter Remarks" [formControl]="accountant_pan_remarks">
         </mat-form-field>
       </div>
     </ng-container>
@@ -494,7 +490,10 @@
       <mat-label>Amount in words</mat-label>
       <input matInput placeholder="Amount in word" [formControl]="amountWord">
     </mat-form-field>
-
+    <mat-form-field class="col-md-12" appearance="outline">
+      <mat-label>Narration</mat-label>
+      <textarea matInput placeholder="Narration" maxlength="100" formControlName="narration"></textarea>
+    </mat-form-field>
     <label class="single-label col-md-12">Person responsible for collecting donation <sup
       *ngIf="isRequiredField('collector_name')">*</sup></label>
     <mat-form-field appearance="outline" class="col-md-6">
@@ -538,7 +537,7 @@
       </mat-form-field>
     </ng-container>
     <label class="single-label col-md-12">Party Unit: <sup *ngIf="isRequiredField('party_unit')">*</sup></label>
-    <mat-radio-group formControlName="party_unit" aria-label="party_unit"
+    <mat-radio-group formControlName="party_unit" aria-label="party_unit" (click)="removePartyUnitValue()"
                      class="col-md-12 radio-group-container-margin">
       <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState">State
       </mat-radio-button>
@@ -563,7 +562,10 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
-      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()"
+      <mat-form-field *ngIf="utilsService.isNationalAccountant() ||
+      utilsService.isStateAccountant() ||
+      utilsService.isNationalTreasurer() ||
+      utilsService.isStateTreasurer()"
                       appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
@@ -586,7 +588,10 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Mandal'">
-      <mat-form-field *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant()"
+      <mat-form-field *ngIf="utilsService.isNationalAccountant()
+      || utilsService.isNationalTreasurer()
+      || utilsService.isStateTreasurer()
+      || utilsService.isStateAccountant()"
                       appearance="outline" class="col-md-12">
         <mat-label>State</mat-label>
         <mat-select [formControl]="stateControl" required>
@@ -598,7 +603,11 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field
-        *ngIf="utilsService.isNationalAccountant() || utilsService.isStateAccountant() || utilsService.isZilaAccountant()"
+        *ngIf="utilsService.isNationalAccountant()
+        || utilsService.isNationalTreasurer()
+        || utilsService.isStateTreasurer()
+        || utilsService.isStateAccountant()
+        || utilsService.isZilaAccountant()"
         appearance="outline"
         class="col-md-12">
         <mat-label>Zila</mat-label>
@@ -621,16 +630,23 @@
         </mat-error>
       </mat-form-field>
     </ng-container>
-    <div class="col-md-12 mb-3" *ngIf="allowedValueNull">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">Submit</button>
+     <div class="container mb-2">
+       <mat-error *ngIf="!collectionForm.valid && !transactionId">
+         Please fill all * mandatory fields.
+       </mat-error>
+     </div>
+    <div class="col-md-12 mb-3" *ngIf="!transactionId">
+      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">
+        <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
+        <span *ngIf="showLoader"> Submitting</span>
+        <span *ngIf="!showLoader">Submit</span>
+      </button>
+
     </div>
-    <div class="col-md-12 mb-3" *ngIf="actionParam === 'Edit'">
+    <div class="col-md-12 mb-3" *ngIf="transactionId">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="warn"
               (click)="updateTransaction(transactionDetails.data.id)">Update
       </button>
     </div>
   </form>
-</div>
-<div class="loader-container" *ngIf="showLoader">
-  <mat-spinner color="warn"></mat-spinner>
 </div>

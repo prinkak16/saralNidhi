@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   total = 0;
 
   query = new FormControl(null);
-
+  downloadCount = 1;
   ngOnInit(): void {
     this.getTotal();
   }
@@ -40,4 +40,9 @@ export class DashboardComponent implements OnInit {
       this.messageService.somethingWentWrong(error);
     });
   }
+
+  showUpdateMsg(): void {
+    this.messageService.closableSnackBar('App Updated');
+  }
+
 }

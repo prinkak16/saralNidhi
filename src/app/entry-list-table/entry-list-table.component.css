@@ -39,7 +39,7 @@
   border-top-width: 0 !important;
 }
 .date-filter{
-margin-top: -3rem;
+  margin-top: -3rem;
 }
 .mat-raised-button{
   padding: 0!important;
@@ -65,4 +65,10 @@ margin-top: -3rem;
   .action-btn .material-icons{
     font-size: 20px;
   }
+}
+mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+  padding-left: 0px;
+}
+.cursor-pointer{
+  cursor: pointer;
 }

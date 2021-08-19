@@ -16,9 +16,22 @@ body {
 }
 
 .loader-container {
-  display: flex;
-  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
 }
+
+.loader-container .mat-spinner.mat-spinner.mat-progress-spinner.mat-warn.mat-progress-spinner-indeterminate-animation {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
 
 .pointer {
   cursor: pointer;
@@ -50,7 +63,7 @@ mat-header-cell, mat-cell {
     opacity: 0;
   }
 }
-::ng-deep mat-cell{
+.mat-cell{
   word-wrap: break-word!important;
   word-break: break-all!important;
 }

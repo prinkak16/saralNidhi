@@ -1,9 +1,10 @@
-<ng-container *ngIf="paymentDetails.length > 0;else emptyList">
+<ng-container *ngIf="length > 0 ; else emptyList">
   <mat-table [dataSource]="paymentDetails" class="entry-list-table">
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
       <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index;"> {{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0)  * this.pageSize) + i + 1}} </mat-cell>
+      <mat-cell
+        *matCellDef="let element; let i = index;"> {{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0) * this.pageSize) + i + 1}} </mat-cell>
     </ng-container>
 
     <!-- Date Column -->
@@ -15,7 +16,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"><span>{{element.data.name}}</span></mat-cell>
+      <mat-cell *matCellDef="let element"><span>{{element.data.name | titlecase}}</span></mat-cell>
     </ng-container>
 
     <!-- Category Column -->
@@ -51,7 +52,7 @@
     <!--Party Unit-->
     <ng-container matColumnDef="party_unit">
       <mat-header-cell *matHeaderCellDef> Party Unit</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.location_type}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{displayPartyUnit(element.location_type)}} </mat-cell>
     </ng-container>
     <!--Party Unit-->
     <!--Location-->
@@ -64,19 +65,25 @@
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element" class="action-btn">
         <div class="w-100">
-<!--          <mat-icon>info</mat-icon>-->
-          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date" matTooltip="Cheque Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
-          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark" matTooltip="Remark: {{element.payment_remark }}">i</span>
+          <!--          <mat-icon>info</mat-icon>-->
+          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date"
+                matTooltip="{{element.mode_of_payment.name}} Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
+          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark"
+                matTooltip="Remark: {{element.payment_remark }}">i</span>
         </div>
         <div class="w-100">
-          <span *ngIf="
-                   element.mode_of_payment.name === 'IMPS'
-                  || element.mode_of_payment.name === 'NEFT'
-                  || element.mode_of_payment.name === 'RTGS'
-                  || element.mode_of_payment.name === 'UPI'
-           ">
-          <mat-icon class="mt-2" *ngIf="element.data.bank_name === '' && allowedEdit(element.data.date) && !element.payment_remark" matTooltip="{{editTimerTooltip}}">access_time</mat-icon>
-        </span>
+
+          <mat-icon class="mt-2 cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
+          " *ngIf="(element.mode_of_payment.name === 'IMPS'
+          || element.mode_of_payment.name === 'NEFT'
+          || element.mode_of_payment.name === 'RTGS'
+          || element.mode_of_payment.name === 'UPI') &&
+          (checkBankDetails(element) &&
+          allowedEdit(element.data.date) &&
+          !element.payment_remark ) ||
+          element.data.name === ''
+          ">access_time
+          </mat-icon>
         </div>
         <div class="w-100">
           <!-- Three dot dropdown-->
@@ -101,7 +108,7 @@
               <span>Realized</span>
             </button>
               </span>
-            <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
+              <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
             <button mat-menu-item *ngIf="!element.payment_remark"
                     (click)="openChequeDialog('bounced' , element)">
               <mat-icon>note_add</mat-icon>
@@ -109,15 +116,16 @@
             </button>
               </span>
             </div>
-            <span *ngIf="element.is_editable && isRealized(element)">
-            <button mat-menu-item *ngIf="!element.payment_remark && !element.payment_remark" (click)="openChequeDialog('reserved', element)">
+            <button mat-menu-item *ngIf="isReversable(element)" (click)="openChequeDialog('reserved', element)">
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
-            </span>
             <!--  In case of future date of cheque show message-->
             <button mat-menu-item *ngIf="checkFutureDate(element) == false">
-              <mat-icon  class="text-center" matTooltip="Realize action button will be available on this date of cheque">info</mat-icon>
+              <mat-icon class="text-center"
+                        matTooltip="{{element.mode_of_payment.name}} Realize option will available on {{utilService.formatDate(element.data.date_of_cheque) || ('-')}}">
+                info
+              </mat-icon>
             </button>
           </mat-menu>
           <!-- Three dot dropdown-->
@@ -128,16 +136,30 @@
     <ng-container matColumnDef="receipt-print">
       <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span *ngIf="
-                  element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
-        <mat-icon (click)="openDialog(element)" *ngIf="
+        <ng-container
+          *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
+          <mat-icon (click)="openDialog(element)" *ngIf="
          element.payment_realize_date && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated"
+        && element.receipt_number_generated && !checkBankDetails(element)"
+                    class="pointer"
+                    matTooltip="Print Receipt">print
+          </mat-icon>
+        </ng-container>
+        <mat-icon (click)="openDialog(element)" *ngIf="(
+                  element.mode_of_payment.name === 'IMPS'
+                  || element.mode_of_payment.name === 'NEFT'
+                  || element.mode_of_payment.name === 'RTGS'
+                  || element.mode_of_payment.name === 'UPI')
+                  &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && !checkBankDetails(element)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
-          </span>
-        <mat-icon (click)="openDialog(element)"
+        <mat-icon (click)="openDialog(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated"
+                  class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
       </mat-cell>

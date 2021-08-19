@@ -3,5 +3,20 @@
   <div style="width: 100%; height: auto;">
     <app-breadcrumb></app-breadcrumb>
   </div>
-  <router-outlet (activate)="onActivate($event)"></router-outlet>
+  <router-outlet *ngIf="appVisible" (activate)="onActivate($event)"></router-outlet>
+  <div *ngIf="!appVisible && onlineStatus">
+    <p class="text-center">Your system's Date & Time setting is not set to "Automatic". Please follow the
+      <mat-icon (click)="openUrl()" color="primary" title="Click here">launch</mat-icon>
+      link to set the Date & Time and then click on refresh icon.
+    </p>
+    <div class="text-center" style="cursor: pointer">
+      <mat-icon (click)="onActivate('')" color="warn">refresh</mat-icon>
+    </div>
+  </div>
+  <div *ngIf="!onlineStatus">
+    <p class="text-center">Internet not connected please connect your internet and refresh</p>
+    <div class="text-center" style="cursor: pointer">
+      <mat-icon (click)="onActivate('')" color="warn">refresh</mat-icon>
+    </div>
+  </div>
 </div>

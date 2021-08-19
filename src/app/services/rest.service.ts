@@ -13,6 +13,7 @@ export class RestService {
   apiUrl = environment.apiUrl;
   pinCodeUrl = 'https://api.postalpincode.in/pincode/';
   ifscUrl = 'https://ifsc.razorpay.com/';
+  globalTimeUrl = 'http://worldclockapi.com/api/json/est/now';
 
   constructor(private http: HttpClient) {
   }
@@ -67,7 +68,7 @@ export class RestService {
   uploadNidhiFile(data: any): any {
     // @ts-ignore
     const authorization: string = localStorage.getItem(Constant.AUTH_TOKEN) ? localStorage.getItem(Constant.AUTH_TOKEN) : '';
-    return this.http.post(this.baseUrl + 'nidhi_collection/add_file', data, {
+    return this.http.post(this.apiUrl + 'nidhi_collection/add_file', data, {
       headers: new HttpHeaders({
         Authorization: authorization,
         Accept: 'application/json'
@@ -87,6 +88,7 @@ export class RestService {
   getPaymentRecords(data: object): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/fetch_records', data, this.authHttpOptions());
   }
+
   getDonorList(data: any): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/get_donor_list?query=' + data, this.authHttpOptions());
   }
@@ -143,7 +145,7 @@ export class RestService {
   }
 
   getZilasForState(countryStateId: string): any {
-    return this.http.get(this.baseUrl + 'events/get_zilas?country_state_id=' + countryStateId, this.authHttpOptions());
+    return this.http.get(this.apiUrl + 'nidhi_collection/zilas?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
   getMandalsForZila(zilaId: string): any {
@@ -159,7 +161,7 @@ export class RestService {
   }
 
   getMandalsForState(countryStateId: string): any {
-    return this.http.get(this.baseUrl + 'events/get_mandals?country_state_id=' + countryStateId, this.authHttpOptions());
+    return this.http.get(this.apiUrl + 'nidhi_collection/mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
   getTreasurerList(data: any): any {
@@ -188,5 +190,48 @@ export class RestService {
 
   getBankDetails(ifscCode: string): any {
     return this.http.get(this.ifscUrl + ifscCode);
+  }
+
+  getGlobalTimeZone(): any {
+    return this.http.get(this.globalTimeUrl);
+  }
+
+  downloadTransactionList(): any {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    return this.http.get(url, authHttpOptions as any);
+  }
+
+  // Update pan card status
+  updatePanData(data: any): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
+  }
+
+// Pan card Action required data download
+  downloadActionPanData(): any {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_action_pan_data';
+    return this.http.get(url, authHttpOptions as any);
+  }
+
+// Get pan required records
+  getPanRequiredData(status: string): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records?status=' + status, this.authHttpOptions());
   }
 }

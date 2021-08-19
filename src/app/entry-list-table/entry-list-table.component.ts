@@ -1,23 +1,22 @@
-import {Component, Input, OnInit, OnChanges, ViewChild} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild, OnDestroy} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
 import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
-import {ChequeDetailComponent} from '../cheque-detail/cheque-detail.component';
-import {PageEvent} from '@angular/material/paginator';
+import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
   styleUrls: ['./entry-list-table.component.css']
 })
-export class EntryListTableComponent implements OnInit, OnChanges {
-  differenceInDays: any;
+export class EntryListTableComponent implements OnInit, OnDestroy {
 
   constructor(private restService: RestService, private matDialog: MatDialog,
               private activatedRoute: ActivatedRoute, private messageService: MessageService,
@@ -26,30 +25,49 @@ export class EntryListTableComponent implements OnInit, OnChanges {
 
   @Input() paymentModeId: any = null;
   @Input() filters: any = null;
+  @Output() updateList = new EventEmitter<any>();
+  @Input() fetchWithFilters = new Observable<any>();
+
+  private subscription: Subscription = new Subscription();
+
+  @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
+
   showLoader = false;
-  editTimerTooltip = '';
+  updateAllowedDays = '';
   today = new Date();
-  paymentDetails: PaymentModel[] = [];
+  paymentDetails: any;
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
   length = 0;
   pageSize = 10;
   pageEvent = new PageEvent();
-
   offset = 0;
   limit = 10;
+  differenceInDays: any;
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
       this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
         'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
-    this.getPaymentList();
+    this.subscribeToSubject();
   }
 
-  ngOnChanges(): void {
-    this.getPaymentList();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  subscribeToSubject(): void {
+    this.subscription = this.fetchWithFilters.subscribe(value => {
+      this.filters = value;
+      this.pageEvent = new PageEvent();
+      if (this.paginator) {
+        this.paginator.pageIndex = 0;
+      }
+      this.offset = 0;
+      this.getPaymentList();
+    });
   }
 
   getPaymentList(): void {
@@ -69,8 +87,7 @@ export class EntryListTableComponent implements OnInit, OnChanges {
     });
   }
 
-  // tslint:disable-next-line:typedef
-  openDialog(data: any) {
+  openDialog(data: any): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       element: data
@@ -79,13 +96,16 @@ export class EntryListTableComponent implements OnInit, OnChanges {
   }
 
   openChequeDialog(type: any, row: any): void {
-    const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
-    const dialogRef = this.matDialog.open(ChequeDetailComponent, {data: paymentData});
+    const paymentData = {
+      type,
+      id: row.id,
+      date_of_cheque: row.data.date_of_cheque,
+      date_of_draft: row.data.date_of_draft
+    };
+    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
-      if (result.remark) {
-        row.payment_remark = result.remark;
-      } else {
-        row.payment_realize_date = result.date;
+      if (result) {
+        this.updateList.emit(true);
       }
     });
   }
@@ -110,7 +130,7 @@ export class EntryListTableComponent implements OnInit, OnChanges {
       dateOfCreation.setDate(dateOfCreation.getDate() + 15);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays + 'Days are pending to update the Bank & donor details.';
+      this.updateAllowedDays = this.differenceInDays;
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
@@ -118,27 +138,26 @@ export class EntryListTableComponent implements OnInit, OnChanges {
       dateOfCreation.setDate(dateOfCreation.getDate() + 30);
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-      this.editTimerTooltip = this.differenceInDays + 'Days are pending to update the Bank & donor details.';
+      this.updateAllowedDays = this.differenceInDays;
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
+      this.updateAllowedDays = 'Lifetime';
       result = true;
     }
     return result;
   }
 
-  isRealized(data: any): boolean {
-    if (data.payment_realize_date) {
-      const realizedDate = new Date(data.payment_realize_date);
-      if (data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
-        const allowedDate = new Date(new Date().setDate(realizedDate.getDate() + 60));
-        return new Date() <= allowedDate;
-      } else {
-        return true;
-      }
-    } else {
-      return true;
+// if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
+  isReversable(data: any): boolean {
+    const realizedDate = new Date(data.payment_realize_date);
+    const transactionDate = new Date(data.data.date_of_transaction);
+    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
+      const chequeDdDate = new Date(new Date(realizedDate).setDate(realizedDate.getDate() + 30));
+      return new Date() <= chequeDdDate;
     }
+    const otherPaymentDate = new Date(new Date(transactionDate).setDate(transactionDate.getDate() + 30));
+    return new Date() <= otherPaymentDate;
   }
 
 // Show/hide actions if cheque & dd date is in future
@@ -153,5 +172,26 @@ export class EntryListTableComponent implements OnInit, OnChanges {
     this.offset = (eve.pageIndex === 0 ? 0 : (eve.pageIndex * eve.pageSize));
     this.getPaymentList();
     return eve;
+  }
+
+// Checking bank details are empty or not
+  checkBankDetails(element: any): boolean {
+    if (element.data.account_number === '' ||
+      element.data.ifsc_code === '' ||
+      element.data.bank_name === '' ||
+      element.data.branch_name === '' ||
+      element.data.branch_address === '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // If party unit country state return  type state
+  displayPartyUnit(locationType: any): string {
+    if (locationType === 'CountryState') {
+      return 'State';
+    }
+    return locationType;
   }
 }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChequeDetailComponent } from './cheque-detail.component';
+import { UpdatePanStatusComponent } from './update-pan-status.component';
 
-describe('ChequeDetailComponent', () => {
-  let component: ChequeDetailComponent;
-  let fixture: ComponentFixture<ChequeDetailComponent>;
+describe('UpdatePanStatusComponent', () => {
+  let component: UpdatePanStatusComponent;
+  let fixture: ComponentFixture<UpdatePanStatusComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChequeDetailComponent ]
+      declarations: [ UpdatePanStatusComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChequeDetailComponent);
+    fixture = TestBed.createComponent(UpdatePanStatusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

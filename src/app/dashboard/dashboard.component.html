@@ -5,7 +5,8 @@
     </div>
     <div class="heading">Nidhi Collection</div>
   </div>
-<!--    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"-->
+  <!--    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"-->
+
 <!--         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="-->
 <!--    color: rgba(108,117,125,.6);-->
 <!--    position: absolute;-->
@@ -16,7 +17,7 @@
 <!--    </svg>-->
     <input  placeholder="Search by name / Phone no / Pan no" class="search-bar"
            (keyup.enter)="collectionDataSearch()" [formControl]="query">
-  <div class="total-count-container pointer" (click)="showTotalEntryList()">
+  <div class="total-count-container pointer" (click)="showTotalEntryList()" *ngIf="utilsService.isAnyPartyUnit()">
     <div class="total-count-div">
       <div class="count">{{total}}</div>
     </div>
@@ -34,7 +35,7 @@
       </div>
       <div class="heading">Indian Donation Form</div>
     </div>
-    <div class="form-div pointer">
+    <div class="form-div pointer" (click)="showUpdateMsg()">
       <img src="assets/icons/nri_donation_form.svg" alt="NRI donation form">
       <div class="heading">NRI Donation Form</div>
     </div>
@@ -48,7 +49,7 @@
       <img src="assets/icons/required_action.svg" alt="Other action required">
       <div class="action-text">User Management</div>
     </div>
-    <div class="action-div pointer">
+    <div class="action-div pointer" [routerLink]="['/dashboard/pan_action']">
       <img src="assets/icons/required_action.svg" alt="Pan card action required">
       <div class="action-text">Action Required for Pancard</div>
     </div>

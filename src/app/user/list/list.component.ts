@@ -18,7 +18,8 @@ export class ListComponent implements OnInit {
   showLoader = false;
   users = [];
 
-  constructor(private formBuilder: FormBuilder, private restService: RestService, private snackBar: MatSnackBar) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService,
+              public utilService: UtilsService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {

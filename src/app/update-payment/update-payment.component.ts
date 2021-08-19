@@ -7,23 +7,24 @@ import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {Router} from '@angular/router';
 @Component({
-  selector: 'app-cheque-detail',
-  templateUrl: './cheque-detail.component.html',
-  styleUrls: ['./cheque-detail.component.css']
+  selector: 'app-update-payment',
+  templateUrl: './update-payment.component.html',
+  styleUrls: ['./update-payment.component.css']
 })
-export class ChequeDetailComponent implements OnInit, AfterViewChecked, AfterContentInit, AfterViewInit {
+export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterContentInit, AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder, private restService: RestService,
     private messageService: MessageService, private cd: ChangeDetectorRef,
     private loaderService: LoaderService, public utilsService: UtilsService,
     private router: Router,
-    public dialogRef: MatDialogRef<ChequeDetailComponent>,
+    public dialogRef: MatDialogRef<UpdatePaymentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   chequeData: any;
   allowMinDate = new Date();
+  allowMaxDate = new Date();
   chequeDetailForm: FormGroup = new FormGroup({});
   ngOnInit(): void {
     this.chequeDetailForm = this.formBuilder.group({
@@ -41,10 +42,15 @@ export class ChequeDetailComponent implements OnInit, AfterViewChecked, AfterCon
     // Getting realize date should be >= cheque & dd date
     if (this.data.date_of_cheque) {
       this.allowMinDate = new Date(this.data.date_of_cheque);
+      const maxDate = new Date(new Date(this.data.date_of_cheque).setDate(new Date(this.data.date_of_cheque).getDate() + 90));
+      this.allowMaxDate = maxDate;
     }
     if (this.data.date_of_draft) {
       this.allowMinDate = new Date(this.data.date_of_draft);
+      const maxDate = new Date(new Date(this.data.date_of_draft).setDate(new Date(this.data.date_of_draft).getDate() + 60));
+      this.allowMaxDate = maxDate;
     }
+
   }
 // Detect changes
   ngAfterViewChecked(): void {
