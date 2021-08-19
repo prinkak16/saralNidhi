@@ -60,7 +60,7 @@ export class PanActionRequiredComponent implements OnInit {
     if (event.index === 0) {
       this.getPanRequiredList('invalid');
     } else if (event.index === 1) {
-      this.getPanRequiredList('valid');
+      this.getPanRequiredList('approved');
     }
   }
 
