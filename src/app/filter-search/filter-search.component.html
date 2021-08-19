@@ -13,6 +13,8 @@
   </mat-form-field>
     <button mat-flat-button color="warn" class="ml-4" (click)="getFilteredData()">Search</button>
   <button mat-flat-button color="warn" class="ml-2" (click)="clearInputFields()">Clear</button>
-  <button mat-flat-button color="warn" class="ml-2" (click)="downloadList()">Download</button>
+  <button mat-flat-button color="warn" class="ml-2"
+          *ngIf="utilService.checkPermission('IndianDonationForm', 'Allow Data Download')"
+          (click)="downloadList()">Download</button>
 </form>
 
