@@ -158,7 +158,9 @@
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
-        <mat-icon (click)="openDialog(element)"
+        <mat-icon (click)="openDialog(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
