@@ -99,11 +99,11 @@ export class RestService {
 
 
   submitForm(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
+    return this.http.post(this.baseUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
 
   updateCollectionPayment(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/update_collection_payment', data, this.authHttpOptions());
+    return this.http.post(this.baseUrl + 'nidhi_collection/update_collection_payment', data, this.authHttpOptions());
   }
 
   downloadReceipt(id = ''): any {
@@ -185,7 +185,7 @@ export class RestService {
   }
 
   updateTransaction(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/add', data, this.authHttpOptions());
+    return this.http.post(this.baseUrl + 'nidhi_collection/add', data, this.authHttpOptions());
   }
 
   getBankDetails(ifscCode: string): any {
@@ -212,7 +212,7 @@ export class RestService {
 
   // Update pan card status
   updatePanData(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
+    return this.http.post(this.baseUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
   }
 
 // Pan card Action required data download
