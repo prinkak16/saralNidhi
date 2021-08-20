@@ -40,7 +40,9 @@
     <!-- Pan Card No. Column -->
     <ng-container matColumnDef="pan_card">
       <mat-header-cell *matHeaderCellDef> Pan Card No.</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.data.pan_card}} </mat-cell>
+      <mat-cell *matCellDef="let element"
+                [matTooltip]="getPanStateDisplayName(element) | titlecase"
+                class="cursor-pointer"> {{element.data.pan_card}} </mat-cell>
     </ng-container>
     <!-- Pan Card No. Column -->
     <!--State-->
@@ -138,9 +140,9 @@
       <mat-cell *matCellDef="let element">
         <ng-container
           *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
-          <mat-icon (click)="openDialog(element)" *ngIf="
-         element.payment_realize_date && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element)"
+          <mat-icon (click)="openDialog(element)" *ngIf="element.payment_realize_date &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
                     class="pointer"
                     matTooltip="Print Receipt">print
           </mat-icon>
@@ -152,11 +154,13 @@
                   || element.mode_of_payment.name === 'UPI')
                   &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element)"
+        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
-        <mat-icon (click)="openDialog(element)"
+        <mat-icon (click)="openDialog(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>

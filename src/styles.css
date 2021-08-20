@@ -23,7 +23,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .loader-container .mat-spinner.mat-spinner.mat-progress-spinner.mat-warn.mat-progress-spinner-indeterminate-animation {
@@ -63,9 +63,14 @@ mat-header-cell, mat-cell {
     opacity: 0;
   }
 }
-.mat-cell{
-  word-wrap: break-word!important;
-  word-break: break-all!important;
+
+.mat-cell {
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 /*Download styles*/

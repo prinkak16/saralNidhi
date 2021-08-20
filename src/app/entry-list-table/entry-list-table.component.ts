@@ -24,6 +24,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   @Input() paymentModeId: any = null;
+  @Input() showLoader = false;
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
@@ -32,7 +33,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
 
-  showLoader = false;
+
   updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
@@ -193,5 +194,22 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       return 'State';
     }
     return locationType;
+  }
+
+  // checking for pan card presence and if present checking for valid state
+  checkPanCardAndValidation(element: any): boolean {
+    let allowed = true;
+    if (element.pan_card) {
+      allowed = ['valid_pan', 'approved'].includes(element.pan_aasm_state);
+    }
+    return allowed;
+  }
+
+  getPanStateDisplayName(element: any): string {
+    let value = '';
+    if (element.pan_card) {
+      value = element.pan_aasm_state.replace('_', ' ');
+    }
+    return value;
   }
 }
