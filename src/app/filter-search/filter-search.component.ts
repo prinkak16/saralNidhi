@@ -4,7 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {saveAs} from 'file-saver';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
-
+import {UtilsService} from '../services/utils.service';
 
 @Component({
   selector: 'app-filter-search',
@@ -14,6 +14,7 @@ import {MessageService} from '../services/message.service';
 export class FilterSearchComponent implements OnInit {
 
   constructor(private router: Router, private restService: RestService,
+              public utilsService: UtilsService,
               private messageService: MessageService,
               private formBuilder: FormBuilder) {
   }
