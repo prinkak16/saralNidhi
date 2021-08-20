@@ -1057,7 +1057,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 2000);
       this.showLoader = false;
-      this.messageService.somethingWentWrong(error.error.message);
+      this.messageService.somethingWentWrong(error);
     });
   }
 
