@@ -55,9 +55,9 @@
         </ng-container>
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.pan_data.pan_card_status | titlecase}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{element.pan_aasm_state | titlecase}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="action" >
+        <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <a class="cursor-pointer" *ngIf="tab.label === 'Invalid'" (click)="openDialog(element)">Approve / Reject</a>
