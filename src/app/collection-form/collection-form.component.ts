@@ -704,6 +704,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.closableSnackBar(response.message);
       this.collectionForm.reset();
       this.ngOtpInputRef.setValue(null);
+      this.accountantPanRemarks.setValue(null);
       this.categoryMismatch = false;
       this.nameMismatch = false;
       this.incorrectPan = false;
