@@ -229,7 +229,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.mode_of_payment.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull && value) {
         this.updateDateOfTransaction();
         this.removeAllValidations();
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
@@ -712,6 +712,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.panCardStatus.setValue('invalid');
       this.getFinancialYears();
       this.onFormChange();
+      this.selectedModeOfPayment = [];
       window.scroll(0, 0);
       this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
