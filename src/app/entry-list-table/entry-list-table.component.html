@@ -158,12 +158,14 @@
                   class="pointer"
                   matTooltip="Print Receipt">print
         </mat-icon>
-        <mat-icon (click)="openDialog(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
-         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && checkPanCardAndValidation(element)"
+        <mat-icon (click)="downloadReceipt(element)"
                   class="pointer"
-                  matTooltip="Print Receipt">print
+                  matTooltip="Download Receipt" >cloud_download
         </mat-icon>
+        <mat-icon class="pointer ml-2"
+                  (click)="openEmailSendModal(element)"
+                  matTooltip="Send receipt on email" >send</mat-icon>
+
       </mat-cell>
     </ng-container>
 

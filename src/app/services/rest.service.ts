@@ -116,7 +116,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'custom_member_form/generate_receipt?id=' + id;
+    const url = this.baseUrl + 'nidhi_collection/get_receipt_pdf?id=' + id;
     return this.http.get(url, authHttpOptions as any);
   }
 
