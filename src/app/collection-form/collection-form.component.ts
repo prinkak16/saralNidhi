@@ -717,7 +717,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
     }, (error: any) => {
-      this.disablePaymentMode();
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
@@ -725,7 +724,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 2000);
-      this.messageService.somethingWentWrong(error.error.message);
+      this.messageService.somethingWentWrong(error);
     });
   }
 
