@@ -19,7 +19,7 @@ import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
-
+import { ConnectionService } from 'ng-connection-service';
 
 @Component({
   selector: 'app-collection-form',
@@ -30,12 +30,12 @@ import * as Constant from '../AppConstants';
 export class CollectionFormComponent implements OnInit, AfterViewInit, AfterViewChecked {
   transactionId: any;
   actionParam: any;
-
+  isConnected = true;
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
-              private router: Router) {
+              private router: Router, public connectionService: ConnectionService) {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
@@ -112,6 +112,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       if (params.id) {
         this.transactionId = params.id;
       }
+    });
+
+    this.connectionService.monitor().subscribe(isConnected => {
+      this.isConnected = isConnected;
     });
 
     this.route.data.subscribe(data => {
@@ -704,6 +708,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.closableSnackBar(response.message);
       this.collectionForm.reset();
       this.ngOtpInputRef.setValue(null);
+      this.accountantPanRemarks.setValue(null);
       this.categoryMismatch = false;
       this.nameMismatch = false;
       this.incorrectPan = false;

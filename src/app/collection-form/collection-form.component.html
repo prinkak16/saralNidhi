@@ -636,7 +636,7 @@
        </mat-error>
      </div>
     <div class="col-md-12 mb-3" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">
+      <button mat-flat-button [disabled]="!collectionForm.valid || !this.isConnected" color="warn" (click)="submitForm()">
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
         <span *ngIf="showLoader"> Submitting</span>
         <span *ngIf="!showLoader">Submit</span>
