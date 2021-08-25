@@ -1018,6 +1018,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }, 2000);
     if (this.actionParam === 'Edit') {
       this.allowedValueNull = false;
+      this.ngOtpInputRef.otpForm.disable();
       this.disablePaymentMode();
     } else {
       this.allowedValueNull = false;
