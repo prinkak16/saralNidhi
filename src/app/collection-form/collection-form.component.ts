@@ -43,6 +43,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
+  @ViewChild('form', {static: false}) form: any;
   @Input() query: any = null;
   showLoader = false;
   autoFillData: any;
@@ -706,7 +707,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.collectionForm.reset();
+      this.form.resetForm();
       this.ngOtpInputRef.setValue(null);
       this.accountantPanRemarks.setValue(null);
       this.categoryMismatch = false;
@@ -721,6 +722,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       window.scroll(0, 0);
       this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
+      this.collectionForm.controls.state.disable();
+      this.collectionForm.controls.district.disable();
     }, (error: any) => {
       this.showLoader = false;
       this.collectionForm.controls.date.disable();

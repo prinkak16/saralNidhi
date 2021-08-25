@@ -1,6 +1,6 @@
 <div class="container">
   <h2> Nidhi Collection Form</h2>
-  <form [formGroup]="collectionForm" class="row">
+  <form #form="ngForm" [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
         <input type="text" placeholder="Search by / PAN No." class="search-input" [formControl]="keyword"
