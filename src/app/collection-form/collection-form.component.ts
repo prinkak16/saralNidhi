@@ -35,10 +35,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
-              private router: Router, private connectionService: ConnectionService) {
-    this.connectionService.monitor().subscribe(isConnected => {
-      this.isConnected = isConnected;
-    });
+              private router: Router, public connectionService: ConnectionService) {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
@@ -115,6 +112,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       if (params.id) {
         this.transactionId = params.id;
       }
+    });
+
+    this.connectionService.monitor().subscribe(isConnected => {
+      this.isConnected = isConnected;
     });
 
     this.route.data.subscribe(data => {
