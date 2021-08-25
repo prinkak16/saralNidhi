@@ -31,6 +31,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   transactionId: any;
   actionParam: any;
 
+
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
@@ -47,6 +48,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   showLoader = false;
   autoFillData: any;
   allowedValueNull = true;
+  isEnabled = false;
   transactionTypes = [{name: 'Regular', value: 'regular'}, {name: 'Supplementary', value: 'supplementary'}];
 
   toWords = new ToWords({
@@ -1018,14 +1020,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }, 2000);
     if (this.actionParam === 'Edit') {
       this.allowedValueNull = false;
-      this.ngOtpInputRef.otpForm.disable();
       this.disablePaymentMode();
     } else {
       this.allowedValueNull = false;
       this.amountWord.disable();
       this.stateControl.disable();
       this.zilaControl.disable();
+      this.isEnabled = true;
+      this.accountantPanRemarks.disable();
       this.collectionForm.disable();
+      this.ngOtpInputRef.otpForm.disable();
     }
   }
 
