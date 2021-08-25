@@ -163,7 +163,7 @@
                   matTooltip="Download Receipt" >cloud_download
         </mat-icon>
         <mat-icon class="pointer ml-2"
-                  (click)="openEmailSendModal(element)"
+                  (click)="openEmailSendModal(element.data.email)"
                   matTooltip="Send receipt on email" >send</mat-icon>
 
       </mat-cell>
