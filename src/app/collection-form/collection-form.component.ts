@@ -393,11 +393,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.state.clearValidators();
     this.collectionForm.controls.state.updateValueAndValidity();
 
-    this.collectionForm.controls.date_of_transaction.setValue(null);
+    // this.collectionForm.controls.date_of_transaction.setValue(null);
     this.collectionForm.controls.date_of_transaction.clearValidators();
     this.collectionForm.controls.date_of_transaction.updateValueAndValidity();
 
-    this.collectionForm.controls.utr_number.setValue(null);
+    // this.collectionForm.controls.utr_number.setValue(null);
     this.collectionForm.controls.utr_number.clearValidators();
     this.collectionForm.controls.utr_number.updateValueAndValidity();
 
@@ -724,6 +724,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
       setTimeout((_: any) => {
+        this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
+        this.collectionForm.controls.utr_number.setValue(this.collectionForm.controls.utr_number.value);
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 2000);
@@ -1055,6 +1057,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
     }, (error: any) => {
+      this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
       this.disablePaymentMode();
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
