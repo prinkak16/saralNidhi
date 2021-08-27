@@ -19,7 +19,6 @@ import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
-import { ConnectionService } from 'ng-connection-service';
 
 @Component({
   selector: 'app-collection-form',
@@ -35,7 +34,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
-              private router: Router, public connectionService: ConnectionService) {
+              private router: Router) {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
@@ -114,11 +113,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.transactionId = params.id;
       }
     });
-
-    this.connectionService.monitor().subscribe(isConnected => {
-      this.isConnected = isConnected;
-    });
-
     this.route.data.subscribe(data => {
       if (data) {
         this.actionParam = data.breadcrumb;
