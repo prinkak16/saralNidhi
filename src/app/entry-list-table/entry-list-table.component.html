@@ -136,7 +136,7 @@
     </ng-container>
 
     <ng-container matColumnDef="receipt-print">
-      <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ng-container
           *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">

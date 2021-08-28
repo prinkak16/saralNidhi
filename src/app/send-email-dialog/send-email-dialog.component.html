@@ -14,3 +14,6 @@
     <button mat-raised-button color="primary" class="ml-4" (click)="close()">Close</button>
   </form>
 </div>
+<div class="loader-container" *ngIf="showLoader">
+  <mat-spinner color="warn"></mat-spinner>
+</div>

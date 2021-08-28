@@ -235,6 +235,6 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records?status=' + status, this.authHttpOptions());
   }
   sendEmail(data: any): any {
-    return this.http.get(this.baseUrl + 'nidhi_collection/get_receipt_pdf?data=' + JSON.stringify(data), this.authHttpOptions());
+    return this.http.post(this.baseUrl + 'nidhi_collection/send_receipt_on_email', JSON.stringify(data), this.authHttpOptions());
   }
 }
