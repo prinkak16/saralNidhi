@@ -3,7 +3,7 @@ pipeline {
 		
 	stages {
 		stage ("build") {
-			bat 'cd C:\Users\neeraj_kumar\Desktop\saral-staging'
+			bat 'cd C:\\Users\\neeraj_kumar\\Desktop\\saral-staging'
 		}
 	}
 }
