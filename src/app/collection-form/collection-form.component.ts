@@ -20,7 +20,6 @@ import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
 
-
 @Component({
   selector: 'app-collection-form',
   templateUrl: './collection-form.component.html',
@@ -30,8 +29,6 @@ import * as Constant from '../AppConstants';
 export class CollectionFormComponent implements OnInit, AfterViewInit, AfterViewChecked {
   transactionId: any;
   actionParam: any;
-
-
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
@@ -44,6 +41,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
+  @ViewChild('form', {static: false}) form: any;
   @Input() query: any = null;
   showLoader = false;
   autoFillData: any;
@@ -115,7 +113,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.transactionId = params.id;
       }
     });
-
     this.route.data.subscribe(data => {
       if (data) {
         this.actionParam = data.breadcrumb;
@@ -704,8 +701,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.collectionForm.reset();
+      this.form.resetForm();
       this.ngOtpInputRef.setValue(null);
+      this.accountantPanRemarks.setValue(null);
       this.categoryMismatch = false;
       this.nameMismatch = false;
       this.incorrectPan = false;
@@ -718,8 +716,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       window.scroll(0, 0);
       this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
+      this.collectionForm.controls.state.disable();
+      this.collectionForm.controls.district.disable();
     }, (error: any) => {
-      this.disablePaymentMode();
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
@@ -729,7 +728,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 2000);
-      this.messageService.somethingWentWrong(error.error.message);
+      this.messageService.somethingWentWrong(error);
     });
   }
 

@@ -79,7 +79,7 @@ mat-header-cell, mat-cell {
   background-color: #2e2828;
   width: 35%;
   height: 122px;
-  position: absolute;
+  position: fixed;
   right: 11px;
   border-radius: 5px;
   bottom: 10px;
