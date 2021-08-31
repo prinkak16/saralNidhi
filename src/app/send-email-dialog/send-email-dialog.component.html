@@ -1,7 +1,7 @@
 <div class="container">
   <h5 mat-dialog-title>Send Receipt on Email</h5>
   <form [formGroup]="sendReceipForm">
-  <mat-form-field class="example-full-width" appearance="outline">
+  <mat-form-field class="w-100" appearance="outline">
     <mat-label>Enter email </mat-label>
     <input matInput placeholder="Enter email" formControlName="email" />
     <mat-error
@@ -10,8 +10,8 @@
     </mat-error>
   </mat-form-field>
     <br>
-    <button mat-raised-button color="warn" [disabled]="!sendReceipForm.valid" (click)="submit()">Submit</button>
-    <button mat-raised-button color="primary" class="ml-4" (click)="close()">Close</button>
+    <button mat-raised-button class="send-btn" [disabled]="!sendReceipForm.valid" (click)="submit()">Submit</button>
+    <button mat-stroked-button class="ml-4" color="warn" (click)="close()">Close</button>
   </form>
 </div>
 <div class="loader-container" *ngIf="showLoader">

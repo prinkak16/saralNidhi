@@ -98,7 +98,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   openEmailSendModal(transaction: any): void {
-    this.matDialog.open(SendEmailDialogComponent, {data: {transaction}});
+    this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
 
   }
 
