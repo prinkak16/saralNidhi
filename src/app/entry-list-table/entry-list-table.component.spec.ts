@@ -10,7 +10,7 @@ describe('EntryListTableComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ EntryListTableComponent ]
     })
-      .compileComponents();
+     .compileComponents();
   });
 
   beforeEach(() => {
