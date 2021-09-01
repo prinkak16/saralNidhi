@@ -106,7 +106,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   nameMismatch = false;
   incorrectPan = false;
   dateValue = '';
-
+  currentFYStartDate = new Date('Apr 1, 2021');
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
