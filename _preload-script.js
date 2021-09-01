@@ -25,7 +25,7 @@
       const main = document.getElementById(`${args.id}-main`);
       const per = document.getElementById(`${args.id}-per`);
       const file = document.getElementById(`${args.id}-file`);
-
+      setTimeout(function(){ main.remove(); }, 5000);
       if (action) {
         action.classList.remove('hidden');
       }
@@ -41,6 +41,7 @@
       if (folder) {
         folder.addEventListener('click', () => {
           const showResponse = shell.showItemInFolder(args.path);
+          main.remove();
           if (showResponse) {
             remote.dialog.showErrorBox('File found', `File not found in path${args.path}`);
           } else {
@@ -52,6 +53,7 @@
       if (file) {
         file.addEventListener('click', () => {
           const showFile = shell.openPath(args.path);
+          main.remove();
           if (showFile) {
             remote.dialog.showErrorBox('File found', `File not found in path${args.path}`);
           } else {
