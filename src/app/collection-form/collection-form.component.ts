@@ -686,7 +686,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     const panActionData = {
       pan_system_error: this.panSystemError.value,
-      accountant_pan_remarks: this.accountantPanRemarks.value,
+      pan_card_remark: this.panCardRemark.value,
       pan_card_status: this.panCardStatus.value
     };
 
