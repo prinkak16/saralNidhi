@@ -23,7 +23,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .loader-container .mat-spinner.mat-spinner.mat-progress-spinner.mat-warn.mat-progress-spinner-indeterminate-animation {
@@ -63,7 +63,54 @@ mat-header-cell, mat-cell {
     opacity: 0;
   }
 }
-.mat-cell{
-  word-wrap: break-word!important;
-  word-break: break-all!important;
+
+.mat-cell {
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/*Download styles*/
+
+.download-popup{
+  background-color: #2e2828;
+  width: 35%;
+  height: 122px;
+  position: fixed;
+  right: 11px;
+  border-radius: 5px;
+  bottom: 10px;
+  z-index: 999;
+}
+.file-icon{
+  color: #ff5722;
+}
+.download-bar-progress{
+  margin-left: 8px;
+}
+.download-bar-progress .progress-bar[value] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 11px;
+  border-radius: 31px;
+}
+.download-bar-progress .progress-bar[value]::-webkit-progress-bar {
+  background-color: #6fb6e7;
+}
+.download-bar-progress .progress-bar[value]::-webkit-progress-value {
+  background-color: #fff;
+}
+.dowload-bar-footer {
+  color: #fff;
+  font-size: 10px;
+  margin-top: 5px;
+}
+.hidden {
+  display: none;
+}
+.clearfix {
+  clear: both;
 }

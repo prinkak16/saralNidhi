@@ -1,6 +1,6 @@
 <div class="container">
   <h2> Nidhi Collection Form</h2>
-  <form [formGroup]="collectionForm" class="row">
+  <form #form="ngForm" [formGroup]="collectionForm" class="row">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
         <input type="text" placeholder="Search by / PAN No." class="search-input" [formControl]="keyword"
@@ -64,7 +64,7 @@
       <input matInput (keydown.enter)="false" [matDatepicker]="picker4" (click)="picker4.open()"
              (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
              formControlName="date_of_transaction"
-             [min]="transactionAllowedDate" [max]="today"
+             [min]="currentFYStartDate" [max]="today"
              [required]="isRequiredField('date_of_transaction')"
              (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_transaction)">
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
@@ -133,7 +133,7 @@
         <mat-label>Date of cheque</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
-               [min]="previous3Month" [max]="next3Month"
+               [min]="currentFYStartDate" [max]="next3Month"
                [required]="isRequiredField('date_of_cheque')">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -162,7 +162,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="ddPast2Month" [max]="today"
+               [min]="currentFYStartDate" [max]="today"
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
@@ -471,7 +471,7 @@
         </div>
         <mat-form-field appearance="outline">
           <mat-label>PAN Card Remarks:</mat-label>
-          <input matInput placeholder="Enter Remarks" [formControl]="accountant_pan_remarks">
+          <input matInput placeholder="Enter Remarks" [formControl]="panCardRemark">
         </mat-form-field>
       </div>
     </ng-container>
@@ -636,7 +636,7 @@
        </mat-error>
      </div>
     <div class="col-md-12 mb-3" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()">
+      <button mat-flat-button [disabled]="!collectionForm.valid || !this.isConnected" color="warn" (click)="submitForm()">
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
         <span *ngIf="showLoader"> Submitting</span>
         <span *ngIf="!showLoader">Submit</span>

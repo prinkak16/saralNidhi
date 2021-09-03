@@ -22,6 +22,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   selectedIndex = 0;
   counting = [];
   filters: any;
+  showLoader = false;
 
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
@@ -94,5 +95,9 @@ export class EntryListComponent implements OnInit, AfterViewInit {
         this.transactionsSubject.next({});
       }, 500);
     }
+  }
+
+  toggleLoader(showLoader: boolean): any {
+    this.showLoader = showLoader;
   }
 }

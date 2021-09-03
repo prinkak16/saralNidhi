@@ -1,4 +1,13 @@
-import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
@@ -11,7 +20,6 @@ import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
 
-
 @Component({
   selector: 'app-collection-form',
   templateUrl: './collection-form.component.html',
@@ -21,7 +29,7 @@ import * as Constant from '../AppConstants';
 export class CollectionFormComponent implements OnInit, AfterViewInit, AfterViewChecked {
   transactionId: any;
   actionParam: any;
-
+  isConnected = true;
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
@@ -34,6 +42,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
+  @ViewChild('form', {static: false}) form: any;
   @Input() query: any = null;
   showLoader = false;
   autoFillData: any;
@@ -88,23 +97,22 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   zilaControl = new FormControl('');
   amountWord = new FormControl('');
   keyword = new FormControl('');
-  accountant_pan_remarks = new FormControl('');
-  pan_system_error = new FormControl(null);
-  pan_card_status = new FormControl('invalid');
-  pan_card_remark = new FormControl(null);
+  accountantPanRemarks = new FormControl('');
+  panSystemError = new FormControl(null);
+  panCardStatus = new FormControl('invalid');
+  panCardRemark = new FormControl(null);
   fiscalYear = '';
   categoryMismatch = false;
   nameMismatch = false;
   incorrectPan = false;
   dateValue = '';
-
+  currentFYStartDate = new Date('Apr 1, 2021');
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.transactionId = params.id;
       }
     });
-
     this.route.data.subscribe(data => {
       if (data) {
         this.actionParam = data.breadcrumb;
@@ -220,7 +228,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.mode_of_payment.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull && value) {
         this.updateDateOfTransaction();
         this.removeAllValidations();
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
@@ -235,7 +243,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           this.setTransferValidations();
         } else {
           this.setCashValidations();
-
         }
       }
     });
@@ -349,11 +356,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     });
   }
+
 // Party unit fields value removing on value change
   removePartyUnitValue(): void {
-      this.stateControl.setValue(null);
-      this.zilaControl.setValue(null);
-      this.collectionForm.controls.location_id.setValue(null);
+    this.stateControl.setValue(null);
+    this.zilaControl.setValue(null);
+    this.collectionForm.controls.location_id.setValue(null);
   }
 
   removeAllValidations(): void {
@@ -385,6 +393,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_transaction.setValue(null);
     this.collectionForm.controls.date_of_transaction.clearValidators();
     this.collectionForm.controls.date_of_transaction.updateValueAndValidity();
+
+    this.collectionForm.controls.utr_number.setValue(null);
     this.collectionForm.controls.utr_number.clearValidators();
     this.collectionForm.controls.utr_number.updateValueAndValidity();
 
@@ -455,6 +465,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.setValidators(Validators.required);
     this.collectionForm.controls.category.updateValueAndValidity();
   }
+
   // Set Bank fields validation if ifsc exist
   setBankDetailValidation(): void {
     this.collectionForm.controls.account_number.setValidators(Validators.required);
@@ -494,11 +505,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.transactionAllowedDate = new Date(new Date().setDate(this.today.getDate() - 30));
     }
   }
+
 // Getting current financial year according to date.
-  getCurrentFy(value: any): void{
+  getCurrentFy(value: any): void {
     const FyDate = value;
     if ((FyDate.getMonth()) < 3) {
-       this.fiscalYear = (FyDate.getFullYear() - 1) + '-' + FyDate.getFullYear();
+      this.fiscalYear = (FyDate.getFullYear() - 1) + '-' + FyDate.getFullYear();
     } else {
       this.fiscalYear = FyDate.getFullYear() + '-' + (FyDate.getFullYear() + 1);
     }
@@ -673,9 +685,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
     }
     const panActionData = {
-      pan_system_error: this.pan_system_error.value,
-      accountant_pan_remarks: this.accountant_pan_remarks.value,
-      pan_card_status: this.pan_card_status.value
+      pan_system_error: this.panSystemError.value,
+      pan_card_remark: this.panCardRemark.value,
+      pan_card_status: this.panCardStatus.value
     };
 
     this.showLoader = true;
@@ -683,23 +695,30 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
-    this.restService.submitForm({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
+    this.restService.submitForm({
+      data: this.collectionForm.value,
+      pan_data: panActionData
+    }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
-      this.collectionForm.reset();
+      this.form.resetForm();
       this.ngOtpInputRef.setValue(null);
+      this.accountantPanRemarks.setValue(null);
       this.categoryMismatch = false;
       this.nameMismatch = false;
       this.incorrectPan = false;
       this.collectionForm.controls.date.setValue(new Date());
       this.collectionForm.controls.date.disable();
-     this.getFinancialYears();
-     this.onFormChange();
-     window.scroll(0,0)
+      this.panCardStatus.setValue('invalid');
+      this.getFinancialYears();
+      this.onFormChange();
+      this.selectedModeOfPayment = [];
+      window.scroll(0, 0);
       this.collectionForm.controls.transaction_type.setValue('regular');
       this.collectionForm.controls.financial_year_id.disable();
+      this.collectionForm.controls.state.disable();
+      this.collectionForm.controls.district.disable();
     }, (error: any) => {
-      this.disablePaymentMode();
       this.showLoader = false;
       this.collectionForm.controls.date.disable();
       this.collectionForm.controls.financial_year_id.disable();
@@ -707,7 +726,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.collectionForm.controls.party_unit.setValue(this.collectionForm.controls.party_unit.value);
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 2000);
-      this.messageService.somethingWentWrong(error.error.message);
+      this.messageService.somethingWentWrong(error);
     });
   }
 
@@ -730,13 +749,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   onPanCardChange(panNumber: string): void {
+    this.panCardStatus.setValue('invalid');
     this.checkAndUpdateToUpperCase(panNumber);
     this.collectionForm.get('pan_card')?.setValue(panNumber.toUpperCase());
     if (panNumber.length === 10 && this.validatePanNumber(panNumber)) {
       if (this.checkCategoryTypeValidation(panNumber)) {
         if (this.checkLastNameValidation(panNumber)) {
-          this.pan_card_status.setValue('valid');
-          this.pan_system_error.setValue('');
+          this.panCardStatus.setValue('valid');
+          this.panSystemError.setValue('');
           this.categoryMismatch = false;
           this.nameMismatch = false;
           this.incorrectPan = false;
@@ -744,19 +764,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           this.categoryMismatch = false;
           this.nameMismatch = true;
           this.incorrectPan = false;
-          this.pan_system_error.setValue('Name mismatch');
+          this.panSystemError.setValue('Name mismatch');
         }
       } else {
         this.categoryMismatch = true;
         this.nameMismatch = false;
         this.incorrectPan = false;
-        this.pan_system_error.setValue('Category mismatch');
+        this.panSystemError.setValue('Category mismatch');
       }
     } else {
       this.categoryMismatch = false;
       this.nameMismatch = false;
       this.incorrectPan = true;
-      this.pan_system_error.setValue('Pan no incorrect');
+      this.panSystemError.setValue('Pan not correct');
     }
   }
 
@@ -987,11 +1007,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_draft.setValue(transaction.data.date_of_draft);
     this.collectionForm.controls.draft_number.setValue(transaction.data.draft_number);
     this.collectionForm.controls.transaction_type.setValue(transaction.transaction_type);
-    this.pan_system_error.setValue(transaction.pan_data.pan_system_error);
-    this.accountant_pan_remarks.setValue(transaction.pan_data.accountant_pan_remarks);
-    this.pan_card_status.setValue(transaction.pan_data.pan_card_status);
+    this.panSystemError.setValue(transaction.pan_data.pan_system_error);
+    this.accountantPanRemarks.setValue(transaction.pan_data.accountant_pan_remarks);
+    this.panCardStatus.setValue(transaction.pan_data.pan_card_status);
     this.collectionForm.controls.pan_card_photo.setValue(transaction.data.pan_card_photo);
-    this.pan_card_remark.setValue(transaction.pan_data.remark);
+    this.panCardRemark.setValue(transaction.pan_data.remark);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -1018,11 +1038,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.financial_year_id.enable();
     this.collectionForm.controls.id.setValue(transactionId);
     const panActionData = {
-      pan_system_error: this.pan_system_error.value,
-      accountant_pan_remarks: this.accountant_pan_remarks.value,
-      pan_card_status: this.pan_card_status.value
+      pan_system_error: this.panSystemError.value,
+      accountant_pan_remarks: this.accountantPanRemarks.value,
+      pan_card_status: this.panCardStatus.value
     };
-    this.restService.updateTransaction({data: this.collectionForm.value, pan_data: panActionData}).subscribe((response: any) => {
+    this.restService.updateTransaction({
+      data: this.collectionForm.value,
+      pan_data: panActionData
+    }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
@@ -1036,7 +1059,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.ngOtpInputRef.setValue(this.collectionForm.controls.pan_card.value);
       }, 2000);
       this.showLoader = false;
-      this.messageService.somethingWentWrong(error.error.message);
+      this.messageService.somethingWentWrong(error);
     });
   }
 
@@ -1048,6 +1071,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }
+
 // Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
@@ -1059,7 +1083,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.removeBankDetails();
         if (error.error === 'Not Found') {
           this.messageService.somethingWentWrong('Please enter valid ifsc code');
-        } else  {
+        } else {
           this.messageService.somethingWentWrong('Please enter ifsc code');
         }
       });
@@ -1068,6 +1092,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.removeBankDetails();
     }
   }
+
 // Set bank details from ifsc.
   setBankDetails(bankDetails: any): void {
     if (bankDetails) {
@@ -1077,6 +1102,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.bankDetails = [];
     }
   }
+
 // Removing bank details.
   removeBankDetails(): void {
     this.collectionForm.controls.bank_name.setValue(null);

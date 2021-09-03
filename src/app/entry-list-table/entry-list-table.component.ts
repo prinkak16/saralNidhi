@@ -5,13 +5,11 @@ import {PaymentModel} from '../models/payment.model';
 import {UtilsService} from '../services/utils.service';
 import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
-import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -26,6 +24,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   @Input() paymentModeId: any = null;
+  @Input() showLoader = false;
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
@@ -34,7 +33,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
 
-  showLoader = false;
+
   updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
@@ -98,7 +97,12 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   openChequeDialog(type: any, row: any): void {
-    const paymentData = {type, id: row.id, date_of_cheque: row.data.date_of_cheque, date_of_draft: row.data.date_of_draft};
+    const paymentData = {
+      type,
+      id: row.id,
+      date_of_cheque: row.data.date_of_cheque,
+      date_of_draft: row.data.date_of_draft
+    };
     const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -144,6 +148,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return result;
   }
+
 // if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
@@ -169,23 +174,42 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.getPaymentList();
     return eve;
   }
+
 // Checking bank details are empty or not
   checkBankDetails(element: any): boolean {
-    if (element.data.account_number === '' ||
-      element.data.ifsc_code === '' ||
-      element.data.bank_name === '' ||
-      element.data.branch_name === '' ||
-      element.data.branch_address === '') {
-      return true;
-    } else {
+    if (element.data.account_number ||
+      element.data.ifsc_code  ||
+      element.data.bank_name  ||
+      element.data.branch_name  ||
+      element.data.branch_address ) {
       return false;
+    } else {
+      return true;
     }
   }
+
   // If party unit country state return  type state
-  displayPartyUnit(location_type: any){
-    if (location_type === 'CountryState') {
-      return 'State'
+  displayPartyUnit(locationType: any): string {
+    if (locationType === 'CountryState') {
+      return 'State';
     }
-      return location_type
+    return locationType;
+  }
+
+  // checking for pan card presence and if present checking for valid state
+  checkPanCardAndValidation(element: any): boolean {
+    let allowed = true;
+    if (element.pan_card) {
+      allowed = ['valid_pan', 'approved'].includes(element.pan_aasm_state);
+    }
+    return allowed;
+  }
+
+  getPanStateDisplayName(element: any): string {
+    let value = '';
+    if (element.pan_card) {
+      value = element.pan_aasm_state.replace('_', ' ');
+    }
+    return value;
   }
 }

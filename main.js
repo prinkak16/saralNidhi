@@ -1,3 +1,4 @@
+'use strict';
 const {app, BrowserWindow} = require('electron')
 const config = require("./config.json");
 // this should be placed at top of main.js to handle setup events quickly
@@ -70,12 +71,15 @@ function handleSquirrelEvent() {
 
 
 
-const path = require('path')
-const electron = require('electron');
+const path = require("path");
+const electron = require("electron");
+const guid = require('./uid');
 let squirrelUrl =  config.updateUrl;
 const url = require("url");
+require('electron-dl')();
 
 let mainWindow
+const preloadScript = path.join(__dirname, '_preload-script.js');
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -83,7 +87,8 @@ function createWindow () {
     height: 768,
     minWidth:1024,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      preload: preloadScript
     }
   })
 
@@ -102,6 +107,58 @@ function createWindow () {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
+
+  // download function
+  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
+    const browserWindow = electron.BrowserWindow.fromWebContents(webContents);
+    item.id = guid(); // can be done differently
+    browserWindow.webContents.send('downloadStated', {
+      itemTotal: item.getTotalBytes(),
+      received: item.getReceivedBytes(),
+      name: item.getFilename(),
+      path: item.getSavePath(),
+      id: item.id
+    });
+    item.on('updated', (event, state) => {
+      if (browserWindow.isDestroyed()) {
+        return;
+      }
+      if (state === 'interrupted') {
+        // Interrupted
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          // Handle pause
+        } else {
+          browserWindow.webContents.send('downloadInProgress', {
+            itemTotal: item.getTotalBytes(),
+            received: item.getReceivedBytes(),
+            name: item.getFilename(),
+            path: item.getSavePath(),
+            id: item.id
+          });
+        }
+      }
+    });
+    item.once('done', (event, state) => {
+      if (browserWindow.isDestroyed()) {
+        return;
+      }
+      if (state === 'completed') {
+        browserWindow.webContents.send('downloadCompleted', {
+          itemTotal: item.getTotalBytes(),
+          received: item.getReceivedBytes(),
+          name: item.getFilename(),
+          path: item.getSavePath(),
+          id: item.id
+        });
+      } else {
+        // Handle
+      }
+    });
+  });
+
+  return mainWindow;
+
 }
 
 app.on('ready', createWindow)

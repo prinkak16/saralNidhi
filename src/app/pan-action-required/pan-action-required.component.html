@@ -1,63 +1,75 @@
 <button mat-fab color="primary" class="downloadButtonCSV"
+        *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
         (click)="downloadList()">
   <div class="floating-btn">
     <mat-icon>save_alt</mat-icon>
     <span>XLSX</span>
   </div>
+
 </button>
-<ng-container>
-  <mat-table [dataSource]="paymentDetails">
-    <ng-container matColumnDef="sno">
-      <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.data.name | titlecase}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.data.category | titlecase}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="pan_card">
-      <mat-header-cell *matHeaderCellDef>Pan card</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.data.pan_card}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="system_remark">
-      <mat-header-cell *matHeaderCellDef>System Remark</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="cursor-pointer" matTooltip="{{element.pan_data.pan_system_error}}"><span class="error-text-truncate">{{element.pan_data.pan_system_error}}</span></mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="accountant_remark">
-      <mat-header-cell *matHeaderCellDef>Accountant Remark</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="cursor-pointer" matTooltip="{{element.pan_data.accountant_pan_remarks}}"><span class="error-text-truncate">{{element.pan_data.accountant_pan_remarks}}</span></mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="photo">
-      <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="cursor-pointer" >
-        <ng-container *ngIf="element.data.pan_card_photo">
-          <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>
-          <mat-icon (click)="copyText(element.data.pan_card_photo)" matTooltip="click to copy the link">file_copy</mat-icon>
+
+<mat-tab-group (selectedTabChange)="tabChange($event)">
+  <mat-tab *ngFor="let tab of asyncTabs | async">
+    <ng-template mat-tab-label>{{tab.label}}</ng-template>
+    <ng-container *ngIf="!showLoader">
+      <mat-table [dataSource]="paymentDetails" class="entry-list-table">
+        <ng-container matColumnDef="sno">
+          <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </mat-cell>
         </ng-container>
-      </mat-cell>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.data.name | titlecase}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="category">
+          <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.data.category | titlecase}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pan_card">
+          <mat-header-cell *matHeaderCellDef>Pan card</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.data.pan_card}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="system_remark">
+          <mat-header-cell *matHeaderCellDef>System Remark</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="cursor-pointer" matTooltip="{{element.pan_data.pan_system_error}}">
+            <span class="error-text-truncate">{{element.pan_data.pan_system_error}}</span></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accountant_remark">
+          <mat-header-cell *matHeaderCellDef>Accountant Remark</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="cursor-pointer"
+                    matTooltip="{{element.pan_data.accountant_pan_remarks}}"><span
+            class="error-text-truncate">{{element.pan_data.accountant_pan_remarks}}</span></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="photo">
+          <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="cursor-pointer">
+            <ng-container *ngIf="element.data.pan_card_photo">
+              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>
+              <mat-icon (click)="copyText(element.data.pan_card_photo)" matTooltip="click to copy the link">file_copy
+              </mat-icon>
+            </ng-container>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pan_card_remark">
+          <mat-header-cell *matHeaderCellDef>Pan card remark</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.pan_data.pan_card_remark | titlecase}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.pan_aasm_state | titlecase}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a class="cursor-pointer" *ngIf="tab.label === 'Invalid'" (click)="openDialog(element)">Approve / Reject</a>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.label);"></mat-row>
+      </mat-table>
     </ng-container>
-    <ng-container matColumnDef="pan_card_remark">
-      <mat-header-cell *matHeaderCellDef>Pan card remark</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.pan_data.pan_card_remark | titlecase}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.pan_data.pan_card_status | titlecase}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <a class="cursor-pointer" (click)="openDialog(element)">Approve / Reject</a>
-      </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</ng-container>
+  </mat-tab>
+</mat-tab-group>
 <div class="loader-container" *ngIf="showLoader">
   <mat-spinner color="warn"></mat-spinner>
 </div>
