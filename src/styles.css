@@ -6,7 +6,9 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family:Raleway;
+  font-style: normal;
+  letter-spacing: 0.05em;
 }
 
 .img-responsive {
