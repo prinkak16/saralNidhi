@@ -1,23 +1,42 @@
 <form [formGroup]="filterForm">
-  <mat-form-field class="col-md-4" appearance="outline">
-    <input matInput placeholder="Name / Pan / Phone " formControlName="query">
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="col-md-4">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker" [max]="today">
-      <input matStartDate placeholder="Start date" (click)="picker.open()" formControlName="start_date">
-      <input matEndDate placeholder="End date" (click)="picker.open()" formControlName="end_date">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-  <button mat-flat-button color="warn" class="ml-4" (click)="getFilteredData()">Search</button>
-  <button mat-flat-button color="warn" class="ml-2" (click)="clearInputFields()">Clear</button>
-  <button mat-flat-button color="primary"
-          *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
-          class="ml-2" (click)="downloadList()">
-    <mat-icon matSuffix>download</mat-icon>
-    Download
-  </button>
+  <div class="row col-md-12 align-items-center  ">
+      <img src="assets/icons/list.svg" alt="" class="img-size">
+      <h2 class="header-text mt-0 mb-0">Donation List</h2>
+  </div>
+  <div class="row p-2 mt-2">
+    <div class="col-md-6">
+      <mat-label class="mat-label-text">Search by Name/Phone No./PAN No.</mat-label><br>
+      <mat-form-field class="w-75 position-relative" appearance="outline">
+        <img src="assets/icons/Rectangle%2012.png" alt="" class="icon-size">
+        <img src="assets/icons/search.png" alt="" class="search-icon">
+        <input matInput  formControlName="query">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 row align-items-center">
+      <div class="col-md-6 ">
+        <mat-label class="mat-label-text">Enter a date range</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-date-range-input [rangePicker]="picker" [max]="today">
+            <input matStartDate (click)="picker.open()" formControlName="start_date">
+            <input matEndDate  (click)="picker.open()" formControlName="end_date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="row col-md-6 justify-content-around">
+        <button hidden mat-flat-button color="warn" class=""  (click)="getFilteredData()">Search</button>
+
+        <button mat-flat-button class="col-md-5 clear-btn" (click)="clearInputFields()">Clear</button>
+        <button mat-flat-button
+                  *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
+                class="col-md-5 download-btn" (click)="downloadList()">
+          <mat-icon matSuffix>download</mat-icon>
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+
 </form>
 

@@ -7,11 +7,13 @@
   <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
     <mat-tab *ngFor="let tab of modeOfPayments; index as i">
       <ng-template mat-tab-label>
-        <span matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"
-              matBadgePosition="above after"
-              matBadgeColor="warn" [matBadgeOverlap]="false">
-          {{tab.name}}
-        </span>
+<!--        matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"-->
+<!--        matBadgePosition="above after"-->
+<!--        matBadgeColor="warn" [matBadgeOverlap]="false"-->
+        <div>
+          <div class="tab-text">{{tab.name}}</div>
+            <div class="tab-text">({{counting[i] > 0 ? counting[i] : '--'}})</div>
+        </div>
       </ng-template>
       <div class="table-container">
         <app-entry-list-table [paymentModeId]="tab.id" [filters]="filters"  (updateList)="updateList($event)"
