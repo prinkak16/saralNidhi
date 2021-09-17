@@ -60,6 +60,7 @@ import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {PanActionRequiredComponent} from './pan-action-required/pan-action-required.component';
 import { UpdatePanStatusComponent } from './update-pan-status/update-pan-status.component';
 import { YopsilonMaskModule } from 'yopsilon-mask';
+import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { YopsilonMaskModule } from 'yopsilon-mask';
     TwoDigitDecimaNumberDirective,
     FilterSearchComponent,
     PanActionRequiredComponent,
-    UpdatePanStatusComponent
+    UpdatePanStatusComponent,
+    SendEmailDialogComponent
   ],
   imports: [
     BrowserModule,
