@@ -157,12 +157,11 @@
         &&
         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.transaction_valid
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)">
+        && element.receipt_number_generated && checkPanCardAndValidation(element)">
           <img (click)="openDialog(element)"
                class="pointer img-resize" src="assets/icons/print.svg"
                matTooltip="Print Receipt">
         </button>
-
 
        <button class="btn-background-reciept" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
         element.transaction_valid
