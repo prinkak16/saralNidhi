@@ -473,7 +473,7 @@
       <label class="single-label col-md-12">Please upload Pan Card photo <sup *ngIf="isRequiredField('pan_card_photo')">*</sup></label>
       <div class="pan-card-image-upload-container col-md-12">
         <div>
-          <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+          <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn" >
             <ng-container *ngIf="collectionForm.controls.pan_card_photo.value;else uploadPanCardText">
               <div>
                 <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>
@@ -488,7 +488,7 @@
               </div>
             </ng-template>
             <input type="file" hidden accept="image/png, image/jpeg"
-                   (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
+                   (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto [disabled]="isEnabled"/>
           </div>
         </div>
         <mat-form-field appearance="outline">
