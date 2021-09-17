@@ -1,6 +1,24 @@
-mat-header-cell, mat-cell {
-  justify-content: start!important;
+.entry-list-table mat-cell {
+  border: 1px solid #e0e0e0;
+  color: black !important;
+  font-size: 13px !important;
+  text-align: center;
 }
+
+.entry-list-table mat-row, mat-header-row, mat-footer-row {
+  border: 1px solid #e0e0e0;
+}
+
+.entry-list-table .mat-row, mat-header-row, mat-footer-row {
+  align-items: unset !important;
+}
+
+.entry-list-table mat-row {
+  border-width: 1px !important;
+  border-top-width: 0 !important;
+}
+
+
 .error-text-truncate{
   width: 100px;
   white-space: nowrap;

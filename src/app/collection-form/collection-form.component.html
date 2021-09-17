@@ -64,7 +64,7 @@
       <input matInput (keydown.enter)="false" [matDatepicker]="picker4" (click)="picker4.open()"
              (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
              formControlName="date_of_transaction"
-             [min]="transactionAllowedDate" [max]="today"
+             [min]="currentFYStartDate" [max]="today"
              [required]="isRequiredField('date_of_transaction')"
              (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_transaction)">
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
@@ -133,7 +133,7 @@
         <mat-label>Date of cheque</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
-               [min]="previous3Month" [max]="next3Month"
+               [min]="currentFYStartDate" [max]="next3Month"
                [required]="isRequiredField('date_of_cheque')">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -162,7 +162,7 @@
         <mat-label>Date of draft</mat-label>
         <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
                (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="ddPast2Month" [max]="today"
+               [min]="currentFYStartDate" [max]="today"
                [required]="isRequiredField('date_of_draft')">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
@@ -471,7 +471,7 @@
         </div>
         <mat-form-field appearance="outline">
           <mat-label>PAN Card Remarks:</mat-label>
-          <input matInput placeholder="Enter Remarks" [formControl]="accountantPanRemarks">
+          <input matInput placeholder="Enter Remarks" [formControl]="panCardRemark">
         </mat-form-field>
       </div>
     </ng-container>
