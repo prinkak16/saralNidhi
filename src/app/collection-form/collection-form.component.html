@@ -61,18 +61,24 @@
     <mat-form-field class="col-md-6" appearance="outline"
                     *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)">
       <mat-label>Date of transaction</mat-label>
-      <input matInput (keydown.enter)="false" [matDatepicker]="picker4" (click)="picker4.open()"
-             (keypress)="disableKeyPress($event)" placeholder="Date of transaction"
-             formControlName="date_of_transaction"
-             [min]="currentFYStartDate" [max]="today"
-             [required]="isRequiredField('date_of_transaction')"
-             (dateChange)="_dateChangeHandler($event.value, collectionForm.controls.date_of_transaction)">
-      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-      <mat-datepicker #picker4></mat-datepicker>
-      <mat-error
-        *ngIf="((collectionForm.controls.date_of_transaction.touched)&& collectionForm.controls.date_of_transaction.hasError('required'))">
-        Date of transaction is required
-      </mat-error>
+       <ng-container *ngIf="!transactionId">
+         <input matInput yn-mask-date="dd/mm/yyyy"
+                placeholder="dd/mm/yyyy"
+                autocomplete="off"
+                formControlName="date_of_transaction"
+                [required]="isRequiredField('date_of_transaction')"/>
+       </ng-container>
+      <ng-container *ngIf="transactionId">
+        <input matInput
+               [matDatepicker]="picker4"
+               formControlName="date_of_transaction"
+               />
+        <mat-datepicker #picker4></mat-datepicker>
+      </ng-container>
+        <mat-error
+          *ngIf="((collectionForm.controls.date_of_transaction.touched)&& collectionForm.controls.date_of_transaction.hasError('required'))">
+          Date of transaction is required
+        </mat-error>
     </mat-form-field>
 <!-- Cheque dd back & front image-->
     <ng-container *ngIf="allowedValueNull">
@@ -131,12 +137,20 @@
     <ng-container *ngIf="selectedModeOfPayment.name === 'Cheque'">
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Date of cheque</mat-label>
-        <input matInput (keydown.enter)="false" [matDatepicker]="picker1" (click)="picker1.open()"
-               (keypress)="disableKeyPress($event)" placeholder="Date of cheque" formControlName="date_of_cheque"
-               [min]="currentFYStartDate" [max]="next3Month"
-               [required]="isRequiredField('date_of_cheque')">
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
+        <ng-container *ngIf="!transactionId">
+          <input matInput yn-mask-date="dd/mm/yyyy"
+                 placeholder="dd/mm/yyyy"
+                 autocomplete="off"
+                 formControlName="date_of_cheque"
+                 [required]="isRequiredField('date_of_cheque')"/>
+          </ng-container>
+        <ng-container *ngIf="transactionId">
+          <input matInput
+                 [matDatepicker]="picker4"
+                 formControlName="date_of_cheque"
+          />
+          <mat-datepicker #picker4></mat-datepicker>
+        </ng-container>
         <mat-error
           *ngIf="((collectionForm.controls.date_of_cheque.touched)&& collectionForm.controls.date_of_cheque.hasError('required'))">
           Date of cheque is required
@@ -160,12 +174,20 @@
     <ng-container *ngIf="selectedModeOfPayment.name === 'Demand Draft'">
       <mat-form-field class="col-md-6" appearance="outline">
         <mat-label>Date of draft</mat-label>
-        <input matInput (keydown.enter)="false" [matDatepicker]="picker2" (click)="picker2.open()"
-               (keypress)="disableKeyPress($event)" placeholder="Date of draft" formControlName="date_of_draft"
-               [min]="currentFYStartDate" [max]="today"
-               [required]="isRequiredField('date_of_draft')">
-        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
+        <ng-container *ngIf="!transactionId">
+          <input matInput yn-mask-date="dd/mm/yyyy"
+                 autocomplete="off"
+                 placeholder="dd/mm/yyyy"
+                 formControlName="date_of_draft"
+                 [required]="isRequiredField('date_of_draft')"/>
+        </ng-container>
+        <ng-container *ngIf="transactionId">
+          <input matInput
+                 [matDatepicker]="picker4"
+                 formControlName="date_of_draft"
+          />
+          <mat-datepicker #picker4></mat-datepicker>
+        </ng-container>
         <mat-error
           *ngIf="((collectionForm.controls.date_of_draft.touched)&& collectionForm.controls.date_of_draft.hasError('required'))">
           Date of draft is required

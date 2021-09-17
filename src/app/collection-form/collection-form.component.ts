@@ -107,6 +107,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   incorrectPan = false;
   dateValue = '';
   currentFYStartDate = new Date('Apr 1, 2021');
+  dateErrorMsg = '';
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -676,6 +677,33 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.somethingWentWrong(error);
     });
   }
+// Transaction Date validation
+  validateTransactionDate(): boolean{
+   if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
+     if (this.collectionForm.controls.date_of_transaction.value <= this.transactionAllowedDate) {
+       return true;
+     } else {
+       this.dateErrorMsg = `Please choose date before  ${this.transactionAllowedDate}`;
+       return false;
+     }
+   } else if (this.selectedModeOfPayment.name === 'Cheque') {
+     if (this.collectionForm.controls.date_of_cheque.value >= this.previous3Month &&
+       this.collectionForm.controls.date_of_cheque.value <= this.next3Month) {
+       return true;
+     } else {
+       this.dateErrorMsg = 'Please choose date before and after of 3 month from today';
+       return false;
+     }
+   } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
+     if (this.collectionForm.controls.date_of_draft.value >= this.previous3Month &&
+       this.collectionForm.controls.date_of_draft.value <= this.next3Month) {
+       return true;
+     } else {
+       this.dateErrorMsg = 'Please choose date before and after of 3 month from today';
+       return false;
+     }
+   } else {return false; }
+  }
 
   submitForm(): void {
     if (Constant.NOT_ALLOWED_CHEQUE_NUMBERS.includes(this.collectionForm.controls.cheque_number.value)) {
@@ -683,6 +711,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     if (!this.checkCashLimit()) {
       return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
+    }
+    if (!this.validateTransactionDate()) {
+      this.messageService.closableSnackBar(this.dateErrorMsg);
+      this.dateErrorMsg = '';
+      return;
     }
     const panActionData = {
       pan_system_error: this.panSystemError.value,
