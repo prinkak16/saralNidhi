@@ -59,6 +59,7 @@ import { MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {PanActionRequiredComponent} from './pan-action-required/pan-action-required.component';
 import { UpdatePanStatusComponent } from './update-pan-status/update-pan-status.component';
+import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +80,8 @@ import { UpdatePanStatusComponent } from './update-pan-status/update-pan-status.
     TwoDigitDecimaNumberDirective,
     FilterSearchComponent,
     PanActionRequiredComponent,
-    UpdatePanStatusComponent
+    UpdatePanStatusComponent,
+    SendEmailDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -136,7 +136,7 @@
     </ng-container>
 
     <ng-container matColumnDef="receipt-print">
-      <mat-header-cell *matHeaderCellDef> Receipt Print</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ng-container
           *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
@@ -148,7 +148,7 @@
                     matTooltip="Print Receipt">print
           </mat-icon>
         </ng-container>
-        <mat-icon (click)="openDialog(element)" *ngIf="(
+        <mat-icon (click)="downloadReceipt(element)" *ngIf="(
                   element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
@@ -158,15 +158,22 @@
         && element.transaction_valid
         && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer"
-                  matTooltip="Print Receipt">print
+                  matTooltip="Print Receipt">cloud_download
         </mat-icon>
-        <mat-icon (click)="openDialog(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
-        element.transaction_valid
-        && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        <mat-icon (click)="downloadReceipt(element)"
+                  *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+
         && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer"
-                  matTooltip="Print Receipt">print
+                  matTooltip="Download Receipt" >cloud_download
         </mat-icon>
+        <mat-icon (click)="openEmailSendModal(element)"
+        *ngIf="utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+                  class="pointer ml-2"
+                  matTooltip="Send receipt on email" >send</mat-icon>
+
       </mat-cell>
     </ng-container>
 
