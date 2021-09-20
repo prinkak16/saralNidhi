@@ -170,7 +170,7 @@
         </mat-icon>
         <mat-icon (click)="openEmailSendModal(element)"
         *ngIf="utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer ml-2"
                   matTooltip="Send receipt on email" >send</mat-icon>
 
