@@ -144,10 +144,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       amount: new FormControl(null, [Validators.required]),
       narration: new FormControl(null),
       mode_of_payment: new FormControl(null, [Validators.required]),
-      date_of_transaction: new FormControl(new Date().toDateString()),
-      date_of_cheque: new FormControl(new Date().toDateString()),
+      date_of_transaction: new FormControl(null ),
+      date_of_cheque: new FormControl(null),
       cheque_number: new FormControl(null),
-      date_of_draft: new FormControl(new Date().toDateString()),
+      date_of_draft: new FormControl(null),
       draft_number: new FormControl(null),
       utr_number: new FormControl(null),
       account_number: new FormControl(''),
@@ -687,7 +687,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
      if (this.collectionForm.controls.date_of_transaction.value <= this.transactionAllowedDate) {
        return true;
      } else {
-       this.dateErrorMsg = `Please choose date before  ${this.transactionAllowedDate}`;
+       this.dateErrorMsg = `Please choose date before  ${this.transactionAllowedDate.toDateString()}`;
        return false;
      }
    } else if (this.selectedModeOfPayment.name === 'Cheque') {
