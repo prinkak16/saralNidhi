@@ -90,7 +90,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   allowedDate = new Date(new Date().setMonth(this.today.getMonth() - 1));
   previous3Month = new Date(new Date().setMonth(this.today.getMonth() - 3));
   next3Month = new Date(new Date().setMonth(this.today.getMonth() + 3));
-  ddPast2Month = new Date(new Date().setMonth(this.today.getMonth() - 2));
+  ddnext2Month = new Date(new Date().setMonth(this.today.getMonth() + 2));
   transactionAllowedDate = new Date();
   numberToWord = '';
   stateControl = new FormControl('');
@@ -684,26 +684,27 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 // Transaction Date validation
   validateTransactionDate(): boolean{
    if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
-     if (this.collectionForm.controls.date_of_transaction.value <= this.transactionAllowedDate) {
+     if ((this.collectionForm.controls.date_of_transaction.value >= (new Date('01-apr-2021'))) &&
+     this.collectionForm.controls.date_of_transaction.value <= new Date()) {
        return true;
      } else {
-       this.dateErrorMsg = `Please choose date before  ${this.transactionAllowedDate.toDateString()}`;
+       this.dateErrorMsg = `Please choose date after Thu Apr 01 2021 before ${this.today.toDateString()}`;
        return false;
      }
    } else if (this.selectedModeOfPayment.name === 'Cheque') {
-     if (this.collectionForm.controls.date_of_cheque.value >= this.previous3Month &&
+     if (this.collectionForm.controls.date_of_cheque.value >= (new Date('01-apr-2021')) &&
        this.collectionForm.controls.date_of_cheque.value <= this.next3Month) {
        return true;
      } else {
-       this.dateErrorMsg = 'Please choose date before and after of 3 month from today';
+       this.dateErrorMsg = `Please choose date from Thu Apr 01 2021 to 3 month later from ${this.today.toDateString()}`;
        return false;
      }
    } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
-     if (this.collectionForm.controls.date_of_draft.value >= this.previous3Month &&
-       this.collectionForm.controls.date_of_draft.value <= this.next3Month) {
+     if (this.collectionForm.controls.date_of_draft.value >= (new Date('01-apr-2021')) &&
+       this.collectionForm.controls.date_of_draft.value <= this.ddnext2Month) {
        return true;
      } else {
-       this.dateErrorMsg = 'Please choose date before and after of 3 month from today';
+       this.dateErrorMsg = `Please choose date from Thu Apr 01 2021 to 2 month later from ${this.today.toDateString()}`;
        return false;
      }
    } else {return false; }
