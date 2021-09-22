@@ -19,6 +19,7 @@ import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-collection-form',
@@ -33,7 +34,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
-              private router: Router) {
+              private router: Router, public datepipe: DatePipe) {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
@@ -683,12 +684,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 // Transaction Date validation
   validateTransactionDate(): boolean{
-   if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
+   if (['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)) {
      if ((this.collectionForm.controls.date_of_transaction.value >= (new Date('01-apr-2021'))) &&
      this.collectionForm.controls.date_of_transaction.value <= new Date()) {
        return true;
      } else {
-       this.dateErrorMsg = `Please choose date after Thu Apr 01 2021 before ${this.today.toDateString()}`;
+       this.dateErrorMsg = `Please enter date of transaction after 31/03/2021 and before ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
        return false;
      }
    } else if (this.selectedModeOfPayment.name === 'Cheque') {
@@ -696,7 +697,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
        this.collectionForm.controls.date_of_cheque.value <= this.next3Month) {
        return true;
      } else {
-       this.dateErrorMsg = `Please choose date from Thu Apr 01 2021 to 3 month later from ${this.today.toDateString()}`;
+       this.dateErrorMsg = `Please enter date of cheque after 31/03/2021 to 3 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
        return false;
      }
    } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
@@ -704,7 +705,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
        this.collectionForm.controls.date_of_draft.value <= this.ddnext2Month) {
        return true;
      } else {
-       this.dateErrorMsg = `Please choose date from Thu Apr 01 2021 to 2 month later from ${this.today.toDateString()}`;
+       this.dateErrorMsg = `Please enter date of after 31/03/2021 to 2 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
        return false;
      }
    } else {return false; }

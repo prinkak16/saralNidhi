@@ -160,12 +160,12 @@
         </ng-container>
         <ng-container
           *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
-          <mat-icon (click)="openDialog(element)" *ngIf="element.payment_realize_date &&
+          <mat-icon (click)="downloadReceipt(element)" *ngIf="element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
                     class="pointer"
-                    matTooltip="Print Receipt">print
+                    matTooltip="Download Receipt">cloud_download
           </mat-icon>
         </ng-container>
         <mat-icon (click)="downloadReceipt(element)" *ngIf="(
@@ -178,7 +178,7 @@
         && element.transaction_valid
         && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer"
-                  matTooltip="Print Receipt">cloud_download
+                  matTooltip="Download Receipt">cloud_download
         </mat-icon>
         <mat-icon (click)="downloadReceipt(element)"
                   *ngIf=" (element.mode_of_payment.name === 'Cash') &&
@@ -188,9 +188,10 @@
                   class="pointer"
                   matTooltip="Download Receipt" >cloud_download
         </mat-icon>
+
         <mat-icon (click)="openEmailSendModal(element)"
         *ngIf="utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
                   class="pointer ml-2"
                   matTooltip="Send receipt on email" >send</mat-icon>
 
