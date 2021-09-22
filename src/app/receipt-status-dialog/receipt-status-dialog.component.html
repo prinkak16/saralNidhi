@@ -1,0 +1,42 @@
+<h4>Receipt Not generated due to -</h4>
+<table border="1" class="reason-table">
+  <tr>
+    <th class="text-center">Reason</th>
+    <th class="text-center">Description</th>
+  </tr>
+  <tr>
+    <ng-container *ngIf="!data.data.transaction_valid">
+      <td>Invalid Transaction </td>
+      <td>
+        Please fill all <span class="text-danger">*</span> required fields to mark a valid transaction
+        <ul class="text-secondary mt-2">
+          <li>Mode of Payment <span class="text-danger">*</span>: <span [ngClass]="[data.data.mode_of_payment.name? 'text-success' : 'text-danger']">{{data.data.mode_of_payment.name}}</span></li>
+          <li>Name <span class="text-danger">*</span>: <span [ngClass]="[data.data.data.name? 'text-success' : 'text-danger']">{{data.data.data.name? data.data.data.name : 'Blank'}}</span></li>
+          <li>Bank Account no <span class="text-danger">*</span>: <span [ngClass]="[data.data.data.account_number? 'text-success' : 'text-danger']">
+            {{data.data.data.account_number? data.data.data.account_number : 'Blank'}}
+          </span></li>
+          <li>IFSC code <span class="text-danger">*</span>:
+            <span [ngClass]="[data.data.data.ifsc_code? 'text-success' : 'text-danger']">{{data.data.data.ifsc_code? data.data.data.ifsc_code : 'Blank'}}</span>
+          </li>
+          <li>Branch name <span class="text-danger">*</span>: <span [ngClass]="[data.data.data.branch_name? 'text-success' : 'text-danger']">{{data.data.data.branch_name? data.data.data.branch_name : 'Blank'}}</span></li>
+          <li>Branch Address <span class="text-danger">*</span>: <span [ngClass]="[data.data.data.branch_address? 'text-success' : 'text-danger']">{{data.data.data.branch_address? data.data.data.branch_address : 'Blank'}}</span></li>
+          <li>Pan Status <span class="text-danger">*</span>: <span [ngClass]="[data.data.pan_aasm_state === 'invalid'? 'text-danger' : 'text-success']">{{data.data.pan_aasm_state}}</span></li>
+          <li>Payment realize Date <span class="text-danger">*</span>: <span [ngClass]="[data.data.payment_realize_date? 'text-success' : 'text-danger']">{{data.data.payment_realize_date? data.data.payment_realize_date : 'Blank'}}</span></li>
+          <li>Category <span class="text-danger">*</span>: <span [ngClass]="[data.data.data.category? 'text-success' : 'text-danger']">{{data.data.data.category? data.data.data.category : 'Blank'}}</span></li>
+        </ul>
+      </td>
+    </ng-container>
+    </tr>
+  <tr>
+    <ng-container *ngIf="!utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')">
+      <td >Permission nil</td>
+      <td class="text-secondary">Please allow Print permission from admin</td>
+    </ng-container>
+    </tr>
+  <tr>
+    <ng-container *ngIf="!data.data.receipt_number_generated">
+      <td >Receipt no not generated</td>
+      <td class="text-secondary">Your receipt will be generated on {{nextDate | date: 'dd/MM/yyyy'}} because Receipt Generation Waiting Period for all transaction is 1 Days</td>
+    </ng-container>
+  </tr>
+</table>
