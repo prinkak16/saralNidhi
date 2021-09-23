@@ -76,8 +76,8 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
       this.messageService.closableSnackBar(response.message);
       this.dialogRef.close(this.chequeDetailForm.value);
-    }, (error: any) => {
 
+    }, (error: any) => {
       this.messageService.somethingWentWrong(error.error.message);
       this.dialogRef.close(false);
     });
