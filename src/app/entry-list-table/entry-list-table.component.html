@@ -155,7 +155,7 @@
     <ng-container matColumnDef="receipt-print">
       <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <ng-container *ngIf="!receiptNotGenerated(element)">
+        <ng-container *ngIf="!isReceiptGenerated(element)">
           <mat-icon (click)="openReceiptStatus(element)" class="cursor-pointer">info</mat-icon>
         </ng-container>
         <ng-container

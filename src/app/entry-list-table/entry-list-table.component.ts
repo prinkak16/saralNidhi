@@ -226,7 +226,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return value;
   }
-  receiptNotGenerated(transaction: any): boolean{
+  isReceiptGenerated(transaction: any): boolean{
     if (transaction.mode_of_payment.name === 'Cheque' || transaction.mode_of_payment.name === 'Demand Draft') {
       return(transaction.payment_realize_date && transaction.transaction_valid && transaction.receipt_number_generated &&
         this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
