@@ -244,6 +244,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           this.setDDValidations();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.collectionForm.controls.name.clearValidators();
+          this.collectionForm.controls.account_number.clearValidators();
+          this.collectionForm.controls.account_number.updateValueAndValidity();
           this.setTransferValidations();
         } else {
           this.collectionForm.controls.account_number.clearValidators();
@@ -742,6 +744,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.closableSnackBar(response.message);
       this.form.resetForm();
       this.ngOtpInputRef.setValue(null);
+      this.panCardRemark.setValue(null);
       this.accountantPanRemarks.setValue(null);
       this.categoryMismatch = false;
       this.nameMismatch = false;

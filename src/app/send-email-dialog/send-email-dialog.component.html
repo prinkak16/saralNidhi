@@ -8,6 +8,10 @@
       *ngIf="((sendReceipForm.controls.email.touched)&& sendReceipForm.controls.email.hasError('required'))">
       Email is required
     </mat-error>
+    <mat-error
+      *ngIf="((sendReceipForm.controls.email.touched)&& sendReceipForm.controls.email.hasError('pattern'))">
+      Email is not valid
+    </mat-error>
   </mat-form-field>
     <br>
     <button mat-raised-button class="send-btn" [disabled]="!sendReceipForm.valid" (click)="submit()">Submit</button>
