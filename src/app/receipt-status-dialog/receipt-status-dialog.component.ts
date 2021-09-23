@@ -8,22 +8,28 @@ import {UtilsService} from '../services/utils.service';
   styleUrls: ['./receipt-status-dialog.component.css']
 })
 export class ReceiptStatusDialogComponent implements OnInit {
-  nextDate = new Date(Date.now() + (3600 * 1000 * 24));
-
+  receiptGenerationDate = new Date(Date.now() + (3600 * 1000 * 24));
+  transaction: any;
   constructor(public dialogRef: MatDialogRef<ReceiptStatusDialogComponent>,
               public utilService: UtilsService,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit(): void {
+    this.transaction = this.data.data;
   }
 
-  getReceiptGenerationDays(transaction: any): any {
-    if (transaction.transaction_type === 'regular') {
-      return '30 days';
-    } else {
-      return '60 days';
-    }
+  closeReceiptModal(): void{
+    this.dialogRef.close();
   }
+
+// Return Receipt generation days based on transaction type
+//   getReceiptGenerationDays(transaction: any): any {
+//     if (transaction.transaction_type === 'regular') {
+//       return '30 days';
+//     } else {
+//       return '60 days';
+//     }
+//   }
 
 }
