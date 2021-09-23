@@ -77,6 +77,7 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
       this.messageService.closableSnackBar(response.message);
       this.dialogRef.close(this.chequeDetailForm.value);
     }, (error: any) => {
+
       this.messageService.somethingWentWrong(error.error.message);
       this.dialogRef.close(false);
     });
