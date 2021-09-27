@@ -305,7 +305,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.date_of_transaction.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull && !isNaN(value)) {
         if (value) {
           value = new Date(value);
           this.getCurrentFy(value);
@@ -736,6 +736,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
     this.collectionForm.controls.financial_year_id.enable();
+    this.setTransactionDate();
     this.restService.submitForm({
       data: this.collectionForm.value,
       pan_data: panActionData
@@ -772,6 +773,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }, 2000);
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  setTransactionDate(): void{
+    const  transactionDate = this.collectionForm.controls.date_of_transaction.value.setHours(6);
+    this.collectionForm.controls.date_of_transaction.setValue(new Date(transactionDate));
   }
 
   checkCashLimit(): boolean {
