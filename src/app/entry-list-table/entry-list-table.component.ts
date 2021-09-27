@@ -188,9 +188,9 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       element.data.bank_name  &&
       element.data.branch_name  &&
       element.data.branch_address ) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
 
