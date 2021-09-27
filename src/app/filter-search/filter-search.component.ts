@@ -12,6 +12,7 @@ import {UtilsService} from '../services/utils.service';
   styleUrls: ['./filter-search.component.css']
 })
 export class FilterSearchComponent implements OnInit {
+   states: any;
 
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
@@ -28,10 +29,20 @@ export class FilterSearchComponent implements OnInit {
   downloadCount = 1;
 
   ngOnInit(): void {
+    this.getAllottedStates();
     this.filterForm = this.formBuilder.group({
       query: new FormControl(this.query),
       start_date: new FormControl(null),
       end_date: new FormControl(null),
+      state_id: new FormControl(null)
+    });
+  }
+
+  getAllottedStates(): void {
+    this.restService.getAllottedCountryStates().subscribe((response: any) => {
+      this.states = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
     });
   }
 
@@ -43,6 +54,7 @@ export class FilterSearchComponent implements OnInit {
     this.filterForm.controls.start_date.setValue(null);
     this.filterForm.controls.end_date.setValue(null);
     this.filterForm.controls.query.setValue(null);
+    this.filterForm.controls.state_id.setValue(null);
     this.getFilteredData();
   }
 

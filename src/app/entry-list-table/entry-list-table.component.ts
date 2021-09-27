@@ -7,6 +7,7 @@ import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
+import {SendEmailDialogComponent} from '../send-email-dialog/send-email-dialog.component';
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
@@ -96,6 +97,11 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.matDialog.open(ReceiptDialogComponent, {data: {data}});
   }
 
+  openEmailSendModal(transaction: any): void {
+    this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
+
+  }
+
   openChequeDialog(type: any, row: any): void {
     const paymentData = {
       type,
@@ -177,10 +183,10 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
 // Checking bank details are empty or not
   checkBankDetails(element: any): boolean {
-    if (element.data.account_number ||
-      element.data.ifsc_code  ||
-      element.data.bank_name  ||
-      element.data.branch_name  ||
+    if (element.data.account_number &&
+      element.data.ifsc_code  &&
+      element.data.bank_name  &&
+      element.data.branch_name  &&
       element.data.branch_address ) {
       return false;
     } else {

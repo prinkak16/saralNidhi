@@ -35,7 +35,8 @@
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3",
     "cross-env": "^7.0.3",
-    "electron-dl": "^3.2.1"
+    "electron-dl": "^3.2.1",
+    "yopsilon-mask": "^1.2.9"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.5",
