@@ -80,7 +80,7 @@
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
           || element.mode_of_payment.name === 'UPI') &&
-          (checkBankDetails(element) &&
+          (!hasBankDetails(element) &&
           allowedEdit(element.data.date) &&
           !element.payment_remark ) ||
           element.data.name === ''
@@ -143,7 +143,7 @@
           <mat-icon (click)="downloadReceipt(element)" *ngIf="element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
                     class="pointer"
                     matTooltip="Download Receipt">cloud_download
           </mat-icon>
@@ -173,7 +173,7 @@
                   *ngIf="(element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft') && element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
                   class="pointer ml-2"
                   matTooltip="Send receipt on email" >send</mat-icon>
 

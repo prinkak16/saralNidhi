@@ -182,7 +182,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
 // Checking bank details are empty or not
-  checkBankDetails(element: any): boolean {
+  hasBankDetails(element: any): boolean {
     if (element.data.account_number &&
       element.data.ifsc_code  &&
       element.data.bank_name  &&
