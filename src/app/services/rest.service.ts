@@ -128,6 +128,10 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
+  archiveTransaction(id = ''): any{
+    return this.http.get(this.baseUrl + 'nidhi_collection/archiveTransaction?id=' + id, this.authHttpOptions());
+  }
+
   getAccountantDetails(userId: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/accountant_details?id=' + userId, this.authHttpOptions());
   }

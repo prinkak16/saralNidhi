@@ -122,6 +122,12 @@
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
+
+            <button mat-menu-item (click)="clickArchive(element.id)">
+              <mat-icon>archive</mat-icon>
+              <span>Archive</span>
+            </button>
+
             <!--  In case of future date of cheque show message-->
             <button mat-menu-item *ngIf="checkFutureDate(element) == false">
               <mat-icon class="text-center"

@@ -129,6 +129,17 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     });
   }
 
+  clickArchive(id: any): void {
+    if (confirm('Are you sure to archive ')) {
+      this.restService.archiveTransaction(id).subscribe((response: any) => {
+        this.getPaymentList();
+        this.messageService.closableSnackBar(response.message);
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
+  }
+
   allowedEdit(createdDate: string): boolean {
     const today = new Date();
     let result = false;
