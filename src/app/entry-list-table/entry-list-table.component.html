@@ -97,7 +97,7 @@
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
           || element.mode_of_payment.name === 'UPI') &&
-          (checkBankDetails(element) &&
+          (!hasBankDetails(element) &&
           allowedEdit(element.data.date) &&
           !element.payment_remark ) ||
           element.data.name === ''
@@ -163,7 +163,7 @@
           <mat-icon (click)="downloadReceipt(element)" *ngIf="element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
                     class="pointer"
                     matTooltip="Download Receipt">cloud_download
           </mat-icon>
@@ -183,16 +183,17 @@
         <mat-icon (click)="downloadReceipt(element)"
                   *ngIf=" (element.mode_of_payment.name === 'Cash') &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-
+        && element.transaction_valid
         && element.receipt_number_generated && checkPanCardAndValidation(element)"
                   class="pointer"
                   matTooltip="Download Receipt">cloud_download
         </mat-icon>
 
         <mat-icon (click)="openEmailSendModal(element)"
-                  *ngIf="utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && (element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft')
-        && element.receipt_number_generated && element.payment_realize_date && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+                  *ngIf="(element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft') && element.payment_realize_date &&
+         element.transaction_valid
+        && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
                   class="pointer ml-2"
                   matTooltip="Send receipt on email">send
         </mat-icon>
@@ -215,6 +216,24 @@
                   matTooltip="Send receipt on email">send
         </mat-icon>
 
+        <mat-icon (click)="openEmailSendModal(element)"
+                  *ngIf="(
+                  element.mode_of_payment.name === 'IMPS'
+                  || element.mode_of_payment.name === 'NEFT'
+                  || element.mode_of_payment.name === 'RTGS'
+                  || element.mode_of_payment.name === 'UPI')
+                  &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.transaction_valid
+        && element.receipt_number_generated && checkPanCardAndValidation(element)"
+                  class="pointer ml-2"
+                  matTooltip="Send receipt on email" >send</mat-icon>
+        <mat-icon (click)="openEmailSendModal(element)"
+                  *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+         utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
+        && element.receipt_number_generated && element.transaction_valid && checkPanCardAndValidation(element)"
+                  class="pointer ml-2"
+                  matTooltip="Send receipt on email" >send</mat-icon>
       </mat-cell>
     </ng-container>
 

@@ -500,7 +500,7 @@
 
     <mat-form-field appearance="outline" class="col-md-4">
       <mat-label>Amount (₹)</mat-label>
-      <input matInput placeholder="Please enter amount in Rupee" formControlName="amount"
+      <input matInput placeholder="Please enter amount in Rupee" maxlength="13" formControlName="amount"
              appTwoDigitDecimaNumber
              [required]="isRequiredField('amount')">
       <mat-error

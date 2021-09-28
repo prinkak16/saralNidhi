@@ -196,7 +196,7 @@ export class RestService {
     return this.http.get(this.globalTimeUrl);
   }
 
-  downloadTransactionList(): any {
+  downloadTransactionList(stateId: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -206,7 +206,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data? statId=' + (stateId ? stateId : '');
     return this.http.get(url, authHttpOptions as any);
   }
 
