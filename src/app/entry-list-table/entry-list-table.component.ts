@@ -226,11 +226,11 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return value;
   }
-  isReceiptGenerated(transaction: any): boolean{
+  hasReceiptGenerated(transaction: any): boolean{
     if (transaction.mode_of_payment.name === 'Cheque' || transaction.mode_of_payment.name === 'Demand Draft') {
       return(transaction.payment_realize_date && transaction.transaction_valid && transaction.receipt_number_generated &&
         this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
-        !this.checkBankDetails(transaction) && this.checkPanCardAndValidation(transaction)
+        this.hasBankDetails(transaction) && this.checkPanCardAndValidation(transaction)
       );
     }
     if (transaction.mode_of_payment.name === 'Cash'){
