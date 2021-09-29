@@ -210,7 +210,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data? statId=' + (stateId ? stateId : '');
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data?state_id=' + (stateId ? stateId : '');
     return this.http.get(url, authHttpOptions as any);
   }
 
