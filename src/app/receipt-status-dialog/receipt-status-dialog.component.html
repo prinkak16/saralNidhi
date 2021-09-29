@@ -34,7 +34,13 @@
               <span>Approver Remark: {{transaction.pan_data.accountant_pan_remarks}}</span>
             </li>
           </ul>
-          <li>Payment realize Date <span class="text-danger">*</span>: <span [ngClass]="[transaction.payment_realize_date? 'text-success' : 'text-danger']">{{transaction.payment_realize_date? transaction.payment_realize_date : 'Blank'}}</span></li>
+          <li *ngIf="transaction.payment_realize_date">Payment realize Date <span class="text-danger">*</span>: <span class="text-success">{{transaction.payment_realize_date | date:'dd/MM/yyyy'}}</span></li>
+          <ng-container *ngIf="!transaction.payment_realize_date && transaction.payment_remark">
+            <li>Check bounced</li>
+            <ul>
+              <li>Remark: {{transaction.payment_remark}}</li>
+            </ul>
+          </ng-container>
           <li>Category <span class="text-danger">*</span>: <span [ngClass]="[transaction.data.category? 'text-success' : 'text-danger']">{{transaction.data.category? transaction.data.category : 'Blank'}}</span></li>
         </ul>
       </td>
@@ -46,8 +52,8 @@
         <ul class="text-secondary mt-2">
           <li>Mode of Payment <span class="text-danger">*</span>: <span [ngClass]="[transaction.mode_of_payment.name? 'text-success' : 'text-danger']">{{transaction.mode_of_payment.name}}</span></li>
           <li>Name <span class="text-danger">*</span>: <span [ngClass]="[transaction.data.name? 'text-success' : 'text-danger']">{{transaction.data.name? transaction.data.name : 'Blank'}}</span></li>
-          <li>Pan <span class="text-danger">*</span>: <span [ngClass]="[transaction.data.pan_card? 'text-success' : 'text-danger']">{{transaction.data.pan_card? transaction.data.pan_card : 'Blank'}}</span></li>
           <li>Transaction Valid <span class="text-danger">*</span>: <span [ngClass]="[transaction.transaction_valid? 'text-success' : 'text-danger']">{{transaction.transaction_valid? transaction.transaction_valid : 'false'}}</span></li>
+          <li>Pan <span class="text-danger">*</span>: <span [ngClass]="[transaction.data.pan_card? 'text-success' : 'text-danger']">{{transaction.data.pan_card? transaction.data.pan_card : 'Blank'}}</span></li>
           <li>Pan Status <span class="text-danger">*</span>: <span [ngClass]="[(transaction.pan_aasm_state === 'invalid' || transaction.pan_aasm_state === 'rejected')? 'text-danger' : 'text-success']">{{transaction.pan_aasm_state}}</span>
           </li>
           <ul *ngIf="transaction.pan_aasm_state === 'invalid' || transaction.pan_aasm_state === 'rejected'">
