@@ -129,7 +129,7 @@ export class RestService {
   }
 
   archiveTransaction(id = ''): any{
-    return this.http.get(this.baseUrl + 'nidhi_collection/archiveTransaction?id=' + id, this.authHttpOptions());
+    return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
   }
 
   getAccountantDetails(userId: string): any {
