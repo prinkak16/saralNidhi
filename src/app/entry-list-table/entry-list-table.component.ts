@@ -30,6 +30,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
+  @Output() getCount: EventEmitter<any> = new EventEmitter();
 
   private subscription: Subscription = new Subscription();
 
@@ -141,6 +142,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     if (confirm('Are you sure to archive ')) {
       this.restService.archiveTransaction(id).subscribe((response: any) => {
         this.getPaymentList();
+        this.getCount.emit();
         this.messageService.closableSnackBar(response.message);
       }, (error: any) => {
         this.messageService.somethingWentWrong(error);
