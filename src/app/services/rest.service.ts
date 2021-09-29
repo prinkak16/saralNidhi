@@ -132,6 +132,9 @@ export class RestService {
     return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
   }
 
+  UnarchiveTransaction(id = ''): any{
+    return this.http.get(this.baseUrl + 'nidhi_collection/unarchive_transaction?id=' + id, this.authHttpOptions());
+  }
   getAccountantDetails(userId: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/accountant_details?id=' + userId, this.authHttpOptions());
   }

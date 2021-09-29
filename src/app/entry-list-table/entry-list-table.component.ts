@@ -11,7 +11,8 @@ import {SendEmailDialogComponent} from '../send-email-dialog/send-email-dialog.c
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
-
+import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
+import {C} from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
@@ -29,7 +30,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
-
+  @Output() getCount: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
@@ -130,14 +131,22 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   clickArchive(id: any): void {
-    if (confirm('Are you sure to archive ')) {
-      this.restService.archiveTransaction(id).subscribe((response: any) => {
-        this.getPaymentList();
-        this.messageService.closableSnackBar(response.message);
-      }, (error: any) => {
-        this.messageService.somethingWentWrong(error);
-      });
-    }
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      height: '150px',
+      data: {title: 'Are You Sure to Archive This Transaction?'}
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.restService.archiveTransaction(id).subscribe((response: any) => {
+          this.getCount.emit();
+          this.getPaymentList();
+          this.messageService.closableSnackBar(response.message);
+        }, (error: any) => {
+          this.messageService.somethingWentWrong(error);
+        });
+      }
+    });
   }
 
   allowedEdit(createdDate: string): boolean {

@@ -61,6 +61,8 @@ import {PanActionRequiredComponent} from './pan-action-required/pan-action-requi
 import { UpdatePanStatusComponent } from './update-pan-status/update-pan-status.component';
 import { YopsilonMaskModule } from 'yopsilon-mask';
 import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.component';
+import { ArchivedTransactionComponent } from './archived-transaction/archived-transaction.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.
     FilterSearchComponent,
     PanActionRequiredComponent,
     UpdatePanStatusComponent,
-    SendEmailDialogComponent
+    SendEmailDialogComponent,
+    ArchivedTransactionComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +134,8 @@ import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.
     { provide: DateAdapter, useClass: MomentUtcDateAdapter }
   ],
   entryComponents: [
-    ChangePasswordBottomSheetComponent
+    ChangePasswordBottomSheetComponent,
+    ConfirmDialogComponent
   ],
   bootstrap: [AppComponent]
 })
