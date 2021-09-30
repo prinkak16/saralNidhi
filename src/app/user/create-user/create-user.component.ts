@@ -99,7 +99,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.getAppPermissions();
         this.placeholder = 'Select State';
       }
-      if (value === 'state_accountant' || value === 'state_treasurer') {
+      if (value === 'state_accountant') {
         this.userForm.controls.location_type.setValue('CountryState');
         this.userForm.controls.location_ids.setValue(null);
         this.getAppPermissions();
