@@ -246,7 +246,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     if (transaction.mode_of_payment.name === 'Cash'){
     return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
-      transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction));
+      transaction.receipt_number_generated && transaction.transaction_valid && this.checkPanCardAndValidation(transaction));
     } else {
     return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
         transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
