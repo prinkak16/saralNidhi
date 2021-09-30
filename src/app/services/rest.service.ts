@@ -132,9 +132,21 @@ export class RestService {
     return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
   }
 
-  UnarchiveTransaction(id = ''): any{
-    return this.http.get(this.baseUrl + 'nidhi_collection/unarchive_transaction?id=' + id, this.authHttpOptions());
+  archiveTransactionList(data: object): any{
+    return this.http.post(this.apiUrl + 'nidhi_collection/archive_transaction_list', data , this.authHttpOptions());
   }
+
+  unarchiveTransaction(id: ''): any{
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+      })
+    };
+    return this.http.get(this.baseUrl + 'nidhi_collection/unarchived_transaction?id=' + id, httpOptions as any);
+  }
+
   getAccountantDetails(userId: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/accountant_details?id=' + userId, this.authHttpOptions());
   }

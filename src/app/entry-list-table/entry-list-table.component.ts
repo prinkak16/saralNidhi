@@ -134,7 +134,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       width: '500px',
       height: '150px',
-      data: {title: 'Are You Sure to Archive This Transaction?'}
+      data: {title: 'Are you sure to archive this transaction?'}
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
