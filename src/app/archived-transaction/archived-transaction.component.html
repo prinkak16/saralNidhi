@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="length > 0 ; else emptyList">
   <mat-table [dataSource]="transactionList" class="entry-list-table">
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
@@ -73,10 +73,12 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-
-
-
-<!--  <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length" [pageSizeOptions]="pageSizeOptions"-->
-<!--                 [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>-->
+  <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length" [pageSizeOptions]="pageSizeOptions"
+                 [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
 </ng-container>
-
+<ng-template #emptyList>
+  <h3 class="text-center" *ngIf="!showLoader">No archive record found</h3>
+</ng-template>
+<div class="loader-container" *ngIf="showLoader">
+  <mat-spinner color="warn"></mat-spinner>
+</div>

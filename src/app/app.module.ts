@@ -63,6 +63,8 @@ import { YopsilonMaskModule } from 'yopsilon-mask';
 import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.component';
 import { ArchivedTransactionComponent } from './archived-transaction/archived-transaction.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
+import { ArchivedTransactionListComponent } from './archived-transaction-list/archived-transaction-list.component';
+import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-filter-search.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     UpdatePanStatusComponent,
     SendEmailDialogComponent,
     ArchivedTransactionComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ArchivedTransactionListComponent,
+    ArchiveFilterSearchComponent
   ],
   imports: [
     BrowserModule,

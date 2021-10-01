@@ -128,6 +128,10 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
+  getArchivedCounts(data: { states?: string[], filters?: any }): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_archive_count', data, this.authHttpOptions());
+  }
+
   archiveTransaction(id = ''): any{
     return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
   }
@@ -137,14 +141,7 @@ export class RestService {
   }
 
   unarchiveTransaction(id: ''): any{
-    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '';
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: authorization,
-      })
-    };
-    return this.http.get(this.baseUrl + 'nidhi_collection/unarchived_transaction?id=' + id, httpOptions as any);
+    return this.http.get(this.baseUrl + 'nidhi_collection/unarchived_transaction?id=' + id, this.authHttpOptions());
   }
 
   getAccountantDetails(userId: string): any {

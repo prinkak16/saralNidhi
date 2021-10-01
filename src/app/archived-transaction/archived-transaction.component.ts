@@ -3,12 +3,8 @@ import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
 import {UtilsService} from '../services/utils.service';
-import {saveAs} from 'file-saver';
 import {ActivatedRoute} from '@angular/router';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {ReceiptDialogComponent} from '../receipt-dialog/receipt-dialog.component';
-import {SendEmailDialogComponent} from '../send-email-dialog/send-email-dialog.component';
-import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
+import {MatDialog} from '@angular/material/dialog';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
@@ -19,13 +15,21 @@ import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.co
   templateUrl: './archived-transaction.component.html',
   styleUrls: ['./archived-transaction.component.css']
 })
-export class ArchivedTransactionComponent implements OnInit {
+export class ArchivedTransactionComponent implements OnInit, OnDestroy {
 
   constructor(private restService: RestService, private matDialog: MatDialog,
               private activatedRoute: ActivatedRoute, private messageService: MessageService,
               public utilService: UtilsService) { }
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
+
+  @Input() paymentModeId: any = null;
+  @Input() showLoader = false;
+  @Input() filters: any = null;
+  @Output() updateList = new EventEmitter<any>();
+  @Input() fetchWithFilters = new Observable<any>();
+  @Output() getArchiveListCount: EventEmitter<any> = new EventEmitter();
+  private subscription: Subscription = new Subscription();
 
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action'];
@@ -38,8 +42,27 @@ export class ArchivedTransactionComponent implements OnInit {
   offset = 0;
   limit = 10;
   ngOnInit(): void {
-    this.getArchiveList();
+    this.subscribeToSubject();
   }
+
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  subscribeToSubject(): void {
+    this.subscription = this.fetchWithFilters.subscribe(value => {
+      this.filters = value;
+      this.pageEvent = new PageEvent();
+      if (this.paginator) {
+        this.paginator.pageIndex = 0;
+      }
+      this.offset = 0;
+      this.getArchiveList();
+    });
+  }
+
+
 
   clickUnArchive(id: any): void {
     const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
@@ -66,14 +89,19 @@ export class ArchivedTransactionComponent implements OnInit {
   }
 
   getArchiveList(): void {
+    this.showLoader = true;
     const data = {
+      filters: this.filters ? this.filters : {},
+      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
       limit: this.limit,
       offset: this.offset
     };
     this.restService.archiveTransactionList(data).subscribe((response: any) => {
-      this.transactionList = response.data.list;
-      this.length = response.data.list.length;
+      this.showLoader = false;
+      this.transactionList = response.data.list as PaymentModel[];
+      this.length = response.data.length;
     }, (error: any) => {
+      this.showLoader = false;
       this.messageService.somethingWentWrong(error);
     });
   }
