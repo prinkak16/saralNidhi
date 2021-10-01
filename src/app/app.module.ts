@@ -93,7 +93,7 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
     ArchivedTransactionComponent,
     ConfirmDialogComponent,
     ArchivedTransactionListComponent,
-    ArchiveFilterSearchComponent
+    ArchiveFilterSearchComponent,
     ReceiptStatusDialogComponent
   ],
   imports: [
