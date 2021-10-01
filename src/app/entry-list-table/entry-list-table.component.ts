@@ -13,6 +13,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
 import {C} from '@angular/cdk/keycodes';
+import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-status-dialog.component';
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
@@ -97,6 +98,15 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     };
     this.matDialog.open(ReceiptDialogComponent, {data: {data}});
   }
+
+  openReceiptStatus(data: any): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      element: data
+    };
+    this.matDialog.open(ReceiptStatusDialogComponent, {data: {data}});
+  }
+
 
   openEmailSendModal(transaction: any): void {
     this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
