@@ -248,4 +248,22 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return value;
   }
+  hasReceiptGenerated(transaction: any): boolean{
+    if (transaction.mode_of_payment.name === 'Cheque' || transaction.mode_of_payment.name === 'Demand Draft') {
+      return(transaction.payment_realize_date && transaction.transaction_valid && transaction.receipt_number_generated &&
+        this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        this.hasBankDetails(transaction) && this.checkPanCardAndValidation(transaction)
+      );
+    }
+    if (transaction.mode_of_payment.name === 'Cash'){
+      return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        transaction.receipt_number_generated && transaction.transaction_valid && this.checkPanCardAndValidation(transaction));
+    } else {
+      return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
+      );
+    }
+  }
+
+
 }
