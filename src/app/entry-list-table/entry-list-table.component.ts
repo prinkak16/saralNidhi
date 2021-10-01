@@ -11,8 +11,11 @@ import {SendEmailDialogComponent} from '../send-email-dialog/send-email-dialog.c
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
+
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
 import {C} from '@angular/cdk/keycodes';
+import {ReceiptStatusDialogComponent} from '../receipt-status-dialog/receipt-status-dialog.component';
+
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
@@ -30,7 +33,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
-  @Output() getCount: EventEmitter<any> = new EventEmitter();
+  @Output() refreshCount: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
@@ -48,7 +51,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   offset = 0;
   limit = 10;
   differenceInDays: any;
-
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
       this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
@@ -96,6 +98,14 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       element: data
     };
     this.matDialog.open(ReceiptDialogComponent, {data: {data}});
+  }
+
+  openReceiptStatus(data: any): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      element: data
+    };
+    this.matDialog.open(ReceiptStatusDialogComponent, {data: {data}});
   }
 
   openEmailSendModal(transaction: any): void {
@@ -147,7 +157,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
         });
       }
     });
-  }
+
 
   allowedEdit(createdDate: string): boolean {
     const today = new Date();
@@ -237,5 +247,21 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       value = element.pan_aasm_state.replace('_', ' ');
     }
     return value;
+  }
+  hasReceiptGenerated(transaction: any): boolean{
+    if (transaction.mode_of_payment.name === 'Cheque' || transaction.mode_of_payment.name === 'Demand Draft') {
+      return(transaction.payment_realize_date && transaction.transaction_valid && transaction.receipt_number_generated &&
+        this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        this.hasBankDetails(transaction) && this.checkPanCardAndValidation(transaction)
+      );
+    }
+    if (transaction.mode_of_payment.name === 'Cash'){
+    return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+      transaction.receipt_number_generated && transaction.transaction_valid && this.checkPanCardAndValidation(transaction));
+    } else {
+    return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
+    );
+    }
   }
 }

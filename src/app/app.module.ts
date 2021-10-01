@@ -65,6 +65,8 @@ import { ArchivedTransactionComponent } from './archived-transaction/archived-tr
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 import { ArchivedTransactionListComponent } from './archived-transaction-list/archived-transaction-list.component';
 import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-filter-search.component';
+import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -92,6 +94,7 @@ import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-fi
     ConfirmDialogComponent,
     ArchivedTransactionListComponent,
     ArchiveFilterSearchComponent
+    ReceiptStatusDialogComponent
   ],
   imports: [
     BrowserModule,
