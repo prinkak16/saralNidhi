@@ -1,7 +1,7 @@
-<div>
-  <p class="p-0" mat-dialog-title>{{data.title}}</p>
-  <div mat-dialog-actions>
-    <button mat-button color="primary" (click)="onConfirm()" >Yes</button>
-    <button mat-raised-button color="danger" (click)="onDismiss()" >No</button>
-  </div>
+<div mat-dialog-content>
+  <mat-label>{{data.title}}</mat-label>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="bg-primary text-white"  (click)="onConfirm()">Yes</button>
+  <button mat-raised-button class="bg-danger text-white" (click)="onDismiss()">No</button>
 </div>

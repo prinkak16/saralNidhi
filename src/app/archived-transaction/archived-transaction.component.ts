@@ -66,8 +66,8 @@ export class ArchivedTransactionComponent implements OnInit, OnDestroy {
 
   clickUnArchive(id: any): void {
     const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-      width: '500px',
-      height: '150px',
+      width: '400px',
+      height: '125px',
       data: {title: 'Are you sure to unarchive this transaction?'}
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
