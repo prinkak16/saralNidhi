@@ -195,7 +195,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.financial_year_id.disable();
     this.amountWord.disable();
     this.collectionForm.controls.is_proprietorship.valueChanges.subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull || this.transactionId) {
         if (this.collectionForm.controls.pan_card.value) {
           this.onPanCardChange(this.collectionForm.controls.pan_card.value);
         }
@@ -256,7 +256,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.name.valueChanges.pipe(debounceTime(500)).subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull || this.transactionId) {
         if (value) {
           if (this.collectionForm.controls.pan_card.value) {
             this.onPanCardChange(this.collectionForm.controls.pan_card.value);
@@ -267,7 +267,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
     // Check validation on pan card If is it a proprietorship yes
     this.collectionForm.controls.proprietorship_name.valueChanges.pipe(debounceTime(500)).subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull || this.transactionId) {
         if (value) {
           if (this.collectionForm.controls.pan_card.value) {
             this.onPanCardChange(this.collectionForm.controls.pan_card.value);
@@ -277,7 +277,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
 
     this.collectionForm.controls.category.valueChanges.pipe(debounceTime(500)).subscribe(value => {
-      if (this.allowedValueNull) {
+      if (this.allowedValueNull || this.transactionId) {
         if (value) {
           if (this.collectionForm.controls.pan_card.value) {
             this.onPanCardChange(this.collectionForm.controls.pan_card.value);
@@ -1061,7 +1061,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.accountantPanRemarks.setValue(transaction.pan_data.accountant_pan_remarks);
     this.panCardStatus.setValue(transaction.pan_data.pan_card_status);
     this.collectionForm.controls.pan_card_photo.setValue(transaction.data.pan_card_photo);
-    this.panCardRemark.setValue(transaction.pan_data.remark);
+    this.panCardRemark.setValue(transaction.pan_data.pan_card_remark);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
         this.ngOtpInputRef.setValue(transaction.pan_card);
@@ -1093,6 +1093,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     const panActionData = {
       pan_system_error: this.panSystemError.value,
       accountant_pan_remarks: this.accountantPanRemarks.value,
+      pan_card_remark: this.panCardRemark.value,
       pan_card_status: this.panCardStatus.value
     };
     this.restService.updateTransaction({

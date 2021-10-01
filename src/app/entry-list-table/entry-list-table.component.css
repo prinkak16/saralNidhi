@@ -28,6 +28,9 @@
 .mat-column-amount {
   flex: 0 0 150px;
 }
+.mat-column-date {
+  flex: 0 0 150px;
+}
 
 .mat-column-category {
   flex: 0 0 150px;
