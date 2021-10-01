@@ -13,7 +13,6 @@ export class RestService {
   apiUrl = environment.apiUrl;
   pinCodeUrl = 'https://api.postalpincode.in/pincode/';
   ifscUrl = 'https://ifsc.razorpay.com/';
-  globalTimeUrl = 'http://worldclockapi.com/api/json/est/now';
 
   constructor(private http: HttpClient) {
   }
@@ -197,7 +196,7 @@ export class RestService {
   }
 
   getGlobalTimeZone(): any {
-    return this.http.get(this.globalTimeUrl);
+    return this.http.get(this.baseUrl + 'nidhi_collection/get_global_time');
   }
 
   downloadTransactionList(stateId: any): any {
