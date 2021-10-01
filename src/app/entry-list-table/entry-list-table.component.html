@@ -10,7 +10,24 @@
     <!-- Date Column -->
     <ng-container matColumnDef="date">
       <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{utilService.formatDate(element.data.date)}} </mat-cell>
+      <mat-cell *matCellDef="let element">
+        C: {{element.data.date | date: 'dd/MM/yyyy'}} <br>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'Cheque')">
+          T: {{element.data.date_of_cheque | date: 'dd/MM/yyyy'}}
+        </ng-container>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'Demand Draft')">
+          T: {{element.data.date_of_draft | date: 'dd/MM/yyyy'}}
+        </ng-container>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'IMPS'
+          || element.mode_of_payment.name === 'NEFT'
+          || element.mode_of_payment.name === 'RTGS'
+          || element.mode_of_payment.name === 'UPI') ">
+          T: {{element.data.date_of_transaction | date: 'dd/MM/yyyy'}}
+        </ng-container>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'Cash')">
+          T: {{element.data.date_of_transaction | date: 'dd/MM/yyyy'}}
+        </ng-container>
+      </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
@@ -80,7 +97,7 @@
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
           || element.mode_of_payment.name === 'UPI') &&
-          (checkBankDetails(element) &&
+          (!hasBankDetails(element) &&
           allowedEdit(element.data.date) &&
           !element.payment_remark ) ||
           element.data.name === ''
@@ -122,6 +139,12 @@
               <mat-icon>refresh</mat-icon>
               <span>Reversed</span>
             </button>
+
+            <button mat-menu-item (click)="clickArchive(element.id)">
+              <mat-icon>archive</mat-icon>
+              <span>Archive</span>
+            </button>
+
             <!--  In case of future date of cheque show message-->
             <button mat-menu-item *ngIf="checkFutureDate(element) == false">
               <mat-icon class="text-center"
@@ -138,12 +161,15 @@
     <ng-container matColumnDef="receipt-print">
       <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
       <mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!hasReceiptGenerated(element)">
+          <mat-icon (click)="openReceiptStatus(element)" class="cursor-pointer">info</mat-icon>
+        </ng-container>
         <ng-container
           *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
           <mat-icon (click)="downloadReceipt(element)" *ngIf="element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
                     class="pointer"
                     matTooltip="Download Receipt">cloud_download
           </mat-icon>
@@ -173,7 +199,7 @@
                   *ngIf="(element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft') && element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && !checkBankDetails(element) && checkPanCardAndValidation(element)"
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
                   class="pointer ml-2"
                   matTooltip="Send receipt on email" >send</mat-icon>
 

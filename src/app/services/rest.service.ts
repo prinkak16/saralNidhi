@@ -128,6 +128,10 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
+  archiveTransaction(id = ''): any{
+    return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
+  }
+
   getAccountantDetails(userId: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/accountant_details?id=' + userId, this.authHttpOptions());
   }
@@ -196,7 +200,7 @@ export class RestService {
     return this.http.get(this.globalTimeUrl);
   }
 
-  downloadTransactionList(): any {
+  downloadTransactionList(stateId: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -206,7 +210,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data?state_id=' + (stateId ? stateId : '');
     return this.http.get(url, authHttpOptions as any);
   }
 

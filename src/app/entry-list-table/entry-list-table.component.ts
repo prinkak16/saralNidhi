@@ -11,6 +11,7 @@ import {SendEmailDialogComponent} from '../send-email-dialog/send-email-dialog.c
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
+import {ReceiptStatusDialogComponent} from '../receipt-status-dialog/receipt-status-dialog.component';
 
 @Component({
   selector: 'app-entry-list-table',
@@ -29,6 +30,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
+  @Output() refreshCount: EventEmitter<any> = new EventEmitter();
 
   private subscription: Subscription = new Subscription();
 
@@ -47,7 +49,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   offset = 0;
   limit = 10;
   differenceInDays: any;
-
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
       this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
@@ -97,6 +98,14 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.matDialog.open(ReceiptDialogComponent, {data: {data}});
   }
 
+  openReceiptStatus(data: any): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      element: data
+    };
+    this.matDialog.open(ReceiptStatusDialogComponent, {data: {data}});
+  }
+
   openEmailSendModal(transaction: any): void {
     this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
 
@@ -127,6 +136,18 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }, (error: any) => {
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  clickArchive(id: any): void {
+    if (confirm('Are you sure to archive ')) {
+      this.restService.archiveTransaction(id).subscribe((response: any) => {
+        this.getPaymentList();
+        this.refreshCount.emit();
+        this.messageService.closableSnackBar(response.message);
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
   }
 
   allowedEdit(createdDate: string): boolean {
@@ -182,15 +203,15 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
 // Checking bank details are empty or not
-  checkBankDetails(element: any): boolean {
+  hasBankDetails(element: any): boolean {
     if (element.data.account_number &&
       element.data.ifsc_code  &&
       element.data.bank_name  &&
       element.data.branch_name  &&
       element.data.branch_address ) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -217,5 +238,21 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       value = element.pan_aasm_state.replace('_', ' ');
     }
     return value;
+  }
+  hasReceiptGenerated(transaction: any): boolean{
+    if (transaction.mode_of_payment.name === 'Cheque' || transaction.mode_of_payment.name === 'Demand Draft') {
+      return(transaction.payment_realize_date && transaction.transaction_valid && transaction.receipt_number_generated &&
+        this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        this.hasBankDetails(transaction) && this.checkPanCardAndValidation(transaction)
+      );
+    }
+    if (transaction.mode_of_payment.name === 'Cash'){
+    return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+      transaction.receipt_number_generated && transaction.transaction_valid && this.checkPanCardAndValidation(transaction));
+    } else {
+    return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
+    );
+    }
   }
 }
