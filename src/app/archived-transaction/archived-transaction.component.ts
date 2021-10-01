@@ -28,7 +28,7 @@ export class ArchivedTransactionComponent implements OnInit, OnDestroy {
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
-  @Output() getArchiveListCount: EventEmitter<any> = new EventEmitter();
+  @Output() archiveCount: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
@@ -73,8 +73,9 @@ export class ArchivedTransactionComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.restService.unarchiveTransaction(id).subscribe((response: any) => {
-          this.messageService.closableSnackBar(response.message);
+          this.archiveCount.emit();
           this.getArchiveList();
+          this.messageService.closableSnackBar(response.message);
         }, (error: any) => {
           this.messageService.somethingWentWrong(error);
         });

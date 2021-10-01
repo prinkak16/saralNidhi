@@ -15,7 +15,7 @@
         </span>
       </ng-template>
       <div class="table-container">
-        <app-archived-transaction [paymentModeId]="tab.id" [filters]="filters"  (updateList)="updateList($event)"
+        <app-archived-transaction [paymentModeId]="tab.id" [filters]="filters" (archiveCount)="getArchiveCount()" (updateList)="updateList($event)"
         [fetchWithFilters]="transactionsSubject.asObservable()"></app-archived-transaction>
       </div>
     </mat-tab>
