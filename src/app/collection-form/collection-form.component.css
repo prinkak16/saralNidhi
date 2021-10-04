@@ -39,10 +39,9 @@
   padding: 10px;
   border-radius: 5px;
   margin-top: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 26px;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
