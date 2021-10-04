@@ -12,7 +12,6 @@ import {UpdatePaymentComponent} from '../update-payment/update-payment.component
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
-import {C} from '@angular/cdk/keycodes';
 import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-status-dialog.component';
 @Component({
   selector: 'app-entry-list-table',
