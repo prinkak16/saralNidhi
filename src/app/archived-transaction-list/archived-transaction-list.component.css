@@ -1,0 +1,13 @@
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #fe7045;
+  height: 8px;
+}
+
+.table-container {
+  margin-top: 30px;
+}
