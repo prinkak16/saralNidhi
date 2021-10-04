@@ -29,7 +29,21 @@
       <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.role.replace("_", " ") | titlecase}} </mat-cell>
     </ng-container>
-
+    <!-- Country State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef>States</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.allotted_states}} </mat-cell>
+    </ng-container>
+    <!-- Creator Column -->
+    <ng-container matColumnDef="creator">
+      <mat-header-cell *matHeaderCellDef>Creator</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{element.created_by.email}} <br>
+        <div>
+          {{element.created_by.phone_number}}
+        </div>
+      </mat-cell>
+    </ng-container>
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
