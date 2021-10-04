@@ -7,12 +7,11 @@ import {UtilsService} from '../services/utils.service';
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-entry-list',
-  templateUrl: './entry-list.component.html',
-  styleUrls: ['./entry-list.component.css']
+  selector: 'app-archived-transaction-list',
+  templateUrl: './archived-transaction-list.component.html',
+  styleUrls: ['./archived-transaction-list.component.css']
 })
-export class EntryListComponent implements OnInit, AfterViewInit {
-
+export class ArchivedTransactionListComponent implements OnInit, AfterViewInit {
   transactionsSubject: Subject<any> = new Subject<any>();
   modeOfPayments: PaymentModeModel[] = [];
   selectedModeOfPayment = '';
@@ -23,17 +22,13 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   counting = [];
   filters: any;
   showLoader = false;
+
+
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.selectedModeOfPayment = params.typeId;
-      if (params.query) {
-        this.query = params.query;
-      }
-    });
     this.getPaymentModes();
   }
 
@@ -61,15 +56,15 @@ export class EntryListComponent implements OnInit, AfterViewInit {
         this.selectedIndex = this.modeOfPayments.findIndex(x => x.id ===
           this.utilService.convertStringToNumber(this.selectedModeOfPayment));
       }
-      this.getCount();
+      this.getArchiveCount();
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
   }
 
-  getCount(): any {
-    this.restService.getCounts({
-      filters: this.filters
+  getArchiveCount(): any {
+    this.restService.getArchivedCounts({
+       filters: this.filters
     }).subscribe((response: any) => {
       this.counting = [];
       setTimeout((_: any) => {
@@ -82,7 +77,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   setFilters(filters: any): void {
     this.filters = filters;
-    this.getCount();
+    this.getArchiveCount();
     this.transactionsSubject.next(this.filters);
   }
 
@@ -100,3 +95,5 @@ export class EntryListComponent implements OnInit, AfterViewInit {
     this.showLoader = showLoader;
   }
 }
+
+

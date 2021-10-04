@@ -61,7 +61,12 @@ import {PanActionRequiredComponent} from './pan-action-required/pan-action-requi
 import { UpdatePanStatusComponent } from './update-pan-status/update-pan-status.component';
 import { YopsilonMaskModule } from 'yopsilon-mask';
 import { SendEmailDialogComponent } from './send-email-dialog/send-email-dialog.component';
+import { ArchivedTransactionComponent } from './archived-transaction/archived-transaction.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
+import { ArchivedTransactionListComponent } from './archived-transaction-list/archived-transaction-list.component';
+import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-filter-search.component';
 import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -85,6 +90,10 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
     PanActionRequiredComponent,
     UpdatePanStatusComponent,
     SendEmailDialogComponent,
+    ArchivedTransactionComponent,
+    ConfirmDialogComponent,
+    ArchivedTransactionListComponent,
+    ArchiveFilterSearchComponent,
     ReceiptStatusDialogComponent
   ],
   imports: [
@@ -132,7 +141,8 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
     { provide: DateAdapter, useClass: MomentUtcDateAdapter }
   ],
   entryComponents: [
-    ChangePasswordBottomSheetComponent
+    ChangePasswordBottomSheetComponent,
+    ConfirmDialogComponent
   ],
   bootstrap: [AppComponent]
 })

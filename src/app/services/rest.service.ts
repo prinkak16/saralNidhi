@@ -123,12 +123,24 @@ export class RestService {
     return this.http.get(this.pinCodeUrl + pinCode);
   }
 
-  getCounts(data: { states?: string[], filters?: any }): any {
+  getCounts(data: {filters?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
+  }
+
+  getArchivedCounts(data: { filters?: any }): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/mode_wise_archive_count?data=' + data, this.authHttpOptions());
   }
 
   archiveTransaction(id = ''): any{
     return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
+  }
+
+  archiveTransactionList(data: object): any{
+    return this.http.post(this.apiUrl + 'nidhi_collection/archive_transaction_list', data , this.authHttpOptions());
+  }
+
+  unarchiveTransaction(id: ''): any{
+    return this.http.get(this.baseUrl + 'nidhi_collection/unarchived_transaction?id=' + id, this.authHttpOptions());
   }
 
   getAccountantDetails(userId: string): any {
