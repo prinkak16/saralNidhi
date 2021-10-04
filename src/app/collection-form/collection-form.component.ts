@@ -376,28 +376,32 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.setValue(null);
     this.collectionForm.controls.category.clearValidators();
     this.collectionForm.controls.category.updateValueAndValidity();
-
+    if (!this.collectionForm.controls.house.value){
     this.collectionForm.controls.house.setValue(null);
+    }
     this.collectionForm.controls.house.clearValidators();
     this.collectionForm.controls.house.updateValueAndValidity();
-
-    this.collectionForm.controls.locality.setValue(null);
+    if (!this.collectionForm.controls.locality.value) {
+      this.collectionForm.controls.locality.setValue(null);
+    }
     this.collectionForm.controls.locality.clearValidators();
     this.collectionForm.controls.locality.updateValueAndValidity();
-
-    this.collectionForm.controls.pincode.setValue(null);
+    if (!this.collectionForm.controls.pincode.value) {
+      this.collectionForm.controls.pincode.setValue(null);
+    }
     this.collectionForm.controls.pincode.clearValidators();
     this.collectionForm.controls.pincode.setValidators(Validators.pattern('^[0-9]{6,6}$'));
     this.collectionForm.controls.pincode.updateValueAndValidity();
-
-    this.collectionForm.controls.district.setValue(null);
+    if (!this.collectionForm.controls.district.value) {
+      this.collectionForm.controls.district.setValue(null);
+    }
     this.collectionForm.controls.district.clearValidators();
     this.collectionForm.controls.district.updateValueAndValidity();
-
-    this.collectionForm.controls.state.setValue(null);
+    if (!this.collectionForm.controls.state.value) {
+      this.collectionForm.controls.state.setValue(null);
+    }
     this.collectionForm.controls.state.clearValidators();
     this.collectionForm.controls.state.updateValueAndValidity();
-
     // this.collectionForm.controls.date_of_transaction.setValue(null);
     this.collectionForm.controls.date_of_transaction.clearValidators();
     this.collectionForm.controls.date_of_transaction.updateValueAndValidity();
@@ -974,6 +978,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.transaction_type.setValue(values.transaction_type);
     this.ngOtpInputRef.setValue(values.pan_card);
     this.autoFillData = [];
+    this.keyword.setValue('');
   }
 
   getTransaction(transactionId: number): void {
@@ -1075,6 +1080,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.amountWord.disable();
       this.stateControl.disable();
       this.zilaControl.disable();
+      this.panCardRemark.disable();
+      this.ngOtpInputRef.otpForm.disable();
       this.isEnabled = true;
       this.accountantPanRemarks.disable();
       this.collectionForm.disable();
