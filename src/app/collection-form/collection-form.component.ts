@@ -1000,8 +1000,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_cheque.disable();
     this.collectionForm.controls.cheque_number.disable();
     this.collectionForm.controls.utr_number.disable();
-    this.panCardRemark.disable();
-    this.ngOtpInputRef.otpForm.disable();
     this.collectionForm.controls.date_of_draft.disable();
     this.collectionForm.controls.draft_number.disable();
 
@@ -1083,6 +1081,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.amountWord.disable();
       this.stateControl.disable();
       this.zilaControl.disable();
+      this.panCardRemark.disable();
+      this.ngOtpInputRef.otpForm.disable();
       this.isEnabled = true;
       this.accountantPanRemarks.disable();
       this.collectionForm.disable();
