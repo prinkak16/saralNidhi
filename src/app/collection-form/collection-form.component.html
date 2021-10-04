@@ -79,11 +79,13 @@
         <div class="col-md-6" *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)">
           <mat-label>Date of Transaction <sup *ngIf="isRequiredField('date_of_transaction')">*</sup></mat-label>
           <ng-container *ngIf="!transactionId">
-            <input matInput yn-mask-date="dd/mm/yyyy"
+            <mat-form-field  appearance="outline">
+              <input matInput yn-mask-date="dd/mm/yyyy"
                    placeholder="dd/mm/yyyy"
                    autocomplete="off"
                    formControlName="date_of_transaction"
                    [required]="isRequiredField('date_of_transaction')"/>
+            </mat-form-field>
           </ng-container>
           <ng-container *ngIf="transactionId">
             <input matInput
@@ -138,20 +140,6 @@
                 Date of cheque is required
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="col-md-6" appearance="outline">
-              <mat-label>Cheque No.</mat-label>
-              <input matInput placeholder="Cheque Number" formControlName="cheque_number"
-                     (keypress)="utilsService.validateNumber($event)" maxlength="6"
-                     [required]="isRequiredField('cheque_number')">
-              <mat-error
-                *ngIf="((collectionForm.controls.cheque_number.touched)&& collectionForm.controls.cheque_number.hasError('required'))">
-                Cheque number is required
-              </mat-error>
-              <mat-error
-                *ngIf="((collectionForm.controls.cheque_number.touched)&& collectionForm.controls.cheque_number.hasError('pattern'))">
-                Please enter a valid Cheque number
-              </mat-error>
-            </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-label >Cheque No. <sup *ngIf="isRequiredField('cheque_number')">*</sup></mat-label>
@@ -176,11 +164,13 @@
           <div class="col-md-6">
             <mat-label>Date of draft <sup *ngIf="isRequiredField('date_of_draft')">*</sup></mat-label>
             <ng-container *ngIf="!transactionId">
-              <input matInput yn-mask-date="dd/mm/yyyy"
+              <mat-form-field  appearance="outline">
+                 <input matInput yn-mask-date="dd/mm/yyyy"
                      autocomplete="off"
                      placeholder="dd/mm/yyyy"
                      formControlName="date_of_draft"
                      [required]="isRequiredField('date_of_draft')"/>
+              </mat-form-field>
             </ng-container>
             <ng-container *ngIf="transactionId">
               <input matInput
