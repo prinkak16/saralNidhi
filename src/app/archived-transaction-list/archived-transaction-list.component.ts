@@ -64,7 +64,7 @@ export class ArchivedTransactionListComponent implements OnInit, AfterViewInit {
 
   getArchiveCount(): any {
     this.restService.getArchivedCounts({
-      states: this.utilService.pluck(this.modeOfPayments, 'id'), filters: this.filters
+       filters: this.filters
     }).subscribe((response: any) => {
       this.counting = [];
       setTimeout((_: any) => {
