@@ -93,7 +93,7 @@ export class ArchivedTransactionComponent implements OnInit, OnDestroy {
     this.showLoader = true;
     const data = {
       filters: this.filters ? this.filters : {},
-      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
+      payment_mode_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
       limit: this.limit,
       offset: this.offset
     };

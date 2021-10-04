@@ -124,7 +124,7 @@ export class RestService {
     return this.http.get(this.pinCodeUrl + pinCode);
   }
 
-  getCounts(data: { states?: string[], filters?: any }): any {
+  getCounts(data: {filters?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
