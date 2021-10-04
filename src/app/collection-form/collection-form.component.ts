@@ -979,6 +979,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.transaction_type.setValue(values.transaction_type);
     this.ngOtpInputRef.setValue(values.pan_card);
     this.autoFillData = [];
+    this.keyword.setValue('');
   }
 
   getTransaction(transactionId: number): void {
@@ -999,6 +1000,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.date_of_cheque.disable();
     this.collectionForm.controls.cheque_number.disable();
     this.collectionForm.controls.utr_number.disable();
+    this.panCardRemark.disable();
+    this.ngOtpInputRef.otpForm.disable();
     this.collectionForm.controls.date_of_draft.disable();
     this.collectionForm.controls.draft_number.disable();
 
