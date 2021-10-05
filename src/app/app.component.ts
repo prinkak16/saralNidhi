@@ -58,7 +58,7 @@ export class AppComponent {
   // Getting global timezone and matching with system timezone
   getGolablTimezone(): void {
     this.restService.getGlobalTimeZone().subscribe((reply: any) => {
-      this.globalTimezone = reply.currentDateTime;
+      this.globalTimezone = new Date(reply.data);
       this.onlineStatus = true;
       const systemFormattedDate = formatDate(new Date(), 'dd/MM/yyyy', 'en-IN');
       const globalFormattedDate = formatDate(this.globalTimezone, 'dd/MM/yyyy', 'en-IN');
