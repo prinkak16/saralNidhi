@@ -13,7 +13,6 @@ export class RestService {
   apiUrl = environment.apiUrl;
   pinCodeUrl = 'https://api.postalpincode.in/pincode/';
   ifscUrl = 'https://ifsc.razorpay.com/';
-  globalTimeUrl = 'http://worldclockapi.com/api/json/est/now';
 
   constructor(private http: HttpClient) {
   }
@@ -128,8 +127,8 @@ export class RestService {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
 
-  getArchivedCounts(data: { states?: string[], filters?: any }): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_archive_count', data, this.authHttpOptions());
+  getArchivedCounts(data: { filters?: any }): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/mode_wise_archive_count?data=' + data, this.authHttpOptions());
   }
 
   archiveTransaction(id = ''): any{
@@ -209,7 +208,7 @@ export class RestService {
   }
 
   getGlobalTimeZone(): any {
-    return this.http.get(this.globalTimeUrl);
+    return this.http.get(this.baseUrl + 'nidhi_collection/get_global_time');
   }
 
   downloadTransactionList(stateId: any): any {
