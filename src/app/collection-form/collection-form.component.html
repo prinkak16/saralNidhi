@@ -24,7 +24,7 @@
     </div>
 
     <div class="col-md-4">
-      <mat-label>Transaction Type*</mat-label><br>
+      <mat-label>Transaction Type <sup>*</sup></mat-label><br>
       <mat-form-field class="position-relative" appearance="outline" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')">
         <img src="assets/icons/dropdown.svg" class="dropdown-icon">
         <mat-select #focusTransactionType formControlName="transaction_type" [required]="isRequiredField('transaction_type')">
@@ -34,7 +34,7 @@
     </div>
 
     <div class="col-md-4">
-      <mat-label translate>Enter Date*</mat-label><br>
+      <mat-label translate>Enter Date <sup>*</sup></mat-label><br>
       <mat-form-field appearance="outline" >
         <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
                [matDatepicker]="picker" (click)="picker.open()" [min]="today" [max]="today"
@@ -219,7 +219,7 @@
                         <img src="assets/icons/file.svg" alt="upload pan card"  class="choose-file-img"/>
                         <span class="file-text-position">Choosed File</span>
                       </div>
-                      <img src="assets/icons/eye.svg" alt="View pan card"/>
+<!--                      <img src="assets/icons/eye.svg" alt="View pan card"/>-->
                     </ng-container>
                     <ng-template #uploadChequeDDFrontText>
                       <div class="mb-0 position-relative">
@@ -244,16 +244,16 @@
                   <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
                     <ng-container *ngIf="collectionForm.controls.cheque_dd_photo2.value;else uploadChequeDDBackText">
                       <div class="position-relative">
-                        <img src="assets/icons/file.svg" alt="upload pan card"  class="choose-file-img"/>
+                        <img src="assets/icons/file.svg" alt="upload file"  class="choose-file-img"/>
                         <span class="file-text-position">Choosed File</span>
 <!--                        <img src="assets/icons/upload_success_icon.svg" alt="cheque dd back photo" class="upload-icon"/>-->
 <!--                        Cheque/ Demand Draft card uploaded-->
                       </div>
-                      <img src="assets/icons/eye.svg" alt="View pan card"/>
+<!--                      <img src="assets/icons/eye.svg" alt="View file"/>-->
                     </ng-container>
                     <ng-template #uploadChequeDDBackText>
                       <div class="position-relative">
-                        <img src="assets/icons/file.svg" alt="upload pan card"  class="choose-file-img"/>
+                        <img src="assets/icons/file.svg" alt="upload file"  class="choose-file-img"/>
                         <span class="file-text-position">Choose File</span>
 <!--                        <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>-->
 <!--                        Upload Cheque/ Demand Draft-->
@@ -273,12 +273,12 @@
         <!--Show uploaded image preview-->
         <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
           <div *ngIf="!transactionId">
-            <img src="{{collectionForm.controls.cheque_dd_photo1.value}}" *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3">
-            <img src="{{collectionForm.controls.cheque_dd_photo2.value}}" *ngIf="collectionForm.controls.cheque_dd_photo2.value"  height="75" width="75" class="ml-2">
+            <img src="{{collectionForm.controls.cheque_dd_photo1.value}}" *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3 mb-2">
+            <img src="{{collectionForm.controls.cheque_dd_photo2.value}}" *ngIf="collectionForm.controls.cheque_dd_photo2.value"  height="75" width="75" class="ml-2 mb-2">
           </div>
           <div *ngIf="transactionId">
-            <img src="{{transactionDetails.data.data.cheque_dd_photo1}}" *ngIf="transactionDetails.data.data.cheque_dd_photo1"  height="75" width="75" class="ml-3">
-            <img src="{{transactionDetails.data.data.cheque_dd_photo2}}" *ngIf="transactionDetails.data.data.cheque_dd_photo2"  height="75" width="75" class="ml-2 mb">
+            <img src="{{transactionDetails.data.data.cheque_dd_photo1}}" *ngIf="transactionDetails.data.data.cheque_dd_photo1"  height="75" width="75" class="ml-3 mb-2">
+            <img src="{{transactionDetails.data.data.cheque_dd_photo2}}" *ngIf="transactionDetails.data.data.cheque_dd_photo2"  height="75" width="75" class="ml-2 mb-2">
             <br>
           </div>
         </ng-container>
@@ -399,13 +399,13 @@
     </div>
 
     <div class="section">
-      <div class="title-color row align-items-center">
+      <div class="title-color row align-items-center mb-3">
         <img src="assets/icons/donor.svg" class="img-icon">
-        <span class="ml-2">Donor Details*</span>
+        <span class="ml-2">Donor Details</span>
       </div>
       <div>
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
-        <mat-form-field appearance="outline" class="col-md-12">
+        <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName="name" matInput
                  >
           <mat-error
@@ -416,8 +416,8 @@
       </div>
       <div class="d-flex">
         <div class="col-md-5">
-          <mat-label>Donor phone no</mat-label>
-          <mat-form-field  appearance="outline">
+          <mat-label>Donor Phone Number</mat-label>
+          <mat-form-field  appearance="outline" class="mt-1">
             <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
                    formControlName="phone">
             <mat-error
@@ -433,7 +433,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-5">
           <mat-label>Donor email </mat-label>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="mt-1">
           <input matInput type="email"  formControlName="email"
                  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$">
           <mat-error class="modal-error" *ngIf="collectionForm.controls['email'].hasError('required')">Email is required
@@ -446,10 +446,11 @@
     </div>
 
     <div class="section">
-      <label class="heading-color row align-items-center"> <img src="assets/icons/home.png" class="img-icon"><span class="ml-2">Residential Details</span><sup *ngIf="isRequiredField('house')">*</sup></label>
+      <label class="heading-color row align-items-center">
+        <img src="assets/icons/home.png" class="img-icon"><span class="ml-2">Residential Details</span><sup *ngIf="isRequiredField('house')">*</sup></label>
       <div class="col-md-12">
         <mat-label>House No. & Apartment Name</mat-label>
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline" class="mt-1">
           <input matInput formControlName="house"
                  [required]="isRequiredField('house')">
           <mat-error
@@ -461,7 +462,7 @@
       <div class="d-flex">
         <div class="col-md-8">
           <mat-label>Locality & Landmarks <sup *ngIf="isRequiredField('locality')" ng>*</sup></mat-label>
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline" class="mt-1">
             <input matInput  formControlName="locality"
 
                    [required]="isRequiredField('locality')">
@@ -473,7 +474,7 @@
         </div>
         <div class="col-md-4">
           <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline" class="mt-1">
             <input matInput  formControlName="pincode" maxlength="6"
                    (keyup)="utilsService.validateNumber($event)"
             >
@@ -489,7 +490,7 @@
       <div class="d-flex">
         <div class="col-md-4">
           <mat-label>District <sup *ngIf="isRequiredField('district')">*</sup></mat-label>
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline" class="mt-1">
             <input matInput formControlName="district" [required]="isRequiredField('district')">
             <mat-error
               *ngIf="((collectionForm.controls.district.touched)&& collectionForm.controls.district.hasError('required'))">
@@ -499,7 +500,7 @@
         </div>
         <div class="col-md-4">
           <mat-label>State <sup *ngIf="isRequiredField('state')">*</sup></mat-label>
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline" class="mt-1">
             <mat-select formControlName="state" [required]="isRequiredField('state')">
               <mat-option class="arrow-hide" *ngFor="let option of states" value="{{option.name}}">{{option.name}}</mat-option>
             </mat-select>
@@ -515,10 +516,10 @@
     <div class="section">
       <div class="title-color row align-items-center mt-2">
         <img src="assets/icons/category.svg" class="img-icon">
-        <span class="ml-2">Category & PAN Card Details*</span>
+        <span class="ml-2">Category & PAN Card Details<sup>*</sup></span>
       </div>
       <div class="col-md-12">
-        <label class="single-label">Category? <sup *ngIf="isRequiredField('category')">*</sup></label>
+        <label class="single-label">Category <sup *ngIf="isRequiredField('category')">*</sup></label>
         <mat-radio-group formControlName="category" aria-label="category"
                          class="radio-group-container radio-group-container-margin">
           <mat-radio-button value="individual">Individual</mat-radio-button>
@@ -606,16 +607,18 @@
           <div class="col-md-4">
             <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
               <ng-container *ngIf="collectionForm.controls.pan_card_photo.value;else uploadPanCardText">
-                <div>
-                  <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>
-                  Pan card uploaded
+                <div class="position-relative">
+                  <img src="assets/icons/file.svg" alt="upload file"  class="choose-file-img"/>
+                  <span class="file-text-position">Choosed File</span>
+<!--                  <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>-->
                 </div>
-                <img src="assets/icons/eye.svg" alt="View pan card"/>
+
+<!--                <img src="assets/icons/eye.svg" alt="View pan card"/>-->
               </ng-container>
               <ng-template #uploadPanCardText>
-                <div>
-                  <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>
-                  Upload Pan Card
+                <div class="mb-0 position-relative">
+                  <img src="assets/icons/file.svg" alt="upload pan card"  class="choose-file-img"/>
+                  <span class="file-text-position">Choose File</span>
                 </div>
               </ng-template>
               <input type="file" hidden accept="image/png, image/jpeg"
@@ -634,13 +637,13 @@
     <div class="section">
       <div class="title-color row align-items-center mt-2">
         <img src="assets/icons/donation.svg" class="img-icon">
-        <span class="ml-2">Donation Details*</span>
+        <span class="ml-2">Donation Details <sup>*</sup></span>
       </div>
       <div class="d-flex">
         <div class="col-md-4">
           <mat-label >Amount (₹)<sup *ngIf="isRequiredField('amount')">*</sup></mat-label>
 
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline"  class="mt-1">
             <input matInput placeholder="Please enter amount in Rupee" formControlName="amount" maxlength="13"
                    appTwoDigitDecimaNumber
                    [required]="isRequiredField('amount')">
@@ -663,7 +666,7 @@
   <!--    </mat-form-field>-->
       <div class="col-md-12">
         <mat-label>Narration</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"  class="mt-1">
           <textarea matInput  maxlength="100" formControlName="narration"></textarea>
         </mat-form-field>
       </div>
@@ -671,12 +674,16 @@
     </div>
 
     <div class="section">
-      <label class="heading-color row align-items-center"> <img src="assets/icons/donor.svg" class="img-icon"><span class="ml-2">Person responsible for collecting donation </span><sup
-        *ngIf="isRequiredField('collector_name')">*</sup></label>
+      <label class="heading-color row align-items-center">
+        <img src="assets/icons/donor.svg" class="img-icon">
+        <span class="ml-2">Person responsible for collecting donation </span>
+        <sup *ngIf="isRequiredField('collector_name')">*</sup></label>
       <div class="d-flex">
         <div class="col-md-7">
-          <mat-label>Collector's Name</mat-label><br>
-          <mat-form-field appearance="outline" >
+          <div>
+          <mat-label>Collector's Name</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="mt-1">
             <input matInput  formControlName="collector_name"
                    [required]="isRequiredField('collector_name')">
             <mat-error
@@ -686,9 +693,10 @@
           </mat-form-field>
         </div>
         <div class="col-md-5">
-
-          <mat-label>Collector's Mobile No.</mat-label><br>
-          <mat-form-field appearance="outline" >
+          <div>
+            <mat-label>Collector's Mobile No.</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="mt-1">
             <input matInput formControlName="collector_phone" maxlength="10" minlength="10"
                    [required]="isRequiredField('collector_phone')">
             <mat-error
@@ -705,17 +713,22 @@
     </div>
 
     <div class="section">
-      <label class="heading-color row align-items-center"><img src="assets/icons/unit.svg" class="img-icon"><span class="ml-2"> Nature of Donation & Party Unit</span><sup *ngIf="isRequiredField('nature_of_donation')">*</sup></label>
-      <mat-label class="col-md-12">Nature Of Donation</mat-label><br>
-      <mat-radio-group formControlName="nature_of_donation" aria-label="nature_of_donation"
-
-                       class="col-md-12 radio-group-container-margin">
-        <mat-radio-button value="Voluntary Contribution" class="w-25">Voluntary Contribution</mat-radio-button>
-        <mat-radio-button value="ASN">ASN</mat-radio-button>
-        <mat-radio-button value="Other">Other</mat-radio-button>
-      </mat-radio-group>
+      <label class="heading-color row align-items-center"><img src="assets/icons/unit.svg" class="img-icon">
+        <span class="ml-2"> Nature of Donation & Party Unit</span><sup *ngIf="isRequiredField('nature_of_donation')">*</sup>
+      </label>
+      <div class="mb-2 col-12">
+        <mat-label class=" ">Nature Of Donation</mat-label>
+      </div>
+      <div class="mb-2">
+        <mat-radio-group formControlName="nature_of_donation" aria-label="nature_of_donation"
+                         class="col-md-12 radio-group-container-margin">
+          <mat-radio-button value="Voluntary Contribution" class="w-25">Voluntary Contribution</mat-radio-button>
+          <mat-radio-button value="ASN">ASN</mat-radio-button>
+          <mat-radio-button value="Other">Other</mat-radio-button>
+        </mat-radio-group>
+      </div>
       <ng-container *ngIf="collectionForm.controls.nature_of_donation.value === 'Other'">
-        <label class="mb-0 col-md-12">If Other then <sup
+        <label class="col-md-12 mt-3">If Other then <sup
           *ngIf="isRequiredField('other_nature_of_donation')">*</sup></label>
         <div  class="col-md-12">
           <mat-form-field appearance="outline">
@@ -725,7 +738,7 @@
           </mat-form-field>
         </div>
       </ng-container>
-      <label class="col-md-12 mt-2 mb-0">Party Unit: <sup *ngIf="isRequiredField('party_unit')">*</sup></label>
+      <label class="col-md-12 mt-2 ">Party Unit<sup *ngIf="isRequiredField('party_unit')">*</sup></label>
       <mat-radio-group formControlName="party_unit" aria-label="party_unit" (click)="removePartyUnitValue()"
                        class="col-md-12 radio-group-container-margin">
         <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState">State
@@ -740,8 +753,8 @@
       </mat-error>
 
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'CountryState'">
-        <div class="col-md-12">
-          <mat-label>State*</mat-label><br>
+        <div class="col-md-12 mt-3">
+          <mat-label>State <sup>*</sup></mat-label><br>
           <mat-form-field appearance="outline" class="position-relative" >
             <img src="assets/icons/dropdown.svg" class="dropdown-icon">
             <mat-select formControlName="location_id" [required]="isRequiredField('location_id')" placeholder="Please Select State">
@@ -755,9 +768,9 @@
         </div>
       </ng-container>
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
-        <div class="d-flex">
+        <div class="d-flex mt-3">
           <div class="col-md-6">
-            <mat-label>State*</mat-label><br>
+            <mat-label>State <sup>*</sup></mat-label><br>
             <mat-form-field *ngIf="utilsService.isNationalAccountant() ||
         utilsService.isStateAccountant() ||
         utilsService.isNationalTreasurer() ||
@@ -774,7 +787,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-label>Zila*</mat-label><br>
+            <mat-label>Zila <sup>*</sup></mat-label><br>
             <mat-form-field appearance="outline" class="position-relative" >
               <img src="assets/icons/dropdown.svg" class="dropdown-icon">
               <mat-select formControlName="location_id" [required]="isRequiredField('location_id')" placeholder="Please Select Zila">
@@ -789,9 +802,9 @@
         </div>
       </ng-container>
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Mandal'">
-        <div class="d-flex">
+        <div class="d-flex mt-3">
           <div class="col-md-4">
-            <mat-label>State*</mat-label><br>
+            <mat-label>State <sup>*</sup></mat-label><br>
             <mat-form-field *ngIf="utilsService.isNationalAccountant()
             || utilsService.isNationalTreasurer()
             || utilsService.isStateTreasurer()
@@ -808,7 +821,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-label>Zila*</mat-label><br>
+            <mat-label>Zila <sup>*</sup></mat-label><br>
             <mat-form-field
               *ngIf="utilsService.isNationalAccountant()
           || utilsService.isNationalTreasurer()
@@ -828,7 +841,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-label>Mandal*</mat-label><br>
+            <mat-label>Mandal <sup>*</sup></mat-label><br>
             <mat-form-field appearance="outline"  class="position-relative">
               <img src="assets/icons/dropdown.svg" class="dropdown-icon">
               <mat-select formControlName="location_id" [required]="isRequiredField('location_id')" placeholder="Please Select Mandal">
