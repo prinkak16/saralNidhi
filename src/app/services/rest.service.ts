@@ -128,7 +128,7 @@ export class RestService {
   }
 
   getArchivedCounts(data: { filters?: any }): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/mode_wise_archive_count?data=' + data, this.authHttpOptions());
+    return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_archive_count', data, this.authHttpOptions());
   }
 
   archiveTransaction(id = ''): any{
