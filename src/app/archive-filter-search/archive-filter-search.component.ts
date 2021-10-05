@@ -1,18 +1,18 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {saveAs} from 'file-saver';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {UtilsService} from '../services/utils.service';
 
 @Component({
-  selector: 'app-filter-search',
-  templateUrl: './filter-search.component.html',
-  styleUrls: ['./filter-search.component.css']
+  selector: 'app-archive-filter-search',
+  templateUrl: './archive-filter-search.component.html',
+  styleUrls: ['./archive-filter-search.component.css']
 })
-export class FilterSearchComponent implements OnInit {
-   states: any;
+export class ArchiveFilterSearchComponent implements OnInit {
+
+  states: any;
 
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
@@ -26,8 +26,6 @@ export class FilterSearchComponent implements OnInit {
 
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
-  downloadCount = 1;
-
   ngOnInit(): void {
     this.getAllottedStates();
     this.filterForm = this.formBuilder.group({
@@ -57,21 +55,4 @@ export class FilterSearchComponent implements OnInit {
     this.filterForm.controls.state_id.setValue(null);
     this.getFilteredData();
   }
-
-  downloadList(): void {
-    this.showLoader.emit(true);
-    this.restService.downloadTransactionList(this.filterForm.controls.state_id.value).subscribe((reply: any) => {
-      this.showLoader.emit(false);
-      const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-      const blob = new Blob([reply], {type: mediaType});
-      const name = `NidhiCollection`;
-      const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
-      saveAs(blob, filename);
-      this.downloadCount = this.downloadCount + 1;
-    }, (error: any) => {
-      this.showLoader.emit(false);
-      this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
-    });
-  }
-
 }

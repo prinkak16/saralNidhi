@@ -13,7 +13,6 @@ export class RestService {
   apiUrl = environment.apiUrl;
   pinCodeUrl = 'https://api.postalpincode.in/pincode/';
   ifscUrl = 'https://ifsc.razorpay.com/';
-  globalTimeUrl = 'http://worldclockapi.com/api/json/est/now';
 
   constructor(private http: HttpClient) {
   }
@@ -116,7 +115,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'custom_member_form/generate_receipt?id=' + id;
+    const url = this.baseUrl + 'nidhi_collection/get_receipt_pdf?id=' + id;
     return this.http.get(url, authHttpOptions as any);
   }
 
@@ -124,8 +123,24 @@ export class RestService {
     return this.http.get(this.pinCodeUrl + pinCode);
   }
 
-  getCounts(data: { states?: string[], filters?: any }): any {
+  getCounts(data: {filters?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
+  }
+
+  getArchivedCounts(data: { filters?: any }): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/mode_wise_archive_count?data=' + data, this.authHttpOptions());
+  }
+
+  archiveTransaction(id = ''): any{
+    return this.http.get(this.baseUrl + 'nidhi_collection/archive_transaction?id=' + id, this.authHttpOptions());
+  }
+
+  archiveTransactionList(data: object): any{
+    return this.http.post(this.apiUrl + 'nidhi_collection/archive_transaction_list', data , this.authHttpOptions());
+  }
+
+  unarchiveTransaction(id: ''): any{
+    return this.http.get(this.baseUrl + 'nidhi_collection/unarchived_transaction?id=' + id, this.authHttpOptions());
   }
 
   getAccountantDetails(userId: string): any {
@@ -193,10 +208,10 @@ export class RestService {
   }
 
   getGlobalTimeZone(): any {
-    return this.http.get(this.globalTimeUrl);
+    return this.http.get(this.baseUrl + 'nidhi_collection/get_global_time');
   }
 
-  downloadTransactionList(): any {
+  downloadTransactionList(stateId: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -206,7 +221,7 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data?state_id=' + (stateId ? stateId : '');
     return this.http.get(url, authHttpOptions as any);
   }
 
@@ -233,5 +248,8 @@ export class RestService {
 // Get pan required records
   getPanRequiredData(status: string): any {
     return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records?status=' + status, this.authHttpOptions());
+  }
+  sendEmail(data: any): any {
+    return this.http.post(this.baseUrl + 'nidhi_collection/send_receipt_on_email', JSON.stringify(data), this.authHttpOptions());
   }
 }

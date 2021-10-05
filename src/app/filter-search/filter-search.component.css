@@ -49,6 +49,11 @@
   top: 0.4em !important;
 }
 
+::ng-deep.mat-flat-button{
+  font-size:13px!important; ;
+}
+
+
 .clear-btn{
   background: #F7952C;
   border: 1px solid #B2B2B1;
@@ -56,6 +61,17 @@
   box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
   border-radius: 8px;
   color: #ffffff;
+}
+
+::ng-deep.mat-select-arrow{
+  color: #e7e8f1!important;
+}
+
+.dropdown-icon{
+  position: absolute;
+  top: -10px;
+  right: -11px;
+  width: 42px;
 }
 
 .download-btn{
