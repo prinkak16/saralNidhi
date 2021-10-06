@@ -241,4 +241,7 @@ export class RestService {
   sendEmail(data: any): any {
     return this.http.post(this.baseUrl + 'nidhi_collection/send_receipt_on_email', JSON.stringify(data), this.authHttpOptions());
   }
+  getReceiptGenerationTime(transactionId: any): any {
+    return this.http.get(this.baseUrl + 'nidhi_collection/get_receipt_generation_time?transaction_id=' + transactionId, this.authHttpOptions());
+  }
 }
