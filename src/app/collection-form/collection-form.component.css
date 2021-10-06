@@ -284,8 +284,16 @@ mat-label{
   width: 100%;
   background: rgba(201, 203, 207, 0.2);
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
+
+.sections{
+  width: 100%;
+  background: rgba(201, 203, 207, 0.2);
+  border-radius: 5px;
+  /*margin-bottom: 20px;*/
+}
+
 ::ng-deep .mat-form-field-infix {
   padding: .5em 0;
   border-top: 0.4em solid transparent!important;

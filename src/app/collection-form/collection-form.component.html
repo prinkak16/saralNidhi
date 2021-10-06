@@ -203,7 +203,7 @@
       </ng-container>
         <!-- Cheque dd back & front image-->
         <ng-container *ngIf="allowedValueNull">
-          <div class="d-flex">
+          <div class="d-flex mt-1">
             <div class="col-md-6">
               <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)" >
                 <label class="label-color mb-0">Please upload
@@ -285,13 +285,13 @@
     </div>
 
     <div *ngIf="transactionId">
-      <div class="section col-md-12">
-        <ng-container
+      <ng-container
           *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.data.date)">
+        <div class="section col-md-12">
           <label class="bank-header-color row  align-items-center">
             <img src="assets/icons/bank.svg" class="img-icon">
             <span class="ml-2">Bank Details</span><sup *ngIf="isRequiredField('account_number')">*</sup></label>
-          <div class="row">
+          <div class="row mt-2">
             <div class="col-md-6">
               <mat-label>Account No.</mat-label>
               <mat-form-field appearance="outline" >
@@ -338,16 +338,16 @@
                      [required]="isRequiredField('branch_address')">
             </mat-form-field>
           </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
 
     <div *ngIf="!transactionId" >
-      <div class="section col-md-12">
-        <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name)">
+      <ng-container *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name)">
+        <div class="section col-md-12">
           <label class="bank-header-color row align-items-center"> <img src="assets/icons/bank.svg" class="img-icon">
             <span class="ml-2">Bank Details</span><sup *ngIf="isRequiredField('account_number')">*</sup></label>
-          <div class="row">
+          <div class="row mt-2">
             <div class="col-md-6">
               <mat-label>Account No.<sup *ngIf="isRequiredField('account_number')">*</sup></mat-label>
               <mat-form-field appearance="outline" >
@@ -394,8 +394,8 @@
                      [required]="isRequiredField('branch_address')">
             </mat-form-field>
           </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="section">
@@ -414,7 +414,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="d-flex">
+      <div class="d-flex mt-1">
         <div class="col-md-5">
           <mat-label>Donor Phone Number</mat-label>
           <mat-form-field  appearance="outline" class="mt-1">
@@ -459,7 +459,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="d-flex">
+      <div class="d-flex mt-1">
         <div class="col-md-8">
           <mat-label>Locality & Landmarks <sup *ngIf="isRequiredField('locality')" ng>*</sup></mat-label>
           <mat-form-field appearance="outline" class="mt-1">
@@ -487,7 +487,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="d-flex">
+      <div class="d-flex mt-1">
         <div class="col-md-4">
           <mat-label>District <sup *ngIf="isRequiredField('district')">*</sup></mat-label>
           <mat-form-field appearance="outline" class="mt-1">
@@ -544,7 +544,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.collectionForm.controls.category.value == 'individual' ">
+      <div *ngIf="this.collectionForm.controls.category.value == 'individual' " class="mb-4">
         <label class="single-label col-md-12">Is it a proprietorship? <sup
           *ngIf="isRequiredField('is_proprietorship')">*</sup></label>
         <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
@@ -664,7 +664,7 @@
   <!--      <input matInput placeholder="Amount in word" [formControl]="amountWord" >-->
 
   <!--    </mat-form-field>-->
-      <div class="col-md-12">
+      <div class="col-md-12 mt-1">
         <mat-label>Narration</mat-label>
         <mat-form-field appearance="outline"  class="mt-1">
           <textarea matInput  maxlength="100" formControlName="narration"></textarea>
