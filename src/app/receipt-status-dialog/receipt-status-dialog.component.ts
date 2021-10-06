@@ -17,7 +17,7 @@ export class ReceiptStatusDialogComponent implements OnInit {
               private messageService: MessageService,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
   }
-receiptPrintDays = '';
+  receiptPrintDays = '';
   backDateEntry = false;
   ngOnInit(): void {
     this.transaction = this.data.data;
@@ -28,14 +28,6 @@ receiptPrintDays = '';
     this.dialogRef.close();
   }
 
-// Return Receipt generation days based on transaction type
-//   getReceiptGenerationDays(transaction: any): any {
-//     if (transaction.transaction_type === 'regular') {
-//       return '30 days';
-//     } else {
-//       return '60 days';
-//     }
-//   }
   // get receipt generation days
   receiptGenerationTime(): void {
     this.restService.getReceiptGenerationTime(this.transaction.id).subscribe((response: any) => {
