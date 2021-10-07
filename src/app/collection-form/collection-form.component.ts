@@ -1062,8 +1062,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.accountantPanRemarks.setValue(transaction.pan_data.accountant_pan_remarks);
     this.panCardStatus.setValue(transaction.pan_data.pan_card_status);
     this.collectionForm.controls.pan_card_photo.setValue(transaction.data.pan_card_photo);
-    this.collectionForm.controls.cheque_dd_photo1.setValue(transaction.data.cheque_dd_photo1);
-    this.collectionForm.controls.cheque_dd_photo2.setValue(transaction.data.cheque_dd_photo2);
     this.panCardRemark.setValue(transaction.pan_data.pan_card_remark);
     setTimeout((_: any) => {
       if (this.ngOtpInputRef && transaction.pan_card) {
@@ -1078,7 +1076,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.amountWord.disable();
       this.stateControl.disable();
       this.zilaControl.disable();
-      this.showImgUpload = false;
       this.isEnabled = true;
       this.accountantPanRemarks.disable();
       this.collectionForm.disable();

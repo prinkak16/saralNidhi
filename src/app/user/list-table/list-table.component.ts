@@ -17,7 +17,7 @@ export class ListTableComponent implements OnInit {
   @Input() users = [];
   @Output() updateUserList = new EventEmitter();
   showLoader = false;
-  displayedColumns: string[] = ['sno', 'name', 'email', 'phone_number', 'role', 'action'];
+  displayedColumns: string[] = ['sno', 'name', 'email', 'phone_number', 'creator', 'role', 'state', 'action'];
 
   constructor(private restService: RestService, private activatedRoute: ActivatedRoute, private messageService: MessageService,
               public utilService: UtilsService, private bottomSheet: MatBottomSheet) {

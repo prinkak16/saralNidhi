@@ -9,6 +9,8 @@ import {EntryListTableComponent} from './entry-list-table/entry-list-table.compo
 import {CreateUserComponent} from './user/create-user/create-user.component';
 import {ListComponent} from './user/list/list.component';
 import {PanActionRequiredComponent} from './pan-action-required/pan-action-required.component';
+import {ArchivedTransactionComponent} from './archived-transaction/archived-transaction.component';
+import {ArchivedTransactionListComponent} from './archived-transaction-list/archived-transaction-list.component';
 
 const routes: Routes = [
   {
@@ -98,6 +100,24 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Action Required For Pancard',
+        },
+      },
+
+      {
+        path: 'archived_transaction',
+        component: ArchivedTransactionComponent,
+        canActivate: [AuthGuard],
+        data: {
+          breadcrumb: 'Archived Transactions',
+        },
+      },
+
+      {
+        path: 'archived_transaction_list',
+        component: ArchivedTransactionListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          breadcrumb: 'Archived Transactions List',
         },
       },
 

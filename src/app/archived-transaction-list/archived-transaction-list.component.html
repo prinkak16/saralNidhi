@@ -1,0 +1,27 @@
+
+<div class="container-fluid">
+  <app-filter-search [query]="query" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-filter-search>
+  <ng-container *ngIf="(modeOfPayments) === null">
+    Loading tabs...
+  </ng-container>
+
+  <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
+    <mat-tab *ngFor="let tab of modeOfPayments; index as i">
+      <ng-template mat-tab-label>
+        <span matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"
+              matBadgePosition="above after"
+              matBadgeColor="warn" [matBadgeOverlap]="false">
+          {{tab.name}}
+        </span>
+      </ng-template>
+      <div class="table-container">
+        <app-archived-transaction [paymentModeId]="tab.id" [filters]="filters" (archiveCount)="getArchiveCount()" (updateList)="updateList($event)"
+        [fetchWithFilters]="transactionsSubject.asObservable()"></app-archived-transaction>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+
+
+
