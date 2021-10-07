@@ -530,12 +530,10 @@
           <mat-radio-button value="others">Others</mat-radio-button>
         </mat-radio-group>
       </div>
-      <div *ngIf="collectionForm.controls.category.value === 'others'" class="col-md-12">
-        <label>If Other then <sup
-          *ngIf="isRequiredField('other_category')">*</sup></label>
+      <div *ngIf="collectionForm.controls.category.value === 'others'" class="col-md-12 mb-1">
+        <label class="mb-1">If Other then <sup *ngIf="isRequiredField('other_category')">*</sup></label>
         <mat-form-field appearance="outline" >
           <input matInput placeholder="Please specify" formControlName="other_category"
-
                  [required]="isRequiredField('other_category')">
           <mat-error
             *ngIf="((collectionForm.controls['other_category'].touched)&& collectionForm.controls['other_category'].hasError('required'))">
@@ -544,7 +542,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.collectionForm.controls.category.value == 'individual' " class="mb-4">
+      <div *ngIf="this.collectionForm.controls.category.value == 'individual' " class="mb-3">
         <label class="single-label col-md-12">Is it a proprietorship? <sup
           *ngIf="isRequiredField('is_proprietorship')">*</sup></label>
         <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
@@ -552,20 +550,19 @@
           <mat-radio-button value="true">Yes</mat-radio-button>
           <mat-radio-button value="false">No</mat-radio-button>
         </mat-radio-group>
-        <mat-form-field appearance="outline" class="col-md-12"
-                        *ngIf="collectionForm.controls.is_proprietorship.value === 'true'">
-          <mat-label>Write the name of the Proprietorship</mat-label>
-          <input matInput placeholder="Proprietorship Name" formControlName="proprietorship_name"
-
-                 [required]="isRequiredField('proprietorship_name')">
-          <mat-error
-            *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
-            Name of the Proprietorship is required
-          </mat-error>
-        </mat-form-field>
+        <div *ngIf="collectionForm.controls.is_proprietorship.value === 'true'" class="mt-3">
+          <mat-label class="col-md-12 mb-1">Write the name of the Proprietorship</mat-label>
+          <mat-form-field appearance="outline" class="col-md-12 ">
+            <input matInput  formControlName="proprietorship_name" class="pb-0"
+                   [required]="isRequiredField('proprietorship_name')">
+            <mat-error *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
+              Name of the Proprietorship is required
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
 
-      <label class="col-md-12 mb-0">PAN Card Number<sup *ngIf="isRequiredField('pan_card')">*</sup></label>
+      <label class="col-md-12 mb-1">PAN Card Number<sup *ngIf="isRequiredField('pan_card')">*</sup></label>
       <div class="d-flex align-items-center">
         <div class="col-md-7">
           <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
