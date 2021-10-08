@@ -52,9 +52,9 @@
     <div class="col-md-4">
       <mat-label>Financial Year</mat-label><br>
       <mat-form-field appearance="outline"  class="position-relative">
-        <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-        <mat-select formControlName="financial_year_id" [required]="isRequiredField('financial_year_id')">
-          <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}">{{option.slab}}</mat-option>
+<!--        <img src="assets/icons/dropdown.svg" class="dropdown-icon">-->
+        <mat-select formControlName="financial_year_id" [required]="isRequiredField('financial_year_id')" >
+          <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}" class="select-ui">{{option.slab}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -749,7 +749,7 @@
       </mat-error>
 
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'CountryState'">
-        <div class="col-md-12 mt-3">
+        <div class="col-md-6 mt-3">
           <mat-label>State <sup>*</sup></mat-label><br>
           <mat-form-field appearance="outline" class="position-relative" >
             <img src="assets/icons/dropdown.svg" class="dropdown-icon">
@@ -859,9 +859,9 @@
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()" class="submit-button">
+      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="warn" (click)="submitForm()" class="submit-button" >
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
-        <span *ngIf="showLoader"> Submitting</span>
+        <span *ngIf="showLoader" class="text-white"> Submitting</span>
         <span *ngIf="!showLoader" class="text-white">Submit</span>
       </button>
 

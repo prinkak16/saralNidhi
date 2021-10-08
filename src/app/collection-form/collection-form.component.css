@@ -112,6 +112,11 @@ label{
   height: 400px;
   overflow: auto;
 }
+
+.select-ui .mat-select-arrow{
+  color:#ffffff!important;
+}
+
 .form-title-color{
   margin: 15px 10px 5px 15px;
   font-family: Raleway;
@@ -167,6 +172,10 @@ label{
   width: 15%;
   background: #101a73!important;
 }
+.spinner-border{
+  color: white!important;
+}
+
 .heading-color{
   margin: 10px 10px 20px 15px;
   font-family: Raleway;
@@ -307,7 +316,7 @@ mat-label{
   border-radius: 5px;
 }
 ::ng-deep .mat-select-arrow {
- color:#101a73;
+ color:#ffffff!important;
 }
 
 .arrow-hide .mat-select-arrow{
