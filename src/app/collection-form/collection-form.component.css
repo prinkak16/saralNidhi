@@ -417,3 +417,8 @@ mat-form-field{
 ::ng-deep .ng-select.ng-select-single .ng-select-container.ng-appearance-outline .ng-clear-wrapper {
   bottom: 8px!important;
 }
+.error-custom-sytle{
+  font-size: 75%;
+  font-weight: 800;
+  margin-left: 11px;
+}
