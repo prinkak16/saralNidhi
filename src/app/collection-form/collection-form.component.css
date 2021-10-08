@@ -96,18 +96,21 @@ label{
 
 
 .search-div{
+  width: 325px;
   position: absolute;
   top: -6.5rem;
-  right: -59.5rem;
+  right: -54.4rem;
 }
 .search-result{
   position: absolute;
-  left: 19rem;
+  left: 34rem;
   z-index: 9999;
   background-color: #fff;
-  top: -2rem;
+  top: -3rem;
   box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
   border-radius: 10px;
+  height: 400px;
+  overflow: auto;
 }
 .form-title-color{
   margin: 15px 10px 5px 15px;
@@ -354,12 +357,13 @@ mat-form-field{
 .search-icon{
   position: absolute;
   top: 13px;
-  right: -165px;
+  right: -250px;
   color: rgba(0,0,0,.6);
 }
 .result-option{
   padding: 37px!important;
   line-height: 30px!important;
+  border-bottom: 1px solid grey!important;
 }
 .bank-details{
   position: absolute;
