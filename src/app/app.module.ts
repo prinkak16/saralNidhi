@@ -66,6 +66,7 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
 import { ArchivedTransactionListComponent } from './archived-transaction-list/archived-transaction-list.component';
 import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-filter-search.component';
 import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
     MatCheckboxModule,
     NgNumber2wordsModule,
     MatPaginatorModule,
-    YopsilonMaskModule
+    YopsilonMaskModule,
+    NgSelectModule
   ],
   providers: [
     AuthGuard,

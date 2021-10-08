@@ -159,7 +159,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       collector_name: new FormControl(null),
       collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
       nature_of_donation: new FormControl(null, [Validators.required]),
-      other_nature_of_donation: new FormControl(null, [Validators.required]),
+      other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),
       location_id: new FormControl(null, [Validators.required])
     });
@@ -167,6 +167,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.getStates();
     this.getFinancialYears();
     this.onFormChange();
+    this.keyword.valueChanges.pipe(debounceTime(3000)).subscribe(value =>{
+      this.getDonorList(value);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -1199,5 +1202,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   _dateChangeHandler(chosenDate: any, control: AbstractControl): void {
     control.setValue(new Date(chosenDate.setHours(9)));
+  }
+  clearSearchData(): void{
+    this.keyword.setValue('');
+    this.autoFillData = [];
   }
 }

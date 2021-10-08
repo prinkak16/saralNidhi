@@ -380,3 +380,19 @@ mat-form-field{
 .bank-details p{
   margin: 0;
 }
+.w-20{
+  width: 20%;
+}
+.ng-select.dropdown-style{
+  border: 1px solid #b2b2b1;
+  border-radius: 5px;
+  padding: 6px;
+  background-color: #fff;
+}
+::ng-deep .ng-dropdown-panel{
+  border: 1px solid #b2b2b1;
+  background: #fff;
+  padding: 13px;
+  border-radius: 5px;
+  margin-top: 11px;
+}
