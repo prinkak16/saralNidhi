@@ -176,6 +176,16 @@ label{
   color: white!important;
 }
 
+ng-select.custom .ng-select-container {
+  position: relative !important;
+  top: 0;
+  border-color: transparent !important;
+  border-bottom-color: black !important;
+  border-bottom-width: 0.0625rem !important;
+  background-color: transparent !important;
+  border-radius: 0px;
+}
+
 .heading-color{
   margin: 10px 10px 20px 15px;
   font-family: Raleway;
@@ -401,8 +411,8 @@ mat-form-field{
 }
 ::ng-deep .ng-arrow-wrapper{
   background-color: #101a72;
-  padding: 8px;
-  margin: 0px -7px -15px 0px;
+  padding: 10px;
+  margin: 0px -7px -16px 0px;
 }
 ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow{
   color: #fff;

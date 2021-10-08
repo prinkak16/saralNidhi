@@ -27,8 +27,7 @@
 
     <div class="col-md-4">
       <mat-label>Transaction Type <sup>*</sup></mat-label>
-      <br>
-      <ng-select [items]="transactionTypes" appearance="outline" class="bg-white"
+      <ng-select [items]="transactionTypes" appearance="outline" class="bg-white mt-1"
                  *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
                  bindLabel="name"
                  bindValue="value"
@@ -278,17 +277,25 @@
 
       <!--Show uploaded image preview-->
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
-        <div *ngIf="!transactionId">
-          <img src="{{collectionForm.controls.cheque_dd_photo1.value}}"
-               *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3 mb-2">
-          <img src="{{collectionForm.controls.cheque_dd_photo2.value}}"
-               *ngIf="collectionForm.controls.cheque_dd_photo2.value" height="75" width="75" class="ml-2 mb-2">
+        <div *ngIf="!transactionId" class="row">
+          <div class="col-md-6">
+            <img src="{{collectionForm.controls.cheque_dd_photo1.value}}"
+                 *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3 mb-2">
+          </div>
+          <div class="col-md-6">
+            <img src="{{collectionForm.controls.cheque_dd_photo2.value}}"
+                 *ngIf="collectionForm.controls.cheque_dd_photo2.value" height="75" width="75" class="ml-2 mb-2">
+          </div>
         </div>
-        <div *ngIf="transactionId">
-          <img src="{{transactionDetails.data.data.cheque_dd_photo1}}"
-               *ngIf="transactionDetails.data.data.cheque_dd_photo1" height="75" width="75" class="ml-3 mb-2">
-          <img src="{{transactionDetails.data.data.cheque_dd_photo2}}"
-               *ngIf="transactionDetails.data.data.cheque_dd_photo2" height="75" width="75" class="ml-2 mb-2">
+        <div *ngIf="transactionId" class="row">
+          <div class="col-md-6">
+            <img src="{{transactionDetails.data.data.cheque_dd_photo1}}"
+                 *ngIf="transactionDetails.data.data.cheque_dd_photo1" height="75" width="75" class="ml-3 mb-2">
+          </div>
+          <div class="col-md-6">
+            <img src="{{transactionDetails.data.data.cheque_dd_photo2}}"
+                 *ngIf="transactionDetails.data.data.cheque_dd_photo2" height="75" width="75" class="ml-2 mb-2">
+          </div>
           <br>
         </div>
       </ng-container>
@@ -592,11 +599,9 @@
             <p class="text-error-color">Please enter a valid pan card number </p>
           </mat-error>
           <mat-error *ngIf="categoryMismatch">
-            <span class="text-dark mb-1">If any error is encountered then</span>
             Your category selection does not match your pan card number
           </mat-error>
           <mat-error *ngIf="nameMismatch">
-            <p class="text-dark mb-1">If any error is encountered then</p>
             Your name does not match your pan card number
           </mat-error>
         </div>
@@ -644,6 +649,11 @@
             <mat-form-field appearance="outline">
               <input matInput placeholder="Remarks if any" [formControl]="panCardRemark">
             </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="collectionForm.controls.pan_card_photo.value">
+            <img src="{{collectionForm.controls.pan_card_photo.value}}" height="75" width="75" class="mb-3 mt-2">
           </div>
         </div>
       </ng-container>
