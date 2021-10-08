@@ -412,7 +412,8 @@ mat-form-field{
 ::ng-deep .ng-arrow-wrapper{
   background-color: #101a72;
   padding: 10px;
-  margin: 0px -7px -16px 0px;
+  bottom: 0!important;
+  margin: 0px -7px 0px 0px
 }
 ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow{
   color: #fff;
@@ -422,4 +423,12 @@ mat-form-field{
 }
 ::ng-deep .ng-select .ng-select-container .ng-value-container{
   padding: 0px;
+}
+::ng-deep .ng-select.ng-select-single .ng-select-container.ng-appearance-outline .ng-clear-wrapper {
+  bottom: 8px!important;
+}
+.error-custom-sytle{
+  font-size: 75%;
+  font-weight: 800;
+  margin-left: 11px;
 }
