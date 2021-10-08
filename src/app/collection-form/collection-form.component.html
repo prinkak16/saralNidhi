@@ -226,6 +226,7 @@
             Please enter correct ifsc code
           </mat-error>
           <div class="position-relative" *ngIf="bankDetails.BANK">
+
             <div class="bank-details" (click)="setBankDetails(bankDetails)">
               <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
               <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>

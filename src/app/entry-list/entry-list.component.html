@@ -7,16 +7,16 @@
   <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
     <mat-tab *ngFor="let tab of modeOfPayments; index as i">
       <ng-template mat-tab-label>
-        <span matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"
+        <span matBadge="{{counting[i] > 0 ? counting[i] : ''}}" (click)="getMopPayment(tab.id)" matBadgeSize="small"
               matBadgePosition="above after"
               matBadgeColor="warn" [matBadgeOverlap]="false">
           {{tab.name}}
         </span>
       </ng-template>
-      <div class="table-container">
-        <app-entry-list-table [paymentModeId]="tab.id" [filters]="filters"  (refreshCount)="this.getCount()" (updateList)="updateList($event)"
-                              [fetchWithFilters]="transactionsSubject.asObservable()" [showLoader]="showLoader"></app-entry-list-table>
-      </div>
     </mat-tab>
   </mat-tab-group>
+  <div class="table-container">
+    <app-entry-list-table [paymentModeId]="mopIds" [filters]="filters"  (refreshCount)="this.getCount()" (updateList)="updateList($event)"
+                          [fetchWithFilters]="transactionsSubject.asObservable()" [showLoader]="showLoader"></app-entry-list-table>
+  </div>
 </div>
