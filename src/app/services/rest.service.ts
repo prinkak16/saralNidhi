@@ -211,7 +211,7 @@ export class RestService {
     return this.http.get(this.baseUrl + 'nidhi_collection/get_global_time');
   }
 
-  downloadTransactionList(stateId: any): any {
+  downloadTransactionList(data: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -221,8 +221,8 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data?state_id=' + (stateId ? stateId : '');
-    return this.http.get(url, authHttpOptions as any);
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    return this.http.post(url, data, authHttpOptions as any);
   }
 
   // Update pan card status

@@ -32,7 +32,7 @@ export class ArchivedTransactionComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
-    'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action'];
+    'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action'];
   transactionList: any;
   pageSizeOptions: number[] = [5, 10];
 
