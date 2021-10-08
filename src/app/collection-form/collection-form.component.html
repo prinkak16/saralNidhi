@@ -56,12 +56,20 @@
     </div>
 
     <div class="col-md-4">
+<<<<<<< HEAD
       <mat-label>Financial Year</mat-label>
       <br>
       <mat-form-field appearance="outline" class="position-relative">
         <img src="assets/icons/dropdown.svg" class="dropdown-icon">
         <mat-select formControlName="financial_year_id" [required]="isRequiredField('financial_year_id')">
           <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}">{{option.slab}}</mat-option>
+=======
+      <mat-label>Financial Year</mat-label><br>
+      <mat-form-field appearance="outline"  class="position-relative">
+<!--        <img src="assets/icons/dropdown.svg" class="dropdown-icon">-->
+        <mat-select formControlName="financial_year_id" [required]="isRequiredField('financial_year_id')" >
+          <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}" class="select-ui">{{option.slab}}</mat-option>
+>>>>>>> 9d942fc43ae1955a375cf18c0110df37e8afc5be
         </mat-select>
       </mat-form-field>
     </div>
@@ -770,6 +778,7 @@
       </mat-error>
 
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'CountryState'">
+<<<<<<< HEAD
         <div class="col-md-12 mt-3">
           <mat-label>State <sup>*</sup></mat-label>
           <br>
@@ -778,6 +787,15 @@
                        [items]="stateUnits" bindLabel="name"
                        bindValue="id" formControlName="location_id"
                        [required]="isRequiredField('location_id')"></ng-select>
+=======
+        <div class="col-md-6 mt-3">
+          <mat-label>State <sup>*</sup></mat-label><br>
+          <mat-form-field appearance="outline" class="position-relative" >
+            <img src="assets/icons/dropdown.svg" class="dropdown-icon">
+            <mat-select formControlName="location_id" [required]="isRequiredField('location_id')" placeholder="Please Select State">
+              <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
+            </mat-select>
+>>>>>>> 9d942fc43ae1955a375cf18c0110df37e8afc5be
             <mat-error
               *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
               State is required
@@ -898,10 +916,9 @@
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn" (click)="submitForm()"
-              class="submit-button">
+      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="warn" (click)="submitForm()" class="submit-button" >
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
-        <span *ngIf="showLoader"> Submitting</span>
+        <span *ngIf="showLoader" class="text-white"> Submitting</span>
         <span *ngIf="!showLoader" class="text-white">Submit</span>
       </button>
 
