@@ -711,10 +711,10 @@
 
     <div class="section">
       <label class="heading-color row align-items-center"><img src="assets/icons/unit.svg" class="img-icon">
-        <span class="ml-2"> Nature of Donation & Party Unit</span><sup *ngIf="isRequiredField('nature_of_donation')">*</sup>
+        <span class="ml-2"> Nature of Donation & Party Unit</span>
       </label>
       <div class="mb-2 col-12">
-        <mat-label class=" ">Nature Of Donation</mat-label>
+        <mat-label class=" ">Nature Of Donation</mat-label> <sup *ngIf="isRequiredField('nature_of_donation')">*</sup>
       </div>
       <div class="mb-2">
         <mat-radio-group formControlName="nature_of_donation" aria-label="nature_of_donation"

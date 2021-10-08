@@ -158,8 +158,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       branch_address: new FormControl(''),
       collector_name: new FormControl(null),
       collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
-      nature_of_donation: new FormControl(null),
-      other_nature_of_donation: new FormControl(null),
+      nature_of_donation: new FormControl(null, [Validators.required]),
+      other_nature_of_donation: new FormControl(null, [Validators.required]),
       party_unit: new FormControl(null, [Validators.required]),
       location_id: new FormControl(null, [Validators.required])
     });
@@ -967,6 +967,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   setFormValues(values: any): void {
     this.collectionForm.controls.name.setValue(values.data.name);
+    this.collectionForm.controls.phone.setValue(values.data.phone);
     this.collectionForm.controls.category.setValue(values.data.category);
     this.collectionForm.controls.is_proprietorship.setValue(values.data.is_proprietorship);
     this.collectionForm.controls.house.setValue(values.data.house);
