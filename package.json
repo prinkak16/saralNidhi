@@ -21,7 +21,7 @@
   },
   "private": true,
   "dependencies": {
-    "@ng-select/ng-select": "^7.3.0",
+    "@ng-select/ng-select": "^3.7.3",
     "cross-env": "^7.0.3",
     "electron-dl": "^3.2.1",
     "electron-log": "^4.3.5",

@@ -109,6 +109,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   dateValue = '';
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
+  statesValue: any;
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -167,7 +168,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.getStates();
     this.getFinancialYears();
     this.onFormChange();
-    this.keyword.valueChanges.pipe(debounceTime(3000)).subscribe(value =>{
+    this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value =>{
       this.getDonorList(value);
     });
   }

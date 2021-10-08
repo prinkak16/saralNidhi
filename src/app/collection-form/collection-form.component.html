@@ -28,14 +28,14 @@
     <div class="col-md-4">
       <mat-label>Transaction Type <sup>*</sup></mat-label>
       <br>
-      <mat-form-field class="position-relative" appearance="outline"
-                      *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')">
-        <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-        <mat-select #focusTransactionType formControlName="transaction_type"
-                    [required]="isRequiredField('transaction_type')">
-          <mat-option *ngFor="let option of transactionTypes" value="{{option.value}}">{{option.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-select [items]="transactionTypes" appearance="outline"
+                 #focusTransactionType
+                 *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
+                 bindLabel="name"
+                 bindValue="value"
+                 [required]="isRequiredField('transaction_type')"
+                 formControlName="transaction_type">
+      </ng-select>
     </div>
 
     <div class="col-md-4">
@@ -56,20 +56,12 @@
     </div>
 
     <div class="col-md-4">
-<<<<<<< HEAD
       <mat-label>Financial Year</mat-label>
       <br>
       <mat-form-field appearance="outline" class="position-relative">
-        <img src="assets/icons/dropdown.svg" class="dropdown-icon">
         <mat-select formControlName="financial_year_id" [required]="isRequiredField('financial_year_id')">
-          <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}">{{option.slab}}</mat-option>
-=======
-      <mat-label>Financial Year</mat-label><br>
-      <mat-form-field appearance="outline"  class="position-relative">
-<!--        <img src="assets/icons/dropdown.svg" class="dropdown-icon">-->
-        <mat-select formControlName="financial_year_id" [required]="isRequiredField('financial_year_id')" >
-          <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}" class="select-ui">{{option.slab}}</mat-option>
->>>>>>> 9d942fc43ae1955a375cf18c0110df37e8afc5be
+          <mat-option *ngFor="let option of yearsSlab" value="{{option.id}}"
+                      class="select-ui">{{option.slab}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -778,39 +770,16 @@
       </mat-error>
 
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'CountryState'">
-<<<<<<< HEAD
         <div class="col-md-12 mt-3">
           <mat-label>State <sup>*</sup></mat-label>
           <br>
-          <div>
-            <ng-select class="dropdown-style"
+          <div class="col-md-6 p-0">
+            <ng-select appearance="outline"
                        [items]="stateUnits" bindLabel="name"
-                       bindValue="id" formControlName="location_id"
-                       [required]="isRequiredField('location_id')"></ng-select>
-=======
-        <div class="col-md-6 mt-3">
-          <mat-label>State <sup>*</sup></mat-label><br>
-          <mat-form-field appearance="outline" class="position-relative" >
-            <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-            <mat-select formControlName="location_id" [required]="isRequiredField('location_id')" placeholder="Please Select State">
-              <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
-            </mat-select>
->>>>>>> 9d942fc43ae1955a375cf18c0110df37e8afc5be
-            <mat-error
-              *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
-              State is required
-            </mat-error>
+                       [required]="isRequiredField('location_id')"
+                       bindValue="id" formControlName="location_id">
+            </ng-select>
           </div>
-          <!--          <mat-form-field appearance="outline" class="position-relative" >-->
-          <!--            <img src="assets/icons/dropdown.svg" class="dropdown-icon">-->
-          <!--            <mat-select formControlName="location_id" [required]="isRequiredField('location_id')" placeholder="Please Select State">-->
-          <!--              <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>-->
-          <!--            </mat-select>-->
-          <!--            <mat-error-->
-          <!--              *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">-->
-          <!--              State is required-->
-          <!--            </mat-error>-->
-          <!--          </mat-form-field>-->
         </div>
       </ng-container>
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
@@ -818,35 +787,37 @@
           <div class="col-md-6">
             <mat-label>State <sup>*</sup></mat-label>
             <br>
-            <mat-form-field *ngIf="utilsService.isNationalAccountant() ||
+            <ng-container *ngIf="utilsService.isNationalAccountant() ||
         utilsService.isStateAccountant() ||
         utilsService.isNationalTreasurer() ||
-        utilsService.isStateTreasurer()"
-                            appearance="outline" class="position-relative">
-              <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-              <mat-select [formControl]="stateControl" required placeholder="Please Select State">
-                <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
-              </mat-select>
+        utilsService.isStateTreasurer()">
+              <ng-select [items]="stateUnits" appearance="outline"
+                         bindLabel="name"
+                         bindValue="id"
+                         [required]="isRequiredField('location_id')"
+                         [formControl]="stateControl">
+              </ng-select>
               <mat-error
                 *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
                 State is required
               </mat-error>
-            </mat-form-field>
+            </ng-container>
           </div>
           <div class="col-md-6">
             <mat-label>Zila <sup>*</sup></mat-label>
             <br>
-            <mat-form-field appearance="outline" class="position-relative">
-              <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-              <mat-select formControlName="location_id" [required]="isRequiredField('location_id')"
-                          placeholder="Please Select Zila">
-                <mat-option *ngFor="let option of zilaUnits" value="{{option.id}}">{{option.name}}</mat-option>
-              </mat-select>
+            <ng-container>
+              <ng-select [items]="zilaUnits" appearance="outline"
+                         bindLabel="name"
+                         bindValue="id"
+                         [required]="isRequiredField('location_id')"
+                         formControlName="location_id">
+              </ng-select>
               <mat-error
                 *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
                 Zila is required
               </mat-error>
-            </mat-form-field>
+            </ng-container>
           </div>
         </div>
       </ng-container>
@@ -855,56 +826,55 @@
           <div class="col-md-4">
             <mat-label>State <sup>*</sup></mat-label>
             <br>
-            <mat-form-field *ngIf="utilsService.isNationalAccountant()
+            <ng-container *ngIf="utilsService.isNationalAccountant()
             || utilsService.isNationalTreasurer()
             || utilsService.isStateTreasurer()
-            || utilsService.isStateAccountant()"
-                            appearance="outline" class="position-relative">
-              <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-              <mat-select [formControl]="stateControl" required placeholder="Please Select State">
-                <mat-option *ngFor="let option of stateUnits" value="{{option.id}}">{{option.name}}</mat-option>
-              </mat-select>
+            || utilsService.isStateAccountant()">
+              <ng-select [items]="stateUnits" appearance="outline"
+                         bindLabel="name"
+                         bindValue="id"
+                         [required]="isRequiredField('location_id')"
+                         [formControl]="stateControl">
+              </ng-select>
               <mat-error
                 *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
                 State is required
               </mat-error>
-            </mat-form-field>
+            </ng-container>
           </div>
           <div class="col-md-4">
             <mat-label>Zila <sup>*</sup></mat-label>
             <br>
-            <mat-form-field
-              *ngIf="utilsService.isNationalAccountant()
+            <ng-container *ngIf="utilsService.isNationalAccountant()
           || utilsService.isNationalTreasurer()
           || utilsService.isStateTreasurer()
           || utilsService.isStateAccountant()
-          || utilsService.isZilaAccountant()"
-              appearance="outline" class="position-relative"
-            >
-              <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-              <mat-select [formControl]="zilaControl" required placeholder="Please Select Zila">
-                <mat-option *ngFor="let option of zilaUnits" value="{{option.id}}">{{option.name}}</mat-option>
-              </mat-select>
+          || utilsService.isZilaAccountant()">
+              <ng-select [items]="zilaUnits" appearance="outline"
+                         bindLabel="name"
+                         bindValue="id"
+                         [required]="isRequiredField('location_id')"
+                         [formControl]="zilaControl">
+              </ng-select>
               <mat-error
                 *ngIf="((zilaControl.touched)&& zilaControl.hasError('required'))">
                 Zila is required
               </mat-error>
-            </mat-form-field>
+            </ng-container>
           </div>
           <div class="col-md-4">
             <mat-label>Mandal <sup>*</sup></mat-label>
             <br>
-            <mat-form-field appearance="outline" class="position-relative">
-              <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-              <mat-select formControlName="location_id" [required]="isRequiredField('location_id')"
-                          placeholder="Please Select Mandal">
-                <mat-option *ngFor="let option of mandalUnits" value="{{option.id}}">{{option.name}}</mat-option>
-              </mat-select>
-              <mat-error
-                *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
-                Mandal is required
-              </mat-error>
-            </mat-form-field>
+            <ng-select [items]="mandalUnits" appearance="outline"
+                       bindLabel="name"
+                       bindValue="id"
+                       [required]="isRequiredField('location_id')"
+                       formControlName="location_id">
+            </ng-select>
+            <mat-error
+              *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+              Mandal is required
+            </mat-error>
           </div>
         </div>
       </ng-container>
@@ -916,7 +886,8 @@
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="warn" (click)="submitForm()" class="submit-button" >
+      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="warn" (click)="submitForm()"
+              class="submit-button">
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
         <span *ngIf="showLoader" class="text-white"> Submitting</span>
         <span *ngIf="!showLoader" class="text-white">Submit</span>

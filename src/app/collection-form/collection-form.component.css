@@ -392,16 +392,17 @@ mat-form-field{
 .w-20{
   width: 20%;
 }
-.ng-select.dropdown-style{
-  border: 1px solid #b2b2b1;
-  border-radius: 5px;
-  padding: 6px;
-  background-color: #fff;
+.ng-select{
+  padding: 0px;
 }
-::ng-deep .ng-dropdown-panel{
-  border: 1px solid #b2b2b1;
-  background: #fff;
-  padding: 13px;
-  border-radius: 5px;
-  margin-top: 11px;
+::ng-deep .ng-appearance-outline {
+  min-height: 50px!important;
+}
+::ng-deep .ng-arrow-wrapper{
+  background-color: #101a72;
+  padding: 8px;
+  margin: 0px -7px -15px 0px;
+}
+::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow{
+  color: #fff;
 }
