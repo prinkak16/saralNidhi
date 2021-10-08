@@ -13,11 +13,11 @@
       </div>
       <div *ngIf="autoFillData" class="search-result">
         <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setFormValues(option)">
-          <b>Name:</b> <span class="ml-4 text-secondary">{{option.data.name}}</span> <span
-          class="ml-4 text-secondary"><b>PAN Card:</b></span>
-          <span class="ml-4 text-secondary">{{option.data.pan_card}}</span>
+          <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span> <span
+          class="ml-4 ext-secondary"><b>PAN Card:</b></span>
+          <span class="ml-1 ext-secondary">{{option.data.pan_card}}</span>
           <br>
-          <b>Address:</b> <span class="ml-2">{{option.data.locality}}, {{option.data.district}}
+          <b>Address:</b><span class="ml-1">{{option.data.locality}}, {{option.data.district}}
           , {{option.data.pincode}}</span>
         </mat-option>
       </div>
@@ -301,7 +301,7 @@
             <div class="col-md-6">
               <mat-label>IFSC Code</mat-label>
               <mat-form-field appearance="outline">
-                <input matInput oninput="this.value = this.value.toUpperCase()"
+                <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11"
                    (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code"
                    [required]="isRequiredField('ifsc_code')">
                 <mat-error
@@ -358,7 +358,7 @@
             <div class="col-md-6">
               <mat-label>IFSC Code</mat-label>
               <mat-form-field appearance="outline" >
-              <input matInput  oninput="this.value = this.value.toUpperCase()"
+              <input matInput  oninput="this.value = this.value.toUpperCase()" maxlength="11"
                      (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code"
                      [required]="isRequiredField('ifsc_code')">
               <mat-error
@@ -571,7 +571,6 @@
         <div class="col-md-5">
 
           <mat-error *ngIf="incorrectPan" >
-            <p class=" error-color mb-1">If any error is encountered then</p>
             <p class="text-error-color">Please enter a valid pan card number </p>
           </mat-error>
           <mat-error *ngIf="categoryMismatch">
