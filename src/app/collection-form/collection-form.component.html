@@ -28,8 +28,7 @@
     <div class="col-md-4">
       <mat-label>Transaction Type <sup>*</sup></mat-label>
       <br>
-      <ng-select [items]="transactionTypes" appearance="outline"
-                 #focusTransactionType
+      <ng-select [items]="transactionTypes" appearance="outline" class="bg-white"
                  *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
                  bindLabel="name"
                  bindValue="value"
@@ -774,7 +773,7 @@
           <mat-label>State <sup>*</sup></mat-label>
           <br>
           <div class="col-md-6 p-0">
-            <ng-select appearance="outline"
+            <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
                        [required]="isRequiredField('location_id')"
                        bindValue="id" formControlName="location_id">
@@ -791,7 +790,7 @@
         utilsService.isStateAccountant() ||
         utilsService.isNationalTreasurer() ||
         utilsService.isStateTreasurer()">
-              <ng-select [items]="stateUnits" appearance="outline"
+              <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
                          [required]="isRequiredField('location_id')"
@@ -807,7 +806,7 @@
             <mat-label>Zila <sup>*</sup></mat-label>
             <br>
             <ng-container>
-              <ng-select [items]="zilaUnits" appearance="outline"
+              <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
                          [required]="isRequiredField('location_id')"
@@ -830,7 +829,7 @@
             || utilsService.isNationalTreasurer()
             || utilsService.isStateTreasurer()
             || utilsService.isStateAccountant()">
-              <ng-select [items]="stateUnits" appearance="outline"
+              <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
                          [required]="isRequiredField('location_id')"
@@ -850,7 +849,7 @@
           || utilsService.isStateTreasurer()
           || utilsService.isStateAccountant()
           || utilsService.isZilaAccountant()">
-              <ng-select [items]="zilaUnits" appearance="outline"
+              <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
                          [required]="isRequiredField('location_id')"
@@ -865,7 +864,7 @@
           <div class="col-md-4">
             <mat-label>Mandal <sup>*</sup></mat-label>
             <br>
-            <ng-select [items]="mandalUnits" appearance="outline"
+            <ng-select [items]="mandalUnits" appearance="outline" class="bg-white"
                        bindLabel="name"
                        bindValue="id"
                        [required]="isRequiredField('location_id')"

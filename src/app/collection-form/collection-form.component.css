@@ -396,7 +396,8 @@ mat-form-field{
   padding: 0px;
 }
 ::ng-deep .ng-appearance-outline {
-  min-height: 50px!important;
+  min-height: 44px!important;
+  max-height: 44px!important;
 }
 ::ng-deep .ng-arrow-wrapper{
   background-color: #101a72;
@@ -405,4 +406,10 @@ mat-form-field{
 }
 ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow{
   color: #fff;
+}
+::ng-deep .ng-select .ng-select-container:after{
+  height: 100%!important;
+}
+::ng-deep .ng-select .ng-select-container .ng-value-container{
+  padding: 0px;
 }
