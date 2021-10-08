@@ -778,6 +778,10 @@
                        [required]="isRequiredField('location_id')"
                        bindValue="id" formControlName="location_id">
             </ng-select>
+            <mat-error
+              *ngIf="((collectionForm.controls['location_id'].touched)&& collectionForm.controls['location_id'].hasError('required'))">
+              Name is required
+            </mat-error>
           </div>
         </div>
       </ng-container>
