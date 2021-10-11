@@ -1,6 +1,6 @@
 
 <div class="container-fluid">
-  <app-filter-search [query]="query" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-filter-search>
+  <app-archive-filter-search [query]="query" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-archive-filter-search>
   <ng-container *ngIf="(modeOfPayments) === null">
     Loading tabs...
   </ng-container>

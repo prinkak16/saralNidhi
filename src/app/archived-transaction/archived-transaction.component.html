@@ -10,7 +10,24 @@
     <!-- Date Column -->
     <ng-container matColumnDef="date">
       <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{utilService.formatDate(element.data.date)}} </mat-cell>
+      <mat-cell *matCellDef="let element">
+        C: {{element.data.date | date: 'dd/MM/yyyy'}} <br>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'Cheque')">
+          T: {{element.data.date_of_cheque | date: 'dd/MM/yyyy'}}
+        </ng-container>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'Demand Draft')">
+          T: {{element.data.date_of_draft | date: 'dd/MM/yyyy'}}
+        </ng-container>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'IMPS'
+          || element.mode_of_payment.name === 'NEFT'
+          || element.mode_of_payment.name === 'RTGS'
+          || element.mode_of_payment.name === 'UPI') ">
+          T: {{element.data.date_of_transaction | date: 'dd/MM/yyyy'}}
+        </ng-container>
+        <ng-container *ngIf="(element.mode_of_payment.name === 'Cash')">
+          T: {{element.data.date_of_transaction | date: 'dd/MM/yyyy'}}
+        </ng-container>
+      </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
