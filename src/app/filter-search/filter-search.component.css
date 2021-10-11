@@ -43,6 +43,19 @@
   top:0;
   bottom: 0;
   width: 20px;
+  cursor: pointer;
+}
+
+.cancel-btn{
+  position: absolute;
+  top: 0px;
+  right: 40px;
+  color: #172c73;
+  cursor: pointer;
+}
+
+::ng-deep .mat-icon-button .mat-button-wrapper{
+  color:#172c73!important;
 }
 
 ::ng-deep.mat-form-field-appearance-outline .mat-form-field-suffix {

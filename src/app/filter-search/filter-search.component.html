@@ -6,14 +6,15 @@
   <div class="row p-2 mt-2">
     <div class="col-md-3">
       <mat-label class="mat-label-text">Search by Name/Phone No./PAN No.</mat-label><br>
-      <mat-form-field class="w-100 position-relative" appearance="outline">
-        <img src="assets/icons/rectangle.png" alt="" class="icon-size">
-        <img src="assets/icons/search.png" alt="" class="search-icon">
+      <mat-form-field class="w-100 position-relative" appearance="outline" (keyup.enter)="($event)">
+        <img src="assets/icons/rectangle.png" alt="" class="icon-size" >
+        <img src="assets/icons/search.png" alt="" class="search-icon" (click)="getFilteredData()">
+        <mat-icon (click)="filterForm.controls.query.setValue('')"  class="cancel-btn" *ngIf="filterForm.controls.query.value">cancel</mat-icon>
         <input matInput  formControlName="query">
       </mat-form-field>
     </div>
     <div class="col-md-9 row align-items-center">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <mat-label class="mat-label-text">Enter a date range</mat-label>
         <mat-form-field appearance="outline" class="w-100">
           <mat-date-range-input [rangePicker]="picker" [max]="today">
@@ -24,7 +25,7 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <mat-label class="mat-label-text">Filter by State</mat-label>
         <mat-form-field appearance="outline" class="w-100 position-relative" *ngIf="utilsService.isNationalAccountant() ||
          utilsService.isNationalTreasurer()">
@@ -34,17 +35,14 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="row col-md-6 justify-content-around">
+      <div class="row col-md-4 justify-content-around">
         <button mat-flat-button color="warn" class="col-md-3 clear-btn"  (click)="getFilteredData()">Search</button>
         <button mat-flat-button class="col-md-3 clear-btn" (click)="clearInputFields()">Clear</button>
         <button mat-flat-button
-
-                class="col-md-3 download-btn" (click)="downloadList()">
-<!--          *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"-->
-          <mat-icon matSuffix>download</mat-icon>
+                  *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
+        class="col-md-3 download-btn" (click)="downloadList()">
           Download
         </button>
-
       </div>
     </div>
   </div>
