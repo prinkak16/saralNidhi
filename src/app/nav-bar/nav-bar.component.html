@@ -1,21 +1,23 @@
 <mat-toolbar class="app-custom-header" *ngIf="loggedIn">
   <div class="left-header-container">
-    <img *ngIf="navigation.showBackButton()" class="back-icon" src="assets/icons/left-arrow.svg" (click)="back()">
+    <img *ngIf="navigation.showBackButton()" class="back-icon" src="assets/icons/arrow.png" (click)="back()">
     <span class="header-logo mobile">
       <img [routerLink]="['/']" src="assets/icons/bjp.png" class="img-responsive">
     </span>
-    <span class="header-title-span" [routerLink]="['/']">Bharatiya Janata Party</span>
+    <span class="header-title-span" [routerLink]="['/']">भारतीय जनता पार्टी</span>
   </div>
   <div class="right-header-content">
-    <span *ngIf="loggedIn" class="header-username mobile">{{username}}</span>
-    <button mat-icon-button [matMenuTriggerFor]="rootMenu" *ngIf="loggedIn" class="user-avatar-menu">
+<!--    [matMenuTriggerFor]="rootMenu"-->
+    <button mat-icon-button *ngIf="loggedIn" class="user-avatar-menu">
       <img src="assets/icons/active_agents_d.png" class="img-responsive">
     </button>
-    <mat-menu #rootMenu="matMenu">
-      <button mat-menu-item (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon>
-        <span translate>Sign Out</span>
-      </button>
-    </mat-menu>
+    <span *ngIf="loggedIn" class="header-username mobile">{{username}}</span>
+    <img *ngIf="loggedIn" matTooltip="Sign Out" class="logout-icon" src="assets/icons/logout.png" (click)="logout()">
+<!--    <mat-menu #rootMenu="matMenu">-->
+<!--      <button mat-menu-item (click)="logout()">-->
+<!--        <mat-icon>exit_to_app</mat-icon>-->
+<!--        <span translate>Sign Out</span>-->
+<!--      </button>-->
+<!--    </mat-menu>-->
   </div>
 </mat-toolbar>

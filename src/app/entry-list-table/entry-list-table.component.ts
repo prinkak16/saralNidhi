@@ -188,7 +188,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
     const transactionDate = new Date(data.data.date_of_transaction);
-    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
+    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand Draft') {
       const chequeDdDate = new Date(new Date(realizedDate).setDate(realizedDate.getDate() + 30));
       return new Date() <= chequeDdDate;
     }

@@ -93,7 +93,7 @@
         <div class="w-100">
 
           <mat-icon class="mt-2 cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
-          " *ngIf="(element.mode_of_payment.name === 'IMPS'
+          " *ngIf="updateAllowedDays.length > 0 && (element.mode_of_payment.name === 'IMPS'
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
           || element.mode_of_payment.name === 'UPI') &&

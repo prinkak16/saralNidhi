@@ -109,6 +109,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   dateValue = '';
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
+  statesValue: any;
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -158,7 +159,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       branch_address: new FormControl(''),
       collector_name: new FormControl(null),
       collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
-      nature_of_donation: new FormControl(null),
+      nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),
       location_id: new FormControl(null, [Validators.required])
@@ -167,6 +168,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.getStates();
     this.getFinancialYears();
     this.onFormChange();
+    this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value =>{
+      this.getDonorList(value);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -314,12 +318,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
             const slab: any = this.yearsSlab.find((f: any) => {
               return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
-            this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
+            this.collectionForm.controls.financial_year_id.setValue(slab? slab.id.toString() : null);
           } else {
             const slab: any = this.yearsSlab.find((f: any) => {
               return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
-            this.collectionForm.controls.financial_year_id.setValue(slab.id.toString());
+            this.collectionForm.controls.financial_year_id.setValue(slab? slab.id.toString() : null);
           }
         }
       }
@@ -967,6 +971,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   setFormValues(values: any): void {
     this.collectionForm.controls.name.setValue(values.data.name);
+    this.collectionForm.controls.phone.setValue(values.data.phone);
     this.collectionForm.controls.category.setValue(values.data.category);
     this.collectionForm.controls.is_proprietorship.setValue(values.data.is_proprietorship);
     this.collectionForm.controls.house.setValue(values.data.house);
@@ -1198,5 +1203,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   _dateChangeHandler(chosenDate: any, control: AbstractControl): void {
     control.setValue(new Date(chosenDate.setHours(9)));
+  }
+  clearSearchData(): void{
+    this.keyword.setValue('');
+    this.autoFillData = [];
   }
 }
