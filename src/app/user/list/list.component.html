@@ -7,12 +7,18 @@
         Add User
       </button>
     </div>
+    <div class="col-md-12">
+      <app-filter-user [query]="query" (applyFilter)="setFilters($event)" ></app-filter-user>
+    </div>
   </div>
   <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
     <mat-tab *ngFor="let tab of tabs; index as i" label="{{tab.label}}">
       <div class="table-container">
-        <app-user-list-table [users]="users" (updateUserList)="getUsers()"></app-user-list-table>
+        <app-user-list-table  [users]="users" [pageEvent]="pageEvent" [pageSize]="pageSize" (updateUserList)="getUsers()"
+         ></app-user-list-table>
       </div>
     </mat-tab>
   </mat-tab-group>
+  <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
+                 [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
 </div>
