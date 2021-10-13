@@ -109,6 +109,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   dateValue = '';
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
+  statesValue: any;
+  showImgUpload = true;
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -380,7 +382,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.clearValidators();
     this.collectionForm.controls.category.updateValueAndValidity();
     if (!this.collectionForm.controls.house.value){
-    this.collectionForm.controls.house.setValue(null);
+      this.collectionForm.controls.house.setValue(null);
     }
     this.collectionForm.controls.house.clearValidators();
     this.collectionForm.controls.house.updateValueAndValidity();
@@ -693,31 +695,31 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 // Transaction Date validation
   validateTransactionDate(): boolean{
-   if (['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)) {
-     if ((this.collectionForm.controls.date_of_transaction.value >= (new Date('01-apr-2021'))) &&
-     this.collectionForm.controls.date_of_transaction.value <= new Date()) {
-       return true;
-     } else {
-       this.dateErrorMsg = `Please enter date of transaction after 31/03/2021 and before ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
-       return false;
-     }
-   } else if (this.selectedModeOfPayment.name === 'Cheque') {
-     if (this.collectionForm.controls.date_of_cheque.value >= (new Date('01-apr-2021')) &&
-       this.collectionForm.controls.date_of_cheque.value <= this.next3Month) {
-       return true;
-     } else {
-       this.dateErrorMsg = `Please enter date of cheque after 31/03/2021 to 3 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
-       return false;
-     }
-   } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
-     if (this.collectionForm.controls.date_of_draft.value >= (new Date('01-apr-2021')) &&
-       this.collectionForm.controls.date_of_draft.value <= this.ddnext2Month) {
-       return true;
-     } else {
-       this.dateErrorMsg = `Please enter date of after 31/03/2021 to 2 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
-       return false;
-     }
-   } else {return false; }
+    if (['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)) {
+      if ((this.collectionForm.controls.date_of_transaction.value >= (new Date('01-apr-2021'))) &&
+        this.collectionForm.controls.date_of_transaction.value <= new Date()) {
+        return true;
+      } else {
+        this.dateErrorMsg = `Please enter date of transaction after 31/03/2021 and before ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
+        return false;
+      }
+    } else if (this.selectedModeOfPayment.name === 'Cheque') {
+      if (this.collectionForm.controls.date_of_cheque.value >= (new Date('01-apr-2021')) &&
+        this.collectionForm.controls.date_of_cheque.value <= this.next3Month) {
+        return true;
+      } else {
+        this.dateErrorMsg = `Please enter date of cheque after 31/03/2021 to 3 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
+        return false;
+      }
+    } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
+      if (this.collectionForm.controls.date_of_draft.value >= (new Date('01-apr-2021')) &&
+        this.collectionForm.controls.date_of_draft.value <= this.ddnext2Month) {
+        return true;
+      } else {
+        this.dateErrorMsg = `Please enter date of after 31/03/2021 to 2 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
+        return false;
+      }
+    } else {return false; }
   }
 
   submitForm(): void {
@@ -970,6 +972,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   setFormValues(values: any): void {
     this.collectionForm.controls.name.setValue(values.data.name);
+    this.collectionForm.controls.phone.setValue(values.data.phone);
     this.collectionForm.controls.category.setValue(values.data.category);
     this.collectionForm.controls.is_proprietorship.setValue(values.data.is_proprietorship);
     this.collectionForm.controls.house.setValue(values.data.house);
@@ -1080,6 +1083,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.disablePaymentMode();
     } else {
       this.allowedValueNull = false;
+      this.showImgUpload = false;
       this.amountWord.disable();
       this.stateControl.disable();
       this.zilaControl.disable();
