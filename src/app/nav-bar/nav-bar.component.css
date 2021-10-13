@@ -1,6 +1,6 @@
 .app-custom-header {
-  background: #ff5722 !important;
-  color: white !important;
+  background: #ffffff !important;
+  color: #5a5a61 !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,9 +9,11 @@
   left: 0;
   right: 0;
   z-index: 2;
-  box-shadow: 0 1px 2px -4px rgba(0, 0, 0, 0.2), 0 2px 3px 0 rgba(0, 0, 0, .14), 0 1px 12px 0 rgba(0, 0, 0, .12);
-  height: 56px;
-  font-size: 14px;
+  height: 80px;
+  font-size: 25px;
+  box-shadow: 5px 5px 13px rgba(191, 193, 196, 0.7);
+  border-radius: 0px 0px 8px 8px;
+
 }
 
 .header-search-form-field {
@@ -19,8 +21,17 @@
 }
 
 .header-title-span {
-  margin-left: 5px;
+  margin-left: 15px;
   cursor: pointer;
+  font-family: Palanquin;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 25.2567px;
+  line-height: 46px;
+  text-align: center;
+
+  color: #5A5A61;
+
 }
 
 .sidenav-toggle-button {
@@ -50,24 +61,25 @@
 .back-icon {
   width: 25px;
   height: auto;
-  margin-right: 10px;
+  margin: 0 15px 0 15px;
+}
+
+.logout-icon{
+  width: 30px;
+  height: auto;
+  cursor: pointer;
 }
 
 .header-logo {
-  border-radius: 50%;
-  width: 30px;
-  height: auto;
-  background: white;
-  padding: 5px;
-  border: 1px solid lightgrey;
-  margin-left: 5px;
+  width: 50px;
+  margin-left: 30px;
   cursor: pointer;
 }
 
 .user-avatar-menu {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   background: white;
   padding: 5px;
   border: 1px solid lightgrey;
@@ -75,6 +87,16 @@
 
 .header-username {
   margin: 0 15px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 31px;
+
+  letter-spacing: 0.03em;
+
+  color: #212E42;
+
 }
 
 @media only screen
