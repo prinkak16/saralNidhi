@@ -253,9 +253,8 @@
 
       <!--Show uploaded image preview-->
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
-        <div *ngIf="!transactionId" class="row">
+        <div class="row">
           <div class="col-md-6">
-
             <img src="{{collectionForm.controls.cheque_dd_photo1.value}}"
                  *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3 mb-2">
           </div>
@@ -263,17 +262,6 @@
             <img src="{{collectionForm.controls.cheque_dd_photo2.value}}"
                  *ngIf="collectionForm.controls.cheque_dd_photo2.value" height="75" width="75" class="ml-2 mb-2">
           </div>
-        </div>
-        <div *ngIf="transactionId" class="row">
-          <div class="col-md-6">
-            <img src="{{transactionDetails.data.data.cheque_dd_photo1}}"
-                 *ngIf="transactionDetails.data.data.cheque_dd_photo1" height="75" width="75" class="ml-3 mb-2">
-          </div>
-          <div class="col-md-6">
-            <img src="{{transactionDetails.data.data.cheque_dd_photo2}}"
-                 *ngIf="transactionDetails.data.data.cheque_dd_photo2" height="75" width="75" class="ml-2 mb-2">
-          </div>
-          <br>
         </div>
       </ng-container>
     </div>
