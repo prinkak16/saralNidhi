@@ -314,6 +314,14 @@
               <mat-form-field appearance="outline">
                 <input matInput formControlName="account_number" (keypress)="utilsService.validateNumber($event)"
                        maxlength="18" minlength="7">
+                <mat-error
+                  *ngIf="((collectionForm.controls.account_number.touched)&& collectionForm.controls.account_number.hasError('required'))">
+                  Please enter account no
+                </mat-error>
+                <mat-error
+                  *ngIf="((collectionForm.controls.account_number.touched)&& collectionForm.controls.account_number.hasError('minlength'))">
+                  Please enter minimum 7 digit account no
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-6">
@@ -373,6 +381,14 @@
                 <input matInput formControlName="account_number" (keypress)="utilsService.validateNumber($event)"
                        maxlength="18" minlength="7"
                        [required]="isRequiredField('account_number')">
+                <mat-error
+                  *ngIf="((collectionForm.controls.account_number.touched)&& collectionForm.controls.account_number.hasError('required'))">
+                  Please enter account no
+                </mat-error>
+                <mat-error
+                  *ngIf="((collectionForm.controls.account_number.touched)&& collectionForm.controls.account_number.hasError('minlength'))">
+                  Please enter minimum 7 digit account no
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-6">
@@ -786,11 +802,12 @@
             <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
                        [required]="isRequiredField('location_id')"
+                       [placeholder]="('Select state')"
                        bindValue="id" formControlName="location_id">
             </ng-select>
             <mat-error class="error-custom-style"
               *ngIf="((collectionForm.controls['location_id'].touched)&& collectionForm.controls['location_id'].hasError('required'))">
-              Name is required
+              State is required
             </mat-error>
           </div>
         </div>
@@ -807,6 +824,7 @@
               <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select state')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="stateControl">
               </ng-select>
@@ -823,6 +841,7 @@
               <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select zila')"
                          [required]="isRequiredField('location_id')"
                          formControlName="location_id">
               </ng-select>
@@ -846,6 +865,7 @@
               <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select state')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="stateControl">
               </ng-select>
@@ -866,6 +886,7 @@
               <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select zila')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="zilaControl">
               </ng-select>
@@ -881,6 +902,7 @@
             <ng-select [items]="mandalUnits" appearance="outline" class="bg-white"
                        bindLabel="name"
                        bindValue="id"
+                       [placeholder]="('Select mandal')"
                        [required]="isRequiredField('location_id')"
                        formControlName="location_id">
             </ng-select>
