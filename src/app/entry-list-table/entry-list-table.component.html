@@ -44,19 +44,19 @@
 
     <!-- Amount Column -->
     <ng-container matColumnDef="amount">
-      <mat-header-cell *matHeaderCellDef> Amount</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Amount(₹)</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.data.amount}} </mat-cell>
     </ng-container>
 
     <!-- Mode Of Payment Column -->
     <ng-container matColumnDef="mode_of_payment">
-      <mat-header-cell *matHeaderCellDef> Mode Of Payment</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Mode of <br> Payment</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.mode_of_payment.name}} </mat-cell>
     </ng-container>
 
     <!-- Pan Card No. Column -->
     <ng-container matColumnDef="pan_card">
-      <mat-header-cell *matHeaderCellDef> Pan Card No.</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Pan Card<br>No.</mat-header-cell>
       <mat-cell *matCellDef="let element"
                 [matTooltip]="getPanStateDisplayName(element) | titlecase"
                 class="cursor-pointer"> {{element.data.pan_card}} </mat-cell>
@@ -83,16 +83,14 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
       <mat-cell *matCellDef="let element" class="action-btn">
-        <div class="w-100">
+        <div class="w-100 d-inline-flex justify-content-around">
           <!--          <mat-icon>info</mat-icon>-->
-          <span class="badge info-badge badge-success mt-1" *ngIf="element.payment_realize_date"
-                matTooltip="{{element.mode_of_payment.name}} Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">i</span>
-          <span class="badge info-badge badge-warning mt-1" *ngIf="element.payment_remark"
-                matTooltip="Remark: {{element.payment_remark }}">i</span>
-        </div>
-        <div class="w-100">
-
-          <mat-icon class="mt-2 cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
+          <img src="assets/icons/cheque.png" alt="" *ngIf="element.payment_realize_date" class="icon-resize"
+               matTooltip="{{element.mode_of_payment.name}} Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">
+          <img src="assets/icons/error.svg" alt="" *ngIf="element.payment_remark" class="icon-resize"
+               matTooltip="Remark: {{element.payment_remark }}">
+          
+          <div class="cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
           " *ngIf="updateAllowedDays.length > 0 && (element.mode_of_payment.name === 'IMPS'
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
@@ -101,8 +99,10 @@
           allowedEdit(element.data.date) &&
           !element.payment_remark ) ||
           element.data.name === ''
-          ">access_time
-          </mat-icon>
+          ">
+            <img src="assets/icons/time.svg" alt="" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
+          "  class="icon-resize" >
+          </div>
         </div>
         <div class="w-100">
           <!-- Three dot dropdown-->
@@ -123,20 +123,20 @@
             <span *ngIf="element.mode_of_payment.name === 'Cheque' || element.mode_of_payment.name === 'Demand Draft'">
             <button mat-menu-item *ngIf="!element.payment_realize_date && !element.payment_remark"
                     (click)="openChequeDialog('realized', element)">
-              <mat-icon>date_range</mat-icon>
+              <img src="assets/icons/realised.svg" alt=""   class="mat-icon-resize" >
               <span>Realized</span>
             </button>
               </span>
               <span *ngIf="element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date">
             <button mat-menu-item *ngIf="!element.payment_remark"
                     (click)="openChequeDialog('bounced' , element)">
-              <mat-icon>note_add</mat-icon>
+              <img src="assets/icons/bounce.svg" alt=""   class="mat-icon-resize" >
               <span>Bounced</span>
             </button>
               </span>
             </div>
             <button mat-menu-item *ngIf="isReversable(element)" (click)="openChequeDialog('reserved', element)">
-              <mat-icon>refresh</mat-icon>
+              <img src="assets/icons/refresh.svg" alt=""   class="mat-icon-resize" >
               <span>Reversed</span>
             </button>
 
@@ -159,19 +159,19 @@
     </ng-container>
 
     <ng-container matColumnDef="receipt-print">
-      <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
-      <mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef> Receipt<br>Print</mat-header-cell>
+      <mat-cell *matCellDef="let element" class="btn-separate">
         <ng-container *ngIf="!hasReceiptGenerated(element)">
-          <mat-icon (click)="openReceiptStatus(element)" class="cursor-pointer">info</mat-icon>
+          <mat-icon (click)="openReceiptStatus(element)" class="reciept-reason" matTooltip="View Reason ">print</mat-icon>
         </ng-container>
         <ng-container
           *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
-          <mat-icon (click)="downloadReceipt(element)" *ngIf="element.payment_realize_date &&
+          <mat-icon (click)="downloadReceipt(element)"  *ngIf="element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
-                    class="pointer"
-                    matTooltip="Download Receipt">cloud_download
+                     class="btn-background pointer "
+                    matTooltip="Download Receipt">print
           </mat-icon>
         </ng-container>
         <mat-icon (click)="downloadReceipt(element)" *ngIf="(
@@ -183,28 +183,27 @@
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.transaction_valid
         && element.receipt_number_generated && checkPanCardAndValidation(element)"
-                  class="pointer"
-                  matTooltip="Download Receipt">cloud_download
+                  class="btn-background pointer"
+                  matTooltip="Download Receipt">print
         </mat-icon>
         <mat-icon (click)="downloadReceipt(element)"
                   *ngIf=" (element.mode_of_payment.name === 'Cash') &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.transaction_valid
         && element.receipt_number_generated && checkPanCardAndValidation(element)"
-                  class="pointer"
-                  matTooltip="Download Receipt" >cloud_download
+                  class="btn-background pointer"
+                  matTooltip="Download Receipt" >print
         </mat-icon>
 
-        <mat-icon (click)="openEmailSendModal(element)"
-                  *ngIf="(element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft') && element.payment_realize_date &&
+
+        <button class="btn-send" (click)="openEmailSendModal(element)"   *ngIf="(element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft') && element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
-                  class="pointer ml-2"
-                  matTooltip="Send receipt on email" >send</mat-icon>
+        && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)">
+          <img src="assets/icons/send.svg" matTooltip="Send receipt on email" >
+        </button>
 
-        <mat-icon (click)="openEmailSendModal(element)"
-                  *ngIf="(
+        <button class="btn-send" (click)="openEmailSendModal(element)"  *ngIf="(
                   element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
@@ -212,15 +211,18 @@
                   &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.transaction_valid
-        && element.receipt_number_generated && checkPanCardAndValidation(element)"
-                  class="pointer ml-2"
-                  matTooltip="Send receipt on email" >send</mat-icon>
-        <mat-icon (click)="openEmailSendModal(element)"
-                  *ngIf=" (element.mode_of_payment.name === 'Cash') &&
+        && element.receipt_number_generated && checkPanCardAndValidation(element)">
+          <img  src="assets/icons/send.svg"
+               matTooltip="Send receipt on email" >
+        </button>
+
+        <button class="btn-send" (click)="openEmailSendModal(element)" *ngIf=" (element.mode_of_payment.name === 'Cash') &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
-        && element.receipt_number_generated && element.transaction_valid && checkPanCardAndValidation(element)"
-                  class="pointer ml-2"
-                  matTooltip="Send receipt on email" >send</mat-icon>
+        && element.receipt_number_generated && element.transaction_valid && checkPanCardAndValidation(element)">
+          <img src="assets/icons/send.svg"
+               matTooltip="Send receipt on email" >
+        </button>
+
       </mat-cell>
     </ng-container>
 
