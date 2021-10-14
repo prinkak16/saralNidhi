@@ -67,6 +67,7 @@ import { ArchivedTransactionListComponent } from './archived-transaction-list/ar
 import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-filter-search.component';
 import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FilterUserComponent } from './user/filter-user/filter-user.component';
 
 
 @NgModule({
@@ -95,7 +96,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ConfirmDialogComponent,
     ArchivedTransactionListComponent,
     ArchiveFilterSearchComponent,
-    ReceiptStatusDialogComponent
+    ReceiptStatusDialogComponent,
+    FilterUserComponent
   ],
   imports: [
     BrowserModule,
