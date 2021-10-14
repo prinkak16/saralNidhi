@@ -85,6 +85,7 @@ export class ArchivedTransactionComponent implements OnInit, OnDestroy {
 
   paginationClicked(eve: PageEvent): PageEvent {
     this.offset = (eve.pageIndex === 0 ? 0 : (eve.pageIndex * eve.pageSize));
+    debugger
     this.getArchiveList();
     return eve;
   }
