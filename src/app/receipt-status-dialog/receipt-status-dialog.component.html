@@ -97,7 +97,8 @@
   <tr>
     <ng-container *ngIf="!transaction.receipt_number_generated">
       <td>Receipt Generation Waiting Period</td>
-      <td class="text-secondary">Your receipt will be generated on {{receiptGenerationDate | date: 'dd/MM/yyyy'}} because receipt generation period for all transaction is 1 Days</td>
+      <td class="text-secondary" *ngIf="!backDateEntry">Your receipt will be generated after {{receiptGenerationDate | date: 'dd/MM/yyyy'}} because receipt generation period for all transaction is {{receiptPrintDays}} Days</td>
+    <td class="text-secondary" *ngIf="backDateEntry">Your receipt will be generate on next date</td>
     </ng-container>
   </tr>
 </table>
