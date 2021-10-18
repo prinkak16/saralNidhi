@@ -207,7 +207,7 @@
         </div>
       </ng-container>
       <!-- Cheque dd back & front image-->
-      <ng-container *ngIf="allowedValueNull">
+      <ng-container *ngIf="showImgUpload">
         <div class="d-flex mt-1">
           <div class="col-md-6">
             <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
@@ -217,21 +217,10 @@
                 front photo</label>
               <div class="pan-card-image-upload-container">
                 <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-                  <ng-container *ngIf="collectionForm.controls.cheque_dd_photo1.value;else uploadChequeDDFrontText">
-                    <div class="position-relative">
-                      <!--                        <img src="assets/icons/upload_success_icon.svg" alt="cheque dd front photo" class="upload-icon"/>-->
-                      <!--                        Cheque/ Demand Draft card uploaded-->
-                      <img src="assets/icons/file.svg" alt="upload pan card" class="choose-file-img"/>
-                      <span class="file-text-position">Choosed File</span>
-                    </div>
-                    <!--                      <img src="assets/icons/eye.svg" alt="View pan card"/>-->
-                  </ng-container>
-                  <ng-template #uploadChequeDDFrontText>
-                    <div class="mb-0 position-relative">
-                      <img src="assets/icons/file.svg" alt="upload pan card" class="choose-file-img"/>
-                      <span class="file-text-position">Choose File</span>
-                    </div>
-                  </ng-template>
+                  <div class="position-relative">
+                    <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
+                    <span class="file-text-position">Choose File</span>
+                  </div>
                   <input type="file" hidden accept="image/png, image/jpeg"
                          (change)="onFileChange($event, 'cheque_dd_photo1')" #fileInputPhoto/>
                 </div>
@@ -247,23 +236,10 @@
                 back photo</label><br>
               <div class="pan-card-image-upload-container">
                 <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-                  <ng-container *ngIf="collectionForm.controls.cheque_dd_photo2.value;else uploadChequeDDBackText">
-                    <div class="position-relative">
-                      <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
-                      <span class="file-text-position">Choosed File</span>
-                      <!--                        <img src="assets/icons/upload_success_icon.svg" alt="cheque dd back photo" class="upload-icon"/>-->
-                      <!--                        Cheque/ Demand Draft card uploaded-->
-                    </div>
-                    <!--                      <img src="assets/icons/eye.svg" alt="View file"/>-->
-                  </ng-container>
-                  <ng-template #uploadChequeDDBackText>
-                    <div class="position-relative">
-                      <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
-                      <span class="file-text-position">Choose File</span>
-                      <!--                        <img src="assets/icons/upload_icon.svg" alt="upload pan card"/>-->
-                      <!--                        Upload Cheque/ Demand Draft-->
-                    </div>
-                  </ng-template>
+                  <div class="position-relative">
+                    <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
+                    <span class="file-text-position">Choose File</span>
+                  </div>
                   <input type="file" hidden accept="image/png, image/jpeg"
                          (change)="onFileChange($event, 'cheque_dd_photo2')" #fileInputPhoto/>
                 </div>
@@ -277,7 +253,7 @@
 
       <!--Show uploaded image preview-->
       <ng-container *ngIf="['Cheque', 'Demand Draft'].includes(this.selectedModeOfPayment.name)">
-        <div *ngIf="!transactionId" class="row">
+        <div class="row">
           <div class="col-md-6">
             <img src="{{collectionForm.controls.cheque_dd_photo1.value}}"
                  *ngIf="collectionForm.controls.cheque_dd_photo1.value" height="75" width="75" class="ml-3 mb-2">
@@ -286,17 +262,6 @@
             <img src="{{collectionForm.controls.cheque_dd_photo2.value}}"
                  *ngIf="collectionForm.controls.cheque_dd_photo2.value" height="75" width="75" class="ml-2 mb-2">
           </div>
-        </div>
-        <div *ngIf="transactionId" class="row">
-          <div class="col-md-6">
-            <img src="{{transactionDetails.data.data.cheque_dd_photo1}}"
-                 *ngIf="transactionDetails.data.data.cheque_dd_photo1" height="75" width="75" class="ml-3 mb-2">
-          </div>
-          <div class="col-md-6">
-            <img src="{{transactionDetails.data.data.cheque_dd_photo2}}"
-                 *ngIf="transactionDetails.data.data.cheque_dd_photo2" height="75" width="75" class="ml-2 mb-2">
-          </div>
-          <br>
         </div>
       </ng-container>
     </div>
@@ -641,22 +606,11 @@
           *ngIf="isRequiredField('pan_card_photo')">*</sup></label>
         <div class="pan-card-image-upload-container d-flex">
           <div class="col-md-4">
-            <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
-              <ng-container *ngIf="collectionForm.controls.pan_card_photo.value;else uploadPanCardText">
-                <div class="position-relative">
-                  <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
-                  <span class="file-text-position">Choosed File</span>
-                  <!--                  <img src="assets/icons/upload_success_icon.svg" alt="upload pan card" class="upload-icon"/>-->
-                </div>
-
-                <!--                <img src="assets/icons/eye.svg" alt="View pan card"/>-->
-              </ng-container>
-              <ng-template #uploadPanCardText>
-                <div class="mb-0 position-relative">
-                  <img src="assets/icons/file.svg" alt="upload pan card" class="choose-file-img"/>
-                  <span class="file-text-position">Choose File</span>
-                </div>
-              </ng-template>
+            <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn" *ngIf="showImgUpload">
+              <div class="position-relative">
+                <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
+                <span class="file-text-position">Choose File</span>
+              </div>
               <input type="file" hidden accept="image/png, image/jpeg"
                      (change)="onFileChange($event, 'pan_card_photo')" #fileInputPhoto/>
             </div>
@@ -802,12 +756,11 @@
             <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
                        [required]="isRequiredField('location_id')"
-                       [placeholder]="('Select state')"
                        bindValue="id" formControlName="location_id">
             </ng-select>
             <mat-error class="error-custom-style"
               *ngIf="((collectionForm.controls['location_id'].touched)&& collectionForm.controls['location_id'].hasError('required'))">
-              State is required
+              Name is required
             </mat-error>
           </div>
         </div>
@@ -829,7 +782,7 @@
                          [formControl]="stateControl">
               </ng-select>
               <mat-error class="error-custom-style"
-                *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
+                         *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
                 State is required
               </mat-error>
             </ng-container>
@@ -841,12 +794,11 @@
               <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
-                         [placeholder]="('Select zila')"
                          [required]="isRequiredField('location_id')"
                          formControlName="location_id">
               </ng-select>
               <mat-error class="error-custom-style"
-                *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+                         *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
                 Zila is required
               </mat-error>
             </ng-container>
@@ -865,12 +817,11 @@
               <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
-                         [placeholder]="('Select state')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="stateControl">
               </ng-select>
               <mat-error class="error-custom-style"
-                *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
+                         *ngIf="((stateControl.touched)&& stateControl.hasError('required'))">
                 State is required
               </mat-error>
             </ng-container>
@@ -886,12 +837,11 @@
               <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
-                         [placeholder]="('Select zila')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="zilaControl">
               </ng-select>
               <mat-error class="error-custom-style"
-                *ngIf="((zilaControl.touched)&& zilaControl.hasError('required'))">
+                         *ngIf="((zilaControl.touched)&& zilaControl.hasError('required'))">
                 Zila is required
               </mat-error>
             </ng-container>
@@ -902,12 +852,11 @@
             <ng-select [items]="mandalUnits" appearance="outline" class="bg-white"
                        bindLabel="name"
                        bindValue="id"
-                       [placeholder]="('Select mandal')"
                        [required]="isRequiredField('location_id')"
                        formControlName="location_id">
             </ng-select>
             <mat-error class="error-custom-style"
-              *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
+                       *ngIf="((collectionForm.controls.location_id.touched)&& collectionForm.controls.location_id.hasError('required'))">
               Mandal is required
             </mat-error>
           </div>

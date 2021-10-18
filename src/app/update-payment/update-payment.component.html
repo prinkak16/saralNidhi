@@ -1,26 +1,31 @@
 <form [formGroup]="chequeDetailForm">
-<mat-form-field appearance="outline" *ngIf="data.type === 'realized' ">
-  <mat-label>Realize date</mat-label>
-  <input matInput [matDatepicker]="picker" placeholder="Enter date" [min]="allowMinDate" [max]="allowMaxDate"
-         [required]="isRequiredField('date')"
-         formControlName="date">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-  <mat-error
-    *ngIf="((chequeDetailForm.controls.date.touched)&& chequeDetailForm.controls.date.hasError('required'))">
-    Date is required
-  </mat-error>
-</mat-form-field>
-<mat-form-field class="example-full-width" *ngIf="data.type === 'bounced' || data.type === 'reserved'">
-  <mat-label>Add Remarks </mat-label>
-  <textarea matInput placeholder="Add remarks.." formControlName="remark" [required]="isRequiredField('remark')"></textarea>
-  <mat-error
-    *ngIf="((chequeDetailForm.controls.remark.touched)&& chequeDetailForm.controls.remark.hasError('required'))">
-    Remark is required
-  </mat-error>
-</mat-form-field>
-<br>
-<button mat-raised-button color="warn" [disabled]="!chequeDetailForm.valid" (click)="updatePaymentMode()">Submit</button>
-  <button mat-raised-button color="primary" class="ml-4" (click)="close()">Close</button>
+  <div *ngIf="data.type === 'realized' " >
+    <mat-label>Realize date</mat-label>
+    <mat-form-field appearance="outline" class="example-full-width" >
+      <input matInput [matDatepicker]="picker" placeholder="Enter date" [min]="allowMinDate" [max]="allowMaxDate"
+             [required]="isRequiredField('date')"
+             formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error
+        *ngIf="((chequeDetailForm.controls.date.touched)&& chequeDetailForm.controls.date.hasError('required'))">
+        Date is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div  *ngIf="data.type === 'bounced' || data.type === 'reserved'">
+    <mat-label>Add Remarks </mat-label>
+    <mat-form-field class="example-full-width " appearance="outline" >
+      <textarea matInput placeholder="Add remarks.." formControlName="remark" [required]="isRequiredField('remark')" class="field-height"></textarea>
+      <mat-error
+        *ngIf="((chequeDetailForm.controls.remark.touched)&& chequeDetailForm.controls.remark.hasError('required'))">
+        Remark is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="example-full-width d-flex justify-content-between" >
+    <button class="btn btn-submit" [disabled]="!chequeDetailForm.valid" (click)="updatePaymentMode()">Submit</button>
+    <button class="btn btn-close"   (click)="close()">Close</button>
+  </div>
 </form>
 
