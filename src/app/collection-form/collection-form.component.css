@@ -108,7 +108,7 @@ label{
   top: -3rem;
   box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
   border-radius: 10px;
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
 }
 
@@ -434,4 +434,11 @@ mat-form-field{
   font-size: 75%;
   font-weight: 800;
   margin-left: 11px;
+}
+::ng-deep .ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  transform-origin: unset;
+}
+
+.disable-btn-bg{
+  background-color: #a3a6c5!important;
 }

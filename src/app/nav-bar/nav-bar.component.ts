@@ -32,6 +32,9 @@ export class NavBarComponent implements OnInit {
   permissions = [];
 
   ngOnInit(): void {
+    if (this.utilsService.isLoggedIn()) {
+      this.loggedIn = true;
+    }
   }
 
   logout(): void {
