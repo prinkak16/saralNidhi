@@ -344,7 +344,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         }
       }
     );
-
+    this.collectionForm.controls.location_id.valueChanges.subscribe(value => {
+      if (!this.collectionForm.controls.location_id) {
+        this.removePartyUnitValue();
+      }
+    });
     this.stateControl.valueChanges.subscribe(value => {
       this.getZilas();
     });
