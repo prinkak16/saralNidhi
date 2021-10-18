@@ -119,7 +119,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       date_of_cheque: row.data.date_of_cheque,
       date_of_draft: row.data.date_of_draft
     };
-    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
+    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData,  width: '350px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.updateList.emit(true);

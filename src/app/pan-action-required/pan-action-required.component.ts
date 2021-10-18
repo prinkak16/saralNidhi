@@ -38,8 +38,8 @@ export class PanActionRequiredComponent implements OnInit{
   }
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
 
-  displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'photo', 'pan_card_remark', 'status', 'action'];
-  displayedColumnsForApprovedAndRejected: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'photo', 'pan_card_remark', 'status'];
+  displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'created_by', 'photo', 'pan_card_remark', 'status', 'action'];
+  displayedColumnsForApprovedAndRejected: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'created_by', 'photo', 'pan_card_remark', 'status'];
   paymentDetails: any;
   showLoader = false;
   result: any;

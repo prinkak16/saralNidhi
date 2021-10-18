@@ -179,8 +179,8 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
-  getTreasurerList(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/treasurers_list', JSON.stringify(data), this.authHttpOptions());
+  getTreasurerList(data: object): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/treasurers_list', data , this.authHttpOptions());
   }
 
   updatePassword(data: any): any {

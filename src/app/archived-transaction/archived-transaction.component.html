@@ -1,5 +1,5 @@
 <ng-container *ngIf="length > 0 ; else emptyList">
-  <mat-table [dataSource]="transactionList" class="entry-list-table">
+  <mat-table [dataSource]="transactionList">
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
       <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>

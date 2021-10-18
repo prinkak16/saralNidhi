@@ -10,7 +10,7 @@
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{tab.label}}</ng-template>
     <ng-container *ngIf="!showLoader">
-      <mat-table [dataSource]="paymentDetails" class="entry-list-table">
+      <mat-table [dataSource]="paymentDetails" >
         <ng-container matColumnDef="sno">
           <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
           <mat-cell *matCellDef="let element; let i = index;">{{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0) * this.pageSize) + i + 1}} </mat-cell>
@@ -37,6 +37,12 @@
           <mat-cell *matCellDef="let element" class="cursor-pointer"
                     matTooltip="{{element.pan_data.accountant_pan_remarks}}"><span
             class="error-text-truncate">{{element.pan_data.accountant_pan_remarks}}</span></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="created_by">
+          <mat-header-cell *matHeaderCellDef>Created By</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="cursor-pointer"
+                    matTooltip="{{element.created_by.email}}"><span
+            >{{element.created_by.email}}</span></mat-cell>
         </ng-container>
         <ng-container matColumnDef="photo">
           <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>

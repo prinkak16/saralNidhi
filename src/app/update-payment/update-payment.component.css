@@ -1,0 +1,16 @@
+.example-full-width{
+  width: 100%;
+}
+.btn-submit{
+  background: #f2952c!important;
+  color: #ffffff;
+  width: 40%;
+}
+.btn-close{
+  width: 40%;
+  background: #447ddf!important;
+  color: #ffffff;
+}
+.field-height{
+  height: 85px!important;
+}
