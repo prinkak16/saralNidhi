@@ -5,8 +5,8 @@
   </ng-container>
 
   <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
-    <mat-tab *ngFor="let tab of modeOfPayments; index as i">
-      <ng-template mat-tab-label>
+    <mat-tab *ngFor="let tab of modeOfPayments; index as i" >
+      <ng-template mat-tab-label class="mat-tab-view">
 <!--        matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"-->
 <!--        matBadgePosition="above after"-->
 <!--        matBadgeColor="warn" [matBadgeOverlap]="false"-->
