@@ -91,19 +91,17 @@ export class PanActionRequiredComponent implements OnInit{
 
   paginationClicked(event: PageEvent): PageEvent {
     this.offset = (event.pageIndex === 0 ? 0 : (event.pageIndex * event.pageSize));
-    debugger
     this.getPanRequiredList(this.tabStatus);
     return event;
   }
 
 
-  getPanRequiredList(status: string): void {
+  getPanRequiredList(status: any): void {
     const obj = {
       status: status ? status : 'invalid',
       limit: this.limit,
       offset: this.offset
     };
-    this.showLoader = true;
     this.restService.getPanRequiredData(obj).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;

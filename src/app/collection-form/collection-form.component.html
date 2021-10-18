@@ -779,25 +779,27 @@
       </mat-error>
 
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'CountryState'">
-        <div class="col-md-12 mt-3">
-          <mat-label>State <sup>*</sup></mat-label>
-          <br>
-          <div class="col-md-6 p-0">
-            <ng-select appearance="outline" class="bg-white"
-                       [items]="stateUnits" bindLabel="name"
-                       [required]="isRequiredField('location_id')"
-                       bindValue="id" formControlName="location_id">
-            </ng-select>
-            <mat-error class="error-custom-style"
-              *ngIf="((collectionForm.controls['location_id'].touched)&& collectionForm.controls['location_id'].hasError('required'))">
-              Name is required
-            </mat-error>
+        <div class="d-flex mt-3">
+          <div class="col-md-4">
+            <mat-label>State <sup>*</sup></mat-label>
+            <br>
+            <ng-container>
+              <ng-select appearance="outline" class="bg-white"
+                         [items]="stateUnits" bindLabel="name"
+                         [required]="isRequiredField('location_id')"
+                         bindValue="id" formControlName="location_id">
+              </ng-select>
+              <mat-error class="error-custom-style"
+                         *ngIf="((collectionForm.controls['location_id'].touched)&& collectionForm.controls['location_id'].hasError('required'))">
+                Name is required
+              </mat-error>
+            </ng-container>
           </div>
         </div>
       </ng-container>
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
         <div class="d-flex mt-3">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <mat-label>State <sup>*</sup></mat-label>
             <br>
             <ng-container *ngIf="utilsService.isNationalAccountant() ||
@@ -816,7 +818,7 @@
               </mat-error>
             </ng-container>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <mat-label>Zila <sup>*</sup></mat-label>
             <br>
             <ng-container>
