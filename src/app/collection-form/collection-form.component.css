@@ -108,7 +108,7 @@ label{
   top: -3rem;
   box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
   border-radius: 10px;
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
 }
 
@@ -248,7 +248,7 @@ mat-label{
   line-height: 23px;
   text-align: center;
   letter-spacing: 0.05em;
-  width: 105px;
+  width: 130px;
   background: #ffffff;
   color: #110F0D;
 
@@ -277,16 +277,11 @@ mat-label{
   width: 100% !important;
 }
 
-
-::ng-deep.mat-radio-label-content{
-  padding-left:0px!important;
-}
-
 ::ng-deep.mat-error{
  margin-top: 5px!important;
 }
 
-::ng-deep.mat-icon-button{
+.mat-icon-view ::ng-deep.mat-icon-button{
   display: none!important;
 }
 
@@ -344,9 +339,9 @@ mat-label{
   display:contents;
 }
 
-::ng-deep.mat-button-wrapper{
-  color:#101a73;
-}
+/*::ng-deep.mat-button-wrapper{*/
+/*  color:#101a73;*/
+/*}*/
 ::ng-deep sup{
   font-size: 25px!important;
   top:5px!important;
@@ -408,6 +403,15 @@ mat-form-field{
   min-height: 44px!important;
   max-height: 44px!important;
 }
+
+::ng-deep.mat-radio-button.mat-radio-disabled .mat-radio-label-content{
+  color: currentColor ;
+}
+
+::ng-deep.ng-select.ng-select-disabled .ng-arrow-wrapper .ng-arrow, .ng-select.ng-select-disabled .ng-clear-wrapper {
+  color: #FFFFFF;
+}
+
 ::ng-deep .ng-arrow-wrapper{
   background-color: #101a72;
   padding: 10px;
@@ -415,7 +419,7 @@ mat-form-field{
   margin: 0px -7px 0px 0px
 }
 ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow{
-  color: #fff;
+  color: #FFFFFF;
 }
 ::ng-deep .ng-select .ng-select-container:after{
   height: 100%!important;
@@ -430,4 +434,11 @@ mat-form-field{
   font-size: 75%;
   font-weight: 800;
   margin-left: 11px;
+}
+::ng-deep .ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  transform-origin: unset;
+}
+
+.disable-btn-bg{
+  background-color: #a3a6c5!important;
 }

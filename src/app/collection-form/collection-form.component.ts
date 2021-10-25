@@ -345,7 +345,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         }
       }
     );
-
     this.stateControl.valueChanges.subscribe(value => {
       this.getZilas();
     });
@@ -1155,7 +1154,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         if (error.error === 'Not Found') {
           this.messageService.somethingWentWrong('Please enter valid ifsc code');
         } else {
-          this.messageService.somethingWentWrong('Please enter ifsc code');
+          this.messageService.somethingWentWrong('Please enter correct ifsc code');
         }
       });
     } else {

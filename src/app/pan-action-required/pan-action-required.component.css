@@ -18,7 +18,9 @@
   border-top-width: 0 !important;
 }
 
-
+::ng-deep.mat-tab-labels{
+  justify-content: start;
+}
 .error-text-truncate{
   width: 100px;
   white-space: nowrap;
