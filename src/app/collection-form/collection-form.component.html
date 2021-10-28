@@ -316,8 +316,8 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
+              <mat-label>Branch Name</mat-label>
               <mat-form-field appearance="outline">
-                <mat-label>Branch Name</mat-label>
                 <input matInput formControlName="branch_name"
                        [required]="isRequiredField('branch_name')">
               </mat-form-field>
@@ -455,7 +455,7 @@
         <img src="assets/icons/home.png" class="img-icon"><span class="ml-2">Residential Details</span><sup
         *ngIf="isRequiredField('house')">*</sup></label>
       <div class="col-md-12">
-        <mat-label>House No. & Apartment Name</mat-label>
+        <mat-label>House No. & Apartment Name<sup *ngIf="isRequiredField('house')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="mt-1">
           <input matInput formControlName="house"
                  [required]="isRequiredField('house')">
@@ -754,7 +754,7 @@
         <div class="col-md-12 mt-3">
           <mat-label>State <sup>*</sup></mat-label>
           <br>
-          <div class="col-md-6 p-0">
+          <div class="col-md-4 p-0 pr-3">
             <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
                        [required]="isRequiredField('location_id')"
@@ -871,7 +871,7 @@
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="warn" (click)="submitForm()"
+      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="primary" (click)="submitForm()"
               class="submit-button">
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
         <span *ngIf="showLoader" class="text-white"> Submitting</span>

@@ -10,7 +10,7 @@
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{tab.label}}</ng-template>
     <ng-container *ngIf="!showLoader">
-      <mat-table [dataSource]="paymentDetails" >
+      <mat-table [dataSource]="paymentDetails"  class="entry-list-table">
         <ng-container matColumnDef="sno">
           <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
           <mat-cell *matCellDef="let element; let i = index;">{{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0) * this.pageSize) + i + 1}} </mat-cell>

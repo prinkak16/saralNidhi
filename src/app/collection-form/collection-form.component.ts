@@ -169,7 +169,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.getStates();
     this.getFinancialYears();
     this.onFormChange();
-    this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value =>{
+    this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
       this.getDonorList(value);
     });
   }
@@ -319,12 +319,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
             const slab: any = this.yearsSlab.find((f: any) => {
               return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
-            this.collectionForm.controls.financial_year_id.setValue(slab? slab.id.toString() : null);
+            this.collectionForm.controls.financial_year_id.setValue(slab ? slab.id.toString() : null);
           } else {
             const slab: any = this.yearsSlab.find((f: any) => {
               return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
-            this.collectionForm.controls.financial_year_id.setValue(slab? slab.id.toString() : null);
+            this.collectionForm.controls.financial_year_id.setValue(slab ? slab.id.toString() : null);
           }
         }
       }
@@ -1145,6 +1145,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 // Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
+    if (value.startsWith(' ') || value.endsWith(' ')) {
+      this.messageService.somethingWentWrong('Space not allowed');
+    }
     if (this.collectionForm.controls.ifsc_code.valid && value.length === 11) {
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
