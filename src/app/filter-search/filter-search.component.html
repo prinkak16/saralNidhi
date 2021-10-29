@@ -38,11 +38,7 @@
       <div class="row col-md-4 justify-content-around">
         <button mat-flat-button color="warn" class="col-md-3 clear-btn"  (click)="getFilteredData()">Search</button>
         <button mat-flat-button class="col-md-3 clear-btn" (click)="clearInputFields()">Clear</button>
-        <button mat-flat-button
-                  *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
-        class="col-md-3 download-btn" (click)="downloadList()">
-          Download
-        </button>
+        <button mat-flat-button class="download-btn" (click)="downloadList()" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"> Download  </button>
       </div>
     </div>
   </div>
