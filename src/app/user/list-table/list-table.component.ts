@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ChangePasswordBottomSheetComponent} from '../../change-password-bottom-sheet/change-password-bottom-sheet.component';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-user-list-table',
@@ -13,8 +14,9 @@ import {MatBottomSheet} from '@angular/material/bottom-sheet';
   styleUrls: ['./list-table.component.css']
 })
 export class ListTableComponent implements OnInit {
-
   @Input() users = [];
+  @Input() pageEvent: any;
+  @Input() pageSize: any;
   @Output() updateUserList = new EventEmitter();
   showLoader = false;
   displayedColumns: string[] = ['sno', 'name', 'email', 'phone_number', 'creator', 'role', 'state', 'action'];
