@@ -877,7 +877,7 @@
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="!transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="warn" (click)="submitForm()"
+      <button mat-flat-button [disabled]="!collectionForm.valid ||showLoader" color="primary" (click)="submitForm()"
               class="submit-button">
         <span class="spinner-border spinner-border-sm" *ngIf="showLoader" role="status" aria-hidden="true"></span>
         <span *ngIf="showLoader" class="text-white"> Submitting</span>
