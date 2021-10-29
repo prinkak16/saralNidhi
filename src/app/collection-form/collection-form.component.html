@@ -39,7 +39,7 @@
     <div class="col-md-4">
       <mat-label translate>Enter Date <sup>*</sup></mat-label>
       <br>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="mat-icon-view">
         <input #focusDate matInput (keydown.enter)="false" (keypress)="disableKeyPress($event)"
                [matDatepicker]="picker" (click)="picker.open()" [min]="today" [max]="today"
                placeholder="Enter date"
@@ -455,7 +455,7 @@
         <img src="assets/icons/home.png" class="img-icon"><span class="ml-2">Residential Details</span><sup
         *ngIf="isRequiredField('house')">*</sup></label>
       <div class="col-md-12">
-        <mat-label>House No. & Apartment Name</mat-label>
+        <mat-label>House No. & Apartment Name<sup *ngIf="isRequiredField('house')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="mt-1">
           <input matInput formControlName="house"
                  [required]="isRequiredField('house')">
