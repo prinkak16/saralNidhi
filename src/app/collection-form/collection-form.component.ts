@@ -346,10 +346,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       }
     );
     this.stateControl.valueChanges.subscribe(value => {
+      this.zilaControl.setValue(null);
+      this.zilaUnits = [];
       this.getZilas();
     });
 
     this.zilaControl.valueChanges.subscribe(value => {
+      this.collectionForm.controls.location_id.setValue(null);
+      this.mandalUnits = [];
       this.getMandals();
     });
 
