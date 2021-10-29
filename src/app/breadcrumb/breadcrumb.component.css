@@ -5,7 +5,7 @@
 }
 
 .breadcrumb a, span {
-  color: darkgrey;
+  color: #000000;
 }
 
 .breadcrumb a:hover, span:hover {
@@ -26,7 +26,7 @@
 
 .breadcrumb li::after {
   content: " >";
-  color: darkgrey;
+  color: #000000;
 }
 
 .breadcrumb li:last-child::after {

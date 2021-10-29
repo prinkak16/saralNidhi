@@ -4,7 +4,7 @@
     Loading tabs...
   </ng-container>
 
-  <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
+  <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)" class="tab-style">
     <mat-tab *ngFor="let tab of modeOfPayments; index as i" >
       <ng-template mat-tab-label class="mat-tab-view">
 <!--        matBadge="{{counting[i] > 0 ? counting[i] : ''}}" matBadgeSize="small"-->

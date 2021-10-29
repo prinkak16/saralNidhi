@@ -28,20 +28,18 @@
   color: #F68E00;
 }
 
-.icon-size{
+.icon-sizes{
   position: absolute;
   right: -11px;
-  top:-11px;
   bottom: 0;
   width: 44px;
   height: 44px;
 }
 
-.search-icon{
+.search-icons{
   position: absolute;
   right: 0;
-  top:0;
-  bottom: 0;
+  bottom: 10px;
   width: 20px;
   cursor: pointer;
 }
@@ -82,7 +80,7 @@
 
 .dropdown-icon{
   position: absolute;
-  top: -10px;
+  bottom: 0;
   right: -11px;
   width: 42px;
 }

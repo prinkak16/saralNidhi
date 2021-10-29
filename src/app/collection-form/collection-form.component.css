@@ -169,8 +169,13 @@ label{
 
 .submit-button{
   width: 15%;
-  background: #101a73!important;
+  background: #101A73;
 }
+
+::ng-deep.mat-button-disabled{
+  background: darkgray!important;
+}
+
 .spinner-border{
   color: white!important;
 }
