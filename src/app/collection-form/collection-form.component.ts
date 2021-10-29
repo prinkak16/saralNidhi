@@ -111,6 +111,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   dateErrorMsg = '';
   statesValue: any;
   showImgUpload = true;
+  isView: any;
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -1055,16 +1056,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.narration.setValue(transaction.data.narration);
     this.collectionForm.controls.pan_card.setValue(transaction.pan_card);
     this.collectionForm.controls.party_unit.setValue(transaction.location_type);
-    if (transaction.location_type === 'CountryState') {
-      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
-    } else if (transaction.location_type === 'Zila') {
-      this.stateControl.setValue(this.transactionDetails.country_state_id.toString());
-      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
-    } else if (transaction.location_type === 'Mandal') {
-      this.stateControl.setValue(this.transactionDetails.country_state_id.toString());
-      this.zilaControl.setValue(this.transactionDetails.zila_id.toString());
-      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
-    }
+    this.setPartyUnitValue(transaction);
     this.collectionForm.controls.phone.setValue(transaction.data.phone);
     this.collectionForm.controls.email.setValue(transaction.data.email);
     this.collectionForm.controls.other_category.setValue(transaction.data.other_category);
@@ -1092,6 +1084,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.amountWord.disable();
       this.stateControl.disable();
       this.zilaControl.disable();
+      this.setPartyUnitValue(transaction);
       this.panCardRemark.disable();
       this.ngOtpInputRef.otpForm.disable();
       this.isEnabled = true;
@@ -1218,4 +1211,19 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.keyword.setValue('');
     this.autoFillData = [];
   }
+
+ // set party unit value
+  setPartyUnitValue(transaction: any): void{
+    if (transaction.location_type === 'CountryState') {
+      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    } else if (transaction.location_type === 'Zila') {
+      this.stateControl.setValue(this.transactionDetails.country_state_id);
+      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    } else if (transaction.location_type === 'Mandal') {
+      this.stateControl.setValue(this.transactionDetails.country_state_id);
+      this.zilaControl.setValue(this.transactionDetails.zila_id);
+      this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
+    }
+  }
+
 }
