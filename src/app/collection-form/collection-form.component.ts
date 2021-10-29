@@ -110,10 +110,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
   statesValue: any;
-<<<<<<< HEAD
-=======
   showImgUpload = true;
->>>>>>> 8cdfd9a7262c7bf2213bbdc4219e123ec87fb13f
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -172,7 +169,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.getStates();
     this.getFinancialYears();
     this.onFormChange();
-    this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value =>{
+    this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
       this.getDonorList(value);
     });
   }
@@ -322,12 +319,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
             const slab: any = this.yearsSlab.find((f: any) => {
               return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
-            this.collectionForm.controls.financial_year_id.setValue(slab? slab.id.toString() : null);
+            this.collectionForm.controls.financial_year_id.setValue(slab ? slab.id.toString() : null);
           } else {
             const slab: any = this.yearsSlab.find((f: any) => {
               return f.slab === this.fiscalYear.substr(0, 5) + this.fiscalYear.substr(7, 9);
             });
-            this.collectionForm.controls.financial_year_id.setValue(slab? slab.id.toString() : null);
+            this.collectionForm.controls.financial_year_id.setValue(slab ? slab.id.toString() : null);
           }
         }
       }
@@ -348,7 +345,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         }
       }
     );
-
     this.stateControl.valueChanges.subscribe(value => {
       this.getZilas();
     });
@@ -1147,6 +1143,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 // Fetching bank details from ifsc code.
   getBankDetails(value: string): void {
     this.setIfscValidation();
+    if (value.startsWith(' ') || value.endsWith(' ')) {
+      this.messageService.somethingWentWrong('Space not allowed');
+    }
     if (this.collectionForm.controls.ifsc_code.valid && value.length === 11) {
       this.restService.getBankDetails(value).subscribe((response: any) => {
         this.bankDetails = response;
@@ -1156,7 +1155,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         if (error.error === 'Not Found') {
           this.messageService.somethingWentWrong('Please enter valid ifsc code');
         } else {
-          this.messageService.somethingWentWrong('Please enter ifsc code');
+          this.messageService.somethingWentWrong('Please enter correct ifsc code');
         }
       });
     } else {

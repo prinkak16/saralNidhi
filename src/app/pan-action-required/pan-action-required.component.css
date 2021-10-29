@@ -18,7 +18,9 @@
   border-top-width: 0 !important;
 }
 
-
+::ng-deep.mat-tab-labels{
+  justify-content: start;
+}
 .error-text-truncate{
   width: 100px;
   white-space: nowrap;
@@ -43,12 +45,12 @@
   line-height: 12px;
 }
 
-::ng-deep .mat-tab-label .mat-tab-label-content {
-  font-size: 18px;
-  font-weight: 800;
-}
+/*::ng-deep .mat-tab-label .mat-tab-label-content {*/
+/*  font-size: 18px;*/
+/*  font-weight: 800;*/
+/*}*/
 
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background-color: #fe7045;
-  height: 8px;
-}
+/*::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {*/
+/*  background-color: #fe7045;*/
+/*  height: 8px;*/
+/*}*/

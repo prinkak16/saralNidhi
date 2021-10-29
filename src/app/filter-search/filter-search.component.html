@@ -7,9 +7,9 @@
     <div class="col-md-3">
       <mat-label class="mat-label-text">Search by Name/Phone No./PAN No.</mat-label><br>
       <mat-form-field class="w-100 position-relative" appearance="outline" (keyup.enter)="($event)">
-        <img src="assets/icons/rectangle.png" alt="" class="icon-size" >
-        <img src="assets/icons/search.png" alt="" class="search-icon" (click)="getFilteredData()">
         <mat-icon (click)="filterForm.controls.query.setValue('')"  class="cancel-btn" *ngIf="filterForm.controls.query.value">cancel</mat-icon>
+        <img src="assets/icons/rectangle.png" alt="" class="icon-sizes" >
+        <img src="assets/icons/search.png" alt="" class="search-icons" (click)="getFilteredData()">
         <input matInput  formControlName="query">
       </mat-form-field>
     </div>
@@ -29,10 +29,10 @@
         <mat-label class="mat-label-text">Filter by State</mat-label>
         <mat-form-field appearance="outline" class="w-100 position-relative" *ngIf="utilsService.isNationalAccountant() ||
          utilsService.isNationalTreasurer()">
-          <img src="assets/icons/dropdown.svg" class="dropdown-icon">
           <mat-select formControlName="state_id"  >
             <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
           </mat-select>
+          <img src="assets/icons/dropdown.svg" class="dropdown-icon">
         </mat-form-field>
       </div>
       <div class="row col-md-4 justify-content-around">

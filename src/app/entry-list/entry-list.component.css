@@ -1,9 +1,9 @@
-::ng-deep .mat-tab-label .mat-tab-label-content {
+.tab-style ::ng-deep .mat-tab-label .mat-tab-label-content {
   font-size: 18px;
   font-weight: 800;
 }
 
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+.tab-style ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   display: none!important;
 }
 
@@ -11,7 +11,10 @@
   margin-top: 30px;
 }
 
-::ng-deep.mat-tab-label-active {
+.tab-style ::ng-deep.mat-ink-bar{
+  bottom: -5px!important;
+}
+.tab-style ::ng-deep.mat-tab-label-active {
   background: #101A73!important;
   color:#ffffff!important;
   opacity: 1!important;
@@ -25,7 +28,7 @@
   border-bottom: none!important;
 }
 
-::ng-deep.mat-tab-label{
+.tab-style ::ng-deep.mat-tab-label{
   background: #FFFFFF;
   border: 1px solid #B2B2B1;
   box-sizing: border-box;
@@ -39,6 +42,8 @@
   text-align: center;
   letter-spacing: 0.05em;
   color: #110F0D;
+  padding: 0!important;
+  min-width: 140px !important;
 }
 
 
@@ -53,7 +58,7 @@
   font-size: 14px!important;
   height: 15px;
 }
-::ng-deep.mat-tab-labels{
+.tab-style::ng-deep.mat-tab-labels{
   justify-content: space-between;
 }
 

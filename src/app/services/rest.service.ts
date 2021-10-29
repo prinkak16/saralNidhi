@@ -246,8 +246,8 @@ export class RestService {
   }
 
 // Get pan required records
-  getPanRequiredData(status: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records?status=' + status, this.authHttpOptions());
+  getPanRequiredData(data: object): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/pan_required_records', data, this.authHttpOptions());
   }
   sendEmail(data: any): any {
     return this.http.post(this.baseUrl + 'nidhi_collection/send_receipt_on_email', JSON.stringify(data), this.authHttpOptions());

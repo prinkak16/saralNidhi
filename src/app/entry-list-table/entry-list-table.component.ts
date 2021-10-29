@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild, OnDestroy} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ChangeDetectorRef, ViewChild, OnDestroy} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -21,6 +21,7 @@ import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-s
 export class EntryListTableComponent implements OnInit, OnDestroy {
 
   constructor(private restService: RestService, private matDialog: MatDialog,
+              private cd: ChangeDetectorRef,
               private activatedRoute: ActivatedRoute, private messageService: MessageService,
               public utilService: UtilsService) {
   }
@@ -60,8 +61,11 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+  ngAfterViewInit(): void {
+    this.cd.checkNoChanges();
+}
 
-  subscribeToSubject(): void {
+    subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = value;
       this.pageEvent = new PageEvent();
