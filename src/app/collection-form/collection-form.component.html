@@ -880,9 +880,9 @@
 
     </div>
 
-    <div class="col-md-12 mb-3" *ngIf="transactionId">
-      <button mat-flat-button [disabled]="!collectionForm.valid" color="warn"
-              (click)="updateTransaction(transactionDetails.data.id)">Update
+    <div class="col-md-12 mb-3 text-center" *ngIf="transactionId">
+      <button mat-flat-button [disabled]="!collectionForm.valid" color="primary" class="submit-button"
+              (click)="updateTransaction(transactionDetails.data.id)"> <span class="text-white">Update</span>
       </button>
     </div>
   </form>
