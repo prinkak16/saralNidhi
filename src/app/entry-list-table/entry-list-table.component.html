@@ -57,7 +57,7 @@
 
     <!-- Pan Card No. Column -->
     <ng-container matColumnDef="pan_card">
-      <mat-header-cell *matHeaderCellDef> Pan</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> PAN</mat-header-cell>
       <mat-cell *matCellDef="let element"
                 [matTooltip]="getPanStateDisplayName(element) | titlecase"
                 class="cursor-pointer"> {{element.data.pan_card}} </mat-cell>
@@ -89,15 +89,17 @@
           <img src="assets/icons/cheque.png" alt="" *ngIf="element.payment_realize_date" class="icon-resize"
                matTooltip="{{element.mode_of_payment.name}} Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">
 
-<!--          <img src="assets/icons/error.svg" alt="" *ngIf="element.payment_remark" class="icon-resize"-->
-<!--               matTooltip="Remark: {{element.payment_remark }}">-->
+          <img src="assets/icons/refresh.svg" alt="" *ngIf="element.payment_remark && element.payment_realize_date" class="icon-resize text-danger"
+               matTooltip="Remark: {{element.payment_remark }}">
 
-          <p *ngIf="element.payment_remark && element.payment_realize_date" matTooltip="{{element.payment_remark}}">Reverse</p>
-          <p *ngIf="(element.mode_of_payment.name === 'IMPS'
+          <img src="assets/icons/refresh.svg" alt="" *ngIf="(element.mode_of_payment.name === 'IMPS'
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
-          || element.mode_of_payment.name === 'UPI') && element.payment_remark" matTooltip="{{element.payment_remark}}">Reversed</p>
-          <p *ngIf="element.payment_remark && element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date" matTooltip="{{element.payment_remark}}">Bounce</p>
+          || element.mode_of_payment.name === 'UPI') && element.payment_remark" class="icon-resize text-danger"
+               matTooltip="Remark: {{element.payment_remark }}">
+
+          <img src="assets/icons/error.svg" alt="" *ngIf="element.payment_remark && element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date" class="icon-resize"
+               matTooltip="Remark: {{element.payment_remark }}">
 
           <div class="cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details."
                *ngIf="updateAllowedDays.length > 0 && (element.mode_of_payment.name === 'IMPS'
