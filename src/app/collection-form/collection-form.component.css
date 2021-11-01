@@ -110,6 +110,7 @@ label{
   border-radius: 10px;
   max-height: 400px;
   overflow: auto;
+  width: 590px;
 }
 
 .select-ui .mat-select-arrow{
@@ -446,4 +447,8 @@ mat-form-field{
 
 .disable-btn-bg{
   background-color: #a3a6c5!important;
+}
+
+::ng-deep .ng-select.ng-select-disabled .ng-select-container:after {
+  background-size: 0 !important;
 }

@@ -11,12 +11,11 @@
 }
 
 .entry-list-table mat-cell {
-  border: 1px solid #e0e0e0;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
   color: black !important;
   font-size: 13px !important;
   text-align: center;
 }
-
 
 
 .mat-column-sno {
@@ -39,10 +38,10 @@
 }
 
 .entry-list-table mat-row, mat-header-row, mat-footer-row {
-  border: 1px solid #e0e0e0;
+ border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
-::ng-deep.mat-header-cell:nth-child(even){
+::ng-deep.mat-header-cell:nth-child(even) {
   background: #E4E4E4;
   font-family: Raleway;
   font-style: normal;
@@ -53,7 +52,7 @@
   color: #000000;
 }
 
-::ng-deep.mat-header-cell:nth-child(odd){
+::ng-deep.mat-header-cell:nth-child(odd) {
   font-family: Raleway;
   font-style: normal;
   font-weight: 600;
@@ -64,41 +63,42 @@
   background-color: rgba(217, 217, 217, 0.2);
 }
 
-.icon-resize{
-  width:20px;
-  height: 20px;
-}
-
-.img-resize{
-  width: 15px;
-  height: 15px;
-}
-.img-resize-font{
+.icon-resize {
   width: 20px;
   height: 20px;
 }
 
-.mat-icon-resize{
+.img-resize {
+  width: 15px;
+  height: 15px;
+}
+
+.img-resize-font {
+  width: 20px;
+  height: 20px;
+}
+
+.mat-icon-resize {
   width: 40px;
   height: 40px;
   padding: 0 20px 0 2px;
 }
 
-::ng-deep.mat-cell:last-of-type{
-  padding-right: 0px!important;
+::ng-deep.mat-cell:last-of-type {
+  padding-right: 0px !important;
 }
 
-.btn-background{
-  background: #F68E00!important;
+.btn-background {
+  background: #F68E00 !important;
   border-radius: 5px;
   border: none;
   width: 45px;
   height: 25px;
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-radius: 5px;
 }
 
-.btn-background-reciept{
+.btn-background-reciept {
   background: #1A7DDF;
   border-radius: 5px;
   border: none;
@@ -106,19 +106,20 @@
   height: 25px;
 }
 
-::ng-deep.mat-paginator-range-label{
-  color:#1A7DDF;
+::ng-deep.mat-paginator-range-label {
+  color: #1A7DDF;
 }
 
 
-.btn-separate{
+.btn-separate {
   justify-content: space-evenly;
 }
-::ng-deep.mat-menu-item{
-  color:#155686!important;
+
+::ng-deep.mat-menu-item {
+  color: #155686 !important;
 }
 
-.reciept-reason{
+.reciept-reason {
   cursor: pointer;
   background: #7e7f80;
   color: #ffffff;
@@ -126,21 +127,21 @@
   border-radius: 5px;
 }
 
-.btn-send{
+.btn-send {
   border: none;
   width: 45px;
   height: 25px;
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-radius: 5px;
-  background: #007bff!important;
+  background: #007bff !important;
 }
 
 ::ng-deep.mat-menu-item .mat-icon-no-color {
-  color:#155686!important;
+  color: #155686 !important;
 }
 
 ::ng-deep.mat-header-cell:last-of-type {
-  padding-right: 0px!important;
+  padding-right: 0px !important;
 }
 
 .entry-list-table .mat-row, mat-header-row, mat-footer-row {
