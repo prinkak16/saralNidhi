@@ -57,7 +57,7 @@
 
     <!-- Pan Card No. Column -->
     <ng-container matColumnDef="pan_card">
-      <mat-header-cell *matHeaderCellDef> Pan Card<br>No.</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Pan Card</mat-header-cell>
       <mat-cell *matCellDef="let element"
                 [matTooltip]="getPanStateDisplayName(element) | titlecase"
                 class="cursor-pointer"> {{element.data.pan_card}} </mat-cell>
@@ -228,9 +228,9 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+  </div>
   <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
                  [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
-  </div>
 </ng-container>
 <ng-template #emptyList>
   <h3 class="text-center" *ngIf="!showLoader">No records found</h3>

@@ -23,20 +23,10 @@
   flex: 0 0 65px;
 }
 
-/*.mat-column-receipt-print {*/
-/*  flex: 0 0 100px;*/
-/*}*/
+.mat-column-action {
+  flex: 0 0 100px;
+}
 
-/*.mat-column-amount {*/
-/*  flex: 0 0 150px;*/
-/*}*/
-/*.mat-column-date {*/
-/*  flex: 0 0 150px;*/
-/*}*/
-
-/*.mat-column-category {*/
-/*  flex: 0 0 150px;*/
-/*}*/
 
 .entry-list-table mat-row, mat-header-row, mat-footer-row {
  border: 1px solid rgba(0, 0, 0, 0.4);
@@ -125,13 +115,13 @@
   cursor: pointer;
   background: #7e7f80;
   color: #ffffff;
-  width: 50%;
+  width: 60px;
   border-radius: 5px;
 }
 
 .btn-send{
   border: none;
-  width: 45px;
+  width: 60px;
   height: 25px;
   color: #ffffff !important;
   border-radius: 5px;
