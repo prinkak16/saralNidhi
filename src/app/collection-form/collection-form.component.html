@@ -757,19 +757,20 @@
           <div class="col-md-4 p-0 pr-3">
             <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
+                       [placeholder]="('Select state')"
                        [required]="isRequiredField('location_id')"
                        bindValue="id" formControlName="location_id">
             </ng-select>
             <mat-error class="error-custom-style"
                        *ngIf="((collectionForm.controls['location_id'].touched)&& collectionForm.controls['location_id'].hasError('required'))">
-              Name is required
+              State is required
             </mat-error>
           </div>
         </div>
       </ng-container>
       <ng-container *ngIf="collectionForm.controls.party_unit.value === 'Zila'">
         <div class="d-flex mt-3">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <mat-label>State <sup>*</sup></mat-label>
             <br>
             <ng-container *ngIf="utilsService.isNationalAccountant() ||
@@ -779,6 +780,7 @@
               <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select state')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="stateControl">
               </ng-select>
@@ -788,13 +790,14 @@
               </mat-error>
             </ng-container>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <mat-label>Zila <sup>*</sup></mat-label>
             <br>
             <ng-container>
               <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select zila')"
                          [required]="isRequiredField('location_id')"
                          formControlName="location_id">
               </ng-select>
@@ -818,6 +821,7 @@
               <ng-select [items]="stateUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select state')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="stateControl">
               </ng-select>
@@ -838,6 +842,7 @@
               <ng-select [items]="zilaUnits" appearance="outline" class="bg-white"
                          bindLabel="name"
                          bindValue="id"
+                         [placeholder]="('Select zila')"
                          [required]="isRequiredField('location_id')"
                          [formControl]="zilaControl">
               </ng-select>
@@ -853,6 +858,7 @@
             <ng-select [items]="mandalUnits" appearance="outline" class="bg-white"
                        bindLabel="name"
                        bindValue="id"
+                       [placeholder]="('Select mandal')"
                        [required]="isRequiredField('location_id')"
                        formControlName="location_id">
             </ng-select>

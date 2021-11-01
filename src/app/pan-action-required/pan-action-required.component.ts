@@ -103,8 +103,9 @@ export class PanActionRequiredComponent implements OnInit{
       offset: this.offset
     };
     this.restService.getPanRequiredData(obj).subscribe((response: any) => {
-      this.showLoader = false;
+      this.showLoader = true;
       this.paymentDetails = response.data.data;
+      this.showLoader = false;
       this.length = response.data.length;
     }, (error: string) => {
       this.showLoader = false;

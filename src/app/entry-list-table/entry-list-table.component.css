@@ -11,7 +11,7 @@
 }
 
 .entry-list-table mat-cell {
-  border: 1px solid #e0e0e0;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
   color: black !important;
   font-size: 13px !important;
   text-align: center;
@@ -19,9 +19,9 @@
 
 
 
-/*.mat-column-sno {*/
-/*  flex: 0 0 65px;*/
-/*}*/
+.mat-column-sno {
+  flex: 0 0 65px;
+}
 
 /*.mat-column-receipt-print {*/
 /*  flex: 0 0 100px;*/
@@ -39,7 +39,7 @@
 /*}*/
 
 .entry-list-table mat-row, mat-header-row, mat-footer-row {
-  border: 1px solid #e0e0e0;
+ border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 ::ng-deep.mat-header-cell:nth-child(even){
@@ -94,7 +94,7 @@
   border: none;
   width: 60px;
   height: 25px;
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-radius: 5px;
 }
 
@@ -125,25 +125,25 @@
   cursor: pointer;
   background: #7e7f80;
   color: #ffffff;
-  width: 60px;
+  width: 50%;
   border-radius: 5px;
 }
 
 .btn-send{
   border: none;
-  width: 60px;
+  width: 45px;
   height: 25px;
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-radius: 5px;
-  background: #007bff!important;
+  background: #007bff !important;
 }
 
 ::ng-deep.mat-menu-item .mat-icon-no-color {
-  color:#155686!important;
+  color: #155686 !important;
 }
 
 ::ng-deep.mat-header-cell:last-of-type {
-  padding-right: 0px!important;
+  padding-right: 0px !important;
 }
 
 .entry-list-table .mat-row, mat-header-row, mat-footer-row {
