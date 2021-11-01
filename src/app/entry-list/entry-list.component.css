@@ -37,13 +37,12 @@
   font-style: normal;
   opacity: 1!important;
   font-weight: 600;
-  font-size: 14px;
   line-height: 16px;
   text-align: center;
   letter-spacing: 0.05em;
   color: #110F0D;
   padding: 0!important;
-  min-width: 140px !important;
+  min-width: 125px !important;
 }
 
 

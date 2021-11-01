@@ -1,23 +1,26 @@
-.entry-list-table mat-cell {
+.entry-list-tables mat-cell {
   border: 1px solid #e0e0e0;
   color: black !important;
   font-size: 13px !important;
   text-align: center;
 }
 
-.entry-list-table mat-row, mat-header-row, mat-footer-row {
+.entry-list-tables mat-row, mat-header-row, mat-footer-row {
   border: 1px solid #e0e0e0;
 }
 
-.entry-list-table .mat-row, mat-header-row, mat-footer-row {
+.entry-list-tables .mat-row, mat-header-row, mat-footer-row {
   align-items: unset !important;
 }
 
-.entry-list-table mat-row {
+.entry-list-tables mat-row {
   border-width: 1px !important;
   border-top-width: 0 !important;
 }
-
+.entry-list-tables mat-header-row {
+  border-width: 1px !important;
+  border-top-width: 0 !important;
+}
 ::ng-deep.mat-tab-labels{
   justify-content: start;
 }

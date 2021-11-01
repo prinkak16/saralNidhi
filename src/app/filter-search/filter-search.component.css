@@ -31,9 +31,9 @@
 .icon-sizes{
   position: absolute;
   right: -11px;
-  bottom: 0;
-  width: 44px;
-  height: 44px;
+  bottom: 1px;
+  width: 40px;
+  height: 40px;
 }
 
 .search-icons{
@@ -46,7 +46,7 @@
 
 .cancel-btn{
   position: absolute;
-  top: 0px;
+  bottom: 10px;
   right: 40px;
   color: #172c73;
   cursor: pointer;
@@ -80,9 +80,9 @@
 
 .dropdown-icon{
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   right: -11px;
-  width: 42px;
+  width: 40px;
 }
 
 .download-btn{
