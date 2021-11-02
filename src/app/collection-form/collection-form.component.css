@@ -173,10 +173,6 @@ label{
   background: #101A73;
 }
 
-::ng-deep.mat-button-disabled{
-  background: darkgray!important;
-}
-
 .spinner-border{
   color: white!important;
 }

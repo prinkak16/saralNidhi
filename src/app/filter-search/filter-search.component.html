@@ -8,8 +8,7 @@
       <mat-label class="mat-label-text">Search by Name/Phone/PAN</mat-label><br>
       <mat-form-field class="w-100 position-relative" appearance="outline" (keyup.enter)="($event)">
         <mat-icon (click)="filterForm.controls.query.setValue('')"  class="cancel-btn" *ngIf="filterForm.controls.query.value">cancel</mat-icon>
-        <img src="assets/icons/rectangle.png" alt="" class="icon-sizes" >
-        <img src="assets/icons/search.png" alt="" class="search-icons" (click)="getFilteredData()">
+        <img src="assets/icons/searchbar.svg" alt="" class="icon-sizes" (click)="getFilteredData()">
         <input matInput  formControlName="query">
       </mat-form-field>
     </div>
@@ -35,7 +34,7 @@
           <img src="assets/icons/dropdown.svg" class="dropdown-icon">
         </mat-form-field>
       </div>
-      <div class="row col-md-4 justify-content-around">
+      <div class="row col-md-4 justify-content-around mt-1">
         <button mat-flat-button color="warn" class="col-md-3 clear-btn"  (click)="getFilteredData()">Search</button>
         <button mat-flat-button class="col-md-3 clear-btn" (click)="clearInputFields()">Clear</button>
         <button mat-flat-button class="download-btn" (click)="downloadList()" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"> Download  </button>
