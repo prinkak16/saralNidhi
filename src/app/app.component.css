@@ -7,7 +7,7 @@
 }
 .content-area{
   height: 760px;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 .content-area::-webkit-scrollbar {
