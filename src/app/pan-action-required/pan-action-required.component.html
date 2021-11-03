@@ -47,8 +47,11 @@
         <ng-container matColumnDef="photo">
           <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
           <mat-cell *matCellDef="let element" class="cursor-pointer">
-            <ng-container *ngIf="element.data.pan_card_photo">
-              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>
+            <ng-container *ngIf="element.data.pan_card_photo" >
+              <a [attr.href]="element.data.pan_card_photo" target="_blank">
+                <mat-icon  matTooltip="click to open this file">remove_red_eye
+               </mat-icon></a>
+<!--              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>-->
               <mat-icon (click)="copyText(element.data.pan_card_photo)" matTooltip="click to copy the link">file_copy
               </mat-icon>
             </ng-container>
