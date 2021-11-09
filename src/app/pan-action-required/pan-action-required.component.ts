@@ -17,7 +17,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 })
 export class PanActionRequiredComponent implements OnInit{
   asyncTabs: Observable<any>;
-  length: number | undefined ;
+  length = 0;
   pageSize = 10;
   pageEvent = new PageEvent();
   offset = 0;
@@ -97,6 +97,7 @@ export class PanActionRequiredComponent implements OnInit{
 
 
   getPanRequiredList(status: any): void {
+    this.showLoader = true;
     const obj = {
       status: status ? status : 'invalid',
       limit: this.limit,

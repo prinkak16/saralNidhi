@@ -9,7 +9,7 @@
 <mat-tab-group (selectedTabChange)="tabChange($event)">
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{tab.label}}</ng-template>
-    <ng-container *ngIf="!showLoader">
+    <ng-container *ngIf="length > 0 ; else emptyList">
       <mat-table [dataSource]="paymentDetails"  class="entry-list-tables">
         <ng-container matColumnDef="sno">
           <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
@@ -47,8 +47,11 @@
         <ng-container matColumnDef="photo">
           <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
           <mat-cell *matCellDef="let element" class="cursor-pointer">
-            <ng-container *ngIf="element.data.pan_card_photo">
-              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>
+            <ng-container *ngIf="element.data.pan_card_photo" >
+              <a [attr.href]="element.data.pan_card_photo" target="_blank">
+                <mat-icon  matTooltip="click to open this file">remove_red_eye
+               </mat-icon></a>
+<!--              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>-->
               <mat-icon (click)="copyText(element.data.pan_card_photo)" matTooltip="click to copy the link">file_copy
               </mat-icon>
             </ng-container>
@@ -74,8 +77,12 @@
       <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
                      [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
     </ng-container>
+    <ng-template #emptyList>
+      <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
+    </ng-template>
+    <div class="loader-container" *ngIf="showLoader">
+      <mat-spinner color="warn"></mat-spinner>
+    </div>
   </mat-tab>
 </mat-tab-group>
-<div class="loader-container" *ngIf="showLoader">
-  <mat-spinner color="warn"></mat-spinner>
-</div>
+
