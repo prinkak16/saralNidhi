@@ -23,7 +23,6 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   counting = [];
   filters: any;
   showLoader = false;
-
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
   }
@@ -70,7 +69,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   getCount(): any {
     this.restService.getCounts({
-      states: this.utilService.pluck(this.modeOfPayments, 'id'), filters: this.filters
+      filters: this.filters
     }).subscribe((response: any) => {
       this.counting = [];
       setTimeout((_: any) => {

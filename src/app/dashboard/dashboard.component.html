@@ -15,7 +15,7 @@
 <!--      <circle cx="11" cy="11" r="8"></circle>-->
 <!--      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>-->
 <!--    </svg>-->
-    <input  placeholder="Search by name / Phone no / Pan no" class="search-bar"
+    <input  placeholder="Search by Name/ Phone/ PAN" class="search-bar"
            (keyup.enter)="collectionDataSearch()" [formControl]="query">
   <div class="total-count-container pointer" (click)="showTotalEntryList()" *ngIf="utilsService.isAnyPartyUnit()">
     <div class="total-count-div">
@@ -53,6 +53,12 @@
       <img src="assets/icons/required_action.svg" alt="Pan card action required">
       <div class="action-text">Action Required for Pancard</div>
     </div>
+
+    <div class="action-div pointer" [routerLink]="['/dashboard/archived_transaction_list']">
+      <img src="assets/icons/required_action.svg" alt="Archived Transaction">
+      <div class="action-text">Archived Transactions</div>
+    </div>
+
     <div class="action-div pointer">
       <img src="assets/icons/required_action.svg" alt="DD / Cheque action required">
       <div class="action-text">Action Required for DD / Cheque</div>

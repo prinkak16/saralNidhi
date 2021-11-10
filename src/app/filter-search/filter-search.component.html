@@ -1,33 +1,45 @@
 <form [formGroup]="filterForm">
-  <mat-form-field class="col-3" appearance="outline">
-    <input matInput placeholder="Name / Pan / Phone " formControlName="query">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="col-3">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker" [max]="today">
-      <input matStartDate placeholder="Start date" (click)="picker.open()" formControlName="start_date">
-      <input matEndDate placeholder="End date" (click)="picker.open()" formControlName="end_date">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="col-3 small-mat-form-field" *ngIf="utilsService.isNationalAccountant() ||
-      utilsService.isNationalTreasurer()">
-    <mat-label>Filter by State</mat-label>
-    <mat-select formControlName="state_id">
-      <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button mat-flat-button color="warn" class="ml-4" (click)="getFilteredData()">Search</button>
-  <button mat-flat-button color="warn" class="ml-2" (click)="clearInputFields()">Clear</button>
-  <button mat-flat-button color="primary"
-          *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
-          class="ml-2" (click)="downloadList()">
-    <mat-icon matSuffix>download</mat-icon>
-    Download
-  </button>
+  <div class="row col-md-12 align-items-center  ">
+      <img src="assets/icons/list.svg" alt="" class="img-size">
+      <h2 class="header-text mt-0 mb-0">Donation List</h2>
+  </div>
+  <div class="row p-2 mt-2">
+    <div class="col-md-3">
+      <mat-label class="mat-label-text">Search by Name/Phone/PAN</mat-label><br>
+      <mat-form-field class="w-100 position-relative" appearance="outline" (keyup.enter)="($event)">
+        <mat-icon (click)="filterForm.controls.query.setValue('')"  class="cancel-btn" *ngIf="filterForm.controls.query.value">cancel</mat-icon>
+        <img src="assets/icons/searchbar.svg" alt="" class="icon-sizes" (click)="getFilteredData()">
+        <input matInput  formControlName="query">
+      </mat-form-field>
+    </div>
+    <div class="col-md-9 row align-items-center">
+      <div class="col-md-4">
+        <mat-label class="mat-label-text">Enter date range</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-date-range-input [rangePicker]="picker" [max]="today">
+            <input matStartDate (click)="picker.open()" formControlName="start_date">
+            <input matEndDate  (click)="picker.open()" formControlName="end_date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-label class="mat-label-text">Filter by State</mat-label>
+        <mat-form-field appearance="outline" class="w-100 position-relative" *ngIf="utilsService.isNationalAccountant() ||
+         utilsService.isNationalTreasurer()">
+          <mat-select formControlName="state_id"  >
+            <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
+          </mat-select>
+          <img src="assets/icons/dropdown.svg" class="dropdown-icon">
+        </mat-form-field>
+      </div>
+      <div class="row col-md-4 justify-content-around mt-1">
+        <button mat-flat-button color="warn" class="col-md-3 clear-btn"  (click)="getFilteredData()">Search</button>
+        <button mat-flat-button class="col-md-3 clear-btn" (click)="clearInputFields()">Clear</button>
+        <button mat-flat-button class="download-btn" (click)="downloadList()" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"> Download  </button>
+      </div>
+    </div>
+  </div>
 </form>
 

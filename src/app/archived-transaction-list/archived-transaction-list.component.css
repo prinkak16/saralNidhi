@@ -1,0 +1,78 @@
+.mat-tab-style ::ng-deep .mat-tab-label .mat-tab-label-content {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.mat-tab-style ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #fe7045;
+  height: 8px;
+}
+
+.mat-tab-style ::ng-deep.mat-ink-bar{
+  bottom: -5px!important;
+}
+.table-container {
+  margin-top: 30px;
+}
+
+
+.mat-tab-style ::ng-deep .mat-tab-label .mat-tab-label-content {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.mat-tab-style ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  display: none!important;
+}
+
+.table-container {
+  margin-top: 30px;
+}
+
+.mat-tab-style ::ng-deep.mat-tab-label-active {
+  background: #101A73!important;
+  color:#ffffff!important;
+  opacity: 1!important;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+
+}
+
+
+
+.mat-tab-style ::ng-deep.mat-tab-header {
+  border-bottom: none!important;
+}
+
+.mat-tab-style::ng-deep.mat-tab-label{
+  background: #FFFFFF;
+  border: 1px solid #B2B2B1;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-family: Raleway;
+  font-style: normal;
+  opacity: 1!important;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  color: #110F0D;
+  padding: 0!important;
+  min-width: 140px !important;
+}
+
+
+.tab-text{
+  margin: 0!important;
+  font-size: 14px!important;
+  height: 15px;
+}
+.tab-text-count{
+  font-family: "Roboto", sans-serif;
+  margin: 0!important;
+  font-size: 14px!important;
+  height: 15px;
+}
+.mat-tab-style ::ng-deep.mat-tab-labels{
+  justify-content: space-between;
+}

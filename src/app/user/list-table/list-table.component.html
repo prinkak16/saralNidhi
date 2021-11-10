@@ -1,9 +1,9 @@
-<ng-container *ngIf="users.length > 0;else emptyList">
+<ng-container *ngIf="users.length > 0;else emptyList" class="container">
   <mat-table [dataSource]="users">
     <!-- Serial Number Column -->
     <ng-container matColumnDef="sno">
       <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </mat-cell>
+      <mat-cell *matCellDef="let element; let i = index;">{{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0) * this.pageSize) + i + 1}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
@@ -29,7 +29,22 @@
       <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.role.replace("_", " ") | titlecase}} </mat-cell>
     </ng-container>
-
+    <!-- Country State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef>States</mat-header-cell>
+      <mat-cell *matCellDef="let element" [matTooltip]="element.allotted_state"> {{element.allotted_state.split(',', 2)}}</mat-cell>
+    </ng-container>
+    <!-- Creator Column -->
+    <ng-container matColumnDef="creator">
+      <mat-header-cell *matHeaderCellDef>Creator</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div>{{element.created_by? element.created_by.email : ''}}</div>
+        <br>
+        <div>
+          {{element.created_by? element.created_by.phone_number : ''}}
+        </div>
+      </mat-cell>
+    </ng-container>
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>

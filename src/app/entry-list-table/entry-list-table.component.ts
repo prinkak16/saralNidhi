@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild, OnDestroy} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ChangeDetectorRef, ViewChild, OnDestroy} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -11,8 +11,8 @@ import {SendEmailDialogComponent} from '../send-email-dialog/send-email-dialog.c
 import {UpdatePaymentComponent} from '../update-payment/update-payment.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
-import {ReceiptStatusDialogComponent} from '../receipt-status-dialog/receipt-status-dialog.component';
-
+import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
+import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-status-dialog.component';
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
@@ -21,6 +21,7 @@ import {ReceiptStatusDialogComponent} from '../receipt-status-dialog/receipt-sta
 export class EntryListTableComponent implements OnInit, OnDestroy {
 
   constructor(private restService: RestService, private matDialog: MatDialog,
+              private cd: ChangeDetectorRef,
               private activatedRoute: ActivatedRoute, private messageService: MessageService,
               public utilService: UtilsService) {
   }
@@ -31,7 +32,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
   @Output() refreshCount: EventEmitter<any> = new EventEmitter();
-
   private subscription: Subscription = new Subscription();
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
@@ -49,6 +49,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   offset = 0;
   limit = 10;
   differenceInDays: any;
+
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
       this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
@@ -60,8 +61,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
-  subscribeToSubject(): void {
+    subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = value;
       this.pageEvent = new PageEvent();
@@ -106,6 +106,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.matDialog.open(ReceiptStatusDialogComponent, {data: {data}});
   }
 
+
   openEmailSendModal(transaction: any): void {
     this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
 
@@ -118,7 +119,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       date_of_cheque: row.data.date_of_cheque,
       date_of_draft: row.data.date_of_draft
     };
-    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
+    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData,  width: '350px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.updateList.emit(true);
@@ -139,15 +140,22 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   clickArchive(id: any): void {
-    if (confirm('Are you sure to archive ')) {
-      this.restService.archiveTransaction(id).subscribe((response: any) => {
-        this.getPaymentList();
-        this.refreshCount.emit();
-        this.messageService.closableSnackBar(response.message);
-      }, (error: any) => {
-        this.messageService.somethingWentWrong(error);
-      });
-    }
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      height: '125px',
+      data: {title: 'Are you sure to archive this transaction?'}
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.restService.archiveTransaction(id).subscribe((response: any) => {
+          this.refreshCount.emit();
+          this.getPaymentList();
+          this.messageService.closableSnackBar(response.message);
+        }, (error: any) => {
+          this.messageService.somethingWentWrong(error);
+        });
+      }
+    });
   }
 
   allowedEdit(createdDate: string): boolean {
@@ -180,7 +188,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
     const transactionDate = new Date(data.data.date_of_transaction);
-    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
+    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand Draft') {
       const chequeDdDate = new Date(new Date(realizedDate).setDate(realizedDate.getDate() + 30));
       return new Date() <= chequeDdDate;
     }
@@ -247,12 +255,14 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       );
     }
     if (transaction.mode_of_payment.name === 'Cash'){
-    return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
-      transaction.receipt_number_generated && transaction.transaction_valid && this.checkPanCardAndValidation(transaction));
+      return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+        transaction.receipt_number_generated && transaction.transaction_valid && this.checkPanCardAndValidation(transaction));
     } else {
-    return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
+      return(this.utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print') &&
         transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
-    );
+      );
     }
   }
+
+
 }

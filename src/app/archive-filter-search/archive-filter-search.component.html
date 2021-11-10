@@ -1,0 +1,33 @@
+<form [formGroup]="filterForm">
+  <mat-form-field class="col-3" appearance="outline">
+    <input matInput placeholder="Name / Pan / Phone " formControlName="query">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-3">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [max]="today">
+      <input matStartDate placeholder="Start date" (click)="picker.open()" formControlName="start_date">
+      <input matEndDate placeholder="End date" (click)="picker.open()" formControlName="end_date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-3 small-mat-form-field" *ngIf="utilsService.isNationalAccountant() ||
+      utilsService.isNationalTreasurer()">
+    <mat-label>Filter by State</mat-label>
+    <mat-select formControlName="state_id">
+      <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-flat-button color="warn" class="ml-4" (click)="getFilteredData()">Search</button>
+  <button mat-flat-button color="warn" class="ml-2" (click)="clearInputFields()">Clear</button>
+  <button mat-flat-button color="primary"
+          *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
+          class="ml-2" (click)="downloadArchiveList()">
+    <mat-icon matSuffix>download</mat-icon>
+    Download
+  </button>
+</form>
+
