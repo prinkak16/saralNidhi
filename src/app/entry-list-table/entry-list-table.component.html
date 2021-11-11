@@ -89,14 +89,24 @@
           <img src="assets/icons/cheque.png" alt="" *ngIf="element.payment_realize_date" class="icon-resize"
                matTooltip="{{element.mode_of_payment.name}} Realized on: {{element.payment_realize_date | date: 'dd/MM/yyyy'}}">
 
+          <!--Reverse remark in case of other mode of payment -->
           <img src="assets/icons/reversed-red.svg" alt="" *ngIf="(element.mode_of_payment.name === 'IMPS'
-          || element.mode_of_payment.name === 'NEFT'
-          || element.mode_of_payment.name === 'RTGS'
-          || element.mode_of_payment.name === 'UPI'
-          || element.mode_of_payment.name === 'Cash') && element.payment_remark" class="icon-resize text-danger"
+            || element.mode_of_payment.name === 'NEFT'
+            || element.mode_of_payment.name === 'RTGS'
+            || element.mode_of_payment.name === 'UPI'
+            || element.mode_of_payment.name === 'Cash') && element.payment_remark" class="icon-resize text-danger"
                matTooltip="Reversed Remark: {{element.payment_remark }}">
 
-          <img src="assets/icons/error.svg" alt="" *ngIf="element.payment_remark && element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date" class="icon-resize"
+          <!--Reverse remark in case of cheque & dd-->
+          <img src="assets/icons/reversed-red.svg" alt=""
+               *ngIf="element.payment_remark && (element.mode_of_payment.name === 'Demand Draft' || element.mode_of_payment.name === 'Cheque') && element.payment_realize_date"
+               class="icon-resize"
+               matTooltip="Reverse Remark: {{element.payment_remark }}">
+          <!--Bounce remark in case of cheque -->
+
+          <img src="assets/icons/error.svg" alt=""
+               *ngIf="element.payment_remark && element.mode_of_payment.name === 'Cheque' && !element.payment_realize_date"
+               class="icon-resize"
                matTooltip="Bounced Remark: {{element.payment_remark }}">
 
           <div class="cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details."
