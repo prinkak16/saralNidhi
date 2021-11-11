@@ -180,10 +180,12 @@
               </mat-form-field>
             </ng-container>
             <ng-container *ngIf="transactionId">
+              <mat-form-field appearance="outline">
               <input matInput
                      [matDatepicker]="picker4"
                      formControlName="date_of_draft"
               />
+              </mat-form-field>
               <mat-datepicker #picker4></mat-datepicker>
             </ng-container>
             <mat-error
