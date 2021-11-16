@@ -27,8 +27,7 @@
 
     <div class="col-md-4">
       <mat-label>Transaction Type <sup>*</sup></mat-label>
-      <ng-select [items]="transactionTypes" appearance="outline" class="bg-white mt-1"
-                 *ngIf="utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')"
+      <ng-select [items]="getTransactionType()" appearance="outline" class="bg-white mt-1"
                  bindLabel="name"
                  bindValue="value"
                  [required]="isRequiredField('transaction_type')"
