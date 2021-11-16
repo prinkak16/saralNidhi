@@ -24,10 +24,10 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
-      <div class="col-md-4">
-        <mat-label class="mat-label-text">Filter by State</mat-label>
-        <mat-form-field appearance="outline" class="w-100 position-relative" *ngIf="utilsService.isNationalAccountant() ||
+      <div class="col-md-4" *ngIf="utilsService.isNationalAccountant() ||
          utilsService.isNationalTreasurer()">
+        <mat-label class="mat-label-text">Filter by State</mat-label>
+        <mat-form-field appearance="outline" class="w-100 position-relative" >
           <mat-select formControlName="state_id"  >
             <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
           </mat-select>
