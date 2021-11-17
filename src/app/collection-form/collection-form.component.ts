@@ -48,7 +48,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   autoFillData: any;
   allowedValueNull = true;
   isEnabled = false;
-  transactionTypes = [{name: 'Regular', value: 'regular'}, {name: 'Supplementary', value: 'supplementary'}];
+  transactionTypes = [{name: 'Regular', value: 'regular'}];
 
   toWords = new ToWords({
     localeCode: 'en-IN',
@@ -1225,5 +1225,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     }
   }
+
+  // Display transaction types
+  getTransactionType(): any{
+    if (this.utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')) {
+      this.transactionTypes.push({name: 'Supplementary', value: 'supplementary'});
+    }
+    return this.transactionTypes;
+  }
+
 
 }
