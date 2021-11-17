@@ -47,7 +47,7 @@
         </mat-error>
       </mat-form-field>
       <label class="single-label col-md-12">Roles <sup *ngIf="isRequiredField('role')">*</sup></label>
-      <mat-radio-group formControlName="role" class="col-md-12">
+      <mat-radio-group formControlName="role" class="col-md-12 radio-button">
         <mat-radio-button *ngIf="utilsService.isNationalTreasurer()" value="national_accountant">National Accountant
         </mat-radio-button>
         <mat-radio-button *ngIf="utilsService.isNationalTreasurer() || utilsService.isStateTreasurer()"
@@ -62,7 +62,7 @@
           Mandal Accountant
         </mat-radio-button>
       </mat-radio-group>
-      <mat-form-field class="col-md-12"
+      <mat-form-field class="col-md-12 mt-2"
                       *ngIf="showLocation && locations && (userForm.controls.role.value !== 'national_treasurer')"
                       appearance="outline">
         <mat-label>{{placeholder}}</mat-label>
