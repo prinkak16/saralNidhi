@@ -41,7 +41,7 @@
         <ng-container matColumnDef="created_by">
           <mat-header-cell *matHeaderCellDef>Created By</mat-header-cell>
           <mat-cell *matCellDef="let element" class="cursor-pointer"
-                    matTooltip="{{element.created_by.email}}"><span
+                    matTooltip="{{element.created_by.email}}"><span class="text-overflow"
             >{{element.created_by.email}}</span></mat-cell>
         </ng-container>
         <ng-container matColumnDef="photo">
