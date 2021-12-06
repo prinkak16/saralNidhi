@@ -40,7 +40,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
-  displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
+  displayedColumns: string[] = ['sno', 'date', 'name', 'instrument_number', 'amount',
     'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
   length = 0;
@@ -52,7 +52,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
-      this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
+      this.displayedColumns = ['sno', 'date', 'name', 'instrument_number', 'amount',
         'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
@@ -262,6 +262,18 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
         transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
       );
     }
+  }
+
+  displayInstrumentNo(transaction: any): string {
+    let transactionId = '';
+    if (transaction.data.utr_number) {
+      transactionId = transaction.data.utr_number;
+    } else if (transaction.data.draft_number) {
+      transactionId = transaction.data.draft_number;
+    } else if (transaction.data.cheque_number) {
+      transactionId = transaction.data.cheque_number;
+    }
+    return transactionId;
   }
 
 
