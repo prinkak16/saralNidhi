@@ -9,7 +9,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name | titlecase}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
 
     <!-- Email Column -->
@@ -27,7 +27,7 @@
     <!-- Role Column -->
     <ng-container matColumnDef="role">
       <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.role.replace("_", " ") | titlecase}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
     </ng-container>
     <!-- Country State Column -->
     <ng-container matColumnDef="state">
@@ -38,11 +38,7 @@
     <ng-container matColumnDef="creator">
       <mat-header-cell *matHeaderCellDef>Creator</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <div>{{element.created_by? element.created_by.email : ''}}</div>
-        <br>
-        <div>
-          {{element.created_by? element.created_by.phone_number : ''}}
-        </div>
+        <div class="text-overflow cursor-pointer" matTooltip="{{element.created_by? element.created_by.email : ''}}">{{element.created_by? element.created_by.email : ''}}</div>
       </mat-cell>
     </ng-container>
     <!-- Action Column -->
