@@ -40,8 +40,8 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
-  displayedColumns: string[] = ['sno', 'date', 'name', 'instrument_number', 'amount',
-    'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
+  displayedColumns: string[] = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
+     'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
   length = 0;
   pageSize = 10;
@@ -52,7 +52,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
-      this.displayedColumns = ['sno', 'date', 'name', 'instrument_number', 'amount',
+      this.displayedColumns = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
         'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
