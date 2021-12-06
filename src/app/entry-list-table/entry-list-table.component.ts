@@ -53,7 +53,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
       this.displayedColumns = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
-        'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
+         'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
   }
