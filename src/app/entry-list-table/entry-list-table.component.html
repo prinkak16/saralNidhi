@@ -38,9 +38,9 @@
       </ng-container>
 
       <!-- Category Column -->
-      <ng-container matColumnDef="category">
-        <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.data.category | titlecase}} </mat-cell>
+      <ng-container matColumnDef="instrument_number">
+        <mat-header-cell *matHeaderCellDef> Instrument Number</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{displayInstrumentNo(element)}} </mat-cell>
       </ng-container>
 
       <!-- Amount Column -->
@@ -49,7 +49,7 @@
         <mat-cell *matCellDef="let element"> {{element.data.amount}} </mat-cell>
       </ng-container>
 
-      <!-- Mode Of Payment Column -->
+      <!-- Transaction id Column -->
       <ng-container matColumnDef="mode_of_payment">
         <mat-header-cell *matHeaderCellDef> Mode of Payment</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.mode_of_payment.name}} </mat-cell>
