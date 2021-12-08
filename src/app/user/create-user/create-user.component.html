@@ -50,7 +50,7 @@
       <mat-radio-group formControlName="role" class="col-md-12 radio-button">
         <mat-radio-button *ngIf="utilsService.isNationalTreasurer()" value="national_accountant">National Accountant
         </mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.isNationalTreasurer() || utilsService.isStateTreasurer()"
+        <mat-radio-button *ngIf="utilsService.isNationalTreasurer()"
                           value="state_treasurer">State Treasurer
         </mat-radio-button>
         <mat-radio-button *ngIf="utilsService.isNationalTreasurer() || utilsService.isStateTreasurer()"
