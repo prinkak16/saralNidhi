@@ -41,7 +41,12 @@
    padding-left: 0px!important;
 }
 
-
+.text-overflow{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
+}
 
 
 

@@ -1,7 +1,42 @@
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
 }
+.radio-button ::ng-deep.mat-radio-container{
+  display: none!important;
+}
 
+.radio-button ::ng-deep.mat-radio-button{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 23px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  width: 155px;
+  background: #ffffff;
+  color: #110F0D;
+  background: #FFFFFF;
+  border: 1px solid #B2B2B1;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+.radio-button ::ng-deep.mat-radio-label {
+  justify-content: center!important;
+}
+
+.radio-button ::ng-deep.mat-radio-label-content {
+   padding-left: 1px;
+}
+.radio-button ::ng-deep label {
+  margin-bottom: 0rem !important;
+}
+
+.radio-button ::ng-deep.mat-radio-checked{
+  background: #101A73!important;
+  color: #ffffff!important;
+  border-radius: 10px;
+}
 .mat-checkbox {
   margin-left: 16px;
 }
