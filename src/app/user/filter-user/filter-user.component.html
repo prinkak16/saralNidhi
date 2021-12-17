@@ -6,7 +6,16 @@
   <mat-form-field appearance="outline" class="col-3 small-mat-form-field" >
     <mat-label>Filter by Role</mat-label>
     <mat-select formControlName="role">
-      <mat-option *ngFor="let option of roles" value="{{option.value}}">{{option.name}}</mat-option>
+      <ng-container *ngIf="utilsService.isNationalTreasurer()">
+        <mat-option value="national_accountant">National Accountant</mat-option>
+        <mat-option value="state_treasurer">State Treasurer</mat-option>
+        <mat-option value="state_accountant">State Accountant</mat-option>
+      </ng-container>
+      <ng-container *ngIf="utilsService.isStateTreasurer()">
+        <mat-option value="state_accountant">State Accountant</mat-option>
+        <mat-option value="zila_accountant">Zila Accountant</mat-option>
+        <mat-option value="mandal_accountant">Mandal Accountant</mat-option>
+      </ng-container>
     </mat-select>
   </mat-form-field>
 

@@ -57,3 +57,10 @@
 /*  background-color: #fe7045;*/
 /*  height: 8px;*/
 /*}*/
+
+.text-overflow{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
+}

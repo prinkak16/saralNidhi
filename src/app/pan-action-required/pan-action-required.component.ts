@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.component';
 import {Observable, Observer, Subscription} from 'rxjs';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {saveAs} from 'file-saver';
 
 
 

@@ -17,6 +17,7 @@ export class ListTableComponent implements OnInit {
   @Input() users = [];
   @Input() pageEvent: any;
   @Input() pageSize: any;
+  @Input() loaderShow: any;
   @Output() updateUserList = new EventEmitter();
   showLoader = false;
   displayedColumns: string[] = ['sno', 'name', 'email', 'phone_number', 'creator', 'role', 'state', 'action'];
