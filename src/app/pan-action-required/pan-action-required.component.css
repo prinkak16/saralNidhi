@@ -73,6 +73,12 @@
   font-size: 12px !important;
 }
 .search-btn{
-   position: absolute;
-   top: 31px;
+  position: absolute;
+  right: 11rem;
+  top: 1.9rem;
  }
+
+.search-row{
+  display: flex;
+  flex-wrap: wrap;
+}

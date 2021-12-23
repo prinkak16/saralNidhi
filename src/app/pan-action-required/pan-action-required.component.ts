@@ -51,7 +51,7 @@ export class PanActionRequiredComponent implements OnInit{
   result: any;
   paymentModeId = [];
   downloadCount = 1;
-
+  dataExist = true;
   ngOnInit(): void {
     this.getPanRequiredList('');
   }
@@ -73,19 +73,23 @@ export class PanActionRequiredComponent implements OnInit{
   }
 
   tabChange(event: any): any {
+    this.pageEvent.pageIndex = 0;
     if (event.index === 0) {
       this.tabStatus = 'All';
-      if (this.paymentDetails.length < 0) {
+      if (this.paymentDetails.length < 0 || this.dataExist) {
         this.getPanRequiredList('');
       }
     } else if (event.index === 1) {
       this.tabStatus = 'invalid';
+      this.dataExist = true;
       this.getPanRequiredList('invalid');
     } else if (event.index === 2) {
       this.tabStatus = 'approved';
+      this.dataExist = true;
       this.getPanRequiredList('approved');
     } else if (event.index === 3) {
       this.tabStatus = 'rejected';
+      this.dataExist = true;
       this.getPanRequiredList('rejected');
     }
   }
@@ -102,7 +106,7 @@ export class PanActionRequiredComponent implements OnInit{
 
   paginationClicked(event: PageEvent): PageEvent {
     this.offset = (event.pageIndex === 0 ? 0 : (event.pageIndex * event.pageSize));
-    this.getPanRequiredList(this.tabStatus);
+    this.getPanRequiredList(this.tabStatus === 'All' ? '' : this.tabStatus ? this.tabStatus : '');
     return event;
   }
 
@@ -155,6 +159,7 @@ export class PanActionRequiredComponent implements OnInit{
     };
     this.restService.getPanRequiredData(data).subscribe((response: any) => {
       this.showLoader = false;
+      this.dataExist = false;
       this.selected.setValue(0);
       this.paymentDetails = response.data.data;
       this.length = response.data.length;
@@ -164,4 +169,13 @@ export class PanActionRequiredComponent implements OnInit{
     });
   }
 
+  resetPanData(): void {
+    this.limit = 10;
+    this.offset = 0;
+    this.paymentDetails = [];
+    this.pageEvent.pageIndex = 0;
+    this.query.setValue(null);
+    this.selected.setValue(0);
+    this.getPanRequiredList('');
+  }
 }
