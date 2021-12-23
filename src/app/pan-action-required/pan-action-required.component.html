@@ -7,14 +7,17 @@
   </div>
 </button>
 <form>
-  <div class="row p-2 mt-2 align-items-center">
-    <div class="col-md-4">
+  <div class="search-row mt-2 align-items-center">
+    <div class="col-md-6">
       <mat-label class="mat-label-text">By Name/Phone/PAN</mat-label><br>
-        <mat-form-field  appearance="outline" class="font-12 w-75">
+        <mat-form-field  appearance="outline" class="font-12 w-50">
           <mat-icon *ngIf="query.value"  (click)="query.setValue(null)" class="clear-btn">cancel</mat-icon>
           <input matInput [formControl]="query">
         </mat-form-field>
-      <button class="ml-3 search-btn" mat-raised-button color="warn" (click)="getFilteredData()">Search</button>
+      <div class="search-btn">
+        <button mat-raised-button color="warn" (click)="getFilteredData()">Search</button>
+        <button mat-raised-button color="accent" class="ml-3" (click)="resetPanData()">Reset</button>
+      </div>
     </div>
   </div>
 </form>
