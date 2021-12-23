@@ -7,7 +7,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.component';
 import {Observable, Observer, Subscription} from 'rxjs';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-
+import {saveAs} from 'file-saver';
+import {FormControl} from '@angular/forms';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -23,12 +26,15 @@ export class PanActionRequiredComponent implements OnInit{
   offset = 0;
   limit = 10;
   tabStatus: any;
+  query = new FormControl(null);
+  selected = new FormControl(0);
   constructor(private restService: RestService, private loaderService: LoaderService,
-              public dialog: MatDialog,
+              public dialog: MatDialog, private router: Router,
               public utilsService: UtilsService, private messageService: MessageService) {
     this.asyncTabs = new Observable((observer: Observer<any>) => {
       setTimeout(() => {
         observer.next([
+          {label: 'All'},
           {label: 'Invalid'},
           {label: 'Approved'},
           {label: 'Rejected'},
@@ -47,7 +53,7 @@ export class PanActionRequiredComponent implements OnInit{
   downloadCount = 1;
 
   ngOnInit(): void {
-    this.getPanRequiredList('invalid');
+    this.getPanRequiredList('');
   }
 
   /* To copy any Text */
@@ -68,12 +74,17 @@ export class PanActionRequiredComponent implements OnInit{
 
   tabChange(event: any): any {
     if (event.index === 0) {
+      this.tabStatus = 'All';
+      if (this.paymentDetails.length < 0) {
+        this.getPanRequiredList('');
+      }
+    } else if (event.index === 1) {
       this.tabStatus = 'invalid';
       this.getPanRequiredList('invalid');
-    } else if (event.index === 1) {
+    } else if (event.index === 2) {
       this.tabStatus = 'approved';
       this.getPanRequiredList('approved');
-    } else if (event.index === 2) {
+    } else if (event.index === 3) {
       this.tabStatus = 'rejected';
       this.getPanRequiredList('rejected');
     }
@@ -83,7 +94,7 @@ export class PanActionRequiredComponent implements OnInit{
     const dialogRef = this.dialog.open(UpdatePanStatusComponent, {width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if (response) {
-        this.getPanRequiredList('invalid');
+        this.getPanRequiredList('');
       }
     });
   }
@@ -99,7 +110,7 @@ export class PanActionRequiredComponent implements OnInit{
   getPanRequiredList(status: any): void {
     this.showLoader = true;
     const obj = {
-      status: status ? status : 'invalid',
+      status: status ? status : '',
       limit: this.limit,
       offset: this.offset
     };
@@ -134,4 +145,23 @@ export class PanActionRequiredComponent implements OnInit{
       return this.displayedColumnsForApprovedAndRejected;
     }
   }
+  getFilteredData(): void{
+    this.showLoader = true;
+    const data = {
+      status: '',
+      filters: {query: this.query.value ? this.query.value : {}},
+      limit: this.limit,
+      offset: this.offset
+    };
+    this.restService.getPanRequiredData(data).subscribe((response: any) => {
+      this.showLoader = false;
+      this.selected.setValue(0);
+      this.paymentDetails = response.data.data;
+      this.length = response.data.length;
+    }, (error: string) => {
+      this.showLoader = false;
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
 }
