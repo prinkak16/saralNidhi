@@ -64,3 +64,15 @@
   text-overflow: ellipsis;
   padding: 5px;
 }
+.clear-btn{
+  position: absolute;
+ right: 0;
+ top: 4px;
+ }
+.font-12{
+  font-size: 12px !important;
+}
+.search-btn{
+   position: absolute;
+   top: 31px;
+ }

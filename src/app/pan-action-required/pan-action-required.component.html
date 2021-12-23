@@ -6,7 +6,19 @@
     <span>XLSX</span>
   </div>
 </button>
-<mat-tab-group (selectedTabChange)="tabChange($event)">
+<form>
+  <div class="row p-2 mt-2 align-items-center">
+    <div class="col-md-4">
+      <mat-label class="mat-label-text">By Name/Phone/PAN</mat-label><br>
+        <mat-form-field  appearance="outline" class="font-12 w-75">
+          <mat-icon *ngIf="query.value"  (click)="query.setValue(null)" class="clear-btn">cancel</mat-icon>
+          <input matInput [formControl]="query">
+        </mat-form-field>
+      <button class="ml-3 search-btn" mat-raised-button color="warn" (click)="getFilteredData()">Search</button>
+    </div>
+  </div>
+</form>
+<mat-tab-group (selectedTabChange)="tabChange($event)" (selectedIndexChange)="selected.setValue($event)" [selectedIndex]="selected.value">
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{tab.label}}</ng-template>
     <ng-container *ngIf="length > 0 ; else emptyList">
