@@ -143,7 +143,7 @@ export class PanActionRequiredComponent implements OnInit{
   }
 
   getDisplayedColumns(tab: string): string[] {
-    if (tab === 'Invalid') {
+    if (tab === 'Invalid' || tab === 'All') {
       return this.displayedColumns;
     } else {
       return this.displayedColumnsForApprovedAndRejected;
