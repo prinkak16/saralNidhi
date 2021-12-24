@@ -154,8 +154,8 @@ export class PanActionRequiredComponent implements OnInit{
     const data = {
       status: '',
       filters: {query: this.query.value ? this.query.value : {}},
-      limit: this.limit,
-      offset: this.offset
+      limit: 10,
+      offset: 0
     };
     this.restService.getPanRequiredData(data).subscribe((response: any) => {
       this.showLoader = false;
