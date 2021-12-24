@@ -74,6 +74,8 @@ export class PanActionRequiredComponent implements OnInit{
 
   tabChange(event: any): any {
     this.pageEvent.pageIndex = 0;
+    this.limit = 10;
+    this.offset = 0;
     if (event.index === 0) {
       this.tabStatus = 'All';
       if (this.paymentDetails.length < 0 || this.dataExist) {
