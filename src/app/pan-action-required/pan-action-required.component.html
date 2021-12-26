@@ -9,14 +9,11 @@
 <form>
   <div class="search-row mt-2 align-items-center">
     <div class="col-md-6">
-      <mat-label class="mat-label-text">By Name/Phone/PAN/Instrument No</mat-label><br>
-        <mat-form-field  appearance="outline" class="font-12 w-50">
-          <mat-icon *ngIf="query.value"  (click)="query.setValue(null)" class="clear-btn">cancel</mat-icon>
-          <input matInput [formControl]="query">
-        </mat-form-field>
-      <div class="search-btn">
-        <button mat-raised-button color="warn" (click)="getFilteredData()">Search</button>
-        <button mat-raised-button color="accent" class="ml-3" (click)="resetPanData()">Reset</button>
+      <div class="search-input mb-2">
+        <input type="text" [formControl]="query">
+        <span class="clear-icon cursor-pointer" *ngIf="query.value"  (click)="query.setValue(null)">&#x2715;</span>
+        <button class="ml-3 search-btn" (click)="getFilteredData()">Search</button>
+        <button class="ml-3 reset-btn" (click)="resetPanData()">Reset</button>
       </div>
     </div>
   </div>
