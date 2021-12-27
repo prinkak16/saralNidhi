@@ -19,6 +19,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./pan-action-required.component.css']
 })
 export class PanActionRequiredComponent implements OnInit{
+  @ViewChild('paginator', {static: false}) paginator: MatPaginator | any;
   asyncTabs: Observable<any>;
   length = 0;
   pageSize = 10;
@@ -42,16 +43,14 @@ export class PanActionRequiredComponent implements OnInit{
       }, 1000);
     });
   }
-  @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
 
   displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'created_by', 'photo', 'pan_card_remark', 'status', 'action'];
   displayedColumnsForApprovedAndRejected: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'created_by', 'photo', 'pan_card_remark', 'status'];
-  paymentDetails: any;
+  paymentDetails = [];
   showLoader = false;
   result: any;
   paymentModeId = [];
   downloadCount = 1;
-  dataExist = true;
   ngOnInit(): void {
     this.getPanRequiredList('');
   }
@@ -73,25 +72,18 @@ export class PanActionRequiredComponent implements OnInit{
   }
 
   tabChange(event: any): any {
-    this.pageEvent.pageIndex = 0;
-    this.limit = 10;
-    this.offset = 0;
+    this.resetPagination();
     if (event.index === 0) {
       this.tabStatus = 'All';
-      if (this.paymentDetails.length < 0 || this.dataExist) {
-        this.getPanRequiredList('');
-      }
+      this.getPanRequiredList('');
     } else if (event.index === 1) {
       this.tabStatus = 'invalid';
-      this.dataExist = true;
       this.getPanRequiredList('invalid');
     } else if (event.index === 2) {
       this.tabStatus = 'approved';
-      this.dataExist = true;
       this.getPanRequiredList('approved');
     } else if (event.index === 3) {
       this.tabStatus = 'rejected';
-      this.dataExist = true;
       this.getPanRequiredList('rejected');
     }
   }
@@ -116,6 +108,7 @@ export class PanActionRequiredComponent implements OnInit{
   getPanRequiredList(status: any): void {
     this.showLoader = true;
     const obj = {
+      filters: {query: this.query.value ? this.query.value : {}},
       status: status ? status : '',
       limit: this.limit,
       offset: this.offset
@@ -151,18 +144,22 @@ export class PanActionRequiredComponent implements OnInit{
       return this.displayedColumnsForApprovedAndRejected;
     }
   }
-  getFilteredData(): void{
+  getFilterRecords(): void {
+    this.selected.setValue(0);
+    this.getFilteredData(this.query.value);
+  }
+
+  getFilteredData(query: any): void{
     this.showLoader = true;
     const data = {
       status: '',
-      filters: {query: this.query.value ? this.query.value : {}},
-      limit: 10,
+      filters: {query: query ? this.query.value : {}},
+      limit: this.limit,
       offset: 0
     };
+    this.resetPagination();
     this.restService.getPanRequiredData(data).subscribe((response: any) => {
       this.showLoader = false;
-      this.dataExist = false;
-      this.selected.setValue(0);
       this.paymentDetails = response.data.data;
       this.length = response.data.length;
     }, (error: string) => {
@@ -172,12 +169,16 @@ export class PanActionRequiredComponent implements OnInit{
   }
 
   resetPanData(): void {
-    this.limit = 10;
-    this.offset = 0;
+    this.resetPagination();
     this.paymentDetails = [];
-    this.pageEvent.pageIndex = 0;
     this.query.setValue(null);
     this.selected.setValue(0);
     this.getPanRequiredList('');
+  }
+  resetPagination(): void{
+    this.pageEvent.pageIndex = 0;
+    this.limit = 10;
+    this.offset = 0;
+    this.length = 0;
   }
 }
