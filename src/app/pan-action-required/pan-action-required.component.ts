@@ -12,7 +12,6 @@ import {FormControl} from '@angular/forms';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {Router} from '@angular/router';
 
-
 @Component({
   selector: 'app-pan-action-required',
   templateUrl: './pan-action-required.component.html',

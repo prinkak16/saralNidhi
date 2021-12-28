@@ -1229,8 +1229,10 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   // Display transaction types
   getTransactionType(): any{
     if (this.utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')) {
-    this.transactionTypes.push({name: 'Supplementary', value: 'supplementary'});
+      this.transactionTypes.push({name: 'Supplementary', value: 'supplementary'});
     }
     return this.transactionTypes;
   }
+
+
 }
