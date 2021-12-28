@@ -8,8 +8,9 @@ import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.c
 import {Observable, Observer, Subscription} from 'rxjs';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {saveAs} from 'file-saver';
-
-
+import {FormControl} from '@angular/forms';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-pan-action-required',
@@ -17,6 +18,7 @@ import {saveAs} from 'file-saver';
   styleUrls: ['./pan-action-required.component.css']
 })
 export class PanActionRequiredComponent implements OnInit{
+  @ViewChild('paginator', {static: false}) paginator: MatPaginator | any;
   asyncTabs: Observable<any>;
   length = 0;
   pageSize = 10;
@@ -24,12 +26,15 @@ export class PanActionRequiredComponent implements OnInit{
   offset = 0;
   limit = 10;
   tabStatus: any;
+  query = new FormControl(null);
+  selected = new FormControl(0);
   constructor(private restService: RestService, private loaderService: LoaderService,
-              public dialog: MatDialog,
+              public dialog: MatDialog, private router: Router,
               public utilsService: UtilsService, private messageService: MessageService) {
     this.asyncTabs = new Observable((observer: Observer<any>) => {
       setTimeout(() => {
         observer.next([
+          {label: 'All'},
           {label: 'Invalid'},
           {label: 'Approved'},
           {label: 'Rejected'},
@@ -37,18 +42,16 @@ export class PanActionRequiredComponent implements OnInit{
       }, 1000);
     });
   }
-  @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
 
   displayedColumns: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'created_by', 'photo', 'pan_card_remark', 'status', 'action'];
   displayedColumnsForApprovedAndRejected: string[] = ['sno', 'name', 'category', 'pan_card', 'system_remark', 'accountant_remark', 'created_by', 'photo', 'pan_card_remark', 'status'];
-  paymentDetails: any;
+  paymentDetails = [];
   showLoader = false;
   result: any;
   paymentModeId = [];
   downloadCount = 1;
-
   ngOnInit(): void {
-    this.getPanRequiredList('invalid');
+    this.getPanRequiredList('');
   }
 
   /* To copy any Text */
@@ -68,13 +71,17 @@ export class PanActionRequiredComponent implements OnInit{
   }
 
   tabChange(event: any): any {
+    this.resetPagination();
     if (event.index === 0) {
+      this.tabStatus = 'All';
+      this.getPanRequiredList('');
+    } else if (event.index === 1) {
       this.tabStatus = 'invalid';
       this.getPanRequiredList('invalid');
-    } else if (event.index === 1) {
+    } else if (event.index === 2) {
       this.tabStatus = 'approved';
       this.getPanRequiredList('approved');
-    } else if (event.index === 2) {
+    } else if (event.index === 3) {
       this.tabStatus = 'rejected';
       this.getPanRequiredList('rejected');
     }
@@ -84,7 +91,7 @@ export class PanActionRequiredComponent implements OnInit{
     const dialogRef = this.dialog.open(UpdatePanStatusComponent, {width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if (response) {
-        this.getPanRequiredList('invalid');
+        this.getPanRequiredList('');
       }
     });
   }
@@ -92,7 +99,7 @@ export class PanActionRequiredComponent implements OnInit{
 
   paginationClicked(event: PageEvent): PageEvent {
     this.offset = (event.pageIndex === 0 ? 0 : (event.pageIndex * event.pageSize));
-    this.getPanRequiredList(this.tabStatus);
+    this.getPanRequiredList(this.tabStatus === 'All' ? '' : this.tabStatus ? this.tabStatus : '');
     return event;
   }
 
@@ -100,7 +107,8 @@ export class PanActionRequiredComponent implements OnInit{
   getPanRequiredList(status: any): void {
     this.showLoader = true;
     const obj = {
-      status: status ? status : 'invalid',
+      filters: {query: this.query.value ? this.query.value : {}},
+      status: status ? status : '',
       limit: this.limit,
       offset: this.offset
     };
@@ -129,10 +137,47 @@ export class PanActionRequiredComponent implements OnInit{
   }
 
   getDisplayedColumns(tab: string): string[] {
-    if (tab === 'Invalid') {
+    if (tab === 'Invalid' || tab === 'All') {
       return this.displayedColumns;
     } else {
       return this.displayedColumnsForApprovedAndRejected;
     }
+  }
+  getFilterRecords(): void {
+    this.selected.setValue(0);
+    this.getFilteredData(this.query.value);
+  }
+
+  getFilteredData(query: any): void{
+    this.showLoader = true;
+    const data = {
+      status: '',
+      filters: {query: query ? this.query.value : {}},
+      limit: this.limit,
+      offset: 0
+    };
+    this.resetPagination();
+    this.restService.getPanRequiredData(data).subscribe((response: any) => {
+      this.showLoader = false;
+      this.paymentDetails = response.data.data;
+      this.length = response.data.length;
+    }, (error: string) => {
+      this.showLoader = false;
+      this.messageService.somethingWentWrong(error);
+    });
+  }
+
+  resetPanData(): void {
+    this.resetPagination();
+    this.paymentDetails = [];
+    this.query.setValue(null);
+    this.selected.setValue(0);
+    this.getPanRequiredList('');
+  }
+  resetPagination(): void{
+    this.pageEvent.pageIndex = 0;
+    this.limit = 10;
+    this.offset = 0;
+    this.length = 0;
   }
 }

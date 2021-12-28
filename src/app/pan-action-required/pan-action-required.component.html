@@ -6,7 +6,19 @@
     <span>XLSX</span>
   </div>
 </button>
-<mat-tab-group (selectedTabChange)="tabChange($event)">
+<form>
+  <div class="search-row mt-2 align-items-center">
+    <div class="col-md-6">
+      <div class="search-input mb-2">
+        <input type="text" [formControl]="query">
+        <span class="clear-icon cursor-pointer" *ngIf="query.value"  (click)="query.setValue(null)">&#x2715;</span>
+        <button class="ml-3 search-btn" (click)="getFilterRecords()">Search</button>
+        <button class="ml-3 reset-btn" (click)="resetPanData()">Reset</button>
+      </div>
+    </div>
+  </div>
+</form>
+<mat-tab-group (selectedTabChange)="tabChange($event)" (selectedIndexChange)="selected.setValue($event)" [selectedIndex]="selected.value">
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{tab.label}}</ng-template>
     <ng-container *ngIf="length > 0 ; else emptyList">
@@ -41,8 +53,8 @@
         <ng-container matColumnDef="created_by">
           <mat-header-cell *matHeaderCellDef>Created By</mat-header-cell>
           <mat-cell *matCellDef="let element" class="cursor-pointer"
-                    matTooltip="{{element.created_by.email}}"><span class="text-overflow"
-            >{{element.created_by.email}}</span></mat-cell>
+                    matTooltip="{{element.created_by ? element.created_by.email : '-'}}"><span class="text-overflow"
+            >{{element.created_by ? element.created_by.email : '-'}}</span></mat-cell>
         </ng-container>
         <ng-container matColumnDef="photo">
           <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
@@ -68,7 +80,7 @@
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <a class="cursor-pointer" *ngIf="tab.label === 'Invalid'" (click)="openDialog(element)">Approve / Reject</a>
+            <a class="cursor-pointer" *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)">Approve / Reject</a>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)" class="entry-list-tables" ></mat-header-row>
