@@ -1,0 +1,39 @@
+{
+  "Login_email": "vk_state_treasurer@jarvis.consulting",
+  "Login_password": "Test@123",
+  "Login_OTP": "227244",
+  "full_name": "vikas kr",
+  "mobile": "7878787878",
+  "email": "vk_zila_accountant@jarvis.consulting",
+  "password": "Test@123",
+
+  "Comment_on_role": "[national_accountant,state_treasurer,state_accountant,zila_accountant,mandal_accountant]",
+      "role": "zila_accountant",
+
+  "state_to_be_selected":"Andhra Pradesh,Haryana",
+
+  "zila_to_be_selected": "Guntur,Vijayawada Urban",
+
+  "mandal_to_be_selected": "Adoni Town (Kurnool)",
+
+  "Allow_data_download": 1,
+  "date_of_transaction": 1,
+  "fifteen_days": 1,
+  "thirty_days": 1,
+
+  "Indian_Donation_Form": 1,
+  "create": 1,
+  "Edit_within_fifteen_days": 1,
+  "Edit_within_thirty_days": 1,
+  "Edit_Lifetime": 1,
+  "Supplementary_Entry": 1,
+  "Allow_Receipt_Print": 1,
+
+  "nri_donation_form": 1,
+
+  "Party_Unit": 1,
+  "State": 1,
+  "Zila": 1,
+  "Mandal": 1
+
+}

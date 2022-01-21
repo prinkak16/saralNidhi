@@ -1,0 +1,21 @@
+
+{
+  "email": "kumar.vikastreasurer@jarvis.consulting",
+  "password": "Test@123",
+  "OTP": "227244",
+  "pan_no": "FOOPK3456V",
+  "stateName": "Haryana",
+
+
+  "no_of_times_prev_calender_btn_click": 3,
+
+  "no_of_times_next_calender_btn_click": 1,
+
+  "--Note1---": "Please enter only digit of dates",
+  "first_date_digit": 2,
+  "second_date_digit": 3,
+
+  "Note2___": "select click_button_type [Search ,Download ,Clear]",
+  "click_button_type": "Search"
+
+}

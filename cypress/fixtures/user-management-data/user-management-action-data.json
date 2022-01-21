@@ -1,0 +1,14 @@
+{
+  "email": "kumar.vikastreasurer@jarvis.consulting",
+  "password": "Test@123",
+  "OTP": "227244",
+
+  "click_no_of_times_next_page": 0,
+  "select_row": 3,
+
+  "--Note1--": "select option for flag_action from -> [Change Password, Activate ,Deactivate ,Disable]",
+  "flag_action": "Change Password",
+
+  "--Note2--": "If flag_action is Change Password then enter new_password",
+     "new_password": "Test@123"
+}
