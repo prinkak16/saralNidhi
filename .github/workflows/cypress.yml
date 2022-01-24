@@ -1,0 +1,51 @@
+name: cypress Test
+
+on: [pull_request]
+
+    #branches: [ saral_nidhi_cypress_automation ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm start
+          record: true
+          
+          #spec: cypress/integration/user-management/edit-user-management.spec.js 
+       
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       
+      #- name: Upload Videos Artifacts
+       # uses: actions/upload-artifact@v1
+        #if: always()
+        #with:   
+         # name: cypress-videos
+          #path: cypress/videos
+
+       
+      #- name: Upload Screenshot Artifacts
+        #uses: actions/upload-artifact@v1
+        #if: failure()
+        #with:
+          #name: cypress-screenshots
+          #path: cypress/screenshots
+          
+      #- name: Upload video Artifacts
+        #uses: actions/upload-artifact@v1
+        #if: failure()
+        #with:
+          #name: cypress-videos
+          #path: cypress/videos   
+          
