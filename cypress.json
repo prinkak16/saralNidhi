@@ -1,16 +1,16 @@
 {
-  "baseUrl": "http://localhost:4200/",
-   
+  "baseUrl": "https://saral-staging.ccdms.in/zila/api/",
+
   "projectId": "unagh2",
-  
+
   "trashAssetsBeforeRuns": false,
   "videoUploadOnPasses": false,
- 
+
     "testFiles": [
       "payment-mode-tests/*.spec.js",
       "donation-list-action/*.spec.js",
       "user-management/*.spec.js",
       "other-activities-tests/*.spec.js"
     ]
-    
+
 }
