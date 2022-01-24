@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://saral-staging.ccdms.in/zila/api/",
+  "baseUrl": "http://localhost:4200/",
 
   "projectId": "unagh2",
 
