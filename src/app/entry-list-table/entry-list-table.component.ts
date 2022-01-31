@@ -122,7 +122,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData,  width: '350px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.updateList.emit(true);
+        this.getPaymentList();
       }
     });
   }
