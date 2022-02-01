@@ -84,9 +84,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   selectedModeOfPayment: any = {};
   panCardPattern = '[A-Z]{5}[0-9]{4}[A-Z]{1}';
   ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
-  phonePattern = '^[6-9][0-9]{9}$';
-  namePattern = '[a-zA-Z0-9]';
-  pinCodePattern = '[a-zA-Z0-9 ]';
   panCardValue = '';
   yearsSlab: any = [];
   bankDetails: any = [];
@@ -132,7 +129,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       id: new FormControl(''),
       transaction_type: new FormControl('regular', [Validators.required]),
       name: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(this.utilsService.phonePattern)]),
+      phone: new FormControl('', [Validators.pattern(this.utilsService.phonePattern)]),
       email: new FormControl('', [Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date: new FormControl(new Date(), [Validators.required]),
       financial_year_id: new FormControl(null, [Validators.required]),
@@ -164,7 +161,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       branch_name: new FormControl(''),
       branch_address: new FormControl(''),
       collector_name: new FormControl(null),
-      collector_phone: new FormControl(null, [Validators.required, Validators.pattern(this.utilsService.phonePattern)]),
+      collector_phone: new FormControl(null, [Validators.pattern(this.utilsService.phonePattern)]),
       nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),

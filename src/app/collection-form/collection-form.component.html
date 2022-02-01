@@ -420,9 +420,9 @@
       </div>
       <div class="d-flex mt-1">
         <div class="col-md-5">
-          <mat-label>Donor Phone Number<sup *ngIf="isRequiredField('phone')">*</sup></mat-label>
+          <mat-label>Donor Phone Number</mat-label>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)" [required]="isRequiredField('phone')"
+            <input matInput minlength="10" maxlength="10" (keypress)="utilsService.validateNumber($event)"
                    formControlName="phone">
             <mat-error
               *ngIf="((collectionForm.controls['phone'].touched)&& collectionForm.controls['phone'].hasError('required'))">
@@ -480,7 +480,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
+          <mat-label>Pincode</mat-label>
           <mat-form-field appearance="outline" class="mt-1">
             <input matInput formControlName="pincode" maxlength="6">
             <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
@@ -695,7 +695,7 @@
           <mat-form-field appearance="outline" class="mt-1">
             <input matInput formControlName="collector_phone" (keypress)="utilsService.validateNumber($event)"
                    maxlength="10" minlength="10"
-                   [required]="isRequiredField('collector_phone')">
+                   >
             <mat-error
               *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
               Collector phone number is required

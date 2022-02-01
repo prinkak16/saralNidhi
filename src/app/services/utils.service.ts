@@ -73,7 +73,7 @@ export class UtilsService {
     });
     return result;
   }
-
+ // Validation for name
   validateName(e: any): void {
     const input = String.fromCharCode(e.charCode);
     if (!input.match(/[a-z ]/i)) {
@@ -89,16 +89,6 @@ export class UtilsService {
       e.preventDefault();
     }
   }
-
-  // validateCode(e: any): void {
-  //   const input = String.fromCharCode(e.charCode);
-  //   const reg = '^[1-9][0-9]{5}$';
-  //   if (!reg.test(input)) {
-  //     e.preventDefault();
-  //   }
-  //
-  //
-  // }
 
   public isNationalTreasurer(): boolean {
     return localStorage.getItem(Constant.USERROLE) === 'national_treasurer';
