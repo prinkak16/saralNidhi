@@ -480,7 +480,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-label>Pincode</mat-label>
+          <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
           <mat-form-field appearance="outline" class="mt-1">
             <input matInput formControlName="pincode" maxlength="6">
             <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
