@@ -139,7 +139,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       proprietorship_name: new FormControl(null),
       house: new FormControl(null),
       locality: new FormControl(null),
-      pincode: new FormControl(null, [Validators.required, Validators.pattern(this.utilsService.pinCodePattern)]),
+      pincode: new FormControl(null, [Validators.pattern(this.utilsService.pinCodePattern)]),
       district: new FormControl({value: null, disabled: true}),
       state: new FormControl({value: null, disabled: true}),
       pan_card: new FormControl(null),
@@ -400,7 +400,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.pincode.setValue(null);
     }
     this.collectionForm.controls.pincode.clearValidators();
-    this.collectionForm.controls.pincode.setValidators(Validators.pattern('^[0-9]{6,6}$'));
+    this.collectionForm.controls.pincode.setValidators(Validators.pattern(this.utilsService.pinCodePattern));
     this.collectionForm.controls.pincode.updateValueAndValidity();
     if (!this.collectionForm.controls.district.value) {
       this.collectionForm.controls.district.setValue(null);
@@ -509,7 +509,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.setValidators(Validators.required);
     this.collectionForm.controls.locality.updateValueAndValidity();
 
-    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
+    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern(this.utilsService.pinCodePattern)]);
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValidators(Validators.required);
