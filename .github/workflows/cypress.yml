@@ -19,7 +19,7 @@ jobs:
           wait-on: http://localhost:4200
           record: true
           
-          #spec: cypress/integration/user-management/edit-user-management.spec.js 
+          spec: cypress/integration/payment-mode-tests/cash-mode.spec.js 
        
         env:
           # pass the Dashboard record key as an environment variable
