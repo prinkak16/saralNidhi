@@ -26,6 +26,8 @@ export class PanActionRequiredComponent implements OnInit{
   offset = 0;
   limit = 10;
   tabStatus: any;
+  counting = [];
+  filters: any;
   query = new FormControl(null);
   selected = new FormControl(0);
   constructor(private restService: RestService, private loaderService: LoaderService,
@@ -69,7 +71,20 @@ export class PanActionRequiredComponent implements OnInit{
     this.messageService.closableSnackBar('Link Copied Successfully', 2000);
     document.body.removeChild(selBox);
   }
-
+/* to get record data*/
+  getCount(): any {
+    this.restService.getCounts({
+      filters: this.filters
+    }).subscribe((response: any) => {
+      this.counting = [];
+      setTimeout((_: any) => {
+        this.counting = response.data;
+      }, 200);
+    }, (error: any) => {
+      this.messageService.somethingWentWrong();
+    });
+  }
+/*-----------------------------------------*/
   tabChange(event: any): any {
     this.resetPagination();
     if (event.index === 0) {

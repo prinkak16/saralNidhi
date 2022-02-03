@@ -19,15 +19,6 @@
 
 
 
-.mat-column-sno {
-  flex: 0 0 65px;
-}
-
-.mat-column-action {
-  flex: 0 0 100px;
-}
-
-
 .entry-list-table mat-row, mat-header-row, mat-footer-row {
  border: 1px solid rgba(0, 0, 0, 0.4);
 }
@@ -101,7 +92,7 @@
 }
 
 .entry-list-table {
-  width: 2000px;
+  width: 100%
 }
 
 .btn-separate{
@@ -182,3 +173,40 @@
 mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
   padding-left: 0px;
 }
+/*.mat-column-date{*/
+/*  flex: 0 0 139px;*/
+/*}*/
+.mat-column-sno {
+  flex: 0 0 65px;
+}
+
+.mat-column-action {
+  flex: 0 0 110px;
+}
+/*.mat-column-name{*/
+/*  flex: 0 0 186px;*/
+/*}*/
+/*.mat-column-mode_of_payment{*/
+/*  flex: 0 0 165px;*/
+/*}*/
+/*.mat-column-instrument_number{*/
+/*  flex: 0 0 195px;*/
+/*}*/
+/*.mat-column-amount{*/
+/*  flex: 0 0 145px;*/
+/*}*/
+/*.mat-column-pan_card{*/
+/*  flex: 0 0 155px;*/
+/*}*/
+/*.mat-column-state{*/
+/*  flex: 0 0 166px;*/
+/*}*/
+/*.mat-column-party_unit{*/
+/*  flex: 0 0 150px;*/
+/*}*/
+/*.mat-column-location{*/
+/*  flex: 0 0 150px;*/
+/*}*/
+/*.mat-column-receipt-print{*/
+/*  flex: 0 0 175px;*/
+/*}*/

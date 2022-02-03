@@ -1,5 +1,5 @@
 <form [formGroup]="filterForm">
-  <div class="row col-md-12 align-items-center  ">
+  <div class="row col-md-12 align-items-center">
       <img src="assets/icons/list.svg" alt="" class="img-size">
       <h2 class="header-text mt-0 mb-0">Donation List</h2>
   </div>
@@ -25,17 +25,28 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
+
       <div class="col-md-4" *ngIf="utilsService.isNationalAccountant() ||
          utilsService.isNationalTreasurer()">
         <mat-label class="mat-label-text">Filter by State</mat-label>
-        <mat-form-field appearance="outline" class="w-100 position-relative" >
-          <mat-select formControlName="state_id"  >
-            <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
-          </mat-select>
-          <img src="assets/icons/dropdown.svg" class="dropdown-icon">
-        </mat-form-field>
+
+        <ng-select appearance="outline" class="bg-white"
+                   [items]="states" bindLabel="name"
+                   bindValue="id" formControlName="state_id"
+                   (keyup.enter)="getFilteredData()">
+        </ng-select>
+
+<!--        <mat-form-field appearance="outline" class="w-100 position-relative">-->
+<!--          -->
+<!--            <mat-select formControlName="state_id" >-->
+<!--              <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--         <img src="assets/icons/dropdown.svg" class="dropdown-icon">-->
+<!--        </mat-form-field>-->
+
+
       </div>
-      <div class="row col-md-4 justify-content-around mt-1">
+      <div class="row col-md-4 justify-content-around mt-6">
         <button mat-flat-button color="warn" class="col-md-3 clear-btn"  (click)="getFilteredData()">Search</button>
         <button mat-flat-button class="col-md-3 clear-btn" (click)="clearInputFields()">Clear</button>
         <button mat-flat-button class="download-btn" (click)="downloadList()" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"> Download  </button>

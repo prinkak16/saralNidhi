@@ -1,10 +1,11 @@
 <form [formGroup]="filterForm">
+  <div class="row col-md-12 align-items-center">
   <mat-form-field class="col-3" appearance="outline">
     <input matInput placeholder="Name / Pan / Phone " formControlName="query">
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="col-3">
-    <mat-label>Enter a date range</mat-label>
+    <mat-label class="mat-label-text">Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="picker" [max]="today">
       <input matStartDate placeholder="Start date" (click)="picker.open()" formControlName="start_date">
       <input matEndDate placeholder="End date" (click)="picker.open()" formControlName="end_date">
@@ -13,21 +14,32 @@
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="col-3 small-mat-form-field" *ngIf="utilsService.isNationalAccountant() ||
-      utilsService.isNationalTreasurer()">
-    <mat-label>Filter by State</mat-label>
-    <mat-select formControlName="state_id">
-      <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<!--  <mat-form-field appearance="outline" class="col-3 small-mat-form-field" *ngIf="utilsService.isNationalAccountant() ||-->
+<!--      utilsService.isNationalTreasurer()">-->
+<!--    <mat-label>Filter by State</mat-label>-->
+<!--    <mat-select formControlName="state_id">-->
+<!--      <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>-->
+<!--    </mat-select>-->
+<!--  </mat-form-field>-->
 
-  <button mat-flat-button color="warn" class="ml-4" (click)="getFilteredData()">Search</button>
-  <button mat-flat-button color="warn" class="ml-2" (click)="clearInputFields()">Clear</button>
+  <div class="col-3 archive-state-tab" *ngIf="utilsService.isNationalAccountant() ||
+      utilsService.isNationalTreasurer()">
+    <mat-label class="mat-label-text">Filter by State</mat-label>
+    <ng-select (keyup.enter)="getFilteredData()"
+               appearance="outline" class="bg-white"
+               [items]="states" bindLabel="name"
+               bindValue="id" formControlName="state_id">
+    </ng-select>
+  </div>
+
+  <button mat-flat-button color="warn" class="ml-4 archive-search-btn" (click)="getFilteredData()">Search</button>
+  <button mat-flat-button color="warn" class="ml-2 archive-clear-btn" (click)="clearInputFields()">Clear</button>
   <button mat-flat-button color="primary"
           *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
-          class="ml-2" (click)="downloadArchiveList()">
+          class="ml-2 archive-download-btn" (click)="downloadArchiveList()">
     <mat-icon matSuffix>download</mat-icon>
     Download
   </button>
+  </div>
 </form>
 
