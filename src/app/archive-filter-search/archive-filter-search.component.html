@@ -14,13 +14,6 @@
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
 
-<!--  <mat-form-field appearance="outline" class="col-3 small-mat-form-field" *ngIf="utilsService.isNationalAccountant() ||-->
-<!--      utilsService.isNationalTreasurer()">-->
-<!--    <mat-label>Filter by State</mat-label>-->
-<!--    <mat-select formControlName="state_id">-->
-<!--      <mat-option *ngFor="let option of states" value="{{option.id}}">{{option.name}}</mat-option>-->
-<!--    </mat-select>-->
-<!--  </mat-form-field>-->
 
   <div class="col-3 archive-state-tab" *ngIf="utilsService.isNationalAccountant() ||
       utilsService.isNationalTreasurer()">

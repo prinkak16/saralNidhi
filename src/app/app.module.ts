@@ -133,7 +133,6 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     MatPaginatorModule,
     YopsilonMaskModule,
     NgSelectModule,
-    // NgxMatSelectSearchModule,
     NgxShimmerLoadingModule
   ],
   providers: [
