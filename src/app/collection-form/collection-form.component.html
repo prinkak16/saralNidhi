@@ -7,8 +7,7 @@
   <form #form="ngForm" [formGroup]="collectionForm" class="row mt-4">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
-        <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword"
-        >
+        <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword">
         <mat-icon class="search-icon cursor-pointer" (click)="getDonorList(keyword.value)">search</mat-icon>
         <mat-icon *ngIf="keyword.value" (click)="clearSearchData()" class="cursor-pointer search-icon mr-4">cancel
         </mat-icon>
@@ -180,10 +179,10 @@
             </ng-container>
             <ng-container *ngIf="transactionId">
               <mat-form-field appearance="outline">
-              <input matInput
-                     [matDatepicker]="picker4"
-                     formControlName="date_of_draft"
-              />
+                <input matInput
+                       [matDatepicker]="picker4"
+                       formControlName="date_of_draft"
+                />
               </mat-form-field>
               <mat-datepicker #picker4></mat-datepicker>
             </ng-container>
@@ -411,6 +410,7 @@
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName="name" matInput
+                 (keypress)="utilsService.validateName($event)"
           >
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
@@ -482,9 +482,7 @@
         <div class="col-md-4">
           <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="pincode" maxlength="6"
-                   (keyup)="utilsService.validateNumber($event)"
-            >
+            <input matInput formControlName="pincode" maxlength="6">
             <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
               Please enter a pincode
             </mat-error>
@@ -682,7 +680,7 @@
             <mat-label>Collector's Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_name"
+            <input matInput formControlName="collector_name" (keypress)="utilsService.validateName($event)"
                    [required]="isRequiredField('collector_name')">
             <mat-error
               *ngIf="((collectionForm.controls.collector_name.touched)&& collectionForm.controls.collector_name.hasError('required'))">
@@ -695,8 +693,9 @@
             <mat-label>Collector's Mobile No.</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_phone" maxlength="10" minlength="10"
-                   [required]="isRequiredField('collector_phone')">
+            <input matInput formControlName="collector_phone" (keypress)="utilsService.validateNumber($event)"
+                   maxlength="10" minlength="10"
+                   >
             <mat-error
               *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
               Collector phone number is required
@@ -889,7 +888,7 @@
 
     <div class="col-md-12 mb-3 text-center" *ngIf="transactionId">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="primary" class="submit-button"
-              (click)="updateTransaction(transactionDetails.data.id)"> <span class="text-white">Update</span>
+              (click)="updateTransaction(transactionDetails.data.id)"><span class="text-white">Update</span>
       </button>
     </div>
   </form>

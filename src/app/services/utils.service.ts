@@ -14,10 +14,12 @@ export class UtilsService {
   isAuthorized = true;
   redirectUrl: any;
   phonePattern = '^[6-9][0-9]{9}$';
+  namePattern = '/^[a-zA-Z ]*$/';
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,10}$';
   primaryMemberPattern = '^[1-4][0-9]{9}$';
   agePattern = '^(18|19|[2-9]\\d|1\\d\\d)$';
   passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
+  pinCodePattern = '^[1-9][0-9]{5}$';
 
   isLoggedIn(): any {
     return this.logoutService.isLoggedIn();
@@ -71,6 +73,13 @@ export class UtilsService {
     });
     return result;
   }
+ // Validation for name
+  validateName(e: any): void {
+    const input = String.fromCharCode(e.charCode);
+    if (!input.match(/[a-z ]/i)) {
+      e.preventDefault();
+    }
+  }
 
   validateNumber(e: any): void {
     const input = String.fromCharCode(e.charCode);
@@ -122,11 +131,12 @@ export class UtilsService {
     }
     return allowed;
   }
+
 // Checking user have any party unit permission or not
-  isAnyPartyUnit(): boolean{
+  isAnyPartyUnit(): boolean {
     if (this.checkPermission('PartyUnit', 'State') ||
       this.checkPermission('PartyUnit', 'Zila') ||
-      this.checkPermission('PartyUnit', 'Mandal')){
+      this.checkPermission('PartyUnit', 'Mandal')) {
       return true;
     } else {
       return false;
