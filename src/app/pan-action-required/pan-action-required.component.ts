@@ -26,6 +26,9 @@ export class PanActionRequiredComponent implements OnInit{
   offset = 0;
   limit = 10;
   tabStatus: any;
+  count: any;
+  tabData: any;
+  filters: any;
   query = new FormControl(null);
   selected = new FormControl(0);
   constructor(private restService: RestService, private loaderService: LoaderService,
@@ -52,6 +55,7 @@ export class PanActionRequiredComponent implements OnInit{
   downloadCount = 1;
   ngOnInit(): void {
     this.getPanRequiredList('');
+    this.getCount();
   }
 
   /* To copy any Text */
@@ -69,7 +73,20 @@ export class PanActionRequiredComponent implements OnInit{
     this.messageService.closableSnackBar('Link Copied Successfully', 2000);
     document.body.removeChild(selBox);
   }
-
+/* to get record data*/
+  getCount(): any {
+    this.restService.getTransactionCounts({
+      filters: this.filters
+    }).subscribe((response: any) => {
+      this.count = [];
+      setTimeout((_: any) => {
+        this.count = response.data;
+      }, 200);
+    }, (error: any) => {
+      this.messageService.somethingWentWrong();
+    });
+  }
+/*-----------------------------------------*/
   tabChange(event: any): any {
     this.resetPagination();
     if (event.index === 0) {
@@ -115,6 +132,7 @@ export class PanActionRequiredComponent implements OnInit{
     this.restService.getPanRequiredData(obj).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
+      this.tabData = response.data.tab;
       this.length = response.data.length;
     }, (error: string) => {
       this.showLoader = false;
