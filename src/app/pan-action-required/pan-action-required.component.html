@@ -1,11 +1,4 @@
-<!--<button mat-fab color="primary" class="downloadButtonCSV"-->
-<!--        *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"-->
-<!--        (click)="downloadList()">-->
-  <!--  <div class="floating-btn">-->
-  <!--    <mat-icon>save_alt</mat-icon>-->
-  <!--    <span>XLSX</span>-->
-  <!--  </div>-->
-<!--</button>-->
+
 <form>
   <div class="row col-md-12 align-items-center">
     <img src="assets/icons/list.svg" alt="" class="img-size">
@@ -27,11 +20,11 @@
 </form>
 
 <mat-tab-group (selectedTabChange)="tabChange($event)" (selectedIndexChange)="selected.setValue($event)" [selectedIndex]="selected.value" class="tab-style">
-  <mat-tab *ngFor="let tab of asyncTabs | async;index as i">
+  <mat-tab *ngFor="let tab of tabData">
     <ng-template mat-tab-label class="mat-tab-view btn-head">
       <div>
-        <div class="tab-text1">{{tab.label}}</div>
-        <div class="tab-text-count1">({{counting[i] > 0 ? counting[i] : '0'}})</div>
+        <div class="tab-text1">{{tab.tab_name}}</div>
+        <div class="tab-text-count1">({{tab.tab_count}})</div>
       </div>
     </ng-template>
 
@@ -96,14 +89,14 @@
             <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell *matCellDef="let element">
               <ng-container>
-<!--                <a class="cursor-pointer" *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)">Approve / Reject</a>-->
-                <mat-icon *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)" class="action-required" matTooltip=" Approve/Reject">print</mat-icon>
+<!--                <mat-icon *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)" class="action-required" matTooltip=" Approve/Reject">print</mat-icon>-->
+                <img src="assets/icons/action_btn.png" alt="" *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)" class="action-required" matTooltip=" Approve/Reject">
 <!--                <mat-icon (click)="openReceiptStatus(element)" class="reciept-reason" matTooltip="View Reason ">print</mat-icon>-->
               </ng-container>
             </mat-cell>
           </ng-container>
-          <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)"  ></mat-header-row>
-          <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.label);"></mat-row>
+          <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.tab_name)"  ></mat-header-row>
+          <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.tab_name);"></mat-row>
         </mat-table>
       </div>
 
@@ -113,9 +106,7 @@
     <ng-template #emptyList>
       <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
     </ng-template>
-<!--    <div class="loader-container" *ngIf="showLoader">-->
-<!--      <mat-spinner color="warn"></mat-spinner>-->
-<!--    </div>-->
+
   </mat-tab>
 </mat-tab-group>
 

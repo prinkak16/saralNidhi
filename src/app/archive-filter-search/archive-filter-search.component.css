@@ -186,9 +186,6 @@ mat-label{
   display:contents;
 }
 
-/*::ng-deep.mat-button-wrapper{*/
-/*  color:#101a73;*/
-/*}*/
 
 ::ng-deep .mat-form-field-appearance-outline .mat-select-arrow-wrapper{
   transform: translateY(0%)!important;
