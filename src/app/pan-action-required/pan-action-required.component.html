@@ -102,6 +102,7 @@
 
       <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
                      [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
+
     </ng-container>
     <ng-template #emptyList>
       <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
@@ -115,3 +116,4 @@
   <div class="page-loader"></div>
 </ngx-shimmer-loading>
 </div>
+

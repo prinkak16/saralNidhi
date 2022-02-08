@@ -276,4 +276,7 @@
   cursor: pointer;
 
 }
+::ng-deep.mat-paginator-range-label{
+  color:#1A7DDF;
+}
 

@@ -5,3 +5,28 @@
   margin-left: 16px;
   margin-bottom: 11px;
 }
+.close_icon{
+  width: 13.72px;
+  height: 13.72px;
+  color: #000000;
+  margin-top: 10px;
+  margin-left: 7.8rem;
+}
+.close_btn{
+  display: flex;
+}
+.approve_btn{
+  background-image: url("src/assets/icons/approve.png");
+  width: 100px;
+  height: 40px;
+  background-repeat: no-repeat;
+  border: none;
+}
+.reject_btn{
+  background-image: url("src/assets/icons/reject.png");
+  width: 100px;
+  height: 40px;
+  background-repeat: no-repeat;
+  border: none;
+  margin-left: 30px;
+}
