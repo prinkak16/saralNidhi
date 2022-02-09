@@ -164,6 +164,7 @@ export class PanActionRequiredComponent implements OnInit{
     this.restService.getPanRequiredData(data).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
+      this.tabData = response.data.tab;
       this.length = response.data.length;
     }, (error: string) => {
       this.showLoader = false;
