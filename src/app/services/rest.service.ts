@@ -259,3 +259,4 @@ export class RestService {
     return this.http.get(this.baseUrl + 'nidhi_collection/get_receipt_generation_time?transaction_id=' + transactionId, this.authHttpOptions());
   }
 }
+

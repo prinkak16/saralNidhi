@@ -69,7 +69,6 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
-import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 @NgModule({
@@ -152,11 +151,7 @@ import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     ChangePasswordBottomSheetComponent,
     ConfirmDialogComponent
   ],
-  bootstrap: [AppComponent],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA,
-    NO_ERRORS_SCHEMA
-  ]
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
