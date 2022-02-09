@@ -55,7 +55,6 @@ export class PanActionRequiredComponent implements OnInit{
   downloadCount = 1;
   ngOnInit(): void {
     this.getPanRequiredList('');
-    this.getCount();
   }
 
   /* To copy any Text */
@@ -73,20 +72,7 @@ export class PanActionRequiredComponent implements OnInit{
     this.messageService.closableSnackBar('Link Copied Successfully', 2000);
     document.body.removeChild(selBox);
   }
-/* to get record data*/
-  getCount(): any {
-    this.restService.getTransactionCounts({
-      filters: this.filters
-    }).subscribe((response: any) => {
-      this.count = [];
-      setTimeout((_: any) => {
-        this.count = response.data;
-      }, 200);
-    }, (error: any) => {
-      this.messageService.somethingWentWrong();
-    });
-  }
-/*-----------------------------------------*/
+
   tabChange(event: any): any {
     this.resetPagination();
     if (event.index === 0) {
