@@ -22,7 +22,6 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   selectedIndex = 0;
   counting = [];
   filters: any;
-   typeId = [];
   showLoader = false;
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
@@ -99,8 +98,5 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   toggleLoader(showLoader: boolean): any {
     this.showLoader = showLoader;
-  }
-  getTypeID(id: any): void {
-    this.typeId = id;
   }
 }
