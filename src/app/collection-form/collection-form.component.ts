@@ -128,7 +128,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       transaction_type: new FormControl('regular', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.pattern(this.utilsService.namePattern)]),
       phone: new FormControl('', [Validators.pattern(this.utilsService.phonePattern)]),
       email: new FormControl('', [Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date: new FormControl(new Date(), [Validators.required]),
@@ -160,7 +160,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       bank_name: new FormControl(''),
       branch_name: new FormControl(''),
       branch_address: new FormControl(''),
-      collector_name: new FormControl(null),
+      collector_name: new FormControl(null, [Validators.pattern(this.utilsService.namePattern)]),
       collector_phone: new FormControl(null, [Validators.pattern(this.utilsService.phonePattern)]),
       nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
@@ -243,14 +243,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
-          this.collectionForm.controls.name.setValidators(Validators.required);
+          this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
           this.setChequeValidations();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
-          this.collectionForm.controls.name.setValidators(Validators.required);
+          this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
           this.setDDValidations();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.collectionForm.controls.name.clearValidators();
+          this.collectionForm.controls.name.setValidators([Validators.pattern(this.utilsService.namePattern)]);
           this.collectionForm.controls.account_number.clearValidators();
           this.collectionForm.controls.account_number.updateValueAndValidity();
           this.setTransferValidations();
@@ -444,7 +445,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   setCashValidations(): void {
-    this.collectionForm.controls.name.setValidators(Validators.required);
+    this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
     this.setCategoryValidation();
     this.setAddressValidations();
     this.setTransactionDateValidation();

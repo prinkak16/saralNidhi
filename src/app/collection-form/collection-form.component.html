@@ -416,6 +416,10 @@
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
             Name is required
           </mat-error>
+          <mat-error
+            *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('pattern'))">
+            Please enter a valid name
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="d-flex mt-1">
@@ -482,7 +486,7 @@
         <div class="col-md-4">
           <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="pincode" maxlength="6" (keypress)="utilsService.validateNumber($event)">
+            <input matInput formControlName="pincode" maxlength="6"  (keypress)="utilsService.validateNumber($event)">
             <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
               Please enter a pincode
             </mat-error>
@@ -654,12 +658,7 @@
         </div>
       </div>
 
-      <!--    <mat-form-field appearance="outline" class="col-md-8" >-->
-      <!--      <p><i>{{this.amountWord.value}}</i></p>-->
-      <!--&lt;!&ndash;      <mat-label>Amount in words</mat-label>&ndash;&gt;-->
-      <!--      <input matInput placeholder="Amount in word" [formControl]="amountWord" >-->
 
-      <!--    </mat-form-field>-->
       <div class="col-md-12 mt-1">
         <mat-label>Narration</mat-label>
         <mat-form-field appearance="outline" class="mt-1">
@@ -680,11 +679,15 @@
             <mat-label>Collector's Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_name" (keypress)="utilsService.validateName($event)"
+            <input matInput formControlName="collector_name"  (keypress)="utilsService.validateName($event)"
                    [required]="isRequiredField('collector_name')">
             <mat-error
               *ngIf="((collectionForm.controls.collector_name.touched)&& collectionForm.controls.collector_name.hasError('required'))">
               Collector Name is required
+            </mat-error>
+            <mat-error
+              *ngIf="((collectionForm.controls['collector_name'].touched)&& collectionForm.controls['collector_name'].hasError('pattern'))">
+              Please enter a valid name
             </mat-error>
           </mat-form-field>
         </div>
@@ -695,7 +698,7 @@
           <mat-form-field appearance="outline" class="mt-1">
             <input matInput formControlName="collector_phone" (keypress)="utilsService.validateNumber($event)"
                    maxlength="10" minlength="10"
-                   >
+            >
             <mat-error
               *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
               Collector phone number is required
@@ -883,7 +886,6 @@
         <span *ngIf="showLoader" class="text-white"> Submitting</span>
         <span *ngIf="!showLoader" class="text-white">Submit</span>
       </button>
-
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="transactionId">
