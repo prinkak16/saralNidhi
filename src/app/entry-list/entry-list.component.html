@@ -13,8 +13,9 @@
         </div>
       </ng-template>
       <div class="table-container">
-        <app-entry-list-table [paymentModeId]="tab.id" [filters]="filters"  (refreshCount)="this.getCount()" (updateList)="updateList($event)"
-                              [fetchWithFilters]="transactionsSubject.asObservable()" [showLoader]="showLoader"></app-entry-list-table>
+        <app-entry-list-table  [paymentModeId]="tab.id" [filters]="filters" (refreshCount)="this.getCount()" (updateList)="updateList($event)"
+                               [fetchWithFilters]="transactionsSubject.asObservable()" [showLoader]="showLoader"></app-entry-list-table
+        >
       </div>
     </mat-tab>
   </mat-tab-group>

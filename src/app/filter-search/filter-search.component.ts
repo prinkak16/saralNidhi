@@ -59,8 +59,10 @@ export class FilterSearchComponent implements OnInit {
   }
 
   downloadList(): void {
+
     const data = {
-      state_id: this.filterForm.controls.state_id.value
+      state_id: this.filterForm.controls.state_id.value,
+      filters: this.filterForm.value ? this.filterForm.value : {}
     };
     this.showLoader.emit(true);
     this.restService.downloadTransactionList(data).subscribe((reply: any) => {

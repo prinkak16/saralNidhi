@@ -32,6 +32,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
   @Output() refreshCount: EventEmitter<any> = new EventEmitter();
+  @Output() typeId: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
@@ -109,7 +110,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   openEmailSendModal(transaction: any): void {
     this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
-
   }
 
   openChequeDialog(type: any, row: any): void {
@@ -122,8 +122,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData,  width: '350px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getPaymentList();
-      }
+        this.getPaymentList();      }
     });
   }
 
