@@ -2,7 +2,7 @@ name: cypress Tests
 
 on:
   push:
-    branches: [ cypress_automation ]
+    branches: [ cypress-automation ]
 
 jobs:
 
