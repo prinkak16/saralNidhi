@@ -32,7 +32,7 @@ describe("state wise filer", () => {
 
     // Enter stateName
     cy.get('mat-option').contains(testData.stateName).click({force: true});
-    cy.wait(2000);
+
     // for click [Clear,Search,Download] button
     cy.get('button').contains(testData.click_button_type).click({force: true});
 

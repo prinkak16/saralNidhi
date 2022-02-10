@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("UPI Payment Mode", () => {
+describe("Action On UPI Payment Mode", () => {
 
     let testData;
     beforeEach(function () {
@@ -10,54 +10,52 @@ describe("UPI Payment Mode", () => {
         });
     })
 
-    it('login,actions related to UPI payment mode',{ retries: { runMode: 2, openMode: 1,},}, () => {
+    it('login,actions related to UPI payment mode',() => {
         cy.visit("/");
         cy.get("input[type=email").type(testData.email);
         cy.get("input[type=password").type(testData.password).type('{enter}');
 
         cy.get('#otp').type(testData.OTP).type('{enter}');
         cy.wait(2000);
-      //click on Total Forms Entered
-      cy.get('.count').click();
+        //click on Total Forms Entered
+        cy.get('.count').click();
 
-      // click on UPI button
-      cy.get('.mat-tab-label').contains('UPI').click({force: true});
-      cy.wait(2000);
-      let row = testData.select_row + 1;
+        // click on UPI button
+        cy.get('.mat-tab-label').contains('UPI').click({ force: true });
+        cy.wait(2000);
+        let row = testData.select_row + 1;
 
-      function row_and_next_page() {
-        // no of time click for next page
-        for (let n = 0; n < testData.click_no_of_times_next_page; n++) {
-          cy.get('.mat-paginator-navigation-next > .mat-button-wrapper > .mat-paginator-icon')
-            .click({force: true})
+        function row_and_next_page() {
+            // no of time click for next page
+            for (let n = 0; n < testData.click_no_of_times_next_page; n++) {
+                cy.get('.mat-paginator-navigation-next > .mat-button-wrapper > .mat-paginator-icon')
+                    .click({ force: true })
+            }
+            cy.wait(1000);
+            // select row
+            cy.get(':nth-child(' + row + ') > .action-btn > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click({ force: true });
+            cy.get('.mat-menu-content').should('be.visible');
         }
-        cy.wait(1000);
-        // select row
-        cy.get(':nth-child(' + row + ') > .action-btn > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click({force: true});
-        cy.get('.mat-menu-content').should('be.visible');
-      }
-      row_and_next_page();
+        row_and_next_page();
 
-        cy.get('.mat-menu-content').contains(testData.flag_operation).click({multiple:true});
+        cy.get('.mat-menu-content').contains(testData.flag_operation).click({ multiple: true });
 
-        if(testData.flag_operation=='Edit')
-        {
+        if (testData.flag_operation == 'Edit') {
             cy.wait(1000);
 
-            if(testData.flag_account_no!=0)
-            {
+            if (testData.flag_account_no != 0) {
                 cy.get('[formcontrolname="account_number"]').clear();
 
                 cy.get('[formcontrolname="account_number"]').type(testData.account_no_value);
 
             }
 
-            if(testData.flag_ifsc_code!=0) {
+            if (testData.flag_ifsc_code != 0) {
                 cy.get('[formcontrolname="ifsc_code"]').clear();
                 cy.get('[formcontrolname="ifsc_code"]').type(testData.ifsc_code_value);
 
                 cy.wait(2000);
-                cy.get('.bank-details',{ timeout: 10000 }).click();
+                cy.get('.bank-details', { timeout: 10000 }).click();
             }
 
             let surname1st_letter = "";
@@ -70,7 +68,7 @@ describe("UPI Payment Mode", () => {
 
                 console.log("donor_name.length :" + name_value.length);
                 if (name_value.length > 150) {
-                    cy.wrap(1).should('eq', 2, {message: 'Name is of more than 150 character'});
+                    cy.wrap(1).should('eq', 2, { message: 'Name is of more than 150 character' });
                 }
                 let space_in_name_value = name_value.indexOf(" ");
                 surname1st_letter = name_value.charAt(space_in_name_value + 1).toUpperCase();
@@ -118,10 +116,10 @@ describe("UPI Payment Mode", () => {
 
                 if (testData.flag_category != 0) {
                     cy.wait(2000);
-                    cy.get('input[type="radio"]').check(testData.flag_category_value, {force: true});
+                    cy.get('input[type="radio"]').check(testData.flag_category_value, { force: true });
                     flag_5th_pan_letter = name1.charAt(0).toUpperCase();
 
-                    cy.get('input[type="radio"]').check(testData.flag_category_value, {force: true});
+                    cy.get('input[type="radio"]').check(testData.flag_category_value, { force: true });
                     if (testData.flag_category_value == 'individual') {
 
                         flag_4th_pan_letter = "P";
@@ -130,7 +128,7 @@ describe("UPI Payment Mode", () => {
                         if (testData.flag_proprietorship != 0) {
                             cy.wait(3000);
                             if (testData.flag_proprietorship_changeTo == 'yes') {
-                                cy.get('input[type="radio"]').check('true', {force: true});
+                                cy.get('input[type="radio"]').check('true', { force: true });
 
                                 cy.get('[formcontrolname="proprietorship_name"]').clear();
 
@@ -146,7 +144,7 @@ describe("UPI Payment Mode", () => {
                                 flag_5th_pan_letter = proprietorship_surname1st_letter;
 
                             } else {
-                                cy.get('input[type="radio"]').check('false', {force: true});
+                                cy.get('input[type="radio"]').check('false', { force: true });
                             }
                         }
                     } else if (testData.flag_category_value == 'huf') {
@@ -211,7 +209,7 @@ describe("UPI Payment Mode", () => {
                         cy.get('[formcontrolname="amount"]').clear();
                         cy.get('[formcontrolname="amount"]').type(amount);
                     } else {
-                        cy.wrap(3).should('eq', 4, {message: 'Amount is not in number formate'});
+                        cy.wrap(3).should('eq', 4, { message: 'Amount is not in number formate' });
                     }
 
                 }
@@ -225,121 +223,110 @@ describe("UPI Payment Mode", () => {
                     let collector_name = testData.collector_name_value;
 
                     if (collector_name.length > 150) {
-                        cy.wrap(4).should('eq', 5, {message: 'collector Name is of more than 150 characters'});
+                        cy.wrap(4).should('eq', 5, { message: 'collector Name is of more than 150 characters' });
                     }
                     cy.get('[formcontrolname="collector_name"]').clear();
                     cy.get('[formcontrolname="collector_name"]').type(collector_name);
                 }
 
 
-            if(testData.flag_collector_mobile!=0)
-            {
-                cy.get('[formcontrolname="collector_phone"]').clear();
-                cy.get('[formcontrolname="collector_phone"]').type(testData.collector_mobile_value);
-            }
-
-            if(testData.flag_nature_of_donation!=0)
-            {
-                if(testData.donation_type=='Voluntary Contribution')
-                {
-                    cy.log('inside Voluntary Contribution');
-
-                    cy.wait(2000);
-                    cy.get('input[type="radio"]').check(testData.donation_type,{force:true});
+                if (testData.flag_collector_mobile != 0) {
+                    cy.get('[formcontrolname="collector_phone"]').clear();
+                    cy.get('[formcontrolname="collector_phone"]').type(testData.collector_mobile_value);
                 }
-                else if(testData.donation_type=='Aajivan Sahyog Nidhi')
-                {
-                    cy.log('inside Aajivan Sahyog Nidhi');
-                    cy.wait(2000);
-                    cy.get('input[type="radio"]').check('Aajivan Sahyog Nidhi.',{force:true});
-                }
-                else
-                {
-                    cy.wait(2000);
-                    cy.get('input[type="radio"]').check('Other',{force:true});
-                    cy.log('inside other');
-                    cy.get('[formcontrolname="other_nature_of_donation"]').clear();
-                    cy.get('[formcontrolname="other_nature_of_donation"]').type(testData.other_donation_value);
-                }
-            }
 
-              if (testData.flag_party_unit != 0) {
-                cy.get('input[type="radio"]').check(testData.party_unit_value, {force: true});
+                if (testData.flag_nature_of_donation != 0) {
+                    if (testData.donation_type == 'Voluntary Contribution') {
+                        cy.log('inside Voluntary Contribution');
 
-                if (testData.party_unit_value == 'Mandal') {
-                  cy.wait(3000);
-                  //if state applicable then select
-                  cy.get('body').then((body) => {
-                    if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
-
-                      cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-                        .contains(testData.party_unit_state).click({force: true});
-                    } else {
-
-                      cy.log('**state is not there**');
+                        cy.wait(2000);
+                        cy.get('input[type="radio"]').check(testData.donation_type, { force: true });
                     }
-                  });
-                  cy.wait(1000);
-                  //if zila applicable then select
-                  cy.get('body').then((body) => {
-                    if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
-
-                      cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
-                        .contains(testData.party_unit_zila).click({force: true});
-                    } else {
-
-                      cy.log('**Zila is not there**');
+                    else if (testData.donation_type == 'Aajivan Sahyog Nidhi') {
+                        cy.log('inside Aajivan Sahyog Nidhi');
+                        cy.wait(2000);
+                        cy.get('input[type="radio"]').check('Aajivan Sahyog Nidhi.', { force: true });
                     }
-                  });
-
-                  cy.get('.ng-placeholder').contains('Select mandal').click().get('ng-select')
-                    .contains(testData.party_unit_mandal).click({force: true});
-
-                } else if (testData.party_unit_value == 'Zila') {
-                  cy.wait(2000);
-                  cy.get('body').then((body) => {
-                    if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
-
-                      cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-                        .contains(testData.party_unit_state).click({force: true});
-                    } else {
-
-                      cy.log('**state is not there**');
+                    else {
+                        cy.wait(2000);
+                        cy.get('input[type="radio"]').check('Other', { force: true });
+                        cy.log('inside other');
+                        cy.get('[formcontrolname="other_nature_of_donation"]').clear();
+                        cy.get('[formcontrolname="other_nature_of_donation"]').type(testData.other_donation_value);
                     }
-                  })
-                  cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
-                    .contains(testData.party_unit_zila).click({force: true});
-
-                } else {
-                  cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-                    .contains(testData.party_unit_state).click({force: true});
                 }
-              }
+
+                if (testData.flag_party_unit != 0) {
+                    cy.get('input[type="radio"]').check(testData.party_unit_value, { force: true });
+
+                    if (testData.party_unit_value == 'Mandal') {
+                        cy.wait(3000);
+                        //if state applicable then select
+                        cy.get('body').then((body) => {
+                            //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+                            if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+
+                                cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
+                                    .contains(testData.party_unit_state).click({ force: true });
+                            } else {
+
+                                cy.log('**state is not there**');
+                            }
+                        });
+                        cy.wait(1000);
+                        //if zila applicable then select
+                        cy.get('body').then((body) => {
+                            //if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+                            if (body.find('.d-flex > :nth-child(2) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+
+                                cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
+                                    .contains(testData.party_unit_zila).click({ force: true });
+                            } else {
+
+                                cy.log('**Zila is not there**');
+                            }
+                        });
+
+                        cy.get('.ng-placeholder').contains('Select mandal').click().get('ng-select')
+                            .contains(testData.party_unit_mandal).click({ force: true });
+
+                    } else if (testData.party_unit_value == 'Zila') {
+                        cy.wait(2000);
+                        cy.get('body').then((body) => {
+                            //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+                            if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+
+                                cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
+                                    .contains(testData.party_unit_state).click({ force: true });
+                            } else {
+
+                                cy.log('**state is not there**');
+                            }
+                        })
+                        cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
+                            .contains(testData.party_unit_zila).click({ force: true });
+
+                    } else {
+                        cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
+                            .contains(testData.party_unit_state).click({ force: true });
+                    }
+                }
             });
             // click on update button
             //cy.get('button').contains('Update').click();
         }
-        else if(testData.flag_operation=="Archive")
-        {
+        else if (testData.flag_operation == "Archive") {
             cy.get('#mat-dialog-0').should('be.visible');
-            cy.get('.bg-primary > .mat-button-wrapper').click();
+             // choose Yes or No for doing Archive
+            //cy.get('.bg-primary > .mat-button-wrapper').click();
+            cy.get('.mat-button-wrapper').contains(testData.flag_archive).click({ force: true });
         }
-        else if(testData.flag_operation=="Reversed")
-        {
+        else if (testData.flag_operation == "Reversed") {
             cy.get('#mat-dialog-0').should('be.visible');
             cy.get('[formcontrolname="remark"]').type(testData.Reversed_remark);
 
-            // click on Submit button
-            //cy.get('button').contains('Submit').click();
-        }
-        else if(testData.flag_operation=="Bounced")
-        {
-            cy.wrap(1).should('eq', 2, { message: 'Bounced is not Applicable in UPI' });
-        }
-        else if(testData.flag_operation=="Realized")
-        {
-            cy.wrap(2).should('eq', 3, { message: 'realized is not Applicable in UPI' });
-
+            // click on submit or Close of reversed
+            cy.get('button').contains(testData.flag_reversed).click({ force: true });
         }
 
     });

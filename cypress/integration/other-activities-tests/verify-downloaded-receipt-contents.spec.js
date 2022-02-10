@@ -38,7 +38,7 @@ describe("Test on Receipt", () => {
         expect(a1).to.contains(testData.Pincode);
         expect(a1).to.contains(testData.Rupees_in_words);
         expect(a1).to.contains(testData.complete_vide_donation_info);
-        expect(a1).to.contains(testData.complete_vide_donation_info);
+        
 
       })
     })

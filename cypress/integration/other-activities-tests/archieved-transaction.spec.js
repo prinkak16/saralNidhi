@@ -19,9 +19,9 @@ describe("Archieved Transaction", () => {
     cy.get('#otp').type(testData.OTP).type('{enter}');
 
     // click on Archieve transaction
-    cy.get('[ng-reflect-router-link="/dashboard/archived_transactio"] > .action-text').click();
-
-    cy.wait(1000);
+    //cy.get('[ng-reflect-router-link="/dashboard/archived_transactio"] > .action-text').click({force:true});
+    cy.get('.action-text').contains('Archived Transactions').click({force:true});
+    cy.wait(2000);
 
     // click on transaction type or not
     if(testData.flag_specific_transaction!==0) {
@@ -36,15 +36,16 @@ describe("Archieved Transaction", () => {
         cy.get('.mat-paginator-navigation-next > .mat-button-wrapper > .mat-paginator-icon')
           .click({force: true})
       }
-      cy.wait(1000);
+      cy.wait(2000);
       // select row
-      cy.get(':nth-child('+row+') > .action-btn > .mat-tooltip-trigger > .mat-icon').click();
+      cy.get(':nth-child('+row+') > .action-btn > .mat-tooltip-trigger > .mat-icon').click({force: true});
     }
 
-    row_and_next_page();
-
+    row_and_next_page({force: true});
+     
+    cy.wait(1000);
     //click on No/Yes
-    cy.get('button').contains(testData.final_operation).click();
+    cy.get('button').contains(testData.final_operation).click({force: true});
 
   })
 

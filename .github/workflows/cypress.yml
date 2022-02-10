@@ -1,51 +1,75 @@
-name: cypress Test
+name: cypress Tests
 
-on: [pull_request]
-
-    #branches: [ saral_nidhi_cypress_automation ]
+on:
+  push:
+    branches: [ cypress_automation ]
 
 jobs:
-  cypress-run:
+
+  install:
     runs-on: ubuntu-latest
+    container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+      - name: Cypress install
+        uses: cypress-io/github-action@v2
+        with:
+          runTests: false
+      - run: ls -lah
+      - run: npm install
+      - run: npm run build-staging
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          if-no-files-found: error
+          path: dist/angular-electron
+
+  cypress-run:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.18.3-chrome87-ff82
+    needs: install
+    strategy:
+      fail-fast: false
+      matrix:
+        # run copies of the current job in parallel
+        containers: [1]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - run: npm install
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: dist/angular-electron
+      - run: ls -lah
+      - run: npm install -g http-server
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npm start
+          install: false
+          start: http-server dist/angular-electron -p 4200
           wait-on: http://localhost:4200
+          wait-on-timeout: 120
+          browser: chrome
           record: true
-          
-          spec: cypress/integration/payment-mode-tests/cash-mode.spec.js 
-       
+          parallel: true
+          #spec: cypress/integration/**/*
+          spec: cypress/integration/user-management/edit-user-management.spec.js
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # pass GitHub token to allow accurately detecting a build vs a re-run build
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       
-      #- name: Upload Videos Artifacts
-       # uses: actions/upload-artifact@v1
-        #if: always()
-        #with:   
-         # name: cypress-videos
-          #path: cypress/videos
 
-       
-      #- name: Upload Screenshot Artifacts
-        #uses: actions/upload-artifact@v1
-        #if: failure()
-        #with:
-          #name: cypress-screenshots
-          #path: cypress/screenshots
-          
-      #- name: Upload video Artifacts
-        #uses: actions/upload-artifact@v1
-        #if: failure()
-        #with:
-          #name: cypress-videos
-          #path: cypress/videos   
-          
+
+
+
+

@@ -50,7 +50,7 @@ describe("Cheque Payment Mode", () => {
 
 
     cy.wait(1000);
-    var cheque = testData.cur_date;
+    var cheque = testData.transaction_date;
     var cheque_arr = cheque.split('/');
     var cheque_dd = cheque_arr[0];
     var cheque_mm = cheque_arr[1];
@@ -88,7 +88,7 @@ describe("Cheque Payment Mode", () => {
 
     if (g1_cheque_date.getTime() >= g2_90_date.getTime()) {
       // Date of Transaction
-      cy.get('#mat-input-17').type(testData.cur_date);
+      cy.get('#mat-input-17').type(testData.transaction_date);
     } else if (g1_cheque_date.getTime() < g2_90_date.getTime()) {
       cy.wrap(4).should('eq', 5, {message: 'cheque date is smaller than 90th date from current date'});
     }
@@ -271,7 +271,8 @@ describe("Cheque Payment Mode", () => {
 
       //if state applicable then select
        cy.get('body').then((body) => {
-        if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+        //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+          if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
           cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
             .contains(testData.state_name).click({force: true});
@@ -285,7 +286,8 @@ describe("Cheque Payment Mode", () => {
 
       //if zila applicable then select
       cy.get('body').then((body) => {
-        if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+        //if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+          if (body.find('.d-flex > :nth-child(2) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
           cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
             .contains(testData.zila_name).click({force: true});
@@ -302,8 +304,9 @@ describe("Cheque Payment Mode", () => {
       cy.wait(2000);
 
       cy.get('body').then((body) => {
-        if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
-
+        //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+          if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+            
           cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
             .contains(testData.state_name).click({force: true});
         } else {
@@ -321,8 +324,7 @@ describe("Cheque Payment Mode", () => {
       cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
         .contains(testData.state_name).click({force: true});
     }
-    //submit
-    //cy.get('button').contains('Submit').click();
+   // cy.get('button').contains('Submit').click({force:true});
   });
 })
 

@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("user-management Edit", () => {
+describe("user-management Edit1", () => {
 
   let testData;
   beforeEach(function () {
@@ -21,7 +21,7 @@ describe("user-management Edit", () => {
     cy.wait(2000);
 
     // click on User Management
-    cy.get('.ng-star-inserted > .action-text').click();
+    cy.get('.ng-star-inserted > .action-text').click({ force: true });
 
     cy.wait(1000);
 
@@ -32,11 +32,13 @@ describe("user-management Edit", () => {
       // no of time click for next page
       for (let n = 0; n < testData.click_no_of_times_next_page; n++) {
         cy.get('.mat-paginator-navigation-next > .mat-button-wrapper > .mat-paginator-icon')
-          .click({force: true})
+          .click({ force: true })
       }
       cy.wait(2000);
       // select row
-      cy.get(':nth-child(' + row + ') > .action-container > [ng-reflect-router-link="/dashboard/users/add"]').click({force: true});
+      cy.get(':nth-child(' + row + ') > .action-container > :nth-child(1)').click({ force: true });
+      //cy.get(':nth-child(' + row + ') > .action-container > [ng-reflect-router-link="/dashboard/users/add"]').click({force: true});
+
     }
 
     row_and_next_page();
@@ -60,81 +62,107 @@ describe("user-management Edit", () => {
     }
 
     if (testData.flag_role != 0) {
-      cy.get('input[type="radio"]').check(testData.role, {force: true});
+      cy.get('input[type="radio"]').check(testData.role, { force: true });
 
-      cy.get('[formcontrolname="location_ids"]').click({force: true});
+      cy.get('[formcontrolname="location_ids"]').click({ force: true });
 
-    }
+      if (testData.flag_state_zila_mandal != 0) {
+        if (testData.role == 'national_accountant' || testData.role == 'state_treasurer' || testData.role == 'state_accountant') {
+          let myArray = testData.state_to_be_selected.split(",");
+          myArray.forEach(i => {
+            cy.get('mat-option > .mat-option-text').contains(i).click({ force: true });
+          });
+        } else if (testData.role == 'zila_accountant') {
+          let myArray = testData.zila_to_be_selected.split(",");
+          myArray.forEach(i => {
+            cy.get('mat-option > .mat-option-text').contains(i).click({ force: true });
+          });
+        } else if (testData.role == 'mandal_accountant') {
+          let myArray = testData.mandal_to_be_selected.split(",");
+          cy.wait(1000);
+          myArray.forEach(i => {
+            cy.log(i);
+            cy.wait(2000);
+            cy.get('mat-option > .mat-option-text').contains(i).click({ force: true });
+          });
+          //cy.get('#mat-option-917 > .mat-option-text').click({force: true});
 
-    if (testData.flag_state_zila_mandal != 0) {
-      if (testData.role == 'national_accountant' || testData.role == 'state_treasurer' || testData.role == 'state_accountant') {
-        let myArray = testData.state_to_be_selected.split(",");
-        myArray.forEach(i => {
-          cy.get('mat-option > .mat-option-text').contains(i).click({force: true});
-        });
-      } else if (testData.role == 'zila_accountant') {
-        let myArray = testData.zila_to_be_selected.split(",");
-        myArray.forEach(i => {
-          cy.get('mat-option > .mat-option-text').contains(i).click({force: true});
-        });
-      } else if (testData.role == 'mandal_accountant') {
-        let myArray = testData.mandal_to_be_selected.split(",");
-        myArray.forEach(i => {
-          cy.log(i);
-          cy.wait(2000);
-          cy.get('mat-option > .mat-option-text').contains(i).click({force: true});
-        });
-        //cy.get('#mat-option-917 > .mat-option-text').click({force: true});
-
+        }
       }
+
+
     }
+
+    // if (testData.flag_state_zila_mandal != 0) {
+    //   if (testData.role == 'national_accountant' || testData.role == 'state_treasurer' || testData.role == 'state_accountant') {
+    //     let myArray = testData.state_to_be_selected.split(",");
+    //     myArray.forEach(i => {
+    //       cy.get('mat-option > .mat-option-text').contains(i).click({ force: true });
+    //     });
+    //   } else if (testData.role == 'zila_accountant') {
+    //     let myArray = testData.zila_to_be_selected.split(",");
+    //     myArray.forEach(i => {
+    //       cy.get('mat-option > .mat-option-text').contains(i).click({ force: true });
+    //     });
+    //   } else if (testData.role == 'mandal_accountant') {
+    //     let myArray = testData.mandal_to_be_selected.split(",");
+    //     cy.wait(1000);
+    //     myArray.forEach(i => {
+    //       cy.log(i);
+    //       cy.wait(2000);
+    //       cy.get('mat-option > .mat-option-text').contains(i).click({force: true});
+    //     });
+    //     //cy.get('#mat-option-917 > .mat-option-text').click({force: true});
+
+    //   }
+    // }
 
     if (testData.Allow_data_download != 0) {
 
-      cy.get('.mat-checkbox').contains('Allow Data Download').click({force: true});
+      cy.get('.mat-checkbox').contains('Allow Data Download').click({ force: true });
     }
 
 
     if (testData.date_of_transaction != 0) {
       if (testData.fifteen_days != 0) {
 
-        cy.get('.mat-checkbox').contains('15 Days').click({force: true});
+        cy.get('.mat-checkbox').contains('15 Days').click({ force: true });
       }
 
       if (testData.thirty_days != 0) {
 
-        cy.get('.mat-checkbox').contains('30 Days').click({force: true});
+        cy.get('.mat-checkbox').contains('30 Days').click({ force: true });
       }
     }
 
     if (testData.Indian_Donation_Form != 0) {
       if (testData.create != 0) {
 
-        cy.get('.mat-checkbox').contains('Create').click({force: true});
+        cy.get('.mat-checkbox').contains('Create').click({ force: true });
       }
 
       if (testData.Edit_within_fifteen_days != 0) {
 
-        cy.get('.mat-checkbox').contains('Edit within 15 Days').click({force: true});
+        cy.get('.mat-checkbox').contains('Edit within 15 Days').click({ force: true });
       }
 
       if (testData.Edit_within_fifty_days != 0) {
 
-        cy.get('.mat-checkbox').contains('Edit within 30 Days').click({force: true});
+        cy.get('.mat-checkbox').contains('Edit within 30 Days').click({ force: true });
       }
 
       if (testData.Edit_Lifetime != 0) {
 
-        cy.get('.mat-checkbox').contains('Edit Lifetime').click({force: true});
+        cy.get('.mat-checkbox').contains('Edit Lifetime').click({ force: true });
       }
 
       if (testData.Supplementary_Entry != 0) {
 
-        cy.get('.mat-checkbox').contains('Supplementary Entry').click({force: true});
+        cy.get('.mat-checkbox').contains('Supplementary Entry').click({ force: true });
       }
 
       if (testData.Allow_Receipt_Print != 0) {
-        cy.get('.mat-checkbox').contains('Allow Receipt Print').click({force: true});
+        cy.get('.mat-checkbox').contains('Allow Receipt Print').click({ force: true });
       }
 
     }
@@ -146,7 +174,7 @@ describe("user-management Edit", () => {
           //cy.get('input[type="checkbox"]').uncheck('131',{force:true});
           //cy.get('input[type="checkbox"]').contains('State').click({force:true});
           //cy.get('#mat-checkbox-10 > .mat-checkbox-layout > .mat-checkbox-inner-container').click({force:true});
-          cy.get('.mat-checkbox').contains('State').click({force: true});
+          cy.get('.mat-checkbox').contains('State').click({ force: true });
         }
       }
 
@@ -154,21 +182,21 @@ describe("user-management Edit", () => {
         if (testData.Zila != 0) {
           //cy.get('#mat-checkbox-11 > .mat-checkbox-layout > .mat-checkbox-inner-container').click({force: true});
           //cy.get('input[type="checkbox"]').check('132', {force: true});
-          cy.get('.mat-checkbox').contains('Zila').click({force: true});
+          cy.get('.mat-checkbox').contains('Zila').click({ force: true });
         }
       }
 
       if (testData.Mandal != 0) {
         //cy.get('#mat-checkbox-12 > .mat-checkbox-layout > .mat-checkbox-inner-container').click({force: true});
         //cy.get('input[type="checkbox"]').check('133',{force:true});
-        cy.get('.mat-checkbox').contains('Mandal').click({force: true});
+        cy.get('.mat-checkbox').contains('Mandal').click({ force: true });
       }
 
     }
 
 
     //Submit button
-    //cy.get('button').contains('Submit').click({force:true});
+    cy.get('button').contains('Submit').click({force:true});
 
   });
 });

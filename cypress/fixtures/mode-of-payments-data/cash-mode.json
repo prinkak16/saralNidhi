@@ -1,12 +1,12 @@
 {
-  "email": "kumar.vikastreasurer@jarvis.consulting",
+  "email": "vk_zila_accountant@jarvis.consulting",
   "password": "Test@123",
   "OTP": "227244",
-  "cur_date": "05/11/2021",
+  "transaction_date": "05/11/2021",
   "donor_name": "vikas kumar",
   "mobile_no": "8825137191",
-  "donor_email": "vikaskumar.vk0612@gmail.com",
-  "house_no": "501",
+  "donor_email": "kumar.vikas@jarvis.consulting",
+  "house_no": "323",
   "locality": "Ajmera",
   "pin_code": "411018",
 
@@ -44,6 +44,6 @@
 
   "___Note3___": "State ,Zila and mandal names are case sensitive",
   "state_name": "Andhra Pradesh",
-  "zila_name": "Chittoor",
-  "mandal_name":"Yerpedu"
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi"
 }

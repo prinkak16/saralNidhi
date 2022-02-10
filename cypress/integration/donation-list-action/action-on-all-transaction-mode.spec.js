@@ -1,7 +1,7 @@
 
 /// <reference types="cypress" />
 
-describe("action on all transactions", () => {
+describe("Action on all transactions", () => {
 
   let testData;
   beforeEach(function () {
@@ -21,11 +21,11 @@ describe("action on all transactions", () => {
     cy.wait(2000);
 
     // click on Total Forms Entered
-    cy.get('.count').click();
+    cy.get('.count').click({ force: true });
 
     cy.wait(2000);
     //click on Action
-    cy.get('.mat-header-row > .cdk-column-action').click();
+    cy.get('.mat-header-row > .cdk-column-action').click({ force: true });
 
     let row = testData.select_row + 1;
 
@@ -33,20 +33,19 @@ describe("action on all transactions", () => {
       // no of time click for next page
       for (let n = 0; n < testData.click_no_of_times_next_page; n++) {
         cy.get('.mat-paginator-navigation-next > .mat-button-wrapper > .mat-paginator-icon')
-          .click({force: true})
+          .click({ force: true })
       }
-      cy.wait(1500);
+      cy.wait(2000);
       // select row
-      cy.get(':nth-child(' + row + ') > .action-btn > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click({force: true});
+      cy.get(':nth-child(' + row + ') > .action-btn > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click({ force: true });
       cy.get('.mat-menu-content').should('be.visible');
     }
 
     row_and_next_page();
-    cy.wait(1000);
-    
+
     if (testData.flag_operation == 'Edit') {
       cy.wait(1000);
-      cy.get('.mat-menu-content').contains('Edit').click({multiple: true});
+      cy.get('.mat-menu-content').contains('Edit').click({ multiple: true });
       if (testData.flag_cheque_or_DD_front != 0) {
         const imageFile1 = 'images/one.jpg';
         const imageFile2 = 'images/two.png';
@@ -73,7 +72,7 @@ describe("action on all transactions", () => {
         cy.get('[formcontrolname="ifsc_code"]').type(testData.ifsc_code_value);
 
         cy.wait(2000);
-        cy.get('.bank-details').click({force: true});
+        cy.get('.bank-details').click({ force: true });
       }
 
 
@@ -87,7 +86,7 @@ describe("action on all transactions", () => {
 
         console.log("donor_name.length :" + name_value.length);
         if (name_value.length > 150) {
-          cy.wrap(1).should('eq', 2, {message: 'Name is of more than 150 character'});
+          cy.wrap(1).should('eq', 2, { message: 'Name is of more than 150 character' });
         }
         // index of space in donor name
         let space_in_name_value = name_value.indexOf(" ");
@@ -137,10 +136,10 @@ describe("action on all transactions", () => {
 
         if (testData.flag_category != 0) {
           cy.wait(2000);
-          cy.get('input[type="radio"]').check(testData.flag_category_value, {force: true});
+          cy.get('input[type="radio"]').check(testData.flag_category_value, { force: true });
           flag_5th_pan_letter = name1.charAt(0).toUpperCase();
 
-          cy.get('input[type="radio"]').check(testData.flag_category_value, {force: true});
+          cy.get('input[type="radio"]').check(testData.flag_category_value, { force: true });
           if (testData.flag_category_value == 'individual') {
 
             flag_4th_pan_letter = "P";
@@ -149,7 +148,7 @@ describe("action on all transactions", () => {
             if (testData.flag_proprietorship != 0) {
               cy.wait(3000);
               if (testData.flag_proprietorship_changeTo == 'yes') {
-                cy.get('input[type="radio"]').check('true', {force: true});
+                cy.get('input[type="radio"]').check('true', { force: true });
 
                 cy.get('[formcontrolname="proprietorship_name"]').clear();
 
@@ -167,7 +166,7 @@ describe("action on all transactions", () => {
                 flag_5th_pan_letter = proprietorship_surname1st_letter;
 
               } else {
-                cy.get('input[type="radio"]').check('false', {force: true});
+                cy.get('input[type="radio"]').check('false', { force: true });
               }
             }
           } else if (testData.flag_category_value == 'huf') {
@@ -231,7 +230,7 @@ describe("action on all transactions", () => {
             cy.get('[formcontrolname="amount"]').clear();
             cy.get('[formcontrolname="amount"]').type(amount);
           } else {
-            cy.wrap(3).should('eq', 4, {message: 'Amount is not in number formate'});
+            cy.wrap(3).should('eq', 4, { message: 'Amount is not in number formate' });
           }
 
         }
@@ -246,7 +245,7 @@ describe("action on all transactions", () => {
           let collector_name = testData.collector_name_value;
 
           if (collector_name.length > 150) {
-            cy.wrap(4).should('eq', 5, {message: 'collector Name is of more than 150 characters'});
+            cy.wrap(4).should('eq', 5, { message: 'collector Name is of more than 150 characters' });
           }
           cy.get('[formcontrolname="collector_name"]').clear();
           cy.get('[formcontrolname="collector_name"]').type(collector_name);
@@ -262,14 +261,14 @@ describe("action on all transactions", () => {
             cy.log('inside Voluntary Contribution');
 
             cy.wait(2000);
-            cy.get('input[type="radio"]').check(testData.donation_type, {force: true});
+            cy.get('input[type="radio"]').check(testData.donation_type, { force: true });
           } else if (testData.donation_type == 'Aajivan Sahyog Nidhi') {
             cy.log('inside Aajivan Sahyog Nidhi');
             cy.wait(2000);
-            cy.get('input[type="radio"]').check('Aajivan Sahyog Nidhi.', {force: true});
+            cy.get('input[type="radio"]').check('Aajivan Sahyog Nidhi.', { force: true });
           } else {
             cy.wait(2000);
-            cy.get('input[type="radio"]').check('Other', {force: true});
+            cy.get('input[type="radio"]').check('Other', { force: true });
             cy.log('inside other');
             cy.get('[formcontrolname="other_nature_of_donation"]').clear();
             cy.get('[formcontrolname="other_nature_of_donation"]').type(testData.other_donation_value);
@@ -277,17 +276,18 @@ describe("action on all transactions", () => {
         }
 
         if (testData.flag_party_unit != 0) {
-          cy.get('input[type="radio"]').check(testData.party_unit_value, {force: true});
+          cy.get('input[type="radio"]').check(testData.party_unit_value, { force: true });
 
           if (testData.party_unit_value == 'Mandal') {
             cy.wait(1000);
 
             //if state applicable then select
             cy.get('body').then((body) => {
-              if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+              //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+              if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
                 cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-                  .contains(testData.party_unit_state).click({force: true});
+                  .contains(testData.party_unit_state).click({ force: true });
               } else {
 
                 cy.log('**state is not there**');
@@ -296,10 +296,11 @@ describe("action on all transactions", () => {
             cy.wait(1000);
             //if zila applicable then select
             cy.get('body').then((body) => {
-              if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+              //if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+              if (body.find('.d-flex > :nth-child(2) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
                 cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
-                  .contains(testData.party_unit_zila).click({force: true});
+                  .contains(testData.party_unit_zila).click({ force: true });
               } else {
 
                 cy.log('**Zila is not there**');
@@ -307,16 +308,17 @@ describe("action on all transactions", () => {
             });
 
             cy.get('.ng-placeholder').contains('Select mandal').click().get('ng-select')
-              .contains(testData.party_unit_mandal).click({force: true});
+              .contains(testData.party_unit_mandal).click({ force: true });
 
 
           } else if (testData.party_unit_value == 'Zila') {
             cy.wait(2000);
             cy.get('body').then((body) => {
-              if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+              //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+              if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
                 cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-                  .contains(testData.party_unit_state).click({force: true});
+                  .contains(testData.party_unit_state).click({ force: true });
               } else {
 
                 cy.log('**state is not there**');
@@ -324,56 +326,60 @@ describe("action on all transactions", () => {
             })
 
             cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
-              .contains(testData.party_unit_zila).click({force: true});
+              .contains(testData.party_unit_zila).click({ force: true });
 
 
           } else {
             cy.wait(1000);
             cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-              .contains(testData.party_unit_state).click({force: true});
+              .contains(testData.party_unit_state).click({ force: true });
           }
         }
 
       });
       // click on update button
-      //cy.get('button').contains('Update').click();
+      cy.get('button').contains('Update').click({ force: true });
 
     } else if (testData.flag_operation == "Archive") {
-      cy.get('.mat-menu-content').contains('Archive').click({multiple: true});
+      cy.get('.mat-menu-content').contains('Archive').click({ multiple: true });
       cy.get('#mat-dialog-0').should('be.visible');
-      cy.get('.bg-primary > .mat-button-wrapper').click();
+      // choose Yes or No for doing Archive
+      //cy.get('.bg-primary > .mat-button-wrapper').click();
+      cy.get('.mat-button-wrapper').contains(testData.flag_archive).click({ force: true });
     } else if (testData.flag_operation == "Reversed") {
-      cy.get('.mat-menu-content').contains('Reversed').click({multiple: true});
+      cy.get('.mat-menu-content').contains('Reversed').click({ multiple: true });
       cy.get('#mat-dialog-0').should('be.visible');
       cy.get('[formcontrolname="remark"]').type(testData.Reversed_remark);
 
-      // click on submit
-      // cy.get('button').contains('Submit').click();
+      // click on submit or Close of reversed
+      cy.get('button').contains(testData.flag_reversed).click({ force: true });
+
     } else if (testData.flag_operation == "Bounced") {
-      cy.get('.mat-menu-content').contains('Bounced').click({multiple: true});
+      cy.get('.mat-menu-content').contains('Bounced').click({ multiple: true });
       cy.get('#mat-dialog-0').should('be.visible');
       cy.get('[formcontrolname="remark"]').type(testData.Bounced_remark);
 
-      // click on Submit button
-      //cy.get('button').contains('Submit').click();
+      // click on submit or Close of Bounced
+      cy.get('button').contains(testData.flag_bounced).click({ force: true });
+
     } else if (testData.flag_operation == "Realized") {
 
       // we can put Realized date by 2 way, 1 by typing and another by selecting from gui
       if (testData.flag_gui != 0) {
         cy.log('GUI selected..');
-        cy.get('.mat-header-row > .cdk-column-action').click({force: true});
-        cy.get('.mat-menu-content').contains('Realized').click({multiple: true});
+        cy.get('.mat-header-row > .cdk-column-action').click({ force: true });
+        cy.get('.mat-menu-content').contains('Realized').click({ multiple: true });
         cy.log("Through GUI Selection");
         cy.get('div[style=""] > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-suffix > .mat-datepicker-toggle > .mat-focus-indicator > .mat-button-wrapper > .mat-datepicker-toggle-default-icon')
-          .click({force: true});
+          .click({ force: true });
         cy.wait(2000);
 
         // click no of times calender gui back button
-        for(let back=0;back<testData.no_of_times_calender_back;back++) {
-          cy.get('.mat-calendar-previous-button').click({force:true});
+        for (let back = 0; back < testData.no_of_times_calender_back; back++) {
+          cy.get('.mat-calendar-previous-button').click({ force: true });
         }
         //select only digit for date
-        cy.get('.mat-calendar-table').contains(testData.date_digit).click({force:true});
+        cy.get('.mat-calendar-table').contains(testData.date_digit).click({ force: true });
 
       } else {
         cy.log('without gui');
@@ -397,7 +403,7 @@ describe("action on all transactions", () => {
         cy.log('realized_date is the date :' + realized_date1);
 
         // click on edit and copy cheque or dd date and come back to home
-        cy.get('.mat-menu-content').contains('Edit').click({multiple: true});
+        cy.get('.mat-menu-content').contains('Edit').click({ multiple: true });
 
         cy.wait(2000);
 
@@ -432,13 +438,13 @@ describe("action on all transactions", () => {
             let cheque_date1 = new Date(cheque_yyyy, cheque_mm, cheque_dd);
 
             if (cheque_date1.getTime() > realized_date1.getTime()) {
-              cy.wrap(1).should('eq', 2, {message: 'realized dates do not fall between cheque/dd and current date'});
+              cy.wrap(1).should('eq', 2, { message: 'realized dates do not fall between cheque/dd and current date' });
             } else if (cheque_date1.getTime() == realized_date1.getTime()) {
               cy.log("realized date and cheque/dd date pass");
             } else if (today_date1.getTime() >= realized_date1.getTime()) {
               cy.log("current date and realized date pass");
             } else {
-              cy.wrap(2).should('eq', 3, {message: 'realized dates should not be more than today'});
+              cy.wrap(2).should('eq', 3, { message: 'realized dates should not be more than today' });
             }
 
           })
@@ -452,23 +458,18 @@ describe("action on all transactions", () => {
 
         row_and_next_page();
         // click on option given from json to perform action
-        cy.get('.mat-menu-content').contains(testData.flag_operation).click({multiple: true});
+        cy.get('.mat-menu-content').contains(testData.flag_operation).click({ multiple: true });
 
         cy.wait(1000);
 
         cy.get('[placeholder="Enter date"]').type(testData.Realized_date);
 
       }
-
-
-      // click on Close button
-      // cy.get('button').contains('Close').click({force:true});
-
-      // click on Submit button
-      //cy.get('button').contains('Submit').click({force:true});
+      // click on Close or Submit button for Realized
+      cy.get('.btn').contains(testData.flag_realized).click({ force: true });
 
     } else if (testData.flag_operation == "View") {
-      cy.get('.mat-menu-content').contains('View').click({multiple: true});
+      cy.get('.mat-menu-content').contains('View').click({ multiple: true });
     }
   });
 });

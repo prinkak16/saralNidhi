@@ -6,7 +6,15 @@
 
   "pan_no": "FOOPK5634K",
 
+  "--Note--":"Choose flag_operation value from [Edit,Archive,Reversed,View]",
   "flag_operation": "Edit",
+
+     "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
+     "flag_archive":"No",
+
+     "--Note2--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
+     "flag_reversed":"Close",
+
   "Reversed_remark": "just for testing reversed",
   "Bounced_remark": "less amount",
 
@@ -22,7 +30,7 @@
   "flag_name": 1,
   "name_value": "kumar vikas",
 
-  "flag_donor_mobile":1,
+  "flag_donor_mobile":0,
   "donor_mobile_value": "8825137191",
 
   "flag_donor_email": 1,

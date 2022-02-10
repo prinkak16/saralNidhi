@@ -17,9 +17,11 @@ describe("Pan card section", () => {
     cy.get("input[type=password").type(testData.password).type('{enter}');
 
     cy.get('#otp').type(testData.OTP).type('{enter}');
-    cy.wait(2000);
+    cy.wait(1000);
     // click on action required for pan card
-    cy.get('[ng-reflect-router-link="/dashboard/pan_action"] > .action-text').click();
+    //cy.get('[ng-reflect-router-link="/dashboard/pan_action"] > .action-text').click({force: true});
+
+     cy.get('.action-text').contains('Action Required for Pancard').click({force:true});
 
     cy.wait(2000);
     let row = testData.select_row + 1;
@@ -52,7 +54,7 @@ describe("Pan card section", () => {
 
     }
     // Submit/Close button
-    cy.get('button').contains(testData.final_operation).click();
+    cy.get('button').contains(testData.final_operation).click({force: true});
 
     cy.wait(1000);
     //download csv file

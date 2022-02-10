@@ -24,7 +24,7 @@ describe("RTGS Payment Mode", () => {
         cy.get('input[type="radio"]').check('2',{force:true});
 
         //Date of Transaction
-        cy.get('#mat-input-17').type(testData.cur_date);
+        cy.get('#mat-input-17').type(testData.transaction_date);
 
         let UTR_No=testData.UTR_No;
 
@@ -207,7 +207,8 @@ describe("RTGS Payment Mode", () => {
         if(testData.Party_unit=='Mandal') {
             cy.wait(3000);
           cy.get('body').then((body) => {
-            if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+            //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+              if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
               cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
                 .contains(testData.state_name).click({force: true});
@@ -221,7 +222,8 @@ describe("RTGS Payment Mode", () => {
 
           //if zila applicable then select
           cy.get('body').then((body) => {
-            if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+            //if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
+              if (body.find('.d-flex > :nth-child(2) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
               cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
                 .contains(testData.zila_name).click({force: true});
@@ -238,8 +240,9 @@ describe("RTGS Payment Mode", () => {
           cy.wait(2000);
 
           cy.get('body').then((body) => {
-            if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
-
+            //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
+              if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+                
               cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
                 .contains(testData.state_name).click({force: true});
             } else {
@@ -257,8 +260,7 @@ describe("RTGS Payment Mode", () => {
           cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
             .contains(testData.state_name).click({force: true});
         }
-        //submit
-        //cy.get('button').contains('Submit').click();
+       cy.get('button').contains('Submit').click({force:true});
     });
 })
 

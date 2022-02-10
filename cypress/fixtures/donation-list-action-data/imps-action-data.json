@@ -6,7 +6,15 @@
 
   "pan_no": "FOOPK5634K",
 
-  "flag_operation": "Reversed",
+  "--Note--":"Choose flag_operation value from [Edit,Archive,Reversed,View]",
+  "flag_operation": "Archive",
+
+     "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
+     "flag_archive":"No",
+
+     "--Note2--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
+     "flag_reversed":"Close",
+
   "Reversed_remark": "just for testing reversed",
   "Bounced_remark": "less amount",
 

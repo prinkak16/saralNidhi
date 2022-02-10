@@ -1,16 +1,18 @@
 {
   "baseUrl": "http://localhost:4200/",
+  "pageLoadTimeout": 60000,
 
   "projectId": "unagh2",
+
+  "retries": 2,
 
   "trashAssetsBeforeRuns": false,
   "videoUploadOnPasses": false,
 
-    "testFiles": [
-      "payment-mode-tests/*.spec.js",
-      "donation-list-action/*.spec.js",
-      "user-management/*.spec.js",
-      "other-activities-tests/*.spec.js"
-    ]
-
+  "testFiles": [
+    "donation-list-action/*.spec.js",
+    "user-management/*.spec.js",
+    "other-activities-tests/*.spec.js",
+    "payment-mode-tests/*.spec.js"
+  ]
 }
