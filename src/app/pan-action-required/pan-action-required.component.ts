@@ -72,7 +72,6 @@ export class PanActionRequiredComponent implements OnInit{
     this.messageService.closableSnackBar('Link Copied Successfully', 2000);
     document.body.removeChild(selBox);
   }
-
   tabChange(event: any): any {
     this.resetPagination();
     if (event.index === 0) {

@@ -19,8 +19,10 @@
       </div>
 
       <div class="col-md-12">
-        <button class="approve_btn"  (click)="submitForm('approve')"></button>
-        <button class="reject_btn" (click)="submitForm('reject')"></button>
+        <button class="approve_btn"  (click)="submitForm('approve')" ></button>
+        <button class="reject_btn" (click)="submitForm('reject')" ></button>
+
+<!--        <button mat-flat-button (click)="submitForm()" [disabled]="!updatePanForm.valid" color="warn">Submit</button>-->
       </div>
 
     </div>
