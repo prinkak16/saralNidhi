@@ -51,8 +51,7 @@ jobs:
           path: dist/angular-electron
       - run: ls -lah
       - run: npm install -g http-server
-      #cypress run with record key
-      - name: Cypress run --record --key be45d194-ff20-4360-abef-fc1db2ab0192
+      - name: Cypress run 
         uses: cypress-io/github-action@v2
         with:
           install: false
