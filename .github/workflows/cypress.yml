@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         # run copies of the current job in parallel
-        containers: [1]
+        containers: [1,2,3,4]
 
     steps:
       - name: Checkout
@@ -61,8 +61,8 @@ jobs:
           browser: chrome
           record: true
           parallel: true
-          #spec: cypress/integration/**/*
-          spec: cypress/integration/user-management/edit-user-management.spec.js
+          spec: cypress/integration/**/*
+          #spec: cypress/integration/user-management/edit-user-management.spec.js
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
