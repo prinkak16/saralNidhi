@@ -10,7 +10,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Remark</mat-label>
           <textarea matInput placeholder="Remark" formControlName="accountant_pan_remarks"
-                    [required]="isRequiredField('accountant_pan_remarks')"></textarea>
+                    [required]="isRequiredField('accountant_pan_remarks')" required></textarea>
           <mat-error
             *ngIf="((updatePanForm.controls.accountant_pan_remarks.touched)&& updatePanForm.controls.accountant_pan_remarks.hasError('required'))">
             Remark is required
@@ -19,9 +19,8 @@
       </div>
 
       <div class="col-md-12">
-        <button class="approve_btn"  (click)="submitForm('approve')" ></button>
-        <button class="reject_btn" (click)="submitForm('reject')" ></button>
-
+        <button class="approve_btn"  (click)="submitForm('approve')" [disabled]="!updatePanForm.valid"></button>
+        <button class="reject_btn" (click)="submitForm('reject')" [disabled]="!updatePanForm.valid"></button>
 <!--        <button mat-flat-button (click)="submitForm()" [disabled]="!updatePanForm.valid" color="warn">Submit</button>-->
       </div>
 

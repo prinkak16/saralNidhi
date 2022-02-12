@@ -20,11 +20,12 @@
 </form>
 
 <mat-tab-group (selectedTabChange)="tabChange($event)" (selectedIndexChange)="selected.setValue($event)" [selectedIndex]="selected.value" class="tab-style">
-  <mat-tab *ngFor="let tab of tabData">
+
+  <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label class="mat-tab-view btn-head">
       <div>
-        <div class="tab-text1">{{tab.tab_name}}</div>
-        <div class="tab-text-count1">({{tab.tab_count}})</div>
+        <div class="tab-text1">{{tab.label}}</div>
+        <div class="tab-text1">{{getTabCount(tab)}}</div>
       </div>
     </ng-template>
 
@@ -95,8 +96,8 @@
               </ng-container>
             </mat-cell>
           </ng-container>
-          <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.tab_name)"  ></mat-header-row>
-          <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.tab_name);"></mat-row>
+          <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.label)"></mat-row>
         </mat-table>
       </div>
 

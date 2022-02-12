@@ -23,7 +23,7 @@ export class UpdatePanStatusComponent implements OnInit {
     this.updatePanForm = this.formBuilder.group({
       pan_system_error: new FormControl(null),
       accountant_pan_remarks: new FormControl(null, [Validators.required]),
-      pan_card_status: new FormControl(null, [Validators.required]),
+      pan_card_status: new FormControl(null),
       pan_card_remark: new FormControl(this.data.data.pan_data.pan_card_remark),
     });
     this.setFormValue(this.data);

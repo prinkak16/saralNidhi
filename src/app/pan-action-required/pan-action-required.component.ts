@@ -184,4 +184,13 @@ export class PanActionRequiredComponent implements OnInit{
     this.offset = 0;
     this.length = 0;
   }
+  getTabCount(tab: any): number{
+    let count = 0;
+    this.tabData.find((data: { tab_name: any; tab_count: number; }) => {
+      if (tab.label === data.tab_name) {
+        count = data.tab_count;
+      }
+    });
+    return count;
+  }
 }
