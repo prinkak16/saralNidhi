@@ -112,6 +112,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   statesValue: any;
   showImgUpload = true;
   isView: any;
+  showGlobalSearch =  false;
+  showNameSearch = false;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
