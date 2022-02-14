@@ -32,6 +32,7 @@
     "ng-number2words": "^1.1.0",
     "ng-otp-input": "^1.7.1",
     "ngx-print": "^1.2.0-beta.5",
+    "ngx-shimmer-loading": "0.0.5",
     "request": "^2.88.2",
     "rxjs": "~6.6.0",
     "shelljs": "^0.8.4",
