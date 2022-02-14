@@ -108,15 +108,12 @@
     <ng-template #emptyList>
       <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
     </ng-template>
-    <div class="loader-container" *ngIf="showLoader">
-      <mat-spinner color="warn"></mat-spinner>
-    </div>
   </mat-tab>
 </mat-tab-group>
 
-<!--<div *ngIf="showLoader" class="shimmer">-->
-<!--<ngx-shimmer-loading>-->
-<!--  <div class="page-loader"></div>-->
-<!--</ngx-shimmer-loading>-->
-<!--</div>-->
+<div *ngIf="showLoader" class="shimmer">
+<ngx-shimmer-loading>
+  <div class="page-loader"></div>
+</ngx-shimmer-loading>
+</div>
 
