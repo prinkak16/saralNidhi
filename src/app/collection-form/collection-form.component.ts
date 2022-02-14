@@ -176,6 +176,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
       this.getDonorList(value);
     });
+    this.collectionForm.controls.name.valueChanges.subscribe(value => {
+      this.getDonorList(this.collectionForm.controls.name.value);
+      this.showNameSearch = true;
+      this.showGlobalSearch = false;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -996,6 +1001,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.ngOtpInputRef.setValue(values.pan_card);
     this.autoFillData = [];
     this.keyword.setValue('');
+  }
+
+  setNameValue(values: any): void{
+    this.collectionForm.controls.name.setValue(values.data.name);
+    this.autoFillData = [];
   }
 
   getTransaction(transactionId: number): void {
