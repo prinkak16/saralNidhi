@@ -16,14 +16,14 @@
   display: flex;
 }
 .approve_btn{
-  background-image: url("src/assets/icons/approve.png");
+  background-image: url(src/assets/icons/approve.png);
   width: 100px;
   height: 40px;
   background-repeat: no-repeat;
   border: none;
 }
 .reject_btn{
-  background-image: url("src/assets/icons/reject.png");
+  background-image: url(src/assets/icons/reject.png);
   width: 100px;
   height: 40px;
   background-repeat: no-repeat;
