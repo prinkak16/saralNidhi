@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './auth.guard';
-import {DatePipe} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
@@ -70,6 +70,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +102,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
