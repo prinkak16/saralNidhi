@@ -68,7 +68,7 @@ import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-fi
 import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
-
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 @NgModule({
   declarations: [
@@ -132,7 +132,8 @@ import { FilterUserComponent } from './user/filter-user/filter-user.component';
     NgNumber2wordsModule,
     MatPaginatorModule,
     YopsilonMaskModule,
-    NgSelectModule
+    NgSelectModule,
+    NgxShimmerLoadingModule
   ],
   providers: [
     AuthGuard,

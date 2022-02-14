@@ -9,12 +9,6 @@
   flex-wrap: wrap;
 }
 
-.single-label {
-  /*margin-top: 15px;*/
-  /*font-size: 20px;*/
-  /*margin-bottom: 10px;*/
-  /*width: 100%;*/
-}
 
 .radio-group-container-margin {
   margin-bottom: 20px;
@@ -39,12 +33,7 @@
   color:#e7e8f1!important;
 }
 
-.pan-card-image-upload-container {
-  /*display: grid;*/
-  /*grid-template-columns: 48% 48%;*/
-  /*grid-gap: 4%;*/
-  /*width: 100%;*/
-}
+
 label{
   color:#101a73;
   font-family: raleway;
@@ -321,7 +310,7 @@ mat-label{
   width: 100%;
   background: rgba(201, 203, 207, 0.2);
   border-radius: 5px;
-  /*margin-bottom: 20px;*/
+
 }
 
 ::ng-deep .mat-form-field-infix {
@@ -353,9 +342,6 @@ mat-label{
   display:contents;
 }
 
-/*::ng-deep.mat-button-wrapper{*/
-/*  color:#101a73;*/
-/*}*/
 ::ng-deep sup{
   font-size: 25px!important;
   top:5px!important;
