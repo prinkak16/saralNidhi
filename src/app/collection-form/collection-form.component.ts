@@ -185,15 +185,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.getDonorList(value);
         this.showNameSearch = true;
       }
-
-      // if (value && (value.length) > 2) {
-      //   this.getDonorList(this.collectionForm.controls.name.value);
-      //   this.showNameSearch = true;
-      //   this.showGlobalSearch = false;
-      // }
-      // if ((value.length) < 3){
-      //   this.showNameSearch = false;
-      // }
     });
   }
 
