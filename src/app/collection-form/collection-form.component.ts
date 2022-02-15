@@ -177,9 +177,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.getDonorList(value);
     });
     this.collectionForm.controls.name.valueChanges.subscribe(value => {
-      this.getDonorList(this.collectionForm.controls.name.value);
-      this.showNameSearch = true;
-      this.showGlobalSearch = false;
+      if (value && (value.length) > 2) {
+        this.getDonorList(this.collectionForm.controls.name.value);
+        this.showNameSearch = true;
+        this.showGlobalSearch = false;
+      }
+      if ((value.length) < 3){
+        this.showNameSearch = false;
+      }
     });
   }
 
@@ -1001,11 +1006,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.ngOtpInputRef.setValue(values.pan_card);
     this.autoFillData = [];
     this.keyword.setValue('');
+    this.showNameSearch = false;
   }
 
   setNameValue(values: any): void{
     this.collectionForm.controls.name.setValue(values.data.name);
     this.autoFillData = [];
+    this.showNameSearch = false;
   }
 
   getTransaction(transactionId: number): void {
