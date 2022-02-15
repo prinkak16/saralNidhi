@@ -114,6 +114,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   isView: any;
   showGlobalSearch =  false;
   showNameSearch = false;
+  nameflag = true;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -176,15 +177,23 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
       this.getDonorList(value);
     });
-    this.collectionForm.controls.name.valueChanges.subscribe(value => {
-      if (value && (value.length) > 2) {
-        this.getDonorList(this.collectionForm.controls.name.value);
+    this.collectionForm.controls.name.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
+      if (!value) {
+        this.nameflag = true;
+      }
+      if (this.nameflag) {
+        this.getDonorList(value);
         this.showNameSearch = true;
-        this.showGlobalSearch = false;
       }
-      if ((value.length) < 3){
-        this.showNameSearch = false;
-      }
+
+      // if (value && (value.length) > 2) {
+      //   this.getDonorList(this.collectionForm.controls.name.value);
+      //   this.showNameSearch = true;
+      //   this.showGlobalSearch = false;
+      // }
+      // if ((value.length) < 3){
+      //   this.showNameSearch = false;
+      // }
     });
   }
 
@@ -1007,12 +1016,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.autoFillData = [];
     this.keyword.setValue('');
     this.showNameSearch = false;
+    this.nameflag = false;
   }
 
   setNameValue(values: any): void{
     this.collectionForm.controls.name.setValue(values.data.name);
     this.autoFillData = [];
     this.showNameSearch = false;
+    this.nameflag = false;
   }
 
   getTransaction(transactionId: number): void {
