@@ -167,6 +167,9 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      if (this.differenceInDays < 0){
+        this.updateAllowedDays = '0';
+      }
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
@@ -175,6 +178,9 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      if (this.differenceInDays < 0){
+        this.updateAllowedDays = '0';
+      }
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {

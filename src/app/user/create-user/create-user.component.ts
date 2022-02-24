@@ -175,6 +175,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.router.navigate(['dashboard/users']);
       }, (error: any) => {
         this.showLoader = false;
+        this.messageService.closableSnackBar('This Email Already Exists');
         this.messageService.somethingWentWrong(error.error.message);
       });
     } else {
