@@ -225,6 +225,20 @@ export class RestService {
     return this.http.post(url, data, authHttpOptions as any);
   }
 
+  downloadUsersList(data: object): any{
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_user_management_data';
+    return this.http.post(url, data, authHttpOptions as any);
+  }
+
   // Update pan card status
   updatePanData(data: any): any {
     return this.http.post(this.baseUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
