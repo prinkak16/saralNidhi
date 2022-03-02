@@ -225,6 +225,7 @@ export class RestService {
     return this.http.post(url, data, authHttpOptions as any);
   }
 
+  // Download Users data
   downloadUsersList(data: object): any{
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
