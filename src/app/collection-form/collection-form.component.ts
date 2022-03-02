@@ -114,7 +114,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   isView: any;
   showGlobalSearch =  false;
   showNameSearch = false;
-  selectname = true;
+  selectName = true;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -179,9 +179,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
     this.collectionForm.controls.name.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
       if (!value) {
-        this.selectname = true;
+        this.selectName = true;
       }
-      if (this.selectname) {
+      if (this.selectName) {
         this.getDonorList(value);
         this.showNameSearch = true;
       }
@@ -1007,14 +1007,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.autoFillData = [];
     this.keyword.setValue('');
     this.showNameSearch = false;
-    this.selectname = false;
+    this.selectName = false;
   }
 
+  // Set the value of name
   setNameValue(values: any): void{
     this.collectionForm.controls.name.setValue(values.data.name);
     this.autoFillData = [];
     this.showNameSearch = false;
-    this.selectname = false;
+    this.selectName = false;
   }
 
   getTransaction(transactionId: number): void {
