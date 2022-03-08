@@ -6,6 +6,7 @@ import {MessageService} from '../services/message.service';
 import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {Router} from '@angular/router';
+import {DatePipe, formatDate} from '@angular/common';
 @Component({
   selector: 'app-update-payment',
   templateUrl: './update-payment.component.html',
@@ -17,14 +18,18 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     private formBuilder: FormBuilder, private restService: RestService,
     private messageService: MessageService, private cd: ChangeDetectorRef,
     private loaderService: LoaderService, public utilsService: UtilsService,
-    private router: Router,
+    private router: Router, public datepipe: DatePipe,
     public dialogRef: MatDialogRef<UpdatePaymentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   chequeData: any;
+  enteredDate: any;
   allowMinDate = new Date();
   allowMaxDate = new Date();
+  today = new Date();
+  realizedDateErrorMsg = '';
+  matDate =   new FormControl(null);
   chequeDetailForm: FormGroup = new FormGroup({});
   ngOnInit(): void {
     this.chequeDetailForm = this.formBuilder.group({
@@ -50,6 +55,7 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
       // const maxDate = new Date(new Date(this.data.date_of_draft).setDate(new Date(this.data.date_of_draft).getDate() + 60));
       this.allowMaxDate = new Date();
     }
+    this.onFormChange();
 
   }
 // Detect changes
@@ -62,6 +68,14 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
   ngAfterViewInit(): void{
     this.cd.detectChanges();
   }
+  onFormChange(): void {
+    this.matDate.valueChanges.subscribe(value => {
+      if (value) {
+        const date = value._d;
+        this.chequeDetailForm.controls.date.setValue(date);
+      }
+  });
+  }
 
   isRequiredField(field: string): boolean {
     const formField = this.chequeDetailForm.get(field) as FormControl;
@@ -71,16 +85,40 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     const validator = formField.validator({} as AbstractControl);
     return (validator && validator.required);
   }
-
+// Realized date validation
+  validateRealizedDate(): boolean{
+    this.enteredDate = formatDate(this.chequeDetailForm.controls.date.value, 'yyyy-MM-dd', 'en_IN');
+    const cDate = this.data.date_of_cheque ? formatDate(this.data.date_of_cheque, 'yyyy-MM-dd', 'en_IN') : false;
+    const dDate = this.data.date_of_draft ? formatDate(this.data.date_of_draft, 'yyyy-MM-dd', 'en_IN') : false;
+    if ((this.enteredDate >= cDate || this.enteredDate >= dDate) && (this.chequeDetailForm.controls.date.value <= this.today)){
+      return true;
+    }
+    else {
+      if (this.data.date_of_cheque) {
+        this.realizedDateErrorMsg = `Please enter date between ${this.datepipe.transform(this.data.date_of_cheque, 'dd/MM/yyyy')} and ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
+      }
+      else if (this.data.date_of_draft){
+          this.realizedDateErrorMsg = `Please enter date between ${this.datepipe.transform(this.data.date_of_draft, 'dd/MM/yyyy')} and ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
+      }
+      return false;
+    }
+  }
   updatePaymentMode(): void {
-    this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
-      this.messageService.closableSnackBar(response.message);
-      this.dialogRef.close(this.chequeDetailForm.value);
+    if (this.validateRealizedDate()) {
+      this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
+        this.messageService.closableSnackBar(response.message);
+        this.dialogRef.close(this.chequeDetailForm.value);
 
-    }, (error: any) => {
-      this.messageService.somethingWentWrong(error.error.message);
-      this.dialogRef.close(false);
-    });
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error.error.message);
+        this.dialogRef.close(false);
+      });
+    }
+    if (!this.validateRealizedDate()) {
+      this.messageService.closableSnackBar(this.realizedDateErrorMsg);
+      this.realizedDateErrorMsg = '';
+      return;
+    }
   }
 
 
@@ -88,3 +126,4 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     this.dialogRef.close(false);
   }
 }
+
