@@ -66,8 +66,9 @@ export class FilterUserComponent implements OnInit {
   downloadUser(): void {
     this.showLoader.emit(true);
     const data = {
-      filters: this.filters ? this.filters : {},
+      filters: this.filterForm.value ? this.filterForm.value : {},
     };
+    this.showLoader.emit(true);
     this.restService.downloadUsersList(data).subscribe((reply: any) => {
       this.showLoader.emit(false);
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
