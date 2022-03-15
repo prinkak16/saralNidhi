@@ -88,4 +88,8 @@ export class ListComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
+  toggleLoader(showLoader: boolean): any {
+    this.showLoader = showLoader;
+  }
 }
