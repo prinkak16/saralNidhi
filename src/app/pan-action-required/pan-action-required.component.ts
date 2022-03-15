@@ -26,6 +26,9 @@ export class PanActionRequiredComponent implements OnInit{
   offset = 0;
   limit = 10;
   tabStatus: any;
+  count: any;
+  tabData: any;
+  filters: any;
   query = new FormControl(null);
   selected = new FormControl(0);
   constructor(private restService: RestService, private loaderService: LoaderService,
@@ -69,7 +72,6 @@ export class PanActionRequiredComponent implements OnInit{
     this.messageService.closableSnackBar('Link Copied Successfully', 2000);
     document.body.removeChild(selBox);
   }
-
   tabChange(event: any): any {
     this.resetPagination();
     if (event.index === 0) {
@@ -91,7 +93,7 @@ export class PanActionRequiredComponent implements OnInit{
     const dialogRef = this.dialog.open(UpdatePanStatusComponent, {width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if (response) {
-        this.getPanRequiredList('');
+        this.getPanRequiredList(this.tabStatus === 'All' ? '' : this.tabStatus);
       }
     });
   }
@@ -115,6 +117,7 @@ export class PanActionRequiredComponent implements OnInit{
     this.restService.getPanRequiredData(obj).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
+      this.tabData = response.data.tab;
       this.length = response.data.length;
     }, (error: string) => {
       this.showLoader = false;
@@ -160,6 +163,7 @@ export class PanActionRequiredComponent implements OnInit{
     this.restService.getPanRequiredData(data).subscribe((response: any) => {
       this.showLoader = false;
       this.paymentDetails = response.data.data;
+      this.tabData = response.data.tab;
       this.length = response.data.length;
     }, (error: string) => {
       this.showLoader = false;
@@ -179,5 +183,14 @@ export class PanActionRequiredComponent implements OnInit{
     this.limit = 10;
     this.offset = 0;
     this.length = 0;
+  }
+  getTabCount(tab: any): number{
+    let count = 0;
+    this.tabData.find((data: { tab_name: any; tab_count: number; }) => {
+      if (tab.label === data.tab_name) {
+        count = data.tab_count;
+      }
+    });
+    return count;
   }
 }

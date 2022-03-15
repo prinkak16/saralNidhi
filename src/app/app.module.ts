@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './auth.guard';
-import {DatePipe} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
@@ -68,6 +68,7 @@ import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-fi
 import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 
 @NgModule({
@@ -101,6 +102,7 @@ import { FilterUserComponent } from './user/filter-user/filter-user.component';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -132,7 +134,8 @@ import { FilterUserComponent } from './user/filter-user/filter-user.component';
     NgNumber2wordsModule,
     MatPaginatorModule,
     YopsilonMaskModule,
-    NgSelectModule
+    NgSelectModule,
+    NgxShimmerLoadingModule
   ],
   providers: [
     AuthGuard,

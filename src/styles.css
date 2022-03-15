@@ -57,7 +57,7 @@ mat-header-cell, mat-cell {
 }
 
 .important-blink {
-  animation: blinker 1.2s linear infinite;
+  animation:  blinker 1.2s linear infinite;
   background-color: #f67954;
   color: white;
 }
@@ -118,3 +118,5 @@ mat-header-cell, mat-cell {
 .clearfix {
   clear: both;
 }
+
+

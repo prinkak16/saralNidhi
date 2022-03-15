@@ -19,7 +19,7 @@ import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
-import { DatePipe } from '@angular/common';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-collection-form',
@@ -30,6 +30,7 @@ import { DatePipe } from '@angular/common';
 export class CollectionFormComponent implements OnInit, AfterViewInit, AfterViewChecked {
   transactionId: any;
   actionParam: any;
+
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
@@ -83,7 +84,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   selectedModeOfPayment: any = {};
   panCardPattern = '[A-Z]{5}[0-9]{4}[A-Z]{1}';
   ifscPattern = '^[A-Z]{4}0[A-Z0-9]{6}$';
-  phonePattern = '^[6-9][0-9]{9}$';
   panCardValue = '';
   yearsSlab: any = [];
   bankDetails: any = [];
@@ -112,6 +112,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   statesValue: any;
   showImgUpload = true;
   isView: any;
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -127,7 +128,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
       transaction_type: new FormControl('regular', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.pattern(this.utilsService.namePattern)]),
       phone: new FormControl('', [Validators.pattern(this.utilsService.phonePattern)]),
       email: new FormControl('', [Validators.email, Validators.pattern(this.utilsService.emailPattern)]),
       date: new FormControl(new Date(), [Validators.required]),
@@ -138,7 +139,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       proprietorship_name: new FormControl(null),
       house: new FormControl(null),
       locality: new FormControl(null),
-      pincode: new FormControl(null, [Validators.pattern('^[0-9]{6,6}$')]),
+      pincode: new FormControl(null, [Validators.pattern(this.utilsService.pinCodePattern)]),
       district: new FormControl({value: null, disabled: true}),
       state: new FormControl({value: null, disabled: true}),
       pan_card: new FormControl(null),
@@ -148,7 +149,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       amount: new FormControl(null, [Validators.required]),
       narration: new FormControl(null),
       mode_of_payment: new FormControl(null, [Validators.required]),
-      date_of_transaction: new FormControl(null ),
+      date_of_transaction: new FormControl(null),
       date_of_cheque: new FormControl(null),
       cheque_number: new FormControl(null),
       date_of_draft: new FormControl(null),
@@ -159,8 +160,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       bank_name: new FormControl(''),
       branch_name: new FormControl(''),
       branch_address: new FormControl(''),
-      collector_name: new FormControl(null),
-      collector_phone: new FormControl(null, [Validators.pattern(this.phonePattern)]),
+      collector_name: new FormControl(null, [Validators.pattern(this.utilsService.namePattern)]),
+      collector_phone: new FormControl(null, [Validators.pattern(this.utilsService.phonePattern)]),
       nature_of_donation: new FormControl(null, [Validators.required]),
       other_nature_of_donation: new FormControl(null),
       party_unit: new FormControl(null, [Validators.required]),
@@ -242,14 +243,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
-          this.collectionForm.controls.name.setValidators(Validators.required);
+          this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
           this.setChequeValidations();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
-          this.collectionForm.controls.name.setValidators(Validators.required);
+          this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
           this.setDDValidations();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.collectionForm.controls.name.clearValidators();
+          this.collectionForm.controls.name.setValidators([Validators.pattern(this.utilsService.namePattern)]);
           this.collectionForm.controls.account_number.clearValidators();
           this.collectionForm.controls.account_number.updateValueAndValidity();
           this.setTransferValidations();
@@ -385,7 +387,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.category.setValue(null);
     this.collectionForm.controls.category.clearValidators();
     this.collectionForm.controls.category.updateValueAndValidity();
-    if (!this.collectionForm.controls.house.value){
+    if (!this.collectionForm.controls.house.value) {
       this.collectionForm.controls.house.setValue(null);
     }
     this.collectionForm.controls.house.clearValidators();
@@ -399,7 +401,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.pincode.setValue(null);
     }
     this.collectionForm.controls.pincode.clearValidators();
-    this.collectionForm.controls.pincode.setValidators(Validators.pattern('^[0-9]{6,6}$'));
+    this.collectionForm.controls.pincode.setValidators(Validators.pattern(this.utilsService.pinCodePattern));
     this.collectionForm.controls.pincode.updateValueAndValidity();
     if (!this.collectionForm.controls.district.value) {
       this.collectionForm.controls.district.setValue(null);
@@ -443,7 +445,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   setCashValidations(): void {
-    this.collectionForm.controls.name.setValidators(Validators.required);
+    this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
     this.setCategoryValidation();
     this.setAddressValidations();
     this.setTransactionDateValidation();
@@ -508,7 +510,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.collectionForm.controls.locality.setValidators(Validators.required);
     this.collectionForm.controls.locality.updateValueAndValidity();
 
-    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern('^[0-9]{6,6}$')]);
+    this.collectionForm.controls.pincode.setValidators([Validators.required, Validators.pattern(this.utilsService.pinCodePattern)]);
     this.collectionForm.controls.pincode.updateValueAndValidity();
 
     this.collectionForm.controls.district.setValidators(Validators.required);
@@ -697,8 +699,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.somethingWentWrong(error);
     });
   }
+
 // Transaction Date validation
-  validateTransactionDate(): boolean{
+  validateTransactionDate(): boolean {
     if (['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cash'].includes(this.selectedModeOfPayment.name)) {
       if ((this.collectionForm.controls.date_of_transaction.value >= (new Date('01-apr-2021'))) &&
         this.collectionForm.controls.date_of_transaction.value <= new Date()) {
@@ -723,7 +726,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.dateErrorMsg = `Please enter date of after 31/03/2021 to 2 month later from ${this.datepipe.transform(this.today.toDateString(), 'dd/MM/yyyy')}`;
         return false;
       }
-    } else {return false; }
+    } else {
+      return false;
+    }
   }
 
   submitForm(): void {
@@ -788,8 +793,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
   }
 
-  setTransactionDate(): void{
-    const  transactionDate = this.collectionForm.controls.date_of_transaction.value.setHours(6);
+  setTransactionDate(): void {
+    const transactionDate = this.collectionForm.controls.date_of_transaction.value.setHours(6);
     this.collectionForm.controls.date_of_transaction.setValue(new Date(transactionDate));
   }
 
@@ -1095,6 +1100,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   updateTransaction(transactionId: number): void {
+    if (!this.checkCashLimit()) {
+      return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
+    }
     this.showLoader = true;
     this.enablePaymentMode();
     this.collectionForm.controls.state.enable();
@@ -1108,7 +1116,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       pan_card_remark: this.panCardRemark.value,
       pan_card_status: this.panCardStatus.value
     };
-    this.restService.updateTransaction({
+      this.restService.updateTransaction({
       data: this.collectionForm.value,
       pan_data: panActionData
     }).subscribe((response: any) => {
@@ -1207,13 +1215,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   _dateChangeHandler(chosenDate: any, control: AbstractControl): void {
     control.setValue(new Date(chosenDate.setHours(9)));
   }
-  clearSearchData(): void{
+
+  clearSearchData(): void {
     this.keyword.setValue('');
     this.autoFillData = [];
   }
 
- // set party unit value
-  setPartyUnitValue(transaction: any): void{
+  // set party unit value
+  setPartyUnitValue(transaction: any): void {
     if (transaction.location_type === 'CountryState') {
       this.collectionForm.controls.location_id.setValue(transaction.data.location_id);
     } else if (transaction.location_type === 'Zila') {
@@ -1227,7 +1236,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   // Display transaction types
-  getTransactionType(): any{
+  getTransactionType(): any {
     if (this.utilsService.checkPermission('IndianDonationForm', 'Supplementary Entry')) {
       this.transactionTypes.push({name: 'Supplementary', value: 'supplementary'});
     }

@@ -17,15 +17,23 @@ export class FilterUserComponent implements OnInit {
               private messageService: MessageService,
               private formBuilder: FormBuilder) {
   }
- roles = [{value: 'national_accountant', name: 'National Accountant'},
-   {value: 'state_treasurer', name: 'State Treasurer'},
-   {value: 'state_accountant', name: 'State Accountant'} ];
+ roles: any;
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
   @Input() query: any = null;
 
   filterForm: FormGroup = new FormGroup({});
   ngOnInit(): void {
+    if (this.utilsService.isNationalTreasurer()) {
+      this.roles = [{value: 'national_accountant', name: 'National Accountant'},
+        {value: 'state_treasurer', name: 'State Treasurer'},
+        {value: 'state_accountant', name: 'State Accountant'} ];
+    }
+    if (this.utilsService.isStateTreasurer()) {
+      this.roles = [{value: 'state_accountant', name: 'State Accountant'},
+        {value: 'zila_accountant', name: 'Zila Accountant'},
+        {value: 'mandal_accountant', name: 'Mandal Accountant'} ];
+    }
     this.getAllottedStates();
     this.filterForm = this.formBuilder.group({
       query: new FormControl(this.query),
