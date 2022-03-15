@@ -411,6 +411,7 @@
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName="name" matInput
                  (keypress)="utilsService.validateName($event)"
+                 oninput="this.value = this.value.toUpperCase()"
           >
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">

@@ -14,7 +14,7 @@ export class UtilsService {
   isAuthorized = true;
   redirectUrl: any;
   phonePattern = '^[6-9][0-9]{9}$';
-  namePattern = '^[a-zA-Z\.][a-zA-Z\. ]+[a-zA-Z\.]$';
+  namePattern = '^[a-zA-Z0-9\.][a-zA-Z0-9\. ]+[a-zA-Z0-9\.]$';
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,10}$';
   primaryMemberPattern = '^[1-4][0-9]{9}$';
   agePattern = '^(18|19|[2-9]\\d|1\\d\\d)$';
@@ -76,7 +76,7 @@ export class UtilsService {
  // Validation for name
   validateName(e: any): void {
     const input = String.fromCharCode(e.charCode);
-    if (!input.match(/[a-z\. ]/i)) {
+    if (!input.match(/[a-zA-Z0-9\. ]/i)) {
       e.preventDefault();
     }
   }
