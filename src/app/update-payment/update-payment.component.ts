@@ -104,20 +104,30 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     }
   }
   updatePaymentMode(): void {
-    if (this.validateRealizedDate()) {
+    if (this.data.type === 'reserved' || this.data.type === 'bounced') {
       this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
         this.messageService.closableSnackBar(response.message);
         this.dialogRef.close(this.chequeDetailForm.value);
-
       }, (error: any) => {
         this.messageService.somethingWentWrong(error.error.message);
         this.dialogRef.close(false);
       });
-    }
-    if (!this.validateRealizedDate()) {
-      this.messageService.closableSnackBar(this.realizedDateErrorMsg);
-      this.realizedDateErrorMsg = '';
-      return;
+    } else if (this.data.type === 'realized') {
+      if (this.validateRealizedDate()) {
+        this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
+          this.messageService.closableSnackBar(response.message);
+          this.dialogRef.close(this.chequeDetailForm.value);
+
+        }, (error: any) => {
+          this.messageService.somethingWentWrong(error.error.message);
+          this.dialogRef.close(false);
+        });
+      }
+      if (!this.validateRealizedDate()) {
+        this.messageService.closableSnackBar(this.realizedDateErrorMsg);
+        this.realizedDateErrorMsg = '';
+        return;
+      }
     }
   }
 
@@ -126,4 +136,5 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     this.dialogRef.close(false);
   }
 }
+
 
