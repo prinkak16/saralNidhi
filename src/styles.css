@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import "../node_modules/@ng-select/ng-select/themes/material.theme.css";
 
 html, body {
   height: 100%;
@@ -6,7 +8,9 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family:Raleway;
+  font-style: normal;
+  letter-spacing: 0.05em;
 }
 
 .img-responsive {
@@ -53,7 +57,7 @@ mat-header-cell, mat-cell {
 }
 
 .important-blink {
-  animation: blinker 1.2s linear infinite;
+  animation:  blinker 1.2s linear infinite;
   background-color: #f67954;
   color: white;
 }
@@ -114,3 +118,5 @@ mat-header-cell, mat-cell {
 .clearfix {
   clear: both;
 }
+
+

@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './auth.guard';
-import {DatePipe} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
@@ -66,6 +66,9 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
 import { ArchivedTransactionListComponent } from './archived-transaction-list/archived-transaction-list.component';
 import { ArchiveFilterSearchComponent } from './archive-filter-search/archive-filter-search.component';
 import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-status-dialog.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FilterUserComponent } from './user/filter-user/filter-user.component';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 
 @NgModule({
@@ -94,10 +97,12 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
     ConfirmDialogComponent,
     ArchivedTransactionListComponent,
     ArchiveFilterSearchComponent,
-    ReceiptStatusDialogComponent
+    ReceiptStatusDialogComponent,
+    FilterUserComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -128,7 +133,9 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
     MatCheckboxModule,
     NgNumber2wordsModule,
     MatPaginatorModule,
-    YopsilonMaskModule
+    YopsilonMaskModule,
+    NgSelectModule,
+    NgxShimmerLoadingModule
   ],
   providers: [
     AuthGuard,

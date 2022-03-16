@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ViewChild, OnDestroy} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges, ChangeDetectorRef, ViewChild, OnDestroy} from '@angular/core';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {PaymentModel} from '../models/payment.model';
@@ -21,6 +21,7 @@ import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-s
 export class EntryListTableComponent implements OnInit, OnDestroy {
 
   constructor(private restService: RestService, private matDialog: MatDialog,
+              private cd: ChangeDetectorRef,
               private activatedRoute: ActivatedRoute, private messageService: MessageService,
               public utilService: UtilsService) {
   }
@@ -31,6 +32,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
   @Output() refreshCount: EventEmitter<any> = new EventEmitter();
+  @Output() typeId: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
@@ -39,8 +41,8 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
-  displayedColumns: string[] = ['sno', 'date', 'name', 'category', 'amount',
-    'mode_of_payment', 'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
+  displayedColumns: string[] = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
+     'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
   length = 0;
   pageSize = 10;
@@ -51,8 +53,8 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
-      this.displayedColumns = ['sno', 'date', 'name', 'category', 'amount',
-        'mode_of_payment', 'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
+      this.displayedColumns = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
+         'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
   }
@@ -60,8 +62,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
-  subscribeToSubject(): void {
+    subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = value;
       if (value.id) {
@@ -112,7 +113,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   openEmailSendModal(transaction: any): void {
     this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
-
   }
 
   openChequeDialog(type: any, row: any): void {
@@ -122,11 +122,10 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       date_of_cheque: row.data.date_of_cheque,
       date_of_draft: row.data.date_of_draft
     };
-    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData});
+    const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData,  width: '350px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.updateList.emit(true);
-      }
+        this.getPaymentList();      }
     });
   }
 
@@ -170,6 +169,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      this.remainingDaysCount();
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
@@ -178,6 +178,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      this.remainingDaysCount();
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
@@ -186,12 +187,17 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return result;
   }
-
+// set number of days to 0 if the remaining days are less than 0.
+  remainingDaysCount(): void{
+    if (this.differenceInDays < 0){
+      this.updateAllowedDays = '0';
+    }
+  }
 // if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
     const transactionDate = new Date(data.data.date_of_transaction);
-    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand draft') {
+    if ((realizedDate) && data.mode_of_payment.name === 'Cheque' || data.mode_of_payment.name === 'Demand Draft') {
       const chequeDdDate = new Date(new Date(realizedDate).setDate(realizedDate.getDate() + 30));
       return new Date() <= chequeDdDate;
     }
@@ -265,6 +271,18 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
         transaction.transaction_valid && transaction.receipt_number_generated && this.checkPanCardAndValidation(transaction)
       );
     }
+  }
+
+  displayInstrumentNo(transaction: any): string {
+    let transactionId = '';
+    if (transaction.data.utr_number) {
+      transactionId = transaction.data.utr_number;
+    } else if (transaction.data.draft_number) {
+      transactionId = transaction.data.draft_number;
+    } else if (transaction.data.cheque_number) {
+      transactionId = transaction.data.cheque_number;
+    }
+    return transactionId;
   }
 
 

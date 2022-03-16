@@ -26,7 +26,7 @@
           <li>Branch Address <span class="text-danger">*</span>: <span [ngClass]="[transaction.data.branch_address? 'text-success' : 'text-danger']">{{transaction.data.branch_address? transaction.data.branch_address : 'Blank'}}</span></li>
           <li>Pan <span class="text-danger">*</span>: <span [ngClass]="[transaction.data.pan_card? 'text-success' : 'text-danger']">{{transaction.data.pan_card? transaction.data.pan_card : 'Blank'}}</span></li>
           <li>Pan Status <span class="text-danger">*</span>: <span [ngClass]="[(transaction.pan_aasm_state === 'invalid' || transaction.pan_aasm_state === 'rejected')? 'text-danger' : 'text-success']">{{transaction.pan_aasm_state}}</span></li>
-          <ul *ngIf="transaction.pan_aasm_state === 'invalid' || transaction.pan_aasm_state === 'rejected'">
+          <ul>
             <li *ngIf="transaction.pan_data.pan_system_error">
               <span>System Remark: {{transaction.pan_data.pan_system_error}}</span>
             </li>
@@ -97,7 +97,8 @@
   <tr>
     <ng-container *ngIf="!transaction.receipt_number_generated">
       <td>Receipt Generation Waiting Period</td>
-      <td class="text-secondary">Your receipt will be generated on {{receiptGenerationDate | date: 'dd/MM/yyyy'}} because receipt generation period for all transaction is 1 Days</td>
+      <td class="text-secondary" *ngIf="!backDateEntry">Your receipt will be generated after {{receiptGenerationDate | date: 'dd/MM/yyyy'}} because receipt generation period for all transaction is {{receiptPrintDays}} Days</td>
+    <td class="text-secondary" *ngIf="backDateEntry">Your receipt will be generate on next date</td>
     </ng-container>
   </tr>
 </table>

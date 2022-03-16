@@ -1,9 +1,12 @@
 <app-nav-bar *ngIf="utils.isLoggedIn()"></app-nav-bar>
-<div [ngClass]="{'app-content-top-margin': utils.isLoggedIn()}">
+<div [ngClass]="{'app-content-top-margin': utils.isLoggedIn()}" style="background-color:#f9f9f9">
   <div style="width: 100%; height: auto;">
     <app-breadcrumb></app-breadcrumb>
   </div>
-  <router-outlet *ngIf="appVisible" (activate)="onActivate($event)"></router-outlet>
+  <div class="content-area">
+    <router-outlet *ngIf="appVisible" (activate)="onActivate($event)"></router-outlet>
+  </div>
+
   <div *ngIf="!appVisible && onlineStatus">
     <p class="text-center">Your system's Date & Time setting is not set to "Automatic". Please follow the
       <mat-icon (click)="openUrl()" color="primary" title="Click here">launch</mat-icon>

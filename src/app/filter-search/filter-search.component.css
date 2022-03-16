@@ -1,0 +1,315 @@
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.3em 0 0.7em 0;
+}
+
+.mat-label-text{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 23px;
+  letter-spacing: 0.05em;
+  color: #91979f;
+}
+
+.img-size{
+ width: 50px;
+  height: 50px;
+}
+
+.header-text{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 47px;
+  letter-spacing: 0.03em;
+  margin-left: 20px;
+  color: #F68E00;
+}
+
+.icon-sizes{
+  position: absolute;
+  right: -10px;
+  bottom: 2px;
+  width: 40px;
+}
+
+.search-icons{
+position: absolute;
+right: 0;
+bottom: 10px;
+width: 20px;
+cursor: pointer;
+}
+
+.cancel-btn{
+position: absolute;
+bottom: 10px;
+right: 40px;
+color: #172c73;
+cursor: pointer;
+}
+
+::ng-deep .mat-icon-button .mat-button-wrapper{
+color:#172c73!important;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-suffix {
+top: 0.4em !important;
+}
+
+::ng-deep.mat-flat-button{
+font-size:13px!important; ;
+}
+
+
+.clear-btn{
+background: #F7952C;
+border: 1px solid #B2B2B1;
+box-sizing: border-box;
+box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
+border-radius: 8px;
+color: #ffffff;
+}
+
+.download-btn{
+color:#ffffff;
+background: #1A7DDF;
+border-radius: 8px;
+box-sizing: border-box;
+box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+
+
+ng-select.custom .ng-select-container {
+  position: relative !important;
+  top: 0;
+  border-color: transparent !important;
+  border-bottom-color: black !important;
+  border-bottom-width: 0.0625rem !important;
+  background-color: transparent !important;
+  border-radius: 0px;
+}
+
+.heading-color{
+  margin: 10px 10px 20px 15px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 31px;
+  letter-spacing: 0.05em;
+  color: #F68E00;
+  font-size: 20px;
+}
+
+.bank-header-color{
+  padding: 10px 10px 0px 15px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 31px;
+  letter-spacing: 0.05em;
+  color: #F68E00;
+  font-size: 20px;
+}
+::ng-deep.mat-form-field-wrapper{
+  padding-bottom: 10px!important;
+}
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.7em 0 0.7em 0!important;
+}
+mat-label{
+  color: #101A73;
+  font-family: raleway!important;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: 0.05em;
+
+}
+.label-color{
+  color: #101A73;
+  font-family: raleway;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: 0.05em;
+}
+
+::ng-deep.mat-radio-container{
+  display: none!important;
+}
+
+::ng-deep.mat-radio-checked{
+  background: #101A73!important;
+  color: #ffffff!important;
+  border-radius: 10px;
+}
+
+::ng-deep.mat-radio-button{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 23px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  width: 130px;
+  background: #ffffff;
+  color: #110F0D;
+
+  background: #FFFFFF;
+  border: 1px solid #B2B2B1;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+
+.file-text-position{
+  position: absolute;
+  left: 70px;
+  top: 5px;
+  color: #ffffff;
+}
+.file-choosed{
+  position: absolute;
+  left: 114px;
+  top: 39px;
+  color: #ffffff;
+}
+
+
+.choose-file-img{
+  width: 100% !important;
+}
+
+::ng-deep.mat-error{
+  margin-top: 5px!important;
+}
+
+.mat-icon-view ::ng-deep.mat-icon-button{
+  display: none!important;
+}
+
+::ng-deep.mat-radio-label{
+  display: block!important;
+  margin-bottom: 0px!important;
+}
+.margin-top-30{
+  margin-top: 2.4rem!important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 1px !important;
+}
+.section{
+  width: 100%;
+  background: rgba(201, 203, 207, 0.2);
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.sections{
+  width: 100%;
+  background: rgba(201, 203, 207, 0.2);
+  border-radius: 5px;
+  /*margin-bottom: 20px;*/
+}
+
+::ng-deep .mat-form-field-infix {
+  padding: .5em 0;
+  border-top: 0.4em solid transparent!important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+}
+::ng-deep .mat-select-arrow {
+  color:#ffffff!important;
+}
+
+.arrow-hide .mat-select-arrow{
+  display: none!important;
+}
+
+::ng-deep.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+  color:#101a73;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0.5em!important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix.mat-icon-button {
+  display:contents;
+}
+
+
+::ng-deep .mat-form-field-appearance-outline .mat-select-arrow-wrapper{
+  transform: translateY(0%)!important;
+}
+
+.ng-select{
+  padding: 0px;
+}
+::ng-deep .ng-appearance-outline {
+  min-height: 44px!important;
+  max-height: 44px!important;
+}
+
+::ng-deep.mat-radio-button.mat-radio-disabled .mat-radio-label-content{
+  color: currentColor ;
+}
+
+::ng-deep.ng-select.ng-select-disabled .ng-arrow-wrapper .ng-arrow, .ng-select.ng-select-disabled .ng-clear-wrapper {
+  color: #FFFFFF;
+}
+
+::ng-deep .ng-arrow-wrapper{
+  background-color: #101a72;
+  padding: 10px;
+  bottom: 0!important;
+  margin: 0px -7px 0px 0px
+}
+::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow{
+  color: #FFFFFF;
+}
+::ng-deep .ng-select .ng-select-container:after{
+  height: 100%!important;
+}
+::ng-deep .ng-select .ng-select-container .ng-value-container{
+  padding: 0px;
+}
+::ng-deep .ng-select.ng-select-single .ng-select-container.ng-appearance-outline .ng-clear-wrapper {
+  bottom: 8px!important;
+}
+
+::ng-deep .ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  transform-origin: unset;
+}
+
+::ng-deep .ng-select.ng-select-disabled .ng-select-container:after {
+  background-size: 0 !important;
+}
+
+
+
+::ng-deep.ng-select .ng-select-container.ng-appearance-outline {
+  margin-bottom: 10px !important;
+}
+.mt-6{
+  margin-top: 13px;
+}
+::ng-deep.ng-select .ng-dropdown-panel{
+  margin-top: 20px !important;
+}
+
+
+::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input>input {
+  caret-color: transparent !important;
+}
+

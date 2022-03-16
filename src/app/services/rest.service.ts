@@ -179,8 +179,8 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/mandals?country_state_id=' + countryStateId, this.authHttpOptions());
   }
 
-  getTreasurerList(data: any): any {
-    return this.http.post(this.apiUrl + 'nidhi_collection/treasurers_list', JSON.stringify(data), this.authHttpOptions());
+  getTreasurerList(data: object): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/treasurers_list', data , this.authHttpOptions());
   }
 
   updatePassword(data: any): any {
@@ -211,7 +211,7 @@ export class RestService {
     return this.http.get(this.baseUrl + 'nidhi_collection/get_global_time');
   }
 
-  downloadTransactionList(stateId: any): any {
+  downloadTransactionList(data: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -221,8 +221,23 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data?state_id=' + (stateId ? stateId : '');
-    return this.http.get(url, authHttpOptions as any);
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    return this.http.post(url, data, authHttpOptions as any);
+  }
+
+  // Download Users data
+  downloadUsersList(data: object): any{
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_user_management_data';
+    return this.http.post(url, data, authHttpOptions as any);
   }
 
   // Update pan card status
@@ -246,10 +261,14 @@ export class RestService {
   }
 
 // Get pan required records
-  getPanRequiredData(status: string): any {
-    return this.http.get(this.apiUrl + 'nidhi_collection/pan_required_records?status=' + status, this.authHttpOptions());
+  getPanRequiredData(data: object): any {
+    return this.http.post(this.apiUrl + 'nidhi_collection/pan_required_records', data, this.authHttpOptions());
   }
   sendEmail(data: any): any {
     return this.http.post(this.baseUrl + 'nidhi_collection/send_receipt_on_email', JSON.stringify(data), this.authHttpOptions());
   }
+  getReceiptGenerationTime(transactionId: any): any {
+    return this.http.get(this.baseUrl + 'nidhi_collection/get_receipt_generation_time?transaction_id=' + transactionId, this.authHttpOptions());
+  }
 }
+

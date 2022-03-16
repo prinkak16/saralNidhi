@@ -59,8 +59,13 @@ export class FilterSearchComponent implements OnInit {
   }
 
   downloadList(): void {
+
+    const data = {
+      state_id: this.filterForm.controls.state_id.value,
+      filters: this.filterForm.value ? this.filterForm.value : {}
+    };
     this.showLoader.emit(true);
-    this.restService.downloadTransactionList(this.filterForm.controls.state_id.value).subscribe((reply: any) => {
+    this.restService.downloadTransactionList(data).subscribe((reply: any) => {
       this.showLoader.emit(false);
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const blob = new Blob([reply], {type: mediaType});
