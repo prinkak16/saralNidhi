@@ -6,6 +6,7 @@ import {UtilsService} from '../services/utils.service';
 import {MatDialog} from '@angular/material/dialog';
 import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.component';
 import {Observable, Observer} from 'rxjs';
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-pan-action-required',
