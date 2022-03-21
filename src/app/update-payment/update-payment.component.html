@@ -17,7 +17,7 @@
       </mat-error>
     </mat-form-field>
   </div>
-  <div  *ngIf=" bounced || reversed">
+  <div  *ngIf=" data.type === bounced || data.type === reversed">
     <mat-label>Add Remarks </mat-label>
     <mat-form-field class="example-full-width " appearance="outline" >
       <textarea matInput placeholder="Add remarks.." formControlName="remark" [required]="isRequiredField('remark')" class="field-height"></textarea>

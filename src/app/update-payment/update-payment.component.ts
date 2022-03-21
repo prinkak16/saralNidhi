@@ -107,7 +107,7 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
     }
   }
   updatePaymentMode(): void {
-    if (this.data.type === 'reserved' || this.data.type === 'bounced') {
+    if (this.data.type === reversed || this.data.type ===  bounced) {
       this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
         this.messageService.closableSnackBar(response.message);
         this.dialogRef.close(this.chequeDetailForm.value);
@@ -115,7 +115,7 @@ export class UpdatePaymentComponent implements OnInit, AfterViewChecked, AfterCo
         this.messageService.somethingWentWrong(error.error.message);
         this.dialogRef.close(false);
       });
-    } else if (this.data.type === 'realized') {
+    } else if (realized) {
       if (this.validateRealizedDate()) {
         this.restService.updateCollectionPayment(this.chequeDetailForm.value).subscribe((response: any) => {
           this.messageService.closableSnackBar(response.message);
