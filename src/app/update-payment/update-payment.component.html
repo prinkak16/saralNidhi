@@ -1,5 +1,5 @@
 <form [formGroup]="chequeDetailForm">
-  <div *ngIf="data.type === 'realized' " >
+  <div *ngIf="data.type === realized " >
     <mat-label>Realize date</mat-label>
     <mat-form-field appearance="outline" class="example-full-width" >
       <input matInput yn-mask-date="dd/mm/yyyy" [min]="allowMinDate" [max]="allowMaxDate"
@@ -17,7 +17,7 @@
       </mat-error>
     </mat-form-field>
   </div>
-  <div  *ngIf="data.type === 'bounced' || data.type === 'reserved'">
+  <div  *ngIf=" bounced || reversed">
     <mat-label>Add Remarks </mat-label>
     <mat-form-field class="example-full-width " appearance="outline" >
       <textarea matInput placeholder="Add remarks.." formControlName="remark" [required]="isRequiredField('remark')" class="field-height"></textarea>

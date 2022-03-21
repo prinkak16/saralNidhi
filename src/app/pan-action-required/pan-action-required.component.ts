@@ -5,8 +5,12 @@ import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {MatDialog} from '@angular/material/dialog';
 import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.component';
-import {Observable, Observer} from 'rxjs';
-import {saveAs} from "file-saver";
+import {Observable, Observer, Subscription} from 'rxjs';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {saveAs} from 'file-saver';
+import {FormControl} from '@angular/forms';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-pan-action-required',
