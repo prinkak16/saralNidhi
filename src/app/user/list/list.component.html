@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="col-md-12">
-      <app-filter-user [query]="query" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-filter-user>
+      <app-filter-user [query]="query" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)" [tabStatus]="tabStatus"></app-filter-user>
     </div>
   </div>
   <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChange($event)">
