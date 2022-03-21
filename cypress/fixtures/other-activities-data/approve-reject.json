@@ -6,12 +6,11 @@
   "click_no_of_times_next_page": 0,
   "select_row": 1,
 
-  "approve": 1,
-  "approve_remark": "mark approve test",
+  "flag_approve_reject":1,
+  "--Note1--":"choose action_type from [Approve,Reject]",
+  "action_type":"Approve",
+  "remark":"test",
 
-  "reject": 0,
-  "reject_remark": "mark disapprove test",
-
-  "__Note__": "Select anyone for final_operation from [Submit ,Close ]",
+  "--Note2--":"Select anyone for final_operation from [Submit ,Close ]",
   "final_operation": "Close"
 }

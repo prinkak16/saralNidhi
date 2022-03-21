@@ -8,7 +8,7 @@
   "password": "Test@123",
 
   "Comment_on_role": "[national_accountant,state_treasurer,state_accountant,zila_accountant,mandal_accountant]",
-      "role": "zila_accountant",
+      "role": "mandal_accountant",
 
   "state_to_be_selected":"Andhra Pradesh,Haryana",
 

@@ -160,6 +160,6 @@ describe("user-management", () => {
         }
 
         //Submit button
-       //cy.get('button').contains('Submit').click({force:true});
+       cy.get('button').contains('Submit').click({force:true});
     });
 })

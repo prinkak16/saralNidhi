@@ -22,37 +22,52 @@ describe("NEFT Payment Mode", () => {
     cy.wait(2000);
 
     //Click on neft from radio button
-    cy.get('input[type="radio"]').check('3', {force: true});
+    cy.get('input[type="radio"]').check('3', { force: true });
+
+    // here we are taking yesterday date for new creating transaction
+    let today = new Date();
+    let yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    let dd = yesterday.getDate();
+    let mm = yesterday.getMonth() + 1;
+    let yyyy = yesterday.getFullYear();
+
+    let yesterdayDate = (dd < 10 ? '0' + dd : dd) + '/' + (mm < 10 ? '0' + mm : mm) + '/' + yyyy;
+    cy.log("**yesterdayDate:**" + yesterdayDate);
+
 
     //Date of Transaction
-    cy.get('#mat-input-17').type(testData.transaction_date);
+    cy.get('#mat-input-17').type(yesterdayDate);
 
-    let UTR_No = testData.UTR_No;
+    let random_utr_no = Math.floor(100000 + Math.random() * 900000);
+    let UTR_No = 'vky' + random_utr_no;
 
+    //validate utr no
     function test_same_char(input) {
       return input.split('').every(char => char === input[0]);
     }
 
-    if (testData.UTR_No.length <= 22) {
+    if (UTR_No.length <= 22) {
       if (test_same_char(UTR_No)) {
-        cy.wrap(5).should('eq', 6, {message: 'UTR number characters are same'});
+        cy.wrap(5).should('eq', 6, { message: 'UTR number characters are same' });
       } else {
-        cy.get('#mat-input-16').type(testData.UTR_No);
+        cy.get('#mat-input-16').type(UTR_No);
       }
     } else {
-      cy.wrap(1).should('eq', 2, {message: 'UTR_NO should be not be more than 22 character'});
+      cy.wrap(1).should('eq', 2, { message: 'UTR_NO should not be more than 22 character' });
     }
 
     cy.get('#mat-input-18').type(testData.account_no);
     cy.get('#mat-input-19').type(testData.ifcs_code);
     cy.wait(2000);
-    cy.get('.bank-details', {timeout: 10000}).click();
+    cy.get('.bank-details', { timeout: 10000 }).click();
 
     let donor_name = testData.donor_name.trim();
 
     console.log("donor_name.length :" + donor_name.length);
     if (donor_name.length > 150) {
-      cy.wrap(1).should('eq', 2, {message: 'Name is of more than 150 character'});
+      cy.wrap(1).should('eq', 2, { message: 'Name is of more than 150 character' });
     }
     // get index of space in donor name (before surname)
     let space_in_donor_name = donor_name.indexOf(" ");
@@ -63,7 +78,7 @@ describe("NEFT Payment Mode", () => {
     cy.get('#mat-input-4').type(donor_name);
     cy.get('#mat-input-5').type(testData.mobile_no);
     cy.get('#mat-input-6').type(testData.donor_email);
-    cy.get('input[type="radio"]').check(testData.category, {force: true});
+    cy.get('input[type="radio"]').check(testData.category, { force: true });
 
     let flag_4th_pan_letter = "";
     let flag_5th_pan_letter = donor_name.charAt(0).toUpperCase();
@@ -72,7 +87,7 @@ describe("NEFT Payment Mode", () => {
 
     // if category is individual then set flag 4th & 5th character of donor name
     if (testData.category == 'individual') {
-      cy.get('input[type="radio"]').check(testData.proprietorship, {force: true});
+      cy.get('input[type="radio"]').check(testData.proprietorship, { force: true });
       flag_4th_pan_letter = "P";
       flag_5th_pan_letter = surname1st_letter;
 
@@ -157,14 +172,14 @@ describe("NEFT Payment Mode", () => {
       cy.get('#mat-input-12').type(amount);
 
     } else {
-      cy.wrap(2).should('eq', 3, {message: 'Amount is not in number formate'});
+      cy.wrap(2).should('eq', 3, { message: 'Amount is not in number formate' });
     }
     cy.get('#mat-input-13').type(testData.narration);
 
     let collector_name = testData.collector_name.trim();
 
     if (collector_name.length > 150) {
-      cy.wrap(6).should('eq', 7, {message: 'Collector Name is of more than 150 character'});
+      cy.wrap(6).should('eq', 7, { message: 'Collector Name is of more than 150 character' });
     }
 
     cy.get('#mat-input-14').type(collector_name);
@@ -172,7 +187,7 @@ describe("NEFT Payment Mode", () => {
 
     cy.wait(2000);
     //select Nature of Donation
-    cy.get('input[type="radio"]').check(testData.nature_of_donation, {force: true});
+    cy.get('input[type="radio"]').check(testData.nature_of_donation, { force: true });
 
     if (testData.nature_of_donation == 'Other') {
       if (testData.category == 'others') {
@@ -182,16 +197,16 @@ describe("NEFT Payment Mode", () => {
       }
     }
     // select party unit
-    cy.get('input[type="radio"]').check(testData.Party_unit, {force: true});
+    cy.get('input[type="radio"]').check(testData.Party_unit, { force: true });
     if (testData.Party_unit == 'Mandal') {
       cy.wait(2000);
       //if state applicable then select
       cy.get('body').then((body) => {
         //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
-          if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+        if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
           cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-            .contains(testData.state_name).click({force: true});
+            .contains(testData.state_name).click({ force: true });
         } else {
 
           cy.log('**state is not there**');
@@ -203,10 +218,10 @@ describe("NEFT Payment Mode", () => {
       //if zila applicable then select
       cy.get('body').then((body) => {
         //if (body.find('[ng-reflect-placeholder="Select zila"]').length > 0) {
-          if (body.find('.d-flex > :nth-child(2) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+        if (body.find('.d-flex > :nth-child(2) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
           cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
-            .contains(testData.zila_name).click({force: true});
+            .contains(testData.zila_name).click({ force: true });
         } else {
 
           cy.log('**Zila is not there**');
@@ -214,17 +229,17 @@ describe("NEFT Payment Mode", () => {
       });
 
       cy.get('.ng-placeholder').contains('Select mandal').click().get('ng-select')
-        .contains(testData.mandal_name).click({force: true});
+        .contains(testData.mandal_name).click({ force: true });
 
     } else if (testData.Party_unit == 'Zila') {
       cy.wait(2000);
 
       cy.get('body').then((body) => {
         //if (body.find('[ng-reflect-placeholder="Select state"]').length > 0) {
-          if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
+        if (body.find('.d-flex > :nth-child(1) > .bg-white > .ng-select-container > .ng-value-container > .ng-placeholder').length > 0) {
 
           cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-            .contains(testData.state_name).click({force: true});
+            .contains(testData.state_name).click({ force: true });
         } else {
 
           cy.log('**state is not there**');
@@ -232,15 +247,15 @@ describe("NEFT Payment Mode", () => {
       })
 
       cy.get('.ng-placeholder').contains('Select zila').click().get('ng-select')
-        .contains(testData.zila_name).click({force: true});
+        .contains(testData.zila_name).click({ force: true });
 
       //else part is state unit
     } else {
       cy.wait(2000);
       cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
-        .contains(testData.state_name).click({force: true});
+        .contains(testData.state_name).click({ force: true });
     }
-    cy.get('button').contains('Submit').click({force:true});
+    cy.get('button').contains('Submit').click({ force: true });
   });
 })
 

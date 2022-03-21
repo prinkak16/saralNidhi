@@ -25,7 +25,6 @@ describe("user-management Edit1", () => {
 
     cy.wait(1000);
 
-
     let row = testData.select_row + 1;
 
     function row_and_next_page() {
@@ -35,10 +34,9 @@ describe("user-management Edit1", () => {
           .click({ force: true })
       }
       cy.wait(2000);
-      // select row
+      // select row and click on Edit 
       cy.get(':nth-child(' + row + ') > .action-container > :nth-child(1)').click({ force: true });
-      //cy.get(':nth-child(' + row + ') > .action-container > [ng-reflect-router-link="/dashboard/users/add"]').click({force: true});
-
+      
     }
 
     row_and_next_page();
@@ -146,8 +144,8 @@ describe("user-management Edit1", () => {
         cy.get('.mat-checkbox').contains('Edit within 15 Days').click({ force: true });
       }
 
-      if (testData.Edit_within_fifty_days != 0) {
-
+      if (testData.Edit_within_thirty_days != 0) {
+        cy.log('**Edit_within_thirty_days**');
         cy.get('.mat-checkbox').contains('Edit within 30 Days').click({ force: true });
       }
 
@@ -196,7 +194,7 @@ describe("user-management Edit1", () => {
 
 
     //Submit button
-    cy.get('button').contains('Submit').click({force:true});
+    cy.get('button').contains('Submit').click({ force: true });
 
   });
 });

@@ -8,12 +8,12 @@
 
   "click_no_of_times_next_page": 0,
 
-  "no_of_times_prev_calender_btn_click": 3,
-  "no_of_times_next_calender_btn_click": 1,
+  "no_of_times_prev_calender_btn_click": 1,
+  "no_of_times_next_calender_btn_click": 0,
 
   "--Note1---": "Please enter only digit of dates",
-  "first_date_digit": 2,
-  "second_date_digit": 3,
+  "first_date_digit": 1,
+  "second_date_digit": 20,
 
   "Note2___": "select click_button_type [Search ,Download ,Clear]",
   "click_button_type": "Search"

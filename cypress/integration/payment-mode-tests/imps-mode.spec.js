@@ -10,7 +10,6 @@ describe("IMPS Payment Mode", () => {
     })
   })
 
-
   it('login,fill details for IMPS mode payment & submit', () => {
     cy.visit("/");
     //email
@@ -26,25 +25,39 @@ describe("IMPS Payment Mode", () => {
     // click on imps from radio button
     cy.get('input[type="radio"]').check('5', {force: true});
 
-    //Date of Transaction
-    cy.get('#mat-input-17').type(testData.transaction_date);
+ // here we are taking yesterday date for new creating transaction
+ let today = new Date();
+ let yesterday = new Date(today);
+ yesterday.setDate(today.getDate() - 1);
 
-    let UTR_No = testData.UTR_No;
+ let dd = yesterday.getDate();
+ let mm = yesterday.getMonth() + 1;
+ let yyyy = yesterday.getFullYear();
 
-    //validate utr no
-    function test_same_char(input) {
-      return input.split('').every(char => char === input[0]);
-    }
+ let yesterdayDate = (dd < 10 ? '0' + dd : dd) + '/' + (mm < 10 ? '0' + mm : mm) + '/' + yyyy;
+ cy.log("**yesterdayDate:**" + yesterdayDate);
 
-    if (testData.UTR_No.length <= 22) {
-      if (test_same_char(UTR_No)) {
-        cy.wrap(5).should('eq', 6, {message: 'UTR number characters are same'});
-      } else {
-        cy.get('#mat-input-16').type(testData.UTR_No);
-      }
-    } else {
-      cy.wrap(1).should('eq', 2, {message: 'UTR_NO should be not be more than 22 character'});
-    }
+
+ //Date of Transaction
+ cy.get('#mat-input-17').type(yesterdayDate);
+
+ let random_utr_no = Math.floor(100000 + Math.random() * 900000);
+ let UTR_No = 'vky' + random_utr_no;
+
+ //validate utr no
+ function test_same_char(input) {
+   return input.split('').every(char => char === input[0]);
+ }
+
+ if (UTR_No.length <= 22) {
+   if (test_same_char(UTR_No)) {
+     cy.wrap(5).should('eq', 6, { message: 'UTR number characters are same' });
+   } else {
+     cy.get('#mat-input-16').type(UTR_No);
+   }
+ } else {
+   cy.wrap(1).should('eq', 2, { message: 'UTR_NO should not be more than 22 character' });
+ }
 
     cy.get('#mat-input-18').type(testData.account_no);
     cy.get('#mat-input-19').type(testData.ifcs_code);
@@ -101,13 +114,13 @@ describe("IMPS Payment Mode", () => {
     cy.get('#mat-input-7').type(testData.house_no);
     cy.get('#mat-input-8').type(testData.locality);
     cy.get('#mat-input-9').type(testData.pin_code);
-    cy.wait(2000);
+    cy.wait(1500);
 
     cy.get('.otp-input').first().type(testData.pan1);
     cy.get('.otp-input').eq(1).type(testData.pan2);
     cy.get('.otp-input').eq(2).type(testData.pan3);
 
-    cy.wait(3000);
+    cy.wait(1500);
     // check 4th & 5th character of pan according to donor_name & selected category
     if (testData.category == 'huf') {
       flag_4th_pan_letter = "H";

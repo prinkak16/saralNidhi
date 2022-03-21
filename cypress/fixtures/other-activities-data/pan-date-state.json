@@ -7,9 +7,9 @@
   "stateName": "Haryana",
 
 
-  "no_of_times_prev_calender_btn_click": 3,
+  "no_of_times_prev_calender_btn_click": 1,
 
-  "no_of_times_next_calender_btn_click": 1,
+  "no_of_times_next_calender_btn_click": 0,
 
   "--Note1---": "Please enter only digit of dates",
   "first_date_digit": 2,

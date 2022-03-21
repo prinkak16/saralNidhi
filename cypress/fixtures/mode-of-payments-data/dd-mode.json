@@ -1,5 +1,5 @@
 {
-  "email": "vk_zila_accountant@jarvis.consulting",
+  "email": "kumar.vikastreasurer@jarvis.consulting",
   "password": "Test@123",
   "OTP": "227244",
   "transaction_date": "05/12/2021",
@@ -30,8 +30,8 @@
   "pan8": "3",
   "pan9": "4",
   "pan10": "k",
-  "wrong_pan_remark": "wrong pan..",
-  "amount":"520.5456",
+
+  "amount":"10.5456",
   "narration": "infrastructure project",
   "collector_name": "vikas kumar",
   "collector_mobile": "8237403188",

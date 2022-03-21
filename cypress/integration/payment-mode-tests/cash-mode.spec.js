@@ -24,8 +24,22 @@ describe("Cash Payment Mode", () => {
 
     //select cash from radio button
     cy.get('input[type="radio"]').check('7', { force: true });
+
+
+    // here we are taking yesterday date for new creating transaction
+    let today = new Date();
+    let yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    let dd = yesterday.getDate();
+    let mm = yesterday.getMonth() + 1;
+    let yyyy = yesterday.getFullYear();
+
+    let yesterdayDate = (dd < 10 ? '0' + dd : dd) + '/' + (mm < 10 ? '0' + mm : mm) + '/' + yyyy;
+    cy.log("**yesterdayDate:**" + yesterdayDate);
+
     //Date of Transaction
-    cy.get('#mat-input-16').type(testData.transaction_date);
+    cy.get('#mat-input-16').type(yesterdayDate);
 
     let donor_name = testData.donor_name.trim();
 
@@ -234,7 +248,7 @@ describe("Cash Payment Mode", () => {
       cy.get('.ng-placeholder').contains('Select state').click().get('ng-select')
         .contains(testData.state_name).click({ force: true });
     }
-    cy.get('button').contains('Submit').click({force:true});
+    cy.get('button').contains('Submit').click({ force: true });
 
   });
 })

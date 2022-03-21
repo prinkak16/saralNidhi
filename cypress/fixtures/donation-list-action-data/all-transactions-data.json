@@ -4,25 +4,74 @@
   "password": "Test@123",
   "OTP": "227244",
 
-  "pan_no": "FOOPK5634K",
-  "cheque_date": "26/10/2021",
-  
+   "**Note**":"select transaction_type from [cash,upi,cheque,demand-draft,imps,neft,rtgs]",
+  "transaction_mode": "rtgs",
+
+  "account_no": "083010110001377",
+  "ifcs_code": "BKID0000830",
+  "donor_name": "vikas kumar",
+  "mobile_no": "8237403188",
+  "donor_email": "kumar.vikas@jarvis.consulting",
+  "house_no": "501",
+  "locality": "Ajmera",
+  "pin_code": "411018",
+
+  "__Note_for_category": "use value in small letters",
+  "category": "trust",
+  "other_category": "other things",
+
+  "proprietorship": "true",
+  "proprietorship_name": "vky lte",
+  "remark_for_wrong_pan": "Company Name Changed",
+  "pan_1": "F",
+  "pan_2": "O",
+  "pan_3": "o",
+  "pan_4": "T",
+  "pan_5": "k",
+  "pan_6": "5",
+  "pan_7": "4",
+  "pan_8": "3",
+  "pan_9": "3",
+  "pan_10": "k",
+  "amount":12.5456,
+  "narration": "infrastructure project",
+  "collector_name": "vikas kumar",
+  "collector_mobile": "8237403188",
+
+  "Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi.,Other]",
+
+  "nature_of_donation": "Other",
+  "other_donation": "other reason",
+
+  "Note2__": "select party_unit from [Mandal,Zila,CountryState]",
+  "Party_unit": "Zila",
+
+  "Note3___": "State ,Zila and mandal names are case sensitive",
+  "state_name": "Andhra Pradesh",
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi",
+
+
+
+
+  "----Note4---":"----Above from Here data are for new creation of transaction-----",
+
   "--Note--":"Choose flag_operation value from [Realized,Edit,Archive,Reversed,Bounced,View]",
-  "flag_operation": "Realized",
+  "flag_operation": "Edit",
 
      "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
-     "flag_archive":"No",
+     "flag_archive":"Yes",
 
      "--Note2--":"If flag_operation:Bounced then choose flag_bounced form [Submit,Close]",
-     "flag_bounced":"Close",
+     "flag_bounced":"Submit",
 
      "--Note3--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
-     "flag_reversed":"Close",
+     "flag_reversed":"Submit",
 
      "--Note4--":"If flag_operation:Realized then choose flag_realized form [Submit,Close]",
-     "flag_realized":"Close",
+     "flag_realized":"Submit",
 
-  "Reversed_remark": "just for testing",
+  "Reversed_remark": "Reversed_remark for testing",
   "Bounced_remark": "less amount",
 
   "--Note5--":"typing realized date without gui,there should be Edit option inside Action of transaction", 
@@ -30,15 +79,15 @@
   "flag_gui": 1,
 
   "click_no_of_times_next_page": 0,
-  "select_row": 2,
+  "select_row": 1,
 
   "___Note6___": "[no_of_times_calender_back,date_digit] and applicable only if flag_gui:1 ",
   "no_of_times_calender_back": 1,
   "date_digit": 6,
 
-  "flag_cheque_or_DD_front": 0,
+  "flag_cheque_or_DD_front": 1,
 
-  "flag_cheque_or_DD_back": 0,
+  "flag_cheque_or_DD_back": 1,
 
   "flag_account_no": 1,
   "account_no_value": "083010110001355",
@@ -66,7 +115,7 @@
 
   "flag_category": 1,
 
-  "flag_category_value":"individual",
+  "flag_category_value":"huf",
 
   "other_category_value": "india",
 
@@ -81,7 +130,7 @@
   "pan2": "o",
   "pan3": "o",
   "pan4": "p",
-  "pan5": "k",
+  "pan5": "l",
   "pan6": "5",
   "pan7": "6",
   "pan8": "3",
@@ -90,10 +139,10 @@
 
   "wrong_pan_remark": "You have entered wrong pan no",
   "flag_amount": 1,
-  "amount_value": 105,
+  "amount_value": 11,
 
   "flag_narration": 1,
-  "narration_value": "birthday party",
+  "narration_value": "birthday",
 
   "flag_collector_name": 1,
   "collector_name_value": "kumar vk",
@@ -103,7 +152,7 @@
 
   "flag_nature_of_donation": 1,
   "__Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi,Other]",
-  "donation_type": "Aajivan Sahyog Nidhi",
+  "donation_type": "Voluntary Contribution",
 
   "other_donation_value": "for fun",
 
@@ -111,7 +160,7 @@
 
   "___Note2___": "select_any_for_party_unit_value--> [CountryState,Zila,Mandal]",
 
-  "party_unit_value": "Zila",
+  "party_unit_value": "Mandal",
 
   "___Note3___": "State ,Zila and mandal names are case sensitive",
 

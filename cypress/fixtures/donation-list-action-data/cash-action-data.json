@@ -4,32 +4,68 @@
   "password": "Test@123",
   "OTP": "227244",
 
-  "pan_no": "FOOPK5634K",
+  
+  "donor_name": "vikas kumar",
+  "mobile_no": "8737373773",
+  "donor_email": "vikaskumar.vk0612@gmail.com",
+  "house_no": "323",
+  "locality": "Ajmera",
+  "pin_code": "411018",
+
+  "@comment_for_category": "use value in small letters",
+  "category": "individual",
+  "other_category": "other dd",
+
+  "proprietorship": "true",
+  "proprietorship_name": "vky lte",
+  "pan_1": "F",
+  "pan_2": "O",
+  "pan_3": "o",
+  "pan_4": "P",
+  "pan_5": "K",
+  "pan_6": "5",
+  "pan_7": "5",
+  "pan_8": "5",
+  "pan_9": "5",
+  "pan_10": "k",
+
+  "remark_for_wrong_pan": "wrong pan..",
+  "amount":10,
+  "narration": "infrastructure project",
+  "collector_name": "vikas kumar",
+  "collector_mobile": "8237403188",
+
+  "Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi.,Other]",
+
+  "nature_of_donation": "Other",
+  "other_donation": "other reason",
+
+  "__Note2__": "select party_unit from [Mandal,Zila,CountryState]",
+  "Party_unit": "Mandal",
+
+  "Note3___": "State ,Zila and mandal names are case sensitive",
+  "state_name": "Andhra Pradesh",
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi",
+
+
   "click_no_of_times_next_page": 0,
   "select_row": 1,
 
   "--Note--":"Choose flag_operation value from [Edit,Archive,Reversed,View]",
-  "flag_operation": "Archive",
+  "flag_operation": "Edit",
 
        "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
-       "flag_archive":"No",
+       "flag_archive":"Yes",
 
        "--Note2--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
-       "flag_reversed":"Close",
+       "flag_reversed":"Submit",
 
   "Reversed_remark": "just for testing",
-  "Bounced_remark": "less amount",
-
-  "flag_account_no": 0,
-  "account_no_value": "083010110001355",
-
-  "flag_ifsc_code": 0,
-  "ifsc_code_value": "BKID0004894",
-
   "flag_name": 1,
-  "name_value": "vikas kumar",
+  "name_value": "vaaas kumar",
 
-  "flag_donor_mobile":1,
+  "flag_donor_mobile":0,
   "donor_mobile_value": "8825137191",
 
   "flag_donor_email": 1,
@@ -60,8 +96,8 @@
   "pan1": "F",
   "pan2": "o",
   "pan3": "o",
-  "pan4": "A",
-  "pan5": "v",
+  "pan4": "p",
+  "pan5": "k",
   "pan6": "5",
   "pan7": "6",
   "pan8": "3",
@@ -70,7 +106,7 @@
 
   "wrong_pan_remark": "wrong pan..",
   "flag_amount": 1,
-  "amount_value": 1000.019,
+  "amount_value": 11.019,
 
   "flag_narration": 1,
   "narration_value": "birthday party",
@@ -91,7 +127,7 @@
 
   "___Note2___": "select_any_for_party_unit_value -->[CountryState,Zila,Mandal]",
 
-  "party_unit_value": "CountryState",
+  "party_unit_value": "Zila",
 
   "___Note3___": "State ,Zila and mandal names are case sensitive",
   "party_unit_state": "Andhra Pradesh",

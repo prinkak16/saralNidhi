@@ -27,11 +27,10 @@ describe("state wise filer", () => {
     // cy.get('.mat-warn').click({delay:200});
 
     cy.wait(2000);
-
-    cy.get('#mat-select-value-1').click({force: true});
-
+    // click sate input before selecting 
+    cy.get('.ng-input > input').click({force: true});
     // Enter stateName
-    cy.get('mat-option').contains(testData.stateName).click({force: true});
+    cy.get('.ng-option-label').contains(testData.stateName).click({force: true});
 
     // for click [Clear,Search,Download] button
     cy.get('button').contains(testData.click_button_type).click({force: true});

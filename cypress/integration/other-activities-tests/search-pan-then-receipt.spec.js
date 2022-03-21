@@ -12,7 +12,7 @@ describe("Pan and Receipt", () => {
   })
 
 
-  it('login, search pan and print the receipt', () => {
+  it('login, search with pan & send on email', () => {
     cy.visit("/");
     cy.get("input[type=email]").type(testData.email);
     cy.get("input[type=password]").type(testData.password).type('{enter}');
@@ -25,30 +25,41 @@ describe("Pan and Receipt", () => {
     cy.get('input[formcontrolname="query"]').type(testData.pan_no);
 
     // click on search icon
-    cy.get('.mat-warn > .mat-button-wrapper').click({force: true});
+    cy.get('.mat-warn > .mat-button-wrapper').click({ force: true });
 
     cy.wait(2000);
     // click on Receipt
-    cy.get('.mat-warn > .mat-button-wrapper').click({force: true});
-    cy.wait(2000);
+    //cy.get('.mat-warn > .mat-button-wrapper').click({force: true});
+    //cy.wait(2000);
 
 
     // no of time click for next page
     for (let n = 0; n < testData.click_no_of_times_next_page; n++) {
       cy.get('.mat-paginator-navigation-next > .mat-button-wrapper > .mat-paginator-icon')
-        .click({force: true})
+        .click({ force: true })
     }
 
-    cy.wait(2000);
+    cy.wait(1000);
 
     // select row
-    var row = testData.select_row+1;
+    var row = testData.select_row + 1;
 
-    cy.get(":nth-child(" + row + ") > .btn-separate > .btn-send > .mat-tooltip-trigger").click({force: true});
+    //cy.get(":nth-child(" + row + ") > .btn-separate > .btn-send > .mat-tooltip-trigger").click({force: true});
 
-    // send Receipt on email by pressing submit
+    cy.get('body').then((body) => {
+      // check send receipt on email exists 
+      if (body.find(':nth-child(' + row + ') > .btn-separate > .btn-send > .mat-tooltip-trigger').length > 0) {
+        // click on receipt button to download  
+        cy.get(':nth-child(' + row + ') > .btn-separate > .btn-send > .mat-tooltip-trigger').click({ force: true });
 
-    //cy.get('button').contains('Submit').click();
+        // send Receipt on email by pressing submit
+
+        cy.get('button').contains('Submit').click();
+      } else {
+
+        cy.log('**seems like receipt has not generated yet**');
+      }
+    })
 
   });
 });

@@ -4,31 +4,74 @@
   "password": "Test@123",
   "OTP": "227244",
 
-  "pan_no": "FOOPK5634K",
+  "account_no": "083010110001377",
+  "ifcs_code": "BKID0000830",
+  "donor_name": "vikas kumar",
+  "mobile_no": "8825137191",
+  "donor_email": "kumar.vikas@jarvis.consulting",
+  "house_no": "501",
+  "locality": "Ajmera",
+  "pin_code": "411018",
+
+  "@comment_for_category": "use value in small letters",
+  "category": "others",
+  "other_category": "other RTGS",
+
+  "proprietorship": "true",
+  "proprietorship_name": "cbsc lte",
+  "remark_for_wrong_pan": " something Changed",
+  "pan_1": "F",
+  "pan_2": "O",
+  "pan_3": "o",
+  "pan_4": "V",
+  "pan_5": "V",
+  "pan_6": "5",
+  "pan_7": "6",
+  "pan_8": "3",
+  "pan_9": "4",
+  "pan_10": "k",
+  "amount":"200.05",
+  "narration": "infrastructure",
+  "collector_name": "vikas kumar",
+  "collector_mobile": "8237403188",
+
+  "Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi.,Other]",
+
+  "nature_of_donation": "Aajivan Sahyog Nidhi.",
+  "other_donation": "other reason",
+
+  "Note2__": "select party_unit from [Mandal,Zila,CountryState]",
+
+  "Party_unit": "Mandal",
+
+  "Note3___": "State ,Zila and mandal names are case sensitive",
+  "state_name": "Andhra Pradesh",
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi",
 
   "click_no_of_times_next_page": 0,
-  "select_row": 2,
+  "select_row": 1,
 
   "--Note--":"Choose flag_operation value from [Edit,Archive,Reversed,View]",
-  "flag_operation": "View",
+  "flag_operation": "Archive",
 
      "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
-     "flag_archive":"No",
+     "flag_archive":"Yes",
 
      "--Note2--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
-     "flag_reversed":"Close",
+     "flag_reversed":"Submit",
 
   "Reversed_remark": "just for testing reversed",
   "Bounced_remark": "less amount",
 
 
-  "flag_account_no": 0,
+  "flag_account_no": 1,
   "account_no_value": "083010110001355",
 
-  "flag_ifsc_code": 0,
+  "flag_ifsc_code": 1,
   "ifsc_code_value": "BKID0004894",
 
-  "flag_name": 1,
+  "flag_name": 0,
   "name_value": "kumar vikas",
 
   "flag_donor_mobile":1,
@@ -48,7 +91,7 @@
 
   "flag_category": 1,
 
-  "flag_category_value":"others",
+  "flag_category_value":"partnership",
 
   "other_category_value": "india",
 
@@ -62,15 +105,15 @@
   "pan1": "F",
   "pan2": "o",
   "pan3": "o",
-  "pan4": "A",
-  "pan5": "k",
+  "pan4": "F",
+  "pan5": "V",
   "pan6": "5",
   "pan7": "6",
   "pan8": "3",
   "pan9": "4",
   "pan10": "K",
 
-  "wrong_pan_remark": "wrong pan..",
+  "wrong_pan_remark": "went wrong in pan..",
 
   "flag_amount": 1,
   "amount_value": 105,

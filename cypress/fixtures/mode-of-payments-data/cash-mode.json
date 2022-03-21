@@ -1,10 +1,10 @@
 {
-  "email": "vk_zila_accountant@jarvis.consulting",
+  "email": "kumar.vikastreasurer@jarvis.consulting",
   "password": "Test@123",
   "OTP": "227244",
   "transaction_date": "05/11/2021",
   "donor_name": "vikas kumar",
-  "mobile_no": "8825137191",
+  "mobile_no": "8237403188",
   "donor_email": "kumar.vikas@jarvis.consulting",
   "house_no": "323",
   "locality": "Ajmera",
@@ -16,7 +16,6 @@
 
   "proprietorship": "true",
   "proprietorship_name": "vky lte",
-  "wrong_pan_remark": "Company Name Changed",
   "pan1": "F",
   "pan2": "O",
   "pan3": "o",
@@ -29,7 +28,7 @@
   "pan10": "k",
 
   "wrong_pan_remark": "wrong pan..",
-  "amount":2000,
+  "amount":20,
   "narration": "infrastructure project",
   "collector_name": "vikas kumar",
   "collector_mobile": "8237403188",

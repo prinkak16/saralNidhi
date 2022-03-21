@@ -42,8 +42,9 @@ describe("Pan and date", () => {
 
     cy.get('.mat-calendar-content').contains(testData.second_date_digit).click({force: true});
 
-    cy.get('#mat-select-value-1').click({force: true});
-    cy.get('mat-option').contains(testData.stateName).click({force: true});
+    //cy.get('#mat-select-value-1').click({force: true});
+    cy.get('.ng-input > input').click().get('.ng-option-label').contains(testData.stateName).click({force: true});
+    
 
     // for click [Clear,Search,Download] button
     cy.get('button').contains(testData.click_button_type).click({force: true});

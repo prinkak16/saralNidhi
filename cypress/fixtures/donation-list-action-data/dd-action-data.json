@@ -4,10 +4,56 @@
   "password": "Test@123",
   "OTP": "227244",
 
+  "account_no": "083010110001377",
+  "ifcs_code": "BKID0000830",
+  "donor_name": "vikas kumar",
+  "mobile_no": "8825137191",
+  "donor_email": "kumar.vikas@jarvis.consulting",
+  "house_no": "501",
+  "locality": "Ajmera",
+  "pin_code": "411018",
+
+  "@comment_for_category": "use value in small letters",
+  "category": "partnership",
+  "other_category": "other cheque",
+
+  "proprietorship": "true",
+  "proprietorship_name": "vky lte",
+  "remark_for_wrong_pan": "Company Name Changed",
+  "pan_1": "F",
+  "pan_2": "O",
+  "pan_3": "o",
+  "pan_4": "F",
+  "pan_5": "V",
+  "pan_6": "5",
+  "pan_7": "5",
+  "pan_8": "3",
+  "pan_9": "4",
+  "pan_10": "k",
+  "amount":"520.5456",
+  "narration": "infrastructure project",
+  "collector_name": "vikas kumar",
+  "collector_mobile": "8237403188",
+
+  "Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi.,Other]",
+
+  "nature_of_donation": "Other",
+  "other_donation": "other reason",
+
+  "Note2__": "select party_unit from [Mandal,Zila,CountryState]",
+  "Party_unit": "Mandal",
+
+  "Note3___": "State ,Zila and mandal names are case sensitive",
+  "state_name": "Andhra Pradesh",
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi",
+
+  "----Note4---":"----Above from Here data are for new creation of transaction-----",
+
   "pan_no": "FOOPK5634K",
   "dd_date": "7/12/2021",
 
-  "--Note--":"Choose flag_operation value from [Realized,Edit,Archive,Reversed,Bounced,View]",
+  "--Note--":"Choose flag_operation value from [Realized,Edit,Archive,Reversed,View]",
   "flag_operation": "Realized",
 
      "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
@@ -17,14 +63,14 @@
      "flag_bounced":"Close",
 
      "--Note3--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
-     "flag_reversed":"Close",
+     "flag_reversed":"Submit",
 
      "--Note4--":"If flag_operation:Realized then choose flag_realized form [Submit,Close]",
-     "flag_realized":"Close",
+     "flag_realized":"Submit",
 
   "flag_gui": 1,
   "click_no_of_times_next_page": 0,
-  "select_row": 2,
+  "select_row": 1,
 
   "___Note___": "[no_of_times_calender_back,date_digit] and applicable only if flag_gui:1 ",
   "no_of_times_calender_back": 1,
@@ -38,13 +84,13 @@
 
   "flag_cheque_or_DD_back": 1,
 
-  "flag_account_no": 0,
+  "flag_account_no": 1,
   "account_no_value": "083010110001355",
 
-  "flag_ifsc_code": 0,
+  "flag_ifsc_code": 1,
   "ifsc_code_value": "BKID0004894",
 
-  "flag_name": 1,
+  "flag_name": 0,
   "name_value": "kumar vikas kumar",
 
   "flag_donor_mobile":1,
@@ -70,7 +116,7 @@
 
   "flag_proprietorship": 1,
 
-  "flag_proprietorship_changeTo":"yes",
+  "flag_proprietorship_changeTo":"no",
 
   "flag_proprietorship_name":"test value",
 
@@ -84,7 +130,7 @@
   "pan7": "6",
   "pan8": "3",
   "pan9": "4",
-  "pan10": "M",
+  "pan10": "K",
 
   "wrong_pan_remark": "wrong pan..",
 
@@ -100,7 +146,7 @@
   "flag_collector_mobile": 1,
   "collector_mobile_value": "8877665544",
 
-  "flag_nature_of_donation": 1,
+  "flag_nature_of_donation": 0,
   "__Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi,Other]",
   "donation_type": "Voluntary Contribution",
 
@@ -110,7 +156,7 @@
 
   "___Note2___": "select_any_for_party_unit_value--> [CountryState,Zila,Mandal]",
 
-  "party_unit_value": "Mandal",
+  "party_unit_value": "CountryState",
 
   "___Note3___": "State ,Zila and mandal names are case sensitive",
   "party_unit_state": "Andhra Pradesh",

@@ -4,28 +4,71 @@
   "password": "Test@123",
   "OTP": "227244",
 
-  "pan_no": "FOOPK5634K",
+  "account_no": "083010110001377",
+  "ifcs_code": "BKID0000830",
+  "donor_name": "vikas kumar",
+  "mobile_no": "8825137191",
+  "donor_email": "kumar.vikas@jarvis.consulting",
+  "house_no": "501",
+  "locality": "Ajmera",
+  "pin_code": "411018",
+
+  "@comment_for_category": "use value in small letters",
+  "category": "individual",
+  "other_category": "other UPI info",
+
+  "proprietorship": "true",
+  "proprietorship_name": "vky lte",
+  "remark_for_wrong_pan": " something Changed",
+  "pan_1": "F",
+  "pan_2": "O",
+  "pan_3": "o",
+  "pan_4": "p",
+  "pan_5": "l",
+  "pan_6": "5",
+  "pan_7": "6",
+  "pan_8": "3",
+  "pan_9": "4",
+  "pan_10": "k",
+  "amount":"1000.55",
+  "narration": "infrastructure project",
+  "collector_name": "vikas kumar",
+  "collector_mobile": "8237403188",
+
+  "Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi.,Other]",
+
+  "nature_of_donation": "Other",
+  "other_donation": "other reason",
+
+  "Note2__": "select party_unit from [Mandal,Zila,CountryState]",
+
+  "Party_unit": "Mandal",
+
+  "Note3___": "State ,Zila and mandal names are case sensitive",
+  "state_name": "Andhra Pradesh",
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi",
 
   "click_no_of_times_next_page": 0,
   "select_row": 1,
 
   "--Note--":"Choose flag_operation value from [Edit,Archive,Reversed,View]",
-  "flag_operation": "View",
+  "flag_operation": "Archive",
 
      "--Note1--":"If flag_operation:Archive then choose flag_archive form [Yes,No]",
-     "flag_archive":"No",
+     "flag_archive":"Yes",
 
      "--Note2--":"If flag_operation:Reversed then choose flag_reversed form [Submit,Close]",
-     "flag_reversed":"Close",
+     "flag_reversed":"Submit",
 
   "Reversed_remark": "just for testing",
   "Bounced_remark": "less amount",
 
 
-  "flag_account_no": 0,
+  "flag_account_no": 1,
   "account_no_value": "083010110001355",
 
-  "flag_ifsc_code": 0,
+  "flag_ifsc_code": 1,
   "ifsc_code_value": "BKID0004894",
 
   "flag_name": 1,
@@ -70,7 +113,7 @@
   "pan9": "4",
   "pan10": "M",
 
-  "wrong_pan_remark": "wrong pan..",
+  "wrong_pan_remark": "wrong pan number..",
 
   "flag_amount": 1,
   "amount_value": 105,
@@ -94,7 +137,7 @@
 
   "___Note2___": "select_any_for_party_unit_value--> [CountryState,Zila,Mandal]",
 
-  "party_unit_value": "Mandal",
+  "party_unit_value": "CountryState",
 
   "___Note3___": "State ,Zila and mandal names are case sensitive",
   "party_unit_state": "Andhra Pradesh",

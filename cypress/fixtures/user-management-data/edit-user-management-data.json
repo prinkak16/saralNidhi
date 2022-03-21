@@ -3,22 +3,27 @@
   "password": "Test@123",
   "OTP": "227244",
 
+  "_full_name": "vikas kr",
+  "_mobile": "7878787878",
+  "_email": "vk_testing@jarvis.consulting",
+  "_password": "Test@123",
+
   "click_no_of_times_next_page": 0,
-  "select_row": 3,
+  "select_row": 1,
 
-  "flag_name": "0",
-  "flag_name_value": "vky",
+  "flag_name": "1",
+  "flag_name_value": "vikas kumar",
 
-  "flag_email": "0",
-  "flag_email_value": "kumar.vikastreasurer3@jarvis.consulting",
+  "flag_email": "1",
+  "flag_email_value": "kumar.vikastesting3@jarvis.consulting",
 
   "flag_mobile_no": "1",
   "flag_mobile_no_value": "8866000077",
 
   "flag_role": "0",
-  "Comment_on_role": "[national_accountant,state_treasurer,state_accountant,zila_accountant,mandal_accountant]",
+  "Comment_on_role": "choose role from [national_accountant,state_treasurer,state_accountant,zila_accountant,mandal_accountant]",
 
-  "role": "mandal_accountant",
+  "role": "state_accountant",
 
   "--------Note-----": "Please select state or zila or mandal in order in which it is going to press select in chech box",
 
@@ -37,7 +42,7 @@
   "Indian_Donation_Form": 1,
   "create": 1,
   "Edit_within_fifteen_days": 1,
-  "Edit_within_thirty_days": 1,
+  "Edit_within_thirty_days": 0,
   "Edit_Lifetime": 1,
   "Supplementary_Entry": 1,
   "Allow_Receipt_Print": 1,

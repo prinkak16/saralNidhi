@@ -26,7 +26,7 @@ describe("Date Range", () => {
     // cy.wait(3000);
     // cy.get('.mat-warn').click({delay:200});
 
-    cy.wait(1000);
+    cy.wait(1500);
 
     cy.get('.mat-datepicker-toggle-default-icon > path').click({force:true});
 
