@@ -102,6 +102,18 @@ label{
   width: 590px;
 }
 
+.search_result_name{
+  position: absolute;
+  z-index: 9999;
+  background-color: #fff;
+  top: 2.5rem;
+  box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
+  border-radius: 10px;
+  max-height: 400px;
+  overflow: auto;
+  width: 1090px;
+}
+
 .select-ui .mat-select-arrow{
   color:#ffffff!important;
 }
