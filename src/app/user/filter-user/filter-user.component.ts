@@ -22,6 +22,7 @@ export class FilterUserComponent implements OnInit {
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
   @Input() query: any = null;
+  @Input() tabStatus: any = null;
   downloadCount = 1;
   filters: any;
 
@@ -67,6 +68,7 @@ export class FilterUserComponent implements OnInit {
     this.showLoader.emit(true);
     const data = {
       filters: this.filterForm.value ? this.filterForm.value : {},
+      archived: this.tabStatus
     };
     this.showLoader.emit(true);
     this.restService.downloadUsersList(data).subscribe((reply: any) => {
