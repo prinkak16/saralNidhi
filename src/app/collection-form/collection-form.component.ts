@@ -112,6 +112,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   statesValue: any;
   showImgUpload = true;
   isView: any;
+  showGlobalSearch =  false;
+  showNameSearch = false;
+  selectName = true;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -173,6 +176,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.onFormChange();
     this.keyword.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
       this.getDonorList(value);
+    });
+    this.collectionForm.controls.name.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
+      if (!value) {
+        this.selectName = true;
+      }
+      if (this.selectName) {
+        this.getDonorList(value);
+        this.showNameSearch = true;
+      }
     });
   }
 
@@ -994,6 +1006,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     this.ngOtpInputRef.setValue(values.pan_card);
     this.autoFillData = [];
     this.keyword.setValue('');
+    this.showNameSearch = false;
+    this.selectName = false;
+  }
+
+  // Set the value of name
+  setNameValue(values: any): void{
+    this.collectionForm.controls.name.setValue(values.data.name);
+    this.autoFillData = [];
+    this.showNameSearch = false;
+    this.selectName = false;
   }
 
   getTransaction(transactionId: number): void {

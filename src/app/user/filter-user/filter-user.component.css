@@ -13,6 +13,16 @@ ng-select.custom .ng-select-container {
   border-radius: 0px;
 }
 
+.download-btn-user{
+  color:#ffffff;
+  background: #1A7DDF;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
 .heading-color{
   margin: 10px 10px 20px 15px;
   font-family: Raleway;

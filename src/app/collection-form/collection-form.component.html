@@ -7,12 +7,12 @@
   <form #form="ngForm" [formGroup]="collectionForm" class="row mt-4">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
-        <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword">
+        <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword" (keypress)="showGlobalSearch=true">
         <mat-icon class="search-icon cursor-pointer" (click)="getDonorList(keyword.value)">search</mat-icon>
         <mat-icon *ngIf="keyword.value" (click)="clearSearchData()" class="cursor-pointer search-icon mr-4">cancel
         </mat-icon>
       </div>
-      <div *ngIf="autoFillData" class="search-result">
+      <div *ngIf="autoFillData && showGlobalSearch" class="search-result">
         <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setFormValues(option)">
           <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span> <span
           class="ml-4 ext-secondary"><b>PAN Card:</b></span>
@@ -409,10 +409,14 @@
       <div>
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
-          <input [required]="isRequiredField('name')" formControlName="name" matInput
+          <input [required]="isRequiredField('name')" formControlName = "name" matInput
                  (keypress)="utilsService.validateName($event)"
-                 oninput="this.value = this.value.toUpperCase()"
-          >
+                 oninput="this.value = this.value.toUpperCase()">
+          <div *ngIf="autoFillData && showNameSearch" class="search_result_name">
+            <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">
+              <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>
+            </mat-option>
+          </div>
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
             Name is required

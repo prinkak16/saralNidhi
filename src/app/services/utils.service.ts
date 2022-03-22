@@ -13,7 +13,7 @@ export class UtilsService {
 
   isAuthorized = true;
   redirectUrl: any;
-  phonePattern = '^[6-9][0-9]{9}$';
+  phonePattern = '^[5-9][0-9]{9}$';
   namePattern = '^[a-zA-Z0-9\.][a-zA-Z0-9\. ]+[a-zA-Z0-9\.]$';
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,10}$';
   primaryMemberPattern = '^[1-4][0-9]{9}$';

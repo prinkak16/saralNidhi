@@ -59,7 +59,7 @@ export class ArchiveFilterSearchComponent implements OnInit {
 
   downloadArchiveList(): void {
     const data = {
-      state_id : this.filterForm.controls.state_id.value,
+      filters: this.filterForm.value ? this.filterForm.value : {},
       is_archive: true
     };
     this.showLoader.emit(true);
