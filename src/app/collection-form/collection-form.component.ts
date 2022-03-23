@@ -45,6 +45,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @ViewChild('form', {static: false}) form: any;
   @Input() query: any = null;
+  @Input() stateId: any = null;
+  @Input() startDate: any = null;
+  @Input() endDate: any = null;
   showLoader = false;
   autoFillData: any;
   allowedValueNull = true;
@@ -115,11 +118,25 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   showGlobalSearch =  false;
   showNameSearch = false;
   selectName = true;
+  queryParams = '';
+  stateParams = '';
+  startDateParams = '';
+  endDateParams = '';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.transactionId = params.id;
+      }
+      if (params.query) {
+        this.queryParams = params.query;
+      }
+      if (params.state_id) {
+        this.stateParams = params.state_id;
+      }
+      if (params.start_date && params.end_date){
+        this.startDateParams = params.startDate;
+        this.endDateParams = params.endDate;
       }
     });
     this.route.data.subscribe(data => {
@@ -1142,7 +1159,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value, query: this.queryParams, state_id: this.stateParams, start_date: this.startDateParams, end_date: this.endDateParams}});
     }, (error: any) => {
       this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
       this.disablePaymentMode();

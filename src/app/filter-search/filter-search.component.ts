@@ -1,10 +1,13 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {saveAs} from 'file-saver';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {UtilsService} from '../services/utils.service';
+import {Location} from '@angular/common';
+import {DatePipe} from '@angular/common';
+import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-filter-search',
@@ -17,24 +20,36 @@ export class FilterSearchComponent implements OnInit {
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
               private messageService: MessageService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private location: Location,
+              private route: ActivatedRoute,
+              public datepipe: DatePipe
+              ) {
   }
 
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
   @Input() query: any = null;
+  @Input() countryStateId: any = null;
+  @Input() stateId: any = null;
+  @Input() startDate: any = null;
+  @Input() endDate: any = null;
+  @Input() queryParams: any = null;
+  @Input() stateParams: any = null;
+  @Input() filters: any = null;
 
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
   downloadCount = 1;
+  isReadFromUrl = false;
 
   ngOnInit(): void {
     this.getAllottedStates();
     this.filterForm = this.formBuilder.group({
       query: new FormControl(this.query),
-      start_date: new FormControl(null),
-      end_date: new FormControl(null),
-      state_id: new FormControl(null)
+      start_date: new FormControl(this.startDate ? (new Date(this.startDate)) : null),
+      end_date: new FormControl(this.endDate ? (new Date(this.endDate)) : null),
+      state_id: new FormControl(this.countryStateId ? parseInt(this.countryStateId) : null)
     });
   }
 
@@ -47,7 +62,18 @@ export class FilterSearchComponent implements OnInit {
   }
 
   getFilteredData(): void {
+    this.appendFiltersToUrl();
     this.applyFilter.emit(this.filterForm.value);
+  }
+
+  appendFiltersToUrl(): void {
+    const searchValue = this.filterForm.value;
+    this.location.replaceState('dashboard/list?' +
+      (searchValue.query ? 'query=' + searchValue.query + '&' : '') +
+      (searchValue.state_id ? 'state_id=' + searchValue.state_id + '&' : '') +
+      (searchValue.start_date ? 'start_date=' + searchValue.start_date._d + '&' : '') +
+      (searchValue.end_date ? 'end_date=' + searchValue.end_date._d + '&' : '')
+    );
   }
 
   clearInputFields(): void {
@@ -59,7 +85,6 @@ export class FilterSearchComponent implements OnInit {
   }
 
   downloadList(): void {
-
     const data = {
       state_id: this.filterForm.controls.state_id.value,
       filters: this.filterForm.value ? this.filterForm.value : {}

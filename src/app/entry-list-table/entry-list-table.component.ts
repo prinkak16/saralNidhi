@@ -27,11 +27,16 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   @Input() paymentModeId: any = null;
+  @Input() query: any = null;
+  @Input() startDate: any = null;
+  @Input() endDate: any = null;
+  @Input() stateId: any = null;
   @Input() showLoader = false;
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
   @Output() refreshCount: EventEmitter<any> = new EventEmitter();
+  @Output() applyFilter = new EventEmitter<any>();
   @Output() typeId: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
@@ -57,12 +62,14 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
          'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
+
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-    subscribeToSubject(): void {
+
+  subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = value;
       this.pageEvent = new PageEvent();
@@ -75,6 +82,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   getPaymentList(): void {
+    this.filters = {query: this.query, state_id: this.stateId, start_date: this.startDate, end_date: this.endDate};
     this.showLoader = true;
     const data = {
       filters: this.filters ? this.filters : {},

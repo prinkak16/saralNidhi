@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PaymentModeModel} from '../models/payment-mode.model';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
 import {Subject} from 'rxjs';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-entry-list',
@@ -17,6 +18,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   modeOfPayments: PaymentModeModel[] = [];
   selectedModeOfPayment = '';
   query = '';
+  stateId = '';
   startDate = '';
   endDate = '';
   selectedIndex = 0;
@@ -30,8 +32,18 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.selectedModeOfPayment = params.typeId;
+      this.filters = {query: params.query, start_date: params.start_date, end_date: params.end_date, state_id: params.state_id};
+      this.getCount();
+      this.setFilters(this.filters);
       if (params.query) {
         this.query = params.query;
+      }
+      if (params.state_id){
+        this.stateId = params.state_id;
+      }
+      if (params.start_date && params.end_date) {
+        this.startDate = params.start_date;
+        this.endDate = params.end_date;
       }
     });
     this.getPaymentModes();
@@ -82,6 +94,10 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   setFilters(filters: any): void {
     this.filters = filters;
+    this.query = filters.query;
+    this.stateId = filters.state_id;
+    this.startDate = filters.start_date;
+    this.endDate = filters.end_date;
     this.getCount();
     this.transactionsSubject.next(this.filters);
   }

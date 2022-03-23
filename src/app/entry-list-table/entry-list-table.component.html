@@ -129,11 +129,11 @@
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)"
-                    [routerLink]="['transaction_edit', element.id]">
+                    [routerLink]="['transaction_edit', element.id, this.filters]">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
-            <button mat-menu-item [routerLink]="['transaction_view', element.id]">
+            <button mat-menu-item [routerLink]="['transaction_view', element.id, this.filters]">
               <mat-icon>remove_red_eye</mat-icon>
               <span>View</span>
             </button>
