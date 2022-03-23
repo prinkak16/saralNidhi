@@ -2,9 +2,13 @@
   <div *ngIf="data.type === 'realized' " >
     <mat-label>Realize date</mat-label>
     <mat-form-field appearance="outline" class="example-full-width" >
-      <input matInput [matDatepicker]="picker" placeholder="Enter date" [min]="allowMinDate" [max]="allowMaxDate"
-             [required]="isRequiredField('date')"
-             formControlName="date">
+      <input matInput yn-mask-date="dd/mm/yyyy" [min]="allowMinDate" [max]="allowMaxDate"
+             placeholder="Enter date"
+             autocomplete="off"
+             formControlName="date"
+      >
+      <input matInput class="d-none"  [matDatepicker]="picker" [min]="allowMinDate" [max]="allowMaxDate"
+             [formControl]="matDate">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error

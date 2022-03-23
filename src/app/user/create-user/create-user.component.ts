@@ -175,7 +175,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
         this.router.navigate(['dashboard/users']);
       }, (error: any) => {
         this.showLoader = false;
-        this.messageService.somethingWentWrong(error.error.message);
+        this.messageService.somethingWentWrong(error);
       });
     } else {
       this.messageService.somethingWentWrong('Please select any party unit');
