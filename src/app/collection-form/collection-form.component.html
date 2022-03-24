@@ -410,7 +410,8 @@
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName = "name" matInput
-                 (keypress)="utilsService.validateName($event)">
+                 (keypress)="utilsService.validateName($event)"
+                 oninput="this.value = this.value.toUpperCase()">
           <div *ngIf="autoFillData && showNameSearch" class="search_result_name">
             <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">
               <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>
