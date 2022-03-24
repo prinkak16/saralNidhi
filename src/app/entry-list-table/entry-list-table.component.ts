@@ -174,6 +174,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      this.remainingDaysCount();
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
@@ -182,6 +183,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      this.remainingDaysCount();
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
@@ -190,7 +192,12 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return result;
   }
-
+// set number of days to 0 if the remaining days are less than 0.
+  remainingDaysCount(): void{
+    if (this.differenceInDays < 0){
+      this.updateAllowedDays = '0';
+    }
+  }
 // if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);
