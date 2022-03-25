@@ -65,6 +65,9 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = value;
+      if (value.id) {
+        this.paymentModeId = value.id;
+      }
       this.pageEvent = new PageEvent();
       if (this.paginator) {
         this.paginator.pageIndex = 0;
@@ -78,7 +81,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.showLoader = true;
     const data = {
       filters: this.filters ? this.filters : {},
-      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
+      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId : this.paymentModeId,
       limit: this.limit, offset: this.offset
     };
     this.restService.getPaymentRecords(data).subscribe((response: any) => {

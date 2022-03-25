@@ -23,6 +23,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   counting = [];
   filters: any;
   showLoader = false;
+  mopIds = [];
   constructor(private restService: RestService, private messageService: MessageService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
   }
@@ -49,6 +50,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   getPaymentModes(): void {
     this.restService.getPaymentModes().subscribe((response: any) => {
       const allIds = [this.utilService.pluck(response.data, 'id')];
+      this.mopIds = this.utilService.pluck(response.data, 'id');
       this.modeOfPayments.push({
         id: allIds,
         name: 'All', description: '', count: ''
@@ -98,5 +100,9 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   toggleLoader(showLoader: boolean): any {
     this.showLoader = showLoader;
+  }
+
+  getMopPayment(id: any): void{
+    this.transactionsSubject.next({id});
   }
 }
