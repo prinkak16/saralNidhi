@@ -103,6 +103,6 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   }
 
   getMopPayment(id: any): void{
-    this.transactionsSubject.next({id});
+    this.transactionsSubject.next({id , filters: this.filters ? this.filters : '' });
   }
 }
