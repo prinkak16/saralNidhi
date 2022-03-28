@@ -18,8 +18,12 @@ import {PaymentModeModel} from '../models/payment-mode.model';
 import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
+// import {Component} from '@angular/core';
 import * as Constant from '../AppConstants';
 import {DatePipe} from '@angular/common';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-collection-form',
@@ -44,6 +48,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @ViewChild('form', {static: false}) form: any;
+  @ViewChild('menu', {static: false}) menu: MatMenuModule | undefined;
   @Input() query: any = null;
   @Input() stateId: any = null;
   @Input() startDate: any = null;
@@ -54,6 +59,14 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   isEnabled = false;
   transactionTypes = [{name: 'Regular', value: 'regular'}];
 
+//   class MyComponent {
+//   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+//
+//   someMethod() {
+//     this.trigger.openMenu();
+//   }
+// }
+
   toWords = new ToWords({
     localeCode: 'en-IN',
     converterOptions: {
@@ -63,7 +76,9 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
   });
 
-  config = {
+
+
+config = {
     allowNumbersOnly: false,
     isPasswordInput: false,
     disableAutoFocus: false,
@@ -1029,6 +1044,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   // Set the value of name
   setNameValue(values: any): void{
+    // const temp = values.key;
+    // console.log(temp.concat(values.key));
     this.collectionForm.controls.name.setValue(values.data.name);
     this.autoFillData = [];
     this.showNameSearch = false;

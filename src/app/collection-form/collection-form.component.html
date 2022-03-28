@@ -411,11 +411,18 @@
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName = "name" matInput
                  (keypress)="utilsService.validateName($event)">
-          <div *ngIf="autoFillData && showNameSearch" class="search_result_name">
-            <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">
-              <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>
-            </mat-option>
-          </div>
+<!--          <div *ngIf="autoFillData && showNameSearch" class="search_result_name">-->
+<!--            <mat-select>-->
+<!--            <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">-->
+<!--              <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>-->
+<!--            </mat-option>-->
+<!--            </mat-select>-->
+<!--          </div>-->
+
+          <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu" *ngIf="autoFillData && showNameSearch" class="search_result_name">
+            <mat-option class="mt-2 result-option" *ngFor="let option of autoFillData" (click)="setNameValue(option)"
+                        value="{{option.name}}">{{option.data.name}}</mat-option>
+          </mat-menu>
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
             Name is required

@@ -13,6 +13,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
 import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-status-dialog.component';
+import {MatMenu} from '@angular/material/menu';
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
