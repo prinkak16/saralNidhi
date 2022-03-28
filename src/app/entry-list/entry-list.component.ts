@@ -89,7 +89,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   setFilters(filters: any): void {
     this.filters = filters;
     this.getCount();
-    this.transactionsSubject.next(filters);
+    this.transactionsSubject.next(this.filters);
   }
 
   updateList($event: any): void {
