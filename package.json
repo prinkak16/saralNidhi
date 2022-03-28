@@ -23,6 +23,7 @@
   "dependencies": {
     "@ng-select/ng-select": "^3.7.3",
     "cross-env": "^7.0.3",
+    "cypress-file-upload": "^5.0.8",
     "electron-dl": "^3.2.1",
     "electron-log": "^4.3.5",
     "electron-squirrel-startup": "^1.0.0",
@@ -33,6 +34,7 @@
     "ng-otp-input": "^1.7.1",
     "ngx-print": "^1.2.0-beta.5",
     "ngx-shimmer-loading": "0.0.5",
+    "pdf-parse": "^1.1.1",
     "request": "^2.88.2",
     "rxjs": "~6.6.0",
     "shelljs": "^0.8.4",
@@ -60,6 +62,7 @@
     "@types/node": "^12.11.1",
     "bootstrap": "^4.6.0",
     "codelyzer": "^6.0.0",
+    "cypress": "^9.5.2",
     "electron": "^12.0.1",
     "electron-packager": "^15.2.0",
     "electron-winstaller": "^5.0.0",

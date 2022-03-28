@@ -1,0 +1,75 @@
+name: Saral Nidhi Test
+
+on:
+  push:
+    branches: [ cypress-automation ]
+
+jobs:
+
+  cypress-install:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.18.3-chrome87-ff82
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress install
+        uses: cypress-io/github-action@v2
+        with:
+          runTests: false
+      - run: ls -lah
+      - run: npm install
+      - run: npm run build-staging
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          if-no-files-found: error
+          path: dist/angular-electron
+
+  cypress-run:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.18.3-chrome87-ff82
+    needs: cypress-install
+    strategy:
+      fail-fast: false
+      matrix:
+        # run copies of the current job in parallel
+        containers: [1,2,3,4]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - run: npm install
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: dist/angular-electron
+      - run: ls -lah
+      - run: npm install -g http-server
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: http-server dist/angular-electron -p 4200
+          wait-on: http://localhost:4200
+          wait-on-timeout: 120
+          browser: chrome
+          record: true
+          parallel: true
+          spec: cypress/integration/**/*
+          #spec: cypress/integration/user-management/edit-user-management.spec.js
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+
+
