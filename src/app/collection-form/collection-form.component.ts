@@ -115,21 +115,15 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   showGlobalSearch =  false;
   showNameSearch = false;
   selectName = true;
-  filters = {
-    query: '',
-    start_date: '',
-    end_date: '',
-    state_id: ''
-  };
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params) {
         this.transactionId = params.id;
-        this.filters.query = params.query;
-        this.filters.start_date = params.start_date;
-        this.filters.end_date = params.end_date;
-        this.filters.state_id = params.state_id;
+        this.utilsService.filterQueryParams.query = params.query;
+        this.utilsService.filterQueryParams.start_date = params.start_date;
+        this.utilsService.filterQueryParams.end_date = params.end_date;
+        this.utilsService.filterQueryParams.state_id = params.state_id;
       }
       // if (params.id) {
       //   this.transactionId = params.id;
@@ -1169,8 +1163,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value,
-            query: this.filters.query, start_date: this.filters.start_date,
-            end_date: this.filters.end_date, state_id: this.filters.state_id}});
+            query: this.utilsService.filterQueryParams.query, start_date: this.utilsService.filterQueryParams.start_date,
+            end_date: this.utilsService.filterQueryParams.end_date, state_id: this.utilsService.filterQueryParams.state_id}});
     }, (error: any) => {
       this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
       this.disablePaymentMode();

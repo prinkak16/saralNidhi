@@ -57,8 +57,15 @@ export class FilterSearchComponent implements OnInit {
   }
 
   getFilteredData(): void {
+    this.setFilters(this.filterForm.value);
     this.appendFiltersToUrl();
     this.applyFilter.emit(this.filterForm.value);
+  }
+  setFilters(value: any): void{
+    this.utilsService.filterQueryParams.query = value.query;
+    this.utilsService.filterQueryParams.start_date = value.start_date;
+    this.utilsService.filterQueryParams.end_date = value.end_date;
+    this.utilsService.filterQueryParams.state_id = value.state_id;
   }
 
   appendFiltersToUrl(): void {

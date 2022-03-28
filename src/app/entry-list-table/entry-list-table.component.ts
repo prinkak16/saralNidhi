@@ -64,8 +64,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
     subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
-      this.filters = value.filters ? value.filters : this.checkFilter(this.filters) ? this.filters : value;
-      console.log(this.checkFilter(this.filters));
+      this.filters = this.utilService.filterQueryParams;
       if (value.id) {
         this.paymentModeId = value.id;
       }
