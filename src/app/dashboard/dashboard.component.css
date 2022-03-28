@@ -160,6 +160,8 @@
   padding: 1rem 1rem 1rem 3rem;
   margin-top: 2rem;
   width: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-style: normal;
 }
 .search-icon{
   color: rgba(108,117,125,.6);
