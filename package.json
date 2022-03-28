@@ -21,7 +21,7 @@
     
     
     
-    "build:staging": "env-cmd -f .env.staging npm run build:staging"
+    "build-staging": "env-cmd -f .env.staging npm run build-staging"
   },
   "private": true,
   "dependencies": {
