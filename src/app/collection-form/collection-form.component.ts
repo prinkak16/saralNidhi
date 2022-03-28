@@ -140,18 +140,11 @@ config = {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      if (params.id) {
+      if (params) {
         this.transactionId = params.id;
-      }
-      if (params.query) {
-        this.queryParams = params.query;
-      }
-      if (params.state_id) {
-        this.stateParams = params.state_id;
-      }
-      if (params.start_date && params.end_date){
-        this.startDateParams = params.startDate;
-        this.endDateParams = params.endDate;
+        this.query = params.query;
+        this.startDate = params.start_date;
+        this.endDate = params.endDate;
       }
     });
     this.route.data.subscribe(data => {

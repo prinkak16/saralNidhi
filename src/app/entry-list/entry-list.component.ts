@@ -36,15 +36,11 @@ export class EntryListComponent implements OnInit, AfterViewInit {
       this.filters = {query: params.query, start_date: params.start_date, end_date: params.end_date, state_id: params.state_id};
       this.getCount();
       this.setFilters(this.filters);
-      if (params.query) {
+      if (params){
         this.query = params.query;
-      }
-      if (params.state_id){
-        this.stateId = params.state_id;
-      }
-      if (params.start_date && params.end_date) {
         this.startDate = params.start_date;
         this.endDate = params.end_date;
+        this.stateId = params.state_id;
       }
     });
     this.getPaymentModes();

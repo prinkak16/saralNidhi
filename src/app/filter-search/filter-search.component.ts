@@ -53,6 +53,7 @@ export class FilterSearchComponent implements OnInit {
     });
   }
 
+
   getAllottedStates(): void {
     this.restService.getAllottedCountryStates().subscribe((response: any) => {
       this.states = response.data;
