@@ -18,7 +18,7 @@ jobs:
           runTests: false
       - run: ls -lah
       - run: npm install
-      - run: npm run build-staging
+      - run: npm run electron-build-staging
 
       - name: Save build folder
         uses: actions/upload-artifact@v2
