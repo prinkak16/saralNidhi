@@ -23,6 +23,9 @@ export class FilterSearchComponent implements OnInit {
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
   @Input() query: any = null;
+  @Input() startDate: any = null;
+  @Input() endDate: any = null;
+  @Input() stateId: any = null;
 
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
@@ -36,6 +39,11 @@ export class FilterSearchComponent implements OnInit {
       end_date: new FormControl(null),
       state_id: new FormControl(null)
     });
+    this.filterForm.controls.query.setValue(this.query ? this.query : '');
+    this.filterForm.controls.start_date.setValue(this.startDate ? this.startDate : '');
+    this.filterForm.controls.end_date.setValue(this.endDate ? this.endDate : '');
+    this.filterForm.controls.state_id.setValue(this.stateId ? parseInt(this.stateId) : '');
+    this.getFilteredData();
   }
 
   getAllottedStates(): void {
