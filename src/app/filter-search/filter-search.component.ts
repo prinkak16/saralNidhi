@@ -66,8 +66,8 @@ export class FilterSearchComponent implements OnInit {
     this.location.replaceState('dashboard/list?' +
       (searchValue.query ? 'query=' + searchValue.query + '&' : '') +
       (searchValue.state_id ? 'state_id=' + searchValue.state_id + '&' : '') +
-      (searchValue.start_date ? 'start_date=' + searchValue.start_date._d + '&' : '') +
-      (searchValue.end_date ? 'end_date=' + searchValue.end_date._d + '&' : '')
+      (searchValue.start_date ? 'start_date=' + new Date(searchValue.start_date) + '&' : '') +
+      (searchValue.end_date ? 'end_date=' + new Date(searchValue.end_date) + '&' : '')
     );
   }
 
