@@ -51,7 +51,7 @@ jobs:
           path: dist/angular-electron
       - run: ls -lah
       - run: npm install -g http-server
-      - name: Cypress run 
+      - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           install: false

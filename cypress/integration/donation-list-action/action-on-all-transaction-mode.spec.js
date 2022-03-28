@@ -14,9 +14,9 @@ describe("All Transactions", () => {
     cy.visit("/");
     cy.get("input[type=email").type(testData.email);
     cy.get("input[type=password").type(testData.password).type('{enter}');
-    cy.wait(2000);
-    cy.get('#otp').type(testData.OTP, { timeout: 10000 }).type('{enter}');
-    cy.wait(2000);
+
+    cy.get('#otp').type(testData.OTP).type('{enter}');
+    cy.wait(1500);
 
     var transaction_type = testData.transaction_mode;
 
@@ -3752,9 +3752,9 @@ describe("All Transactions", () => {
         flag_4th_pan_letter = "A";
       }
 
-      cy.get('#mat-input-7').type(testData.house_no,{force:true});
-      cy.get('#mat-input-8').type(testData.locality,{force:true});
-      cy.get('#mat-input-9').type(testData.pin_code,{force:true});
+      cy.get('#mat-input-7').type(testData.house_no);
+      cy.get('#mat-input-8').type(testData.locality);
+      cy.get('#mat-input-9').type(testData.pin_code);
       cy.wait(1000);
 
       cy.get('.otp-input').first().type(testData.pan_1);
@@ -3979,28 +3979,29 @@ describe("All Transactions", () => {
           cy.log("name1 outside :" + name1);
 
           if (testData.flag_mobile != 0) {
-            cy.get('[formcontrolname="phone"]').clear({force:true});
+            cy.get('[formcontrolname="phone"]').clear();
             cy.get('[formcontrolname="phone"]').type(testData.donor_mobile_value);
           }
 
           if (testData.flag_email != 0) {
-            cy.get('[formcontrolname="email"]').clear({force:true});
+            cy.get('[formcontrolname="email"]').clear();
+            cy.get('[formcontrolname="email"]').type(testData.donor_email_value);
             cy.get('[formcontrolname="email"]').type(testData.donor_email_value);
           }
 
 
           if (testData.flag_house_no != 0) {
-            cy.get('[formcontrolname="house"]').clear({force:true});
+            cy.get('[formcontrolname="house"]').clear();
             cy.get('[formcontrolname="house"]').type(testData.house_no_value);
           }
 
           if (testData.flag_locality_landmark != 0) {
-            cy.get('[formcontrolname="locality"]').clear({force:true});
+            cy.get('[formcontrolname="locality"]').clear();
             cy.get('[formcontrolname="locality"]').type(testData.locality_landmark_value);
           }
 
           if (testData.flag_pin_code != 0) {
-            cy.get('[formcontrolname="pincode"]').clear({force:true});
+            cy.get('[formcontrolname="pincode"]').clear();
             cy.get('[formcontrolname="pincode"]').type(testData.pin_code_value);
           }
           let flag_4th_pan_letter = "";
