@@ -1,6 +1,5 @@
 
 /// <reference types="cypress" />
-
 describe("Cash Mode Action", () => {
 
     let testData;
@@ -240,7 +239,7 @@ describe("Cash Mode Action", () => {
         // submit
         cy.get('button').contains('Submit').click({ force: true });
 
-        // From here above code is for creation of new cash transaction  
+        // From here above code is for creation of new cash transaction
 
         // click on भारतीय जनता पार्टी text for back to home page
         cy.get('.header-title-span').click({ force: true });
