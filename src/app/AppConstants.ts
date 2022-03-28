@@ -32,6 +32,9 @@ export const STATUS_VERIFIED = 'Verified';
 export const STATUS_REJECTED = 'Rejected';
 export const STATUS_MISMATCH = 'Mismatch';
 export const STATUS_CALL_LATER = 'Call Later';
+export const realized = 'realized';
+export const reversed = 'reserved';
+export const bounced = 'bounced';
 
 export const ASKED_TO_CALL_LATER = 'Asked to call later';
 export const NOT_IN_BJP = 'Not in BJP';

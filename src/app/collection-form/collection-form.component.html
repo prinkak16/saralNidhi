@@ -295,20 +295,21 @@
               <mat-label>IFSC Code</mat-label>
               <mat-form-field appearance="outline">
                 <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11"
-                       (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code"
-                       [required]="isRequiredField('ifsc_code')">
-                <mat-error
-                  *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
-                  Please enter correct ifsc code
-                </mat-error>
-                <div class="position-relative" *ngIf="bankDetails.BANK">
-                  <div class="bank-details" (click)="setBankDetails(bankDetails)">
-                    <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
-                    <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
-                  </div>
-                </div>
-              </mat-form-field>
+                 (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code"
+                 [required]="isRequiredField('ifsc_code')">
+          <mat-error
+            *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
+            Please enter correct ifsc code
+          </mat-error>
+          <div class="position-relative" *ngIf="bankDetails.BANK">
+
+            <div class="bank-details" (click)="setBankDetails(bankDetails)">
+              <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
+              <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
             </div>
+          </div>
+        </mat-form-field>
+        </div>
             <div class="col-md-6">
               <mat-label>Bank Name</mat-label>
               <mat-form-field appearance="outline">
@@ -410,12 +411,13 @@
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName = "name" matInput
-                 (keypress)="utilsService.validateName($event)">
-          <div *ngIf="autoFillData && showNameSearch" class="search_result_name">
-            <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">
-              <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>
-            </mat-option>
-          </div>
+                 (keypress)="utilsService.validateName($event)"
+                 oninput="this.value = this.value.toUpperCase()">
+<!--          <div *ngIf="autoFillData && showNameSearch" class="search_result_name">-->
+<!--            <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">-->
+<!--              <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>-->
+<!--            </mat-option>-->
+<!--          </div>-->
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
             Name is required

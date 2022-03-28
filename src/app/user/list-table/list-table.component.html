@@ -38,7 +38,7 @@
     <ng-container matColumnDef="creator">
       <mat-header-cell *matHeaderCellDef>Creator</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <div class="text-overflow cursor-pointer" matTooltip="{{element.created_by? element.created_by.email : ''}}">{{element.created_by? element.created_by.email : ''}}</div>
+        <div class="text-overflow cursor-pointer" matTooltip="{{element.created_by? element.created_by.name : ''}}">{{element.created_by? element.created_by.name : ''}}</div>
       </mat-cell>
     </ng-container>
     <!-- Action Column -->
