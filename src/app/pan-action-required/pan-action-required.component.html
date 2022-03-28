@@ -38,7 +38,7 @@
           </ng-container>
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.data.name | titlecase}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.data.name | uppercase}}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="category">
             <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>

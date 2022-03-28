@@ -1156,6 +1156,9 @@ config = {
   }
 
   updateTransaction(transactionId: number): void {
+    if (!this.checkCashLimit()) {
+      return this.messageService.closableSnackBar('You can not donate more than ₹ 2000 Cash');
+    }
     this.showLoader = true;
     this.enablePaymentMode();
     this.collectionForm.controls.state.enable();
@@ -1169,7 +1172,7 @@ config = {
       pan_card_remark: this.panCardRemark.value,
       pan_card_status: this.panCardStatus.value
     };
-    this.restService.updateTransaction({
+      this.restService.updateTransaction({
       data: this.collectionForm.value,
       pan_data: panActionData
     }).subscribe((response: any) => {

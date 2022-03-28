@@ -93,7 +93,7 @@ export class PanActionRequiredComponent implements OnInit{
     const dialogRef = this.dialog.open(UpdatePanStatusComponent, {width: '500px', data: {data}});
     dialogRef.afterClosed().subscribe(response => {
       if (response) {
-        this.getPanRequiredList('');
+        this.getPanRequiredList(this.tabStatus === 'All' ? '' : this.tabStatus);
       }
     });
   }

@@ -71,17 +71,12 @@ label{
   border: 1px solid darkgrey;
   height: 45px;
   box-shadow: inset -3px -4px 29px -18px #b2b2b1 !important;
-  font-family: Raleway;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
   font-style: normal;
-  font-weight: 500;
   line-height: 23px;
   letter-spacing: 0.05em;
-
   color: #838992;
-
 }
-
-
 
 .search-div{
   width: 325px;
@@ -373,6 +368,7 @@ mat-form-field{
   right: -250px;
   color: rgba(0,0,0,.6);
 }
+
 .result-option{
   padding: 37px!important;
   line-height: 30px!important;

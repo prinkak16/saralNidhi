@@ -34,7 +34,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-        <mat-cell *matCellDef="let element"><span>{{element.data.name | titlecase}}</span></mat-cell>
+        <mat-cell *matCellDef="let element"><span>{{element.data.name | uppercase}}</span></mat-cell>
       </ng-container>
 
       <!-- Instrument no Column -->
@@ -256,3 +256,9 @@
 <div class="loader-container" *ngIf="showLoader">
   <mat-spinner color="warn"></mat-spinner>
 </div>
+
+<!--<div *ngIf="showLoader" class="shimmer">-->
+<!--  <ngx-shimmer-loading>-->
+<!--    <div class="page-loader-1"></div>-->
+<!--  </ngx-shimmer-loading>-->
+<!--</div>-->
