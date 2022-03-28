@@ -125,19 +125,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.utilsService.filterQueryParams.end_date = params.end_date;
         this.utilsService.filterQueryParams.state_id = params.state_id;
       }
-      // if (params.id) {
-      //   this.transactionId = params.id;
-      // }
-      // if (params.state_id) {
-      //   this.filters.state_id = params.state_id;
-      // }
-      // if (params.query){
-      //   this.filters.query = params.query;
-      // }
-      // if (params.start_date && params.end_date){
-      //   this.filters.start_date = params.startDate;
-      //   this.filters.end_date = params.endDate;
-      // }
     });
     this.route.data.subscribe(data => {
       if (data) {

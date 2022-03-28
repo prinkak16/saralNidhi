@@ -77,23 +77,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     });
   }
 
-
-  checkFilter(filters: any): any {
-    let result = false;
-    let breakMe = true;
-    const keys = Object.entries(filters);
-    keys.find((value: any) => {
-      if (breakMe) {
-        if (value[1].length > 1 || value[1]) {
-          result = true;
-          breakMe = false;
-        } else {
-          result = false;
-        }
-      }
-   });
-    return result;
-  }
   getPaymentList(): void {
     this.showLoader = true;
     const data = {
