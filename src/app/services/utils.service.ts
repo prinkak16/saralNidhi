@@ -20,8 +20,7 @@ export class UtilsService {
   agePattern = '^(18|19|[2-9]\\d|1\\d\\d)$';
   passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
   pinCodePattern = '^[1-9][0-9]{5}$';
-  filterQueryParams = { query: '', start_date: '', end_date: '', state_id: '' };
-
+  filterQueryParams = { query: '', start_date: '', end_date: '', state_id: '', type_id: null };
   isLoggedIn(): any {
     return this.logoutService.isLoggedIn();
   }
