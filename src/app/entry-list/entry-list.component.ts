@@ -34,7 +34,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.selectedModeOfPayment = params.typeId;
+      this.selectedModeOfPayment = this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : params.typeId;
       if (params) {
         this.query = params.query;
         this.endDate = params.end_date;
