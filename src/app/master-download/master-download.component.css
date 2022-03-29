@@ -1,0 +1,19 @@
+.field-container ::ng-deep.mat-checkbox {
+  margin-right:20px ;
+}
+.field-container ::ng-deep.mat-checkbox-inner-container {
+  margin-right:3px ;
+}
+
+.field-container {
+  padding: 10px;
+  line-height: 2.5;
+}
+
+::ng-deep .mat-dialog-actions {
+  min-height: 70px !important;
+}
+
+.font-20 {
+  font-size: 20px;
+}
