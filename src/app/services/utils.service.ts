@@ -21,7 +21,6 @@ export class UtilsService {
   passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
   pinCodePattern = '^[1-9][0-9]{5}$';
   filterQueryParams = { query: '', start_date: '', end_date: '', state_id: '', type_id: null };
-  mopId: any;
   isLoggedIn(): any {
     return this.logoutService.isLoggedIn();
   }
