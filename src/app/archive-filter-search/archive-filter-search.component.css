@@ -233,3 +233,7 @@ mat-label{
 ::ng-deep .ng-select.ng-select-disabled .ng-select-container:after {
   background-size: 0 !important;
 }
+.search-1{
+  margin-top: 6px;
+}
+

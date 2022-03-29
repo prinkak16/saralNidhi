@@ -1,8 +1,12 @@
 <form [formGroup]="filterForm">
   <div class="row col-md-12 align-items-center">
-  <mat-form-field class="col-3" appearance="outline">
-    <input matInput placeholder="Search by Email Id/Phone No." formControlName="query">
-  </mat-form-field>
+    <div class="col-3 search-tab">
+      <mat-label class="mat-label-text">Search by Email Id/Phone No.</mat-label>
+        <mat-form-field class="search-box-1" appearance="outline">
+          <input matInput formControlName="query">
+        </mat-form-field>
+    </div>
+
 
     <div class="col-3 role-tab">
       <mat-label class="mat-label-text">Filter by Role</mat-label>
