@@ -7,6 +7,9 @@ import {MessageService} from '../services/message.service';
 import {UtilsService} from '../services/utils.service';
 import {MasterDownloadComponent} from '../master-download/master-download.component';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {Location} from '@angular/common';
+import {AppendUrlService} from '../services/append-url.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter-search',
@@ -19,7 +22,10 @@ export class FilterSearchComponent implements OnInit {
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
               private messageService: MessageService,
-              private formBuilder: FormBuilder, private dialog: MatDialog) {
+              private formBuilder: FormBuilder, private dialog: MatDialog,
+              private location: Location,
+              private appendUrlService: AppendUrlService,
+              private formBuilder: FormBuilder) {
   }
 
   @Output() applyFilter = new EventEmitter<any>();
@@ -61,6 +67,7 @@ export class FilterSearchComponent implements OnInit {
   }
 
   downloadList(): void {
+
     const data = {
       state_id: this.filterForm.controls.state_id.value,
       filters: this.filterForm.value ? this.filterForm.value : {}
@@ -80,12 +87,4 @@ export class FilterSearchComponent implements OnInit {
     });
   }
 
-  openDownloadDialog(): void {
-    const dialogRef = this.dialog.open(MasterDownloadComponent, {
-      minWidth: '70%',
-      data: this.filterForm.value ? this.filterForm.value : {}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  }
 }

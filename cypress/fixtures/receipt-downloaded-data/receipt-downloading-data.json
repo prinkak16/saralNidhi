@@ -1,0 +1,12 @@
+{
+  "email": "kumar.vikastreasurer@jarvis.consulting",
+  "password": "Test@123",
+  "OTP": "227244",
+
+  "__Note1__": "Select flag_specific_transaction from[1,0], and transaction_type [ Cheque, RTGS ,NEFT ,Demand Draft ,IMPS ,UPI ,Cash]",
+  "flag_specific_transaction": 1,
+  "transaction_type": "Demand Draft",
+
+  "click_no_of_times_next_page": 0,
+  "select_row": 2
+}
