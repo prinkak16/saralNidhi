@@ -1,0 +1,51 @@
+{
+  "email": "kumar.vikastreasurer@jarvis.consulting",
+  "password": "Test@123",
+  "OTP": "227244",
+  "transaction_date": "05/11/2021",
+  "UTR_No": "vvvvvvvv1234567",
+  "account_no": "083010110001377",
+  "ifcs_code": "BKID0000830",
+  "donor_name": "vikas kumar",
+  "mobile_no": "8825137191",
+  "donor_email": "kumar.vikas@jarvis.consulting",
+  "house_no": "501",
+  "locality": "Ajmera",
+  "pin_code": "411018",
+
+  "@comment_for_category": "use value in small letters",
+  "category": "individual",
+  "other_category": "other NEFT",
+
+  "proprietorship": "true",
+  "proprietorship_name": "vky lte",
+  "wrong_pan_remark": " something Changed",
+  "pan1": "F",
+  "pan2": "O",
+  "pan3": "o",
+  "pan4": "P",
+  "pan5": "V",
+  "pan6": "5",
+  "pan7": "6",
+  "pan8": "3",
+  "pan9": "4",
+  "pan10": "k",
+  "amount":"2000.335",
+  "narration": "infrastructure project",
+  "collector_name": "vikas kumar",
+  "collector_mobile": "8237403188",
+
+  "__Note1__": "select nature_of_donation from [Voluntary Contribution,Aajivan Sahyog Nidhi.,Other]",
+
+  "nature_of_donation": "Other",
+  "other_donation": "other reason",
+
+  "__Note2__": "select party_unit from [Mandal,Zila,CountryState]",
+
+  "Party_unit": "Mandal",
+
+  "___Note3___": "State ,Zila and mandal names are case sensitive",
+  "state_name": "Andhra Pradesh",
+  "zila_name": "Guntur",
+  "mandal_name":"Amaravathi"
+}
