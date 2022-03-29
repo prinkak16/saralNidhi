@@ -2,7 +2,9 @@ name: Saral Nidhi Test
 
 on:
   push:
-    branches: [ cypress-automation ]
+    branches: [ staging ]
+  pull_request:
+    branches: [ staging ]
 
 jobs:
 
