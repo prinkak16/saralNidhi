@@ -17,7 +17,6 @@ export class FilterSearchComponent implements OnInit {
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
               private messageService: MessageService,
-              private location: Location,
               private formBuilder: FormBuilder) {
   }
 

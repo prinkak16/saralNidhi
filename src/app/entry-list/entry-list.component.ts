@@ -19,7 +19,6 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   query = '';
   startDate = '';
   endDate = '';
-  stateId = '';
   selectedIndex = 0;
   counting = [];
   filters: any;

@@ -75,6 +75,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       this.getPaymentList();
     });
   }
+
   getPaymentList(): void {
     this.showLoader = true;
     const data = {
