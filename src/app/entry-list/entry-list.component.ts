@@ -19,6 +19,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   query = '';
   startDate = '';
   endDate = '';
+  stateId = '';
   selectedIndex = 0;
   counting = [];
   filters: any;
@@ -31,8 +32,11 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.selectedModeOfPayment = params.typeId;
-      if (params.query) {
+      if (params) {
         this.query = params.query;
+        this.endDate = params.end_date;
+        this.startDate = params.start_date;
+        this.stateId = params.state_id;
       }
     });
     this.getPaymentModes();
