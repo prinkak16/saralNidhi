@@ -6,6 +6,8 @@ import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {UtilsService} from '../services/utils.service';
 import {Location} from '@angular/common';
+import {AppendUrlService} from '../services/append-url.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter-search',
@@ -19,6 +21,7 @@ export class FilterSearchComponent implements OnInit {
               public utilsService: UtilsService,
               private messageService: MessageService,
               private location: Location,
+              private appendUrlService: AppendUrlService,
               private formBuilder: FormBuilder) {
   }
 
@@ -28,6 +31,7 @@ export class FilterSearchComponent implements OnInit {
   @Input() startDate: any = null;
   @Input() endDate: any = null;
   @Input() stateId: any = null;
+  @Input() typeId: any = null;
 
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
@@ -58,10 +62,11 @@ export class FilterSearchComponent implements OnInit {
 
   getFilteredData(): void {
     this.setFilters(this.filterForm.value);
-    this.appendFiltersToUrl();
+    this.appendUrlService.appendFiltersToUrl(this.filterForm.value);
     this.applyFilter.emit(this.filterForm.value);
   }
   setFilters(value: any): void{
+    this.utilsService.filterQueryParams.type_id = this.utilsService.filterQueryParams.type_id;
     this.utilsService.filterQueryParams.query = value.query;
     this.utilsService.filterQueryParams.start_date = value.start_date;
     this.utilsService.filterQueryParams.end_date = value.end_date;
@@ -71,6 +76,7 @@ export class FilterSearchComponent implements OnInit {
   appendFiltersToUrl(): void {
     const searchValue = this.filterForm.value;
     this.location.replaceState('dashboard/list?' +
+      (this.utilsService.mopId ? 'typeId=' + this.utilsService.mopId + '&' : '') +
       (searchValue.query ? 'query=' + searchValue.query + '&' : '') +
       (searchValue.state_id ? 'state_id=' + searchValue.state_id + '&' : '') +
       (searchValue.start_date ? 'start_date=' + new Date(searchValue.start_date) + '&' : '') +
