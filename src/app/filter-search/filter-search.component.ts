@@ -76,7 +76,7 @@ export class FilterSearchComponent implements OnInit {
   appendFiltersToUrl(): void {
     const searchValue = this.filterForm.value;
     this.location.replaceState('dashboard/list?' +
-      (this.utilsService.mopId ? 'typeId=' + this.utilsService.mopId + '&' : '') +
+      (this.utilsService.filterQueryParams.type_id ? 'typeId=' + this.utilsService.filterQueryParams.type_id + '&' : '') +
       (searchValue.query ? 'query=' + searchValue.query + '&' : '') +
       (searchValue.state_id ? 'state_id=' + searchValue.state_id + '&' : '') +
       (searchValue.start_date ? 'start_date=' + new Date(searchValue.start_date) + '&' : '') +
