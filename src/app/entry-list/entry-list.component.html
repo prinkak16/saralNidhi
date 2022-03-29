@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <app-filter-search [query]="query" [startDate]="startDate" [endDate]="endDate" [stateId]="stateId" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-filter-search>
+  <app-filter-search [query]="query" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-filter-search>
   <ng-container *ngIf="(modeOfPayments) === null">
     Loading tabs...
   </ng-container>
