@@ -22,15 +22,18 @@ export class FilterSearchComponent implements OnInit {
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
               private messageService: MessageService,
-              private dialog: MatDialog,
+              private formBuilder: FormBuilder, private dialog: MatDialog,
               private location: Location,
-              private appendUrlService: AppendUrlService,
-              private formBuilder: FormBuilder) {
+              private appendUrlService: AppendUrlService) {
   }
 
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
   @Input() query: any = null;
+  @Input() startDate: any = null;
+  @Input() endDate: any = null;
+  @Input() stateId: any = null;
+  @Input() typeId: any = null;
 
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
