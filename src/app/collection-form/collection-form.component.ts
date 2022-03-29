@@ -1148,6 +1148,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
+      this.utilsService.filterQueryParams.type_id = this.collectionForm.get('mode_of_payment')?.value;
       this.router.navigate(['dashboard/list'],
         {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value,
             query: this.utilsService.filterQueryParams.query, start_date: this.utilsService.filterQueryParams.start_date,

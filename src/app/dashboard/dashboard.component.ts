@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   query = new FormControl(null);
   downloadCount = 1;
   ngOnInit(): void {
+    this.utilsService.filterQueryParams.type_id = null;
     this.getTotal();
   }
 
