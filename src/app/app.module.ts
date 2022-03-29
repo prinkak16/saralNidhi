@@ -69,6 +69,7 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { MasterDownloadComponent } from './master-download/master-download.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     ArchivedTransactionListComponent,
     ArchiveFilterSearchComponent,
     ReceiptStatusDialogComponent,
-    FilterUserComponent
+    FilterUserComponent,
+    MasterDownloadComponent
   ],
   imports: [
     BrowserModule,

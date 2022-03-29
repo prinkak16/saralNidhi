@@ -74,6 +74,7 @@ export class ArchiveFilterSearchComponent implements OnInit {
     }, (error: any) => {
       this.showLoader.emit(false);
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+      this.messageService.closableSnackBar('No transaction found');
     });
   }
 }

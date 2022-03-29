@@ -118,8 +118,12 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      if (params.id) {
+      if (params) {
         this.transactionId = params.id;
+        this.utilsService.filterQueryParams.query = params.query;
+        this.utilsService.filterQueryParams.start_date = params.start_date;
+        this.utilsService.filterQueryParams.end_date = params.end_date;
+        this.utilsService.filterQueryParams.state_id = params.state_id;
       }
     });
     this.route.data.subscribe(data => {
@@ -1138,14 +1142,16 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       pan_card_remark: this.panCardRemark.value,
       pan_card_status: this.panCardStatus.value
     };
-      this.restService.updateTransaction({
+    this.restService.updateTransaction({
       data: this.collectionForm.value,
       pan_data: panActionData
     }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
       this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value}});
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value,
+            query: this.utilsService.filterQueryParams.query, start_date: this.utilsService.filterQueryParams.start_date,
+            end_date: this.utilsService.filterQueryParams.end_date, state_id: this.utilsService.filterQueryParams.state_id}});
     }, (error: any) => {
       this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
       this.disablePaymentMode();
