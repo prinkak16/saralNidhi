@@ -123,6 +123,21 @@ export class RestService {
     return this.http.get(this.pinCodeUrl + pinCode);
   }
 
+
+  downloadRecord(data: { filters: any; fields: any}): any {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    return this.http.post(url, data, authHttpOptions as any);
+  }
+
   getCounts(data: {filters?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
