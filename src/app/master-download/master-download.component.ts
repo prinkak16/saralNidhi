@@ -68,6 +68,7 @@ export class MasterDownloadComponent implements OnInit {
     });
    const data = {
       filters: this.data,
+      type_id: this.utilsService.filterQueryParams.type_id,
       fields: selectedFields
     };
    if (selectedFields.length >= 1) {
