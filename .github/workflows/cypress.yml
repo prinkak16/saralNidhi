@@ -61,7 +61,7 @@ jobs:
           wait-on: http://localhost:4200
           wait-on-timeout: 120
           browser: chrome
-          record: true
+          record: false
           parallel: true
           spec: cypress/integration/**/*
           #spec: cypress/integration/user-management/edit-user-management.spec.js
