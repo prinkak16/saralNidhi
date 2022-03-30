@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:4200/",
   "pageLoadTimeout": 60000,
 
-  "projectId": "unagh2",
+  "projectId": "tr5ar6",
 
   "retries": 2,
 
@@ -16,3 +16,4 @@
     "payment-mode-tests/*.spec.js"
   ]
 }
+
