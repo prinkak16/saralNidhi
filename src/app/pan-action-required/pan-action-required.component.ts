@@ -127,7 +127,8 @@ export class PanActionRequiredComponent implements OnInit{
 
   // Download action pan required data
   downloadList(): void {
-    this.restService.downloadActionPanData().subscribe((response: any) => {
+    const data = {filters: {query: this.query.value}, pan_status: this.tabStatus};
+    this.restService.downloadActionPanData(data).subscribe((response: any) => {
       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const blob = new Blob([response], {type: mediaType});
       const name = `ActionRequiredForPancard`;
