@@ -122,3 +122,6 @@ mat-header-cell, mat-cell {
   font-family: Roboto, "Helvetica Neue", sans-serif !important;
   font-style: normal;
 }
+.search-box-1{
+  width: 100%;
+}
