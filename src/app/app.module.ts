@@ -69,6 +69,7 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -135,7 +136,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     MatPaginatorModule,
     YopsilonMaskModule,
     NgSelectModule,
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    MatAutocompleteModule
   ],
   providers: [
     AuthGuard,
