@@ -11,6 +11,7 @@ import {ListComponent} from './user/list/list.component';
 import {PanActionRequiredComponent} from './pan-action-required/pan-action-required.component';
 import {ArchivedTransactionComponent} from './archived-transaction/archived-transaction.component';
 import {ArchivedTransactionListComponent} from './archived-transaction-list/archived-transaction-list.component';
+import {MasterDownloadComponent} from "./master-download/master-download.component";
 
 const routes: Routes = [
   {
@@ -109,6 +110,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Archived Transactions',
+        },
+      },
+      {
+        path: 'master-download',
+        component: MasterDownloadComponent,
+        canActivate: [AuthGuard],
+        data: {
+          breadcrumb: 'Master Download',
         },
       },
 

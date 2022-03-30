@@ -5,6 +5,7 @@ import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
 import {Subject} from 'rxjs';
+import {AppendUrlService} from '../services/append-url.service';
 
 @Component({
   selector: 'app-entry-list',
@@ -19,20 +20,27 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   query = '';
   startDate = '';
   endDate = '';
+  stateId = '';
+  typeId = null;
   selectedIndex = 0;
   counting = [];
   filters: any;
   showLoader = false;
   mopIds = [];
   constructor(private restService: RestService, private messageService: MessageService,
+              private appAppendUrl: AppendUrlService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.selectedModeOfPayment = params.typeId;
-      if (params.query) {
+      this.selectedModeOfPayment = this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : params.typeId;
+      if (params) {
         this.query = params.query;
+        this.endDate = params.end_date;
+        this.startDate = params.start_date;
+        this.stateId = params.state_id;
+        this.typeId = params.type_id;
       }
     });
     this.getPaymentModes();
@@ -103,6 +111,12 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   }
 
   getMopPayment(id: any): void{
+    if (Array.isArray(id)) {
+      this.utilService.filterQueryParams.type_id = '';
+    } else {
+      this.utilService.filterQueryParams.type_id = id.toString();
+    }
+    this.appAppendUrl.appendFiltersToUrl(this.utilService.filterQueryParams);
     this.transactionsSubject.next({id , filters: this.filters ? this.filters : '' });
   }
 }
