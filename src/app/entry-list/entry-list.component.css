@@ -67,5 +67,10 @@
 .tab-style ::ng-deep.mat-tab-label .mat-tab-label-content {
   width: 100% !important;
   display: block!important;
+  height: 100% !important;
+  line-height: 2;
+}
+.tab-style ::ng-deep.mat-tab-label .mat-tab-label-content .ng-star-inserted  {
+  height: 100% !important;
 }
 

@@ -261,7 +261,7 @@ export class RestService {
   }
 
 // Pan card Action required data download
-  downloadActionPanData(): any {
+  downloadActionPanData(data: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -272,7 +272,7 @@ export class RestService {
       responseType: 'blob'
     };
     const url = this.baseUrl + 'nidhi_collection/download_action_pan_data';
-    return this.http.get(url, authHttpOptions as any);
+    return this.http.post(url, data, authHttpOptions as any);
   }
 
 // Get pan required records
