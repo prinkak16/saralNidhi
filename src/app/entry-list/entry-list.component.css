@@ -63,3 +63,9 @@
 .tab-style::ng-deep.mat-tab-label-container {
   z-index: 0!important;
 }
+
+.tab-style ::ng-deep.mat-tab-label .mat-tab-label-content {
+  width: 100% !important;
+  display: block!important;
+}
+
