@@ -1,0 +1,16 @@
+{
+  "email": "kumar.vikastreasurer@jarvis.consulting",
+  "password": "Test@123",
+  "OTP": "227244",
+
+  "click_no_of_times_next_page": 0,
+  "select_row": 1,
+
+  "flag_approve_reject":1,
+  "--Note1--":"choose action_type from [Approve,Reject]",
+  "action_type":"Approve",
+  "remark":"test",
+
+  "--Note2--":"Select anyone for final_operation from [Submit ,Close ]",
+  "final_operation": "Close"
+}

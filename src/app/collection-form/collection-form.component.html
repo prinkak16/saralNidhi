@@ -7,13 +7,12 @@
   <form #form="ngForm" [formGroup]="collectionForm" class="row mt-4">
     <div class="parent position-relative" *ngIf="allowedValueNull">
       <div class="search-div">
-        <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword"
-        >
+        <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword" (keypress)="showGlobalSearch=true">
         <mat-icon class="search-icon cursor-pointer" (click)="getDonorList(keyword.value)">search</mat-icon>
         <mat-icon *ngIf="keyword.value" (click)="clearSearchData()" class="cursor-pointer search-icon mr-4">cancel
         </mat-icon>
       </div>
-      <div *ngIf="autoFillData" class="search-result">
+      <div *ngIf="autoFillData && showGlobalSearch" class="search-result">
         <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setFormValues(option)">
           <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span> <span
           class="ml-4 ext-secondary"><b>PAN Card:</b></span>
@@ -180,10 +179,10 @@
             </ng-container>
             <ng-container *ngIf="transactionId">
               <mat-form-field appearance="outline">
-              <input matInput
-                     [matDatepicker]="picker4"
-                     formControlName="date_of_draft"
-              />
+                <input matInput
+                       [matDatepicker]="picker4"
+                       formControlName="date_of_draft"
+                />
               </mat-form-field>
               <mat-datepicker #picker4></mat-datepicker>
             </ng-container>
@@ -296,20 +295,21 @@
               <mat-label>IFSC Code</mat-label>
               <mat-form-field appearance="outline">
                 <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11"
-                       (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code"
-                       [required]="isRequiredField('ifsc_code')">
-                <mat-error
-                  *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
-                  Please enter correct ifsc code
-                </mat-error>
-                <div class="position-relative" *ngIf="bankDetails.BANK">
-                  <div class="bank-details" (click)="setBankDetails(bankDetails)">
-                    <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
-                    <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
-                  </div>
-                </div>
-              </mat-form-field>
+                 (keyup)="getBankDetails(collectionForm.controls.ifsc_code.value)" formControlName="ifsc_code"
+                 [required]="isRequiredField('ifsc_code')">
+          <mat-error
+            *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
+            Please enter correct ifsc code
+          </mat-error>
+          <div class="position-relative" *ngIf="bankDetails.BANK">
+
+            <div class="bank-details" (click)="setBankDetails(bankDetails)">
+              <p><b>Bank Name:</b> {{bankDetails.BANK}}</p><br>
+              <p><b>Branch Addres:</b> {{bankDetails.ADDRESS}}</p>
             </div>
+          </div>
+        </mat-form-field>
+        </div>
             <div class="col-md-6">
               <mat-label>Bank Name</mat-label>
               <mat-form-field appearance="outline">
@@ -410,11 +410,21 @@
       <div>
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
-          <input [required]="isRequiredField('name')" formControlName="name" matInput
-          >
+          <input [required]="isRequiredField('name')" formControlName = "name" matInput
+                 (keypress)="utilsService.validateName($event)"
+                 oninput="this.value = this.value.toUpperCase()">
+<!--          <div *ngIf="autoFillData && showNameSearch" class="search_result_name">-->
+<!--            <mat-option *ngFor="let option of autoFillData" class="mt-2 result-option" (click)="setNameValue(option)">-->
+<!--              <b>Name:</b> <span class=" ml-1 ext-secondary">{{option.data.name}}</span>-->
+<!--            </mat-option>-->
+<!--          </div>-->
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
             Name is required
+          </mat-error>
+          <mat-error
+            *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('pattern'))">
+            Please enter a valid name
           </mat-error>
         </mat-form-field>
       </div>
@@ -482,9 +492,7 @@
         <div class="col-md-4">
           <mat-label>Pincode <sup *ngIf="isRequiredField('pincode')">*</sup></mat-label>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="pincode" maxlength="6"
-                   (keyup)="utilsService.validateNumber($event)"
-            >
+            <input matInput formControlName="pincode" maxlength="6"  (keypress)="utilsService.validateNumber($event)">
             <mat-error *ngIf="(collectionForm.controls.pincode.hasError('required'))">
               Please enter a pincode
             </mat-error>
@@ -656,12 +664,7 @@
         </div>
       </div>
 
-      <!--    <mat-form-field appearance="outline" class="col-md-8" >-->
-      <!--      <p><i>{{this.amountWord.value}}</i></p>-->
-      <!--&lt;!&ndash;      <mat-label>Amount in words</mat-label>&ndash;&gt;-->
-      <!--      <input matInput placeholder="Amount in word" [formControl]="amountWord" >-->
 
-      <!--    </mat-form-field>-->
       <div class="col-md-12 mt-1">
         <mat-label>Narration</mat-label>
         <mat-form-field appearance="outline" class="mt-1">
@@ -682,11 +685,15 @@
             <mat-label>Collector's Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_name"
+            <input matInput formControlName="collector_name"  (keypress)="utilsService.validateName($event)"
                    [required]="isRequiredField('collector_name')">
             <mat-error
               *ngIf="((collectionForm.controls.collector_name.touched)&& collectionForm.controls.collector_name.hasError('required'))">
               Collector Name is required
+            </mat-error>
+            <mat-error
+              *ngIf="((collectionForm.controls['collector_name'].touched)&& collectionForm.controls['collector_name'].hasError('pattern'))">
+              Please enter a valid name
             </mat-error>
           </mat-form-field>
         </div>
@@ -695,8 +702,9 @@
             <mat-label>Collector's Mobile No.</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_phone" maxlength="10" minlength="10"
-                   [required]="isRequiredField('collector_phone')">
+            <input matInput formControlName="collector_phone" (keypress)="utilsService.validateNumber($event)"
+                   maxlength="10" minlength="10"
+            >
             <mat-error
               *ngIf="((collectionForm.controls.collector_phone.touched)&& collectionForm.controls.collector_phone.hasError('required'))">
               Collector phone number is required
@@ -884,12 +892,11 @@
         <span *ngIf="showLoader" class="text-white"> Submitting</span>
         <span *ngIf="!showLoader" class="text-white">Submit</span>
       </button>
-
     </div>
 
     <div class="col-md-12 mb-3 text-center" *ngIf="transactionId">
       <button mat-flat-button [disabled]="!collectionForm.valid" color="primary" class="submit-button"
-              (click)="updateTransaction(transactionDetails.data.id)"> <span class="text-white">Update</span>
+              (click)="updateTransaction(transactionDetails.data.id)"><span class="text-white">Update</span>
       </button>
     </div>
   </form>

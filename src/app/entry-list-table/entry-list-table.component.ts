@@ -32,6 +32,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
   @Output() refreshCount: EventEmitter<any> = new EventEmitter();
+  @Output() typeId: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
   @ViewChild('paginator', {static: false}) paginator: MatPaginator | undefined;
@@ -63,7 +64,10 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
     subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
-      this.filters = value;
+      this.filters = this.utilService.filterQueryParams;
+      if (value.id) {
+        this.paymentModeId = value.id;
+      }
       this.pageEvent = new PageEvent();
       if (this.paginator) {
         this.paginator.pageIndex = 0;
@@ -77,7 +81,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.showLoader = true;
     const data = {
       filters: this.filters ? this.filters : {},
-      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId[0] : this.paymentModeId,
+      type_id: this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : Array.isArray(this.paymentModeId) ? this.paymentModeId : this.paymentModeId,
       limit: this.limit, offset: this.offset
     };
     this.restService.getPaymentRecords(data).subscribe((response: any) => {
@@ -109,7 +113,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   openEmailSendModal(transaction: any): void {
     this.matDialog.open(SendEmailDialogComponent, {data: {transaction}, width: '400px'});
-
   }
 
   openChequeDialog(type: any, row: any): void {
@@ -122,8 +125,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(UpdatePaymentComponent, {data: paymentData,  width: '350px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.updateList.emit(true);
-      }
+        this.getPaymentList();      }
     });
   }
 
@@ -167,6 +169,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      this.remainingDaysCount();
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit within 30 Days')) {
@@ -175,6 +178,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       const differenceInTime = dateOfCreation.getTime() - today.getTime();
       this.differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
       this.updateAllowedDays = this.differenceInDays;
+      this.remainingDaysCount();
       result = today.getTime() <= dateOfCreation.getTime();
     }
     if (this.utilService.checkPermission('IndianDonationForm', 'Edit Lifetime')) {
@@ -183,7 +187,12 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
     return result;
   }
-
+// set number of days to 0 if the remaining days are less than 0.
+  remainingDaysCount(): void{
+    if (this.differenceInDays < 0){
+      this.updateAllowedDays = '0';
+    }
+  }
 // if cheque & dd add 30 days from realize date otherwise add 30 days from transaction date.
   isReversable(data: any): boolean {
     const realizedDate = new Date(data.payment_realize_date);

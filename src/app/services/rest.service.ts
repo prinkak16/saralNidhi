@@ -123,6 +123,21 @@ export class RestService {
     return this.http.get(this.pinCodeUrl + pinCode);
   }
 
+
+  downloadRecord(data: { filters: any; fields: any}): any {
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_nidhi_collection_data';
+    return this.http.post(url, data, authHttpOptions as any);
+  }
+
   getCounts(data: {filters?: any }): any {
     return this.http.post(this.apiUrl + 'nidhi_collection/mode_wise_count', data, this.authHttpOptions());
   }
@@ -225,13 +240,28 @@ export class RestService {
     return this.http.post(url, data, authHttpOptions as any);
   }
 
+  // Download Users data
+  downloadUsersList(data: object): any{
+    const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
+    const authHttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+        Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }),
+      responseType: 'blob'
+    };
+    const url = this.baseUrl + 'nidhi_collection/download_user_management_data';
+    return this.http.post(url, data, authHttpOptions as any);
+  }
+
   // Update pan card status
   updatePanData(data: any): any {
     return this.http.post(this.baseUrl + 'nidhi_collection/update_pan_status', data, this.authHttpOptions());
   }
 
 // Pan card Action required data download
-  downloadActionPanData(): any {
+  downloadActionPanData(data: any): any {
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -242,7 +272,7 @@ export class RestService {
       responseType: 'blob'
     };
     const url = this.baseUrl + 'nidhi_collection/download_action_pan_data';
-    return this.http.get(url, authHttpOptions as any);
+    return this.http.post(url, data, authHttpOptions as any);
   }
 
 // Get pan required records
@@ -256,3 +286,4 @@ export class RestService {
     return this.http.get(this.baseUrl + 'nidhi_collection/get_receipt_generation_time?transaction_id=' + transactionId, this.authHttpOptions());
   }
 }
+

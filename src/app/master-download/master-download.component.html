@@ -1,0 +1,23 @@
+<mat-dialog-content class="overflow-hidden">
+  <div>
+    <b class="font-20">Donation Lists Download</b>
+  </div>
+  <div class="border mt-2">
+    <div class="field-container">
+      <mat-checkbox (change)="toggleAllField($event, downloadField)">Select All Field</mat-checkbox>
+      <div>
+        <mat-checkbox *ngFor="let item of downloadField" [checked]="item.checked"  (change)="toggleDownloadField($event, item)"
+        >{{item.name}}</mat-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-actions class="action-button-container">
+    <button mat-button class="btn orange-btn" (click)="download()" mat-dialog-close>
+      Submit
+    </button>
+    <button mat-button mat-dialog-close>
+      Cancel
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

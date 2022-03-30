@@ -28,6 +28,7 @@ export class ListComponent implements OnInit {
   offset = 0;
   limit = 10;
   filters: any;
+  tabStatus: any;
 
   constructor(private formBuilder: FormBuilder, private restService: RestService,
               public utilService: UtilsService, private snackBar: MatSnackBar) {
@@ -42,6 +43,7 @@ export class ListComponent implements OnInit {
   }
 
   tabChange(event: any): any {
+    this.tabStatus = event.tab.textLabel;
     if (event.tab.textLabel) {
       this.searchForm.controls.archived.setValue(event.tab.textLabel);
       this.getUsers();
@@ -87,5 +89,9 @@ export class ListComponent implements OnInit {
       this.snackBar.open(error ? error.message : 'Error while fetching data', 'Okay');
       this.showLoader = false;
     });
+  }
+
+  toggleLoader(showLoader: boolean): any {
+    this.showLoader = showLoader;
   }
 }

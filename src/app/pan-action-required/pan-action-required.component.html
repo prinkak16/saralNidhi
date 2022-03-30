@@ -1,100 +1,119 @@
-<button mat-fab color="primary" class="downloadButtonCSV"
-        *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"
-        (click)="downloadList()">
-  <div class="floating-btn">
-    <mat-icon>save_alt</mat-icon>
-    <span>XLSX</span>
-  </div>
-</button>
+
 <form>
+  <div class="row col-md-12 align-items-center">
+    <img src="assets/icons/list.svg" alt="" class="img-size">
+    <h2 class="header-text-1 mt-0 mb-0">Action Required for PanCard</h2>
+  </div>
   <div class="search-row mt-2 align-items-center">
     <div class="col-md-6">
-      <div class="search-input mb-2">
-        <input type="text" [formControl]="query">
-        <span class="clear-icon cursor-pointer" *ngIf="query.value"  (click)="query.setValue(null)">&#x2715;</span>
-        <button class="ml-3 search-btn" (click)="getFilterRecords()">Search</button>
-        <button class="ml-3 reset-btn" (click)="resetPanData()">Reset</button>
-      </div>
+      <mat-label class="mat-label-text-1">By Name/Phone/PAN/Instrument No</mat-label>
+        <div class="search-input mb-2 search-font">
+            <input type="text" [formControl]="query" >
+            <mat-icon class="cancel-btn-pan" *ngIf="query.value"  (click)="query.setValue(null)">cancel</mat-icon>
+<!--            <img src="assets/icons/searchbar.svg" alt="" class="icon-sizes-pan" (click)="getFilterRecords()">-->
+          <button class="ml-3 search-btn" (click)="getFilterRecords()">Search</button>
+          <button class="ml-3 reset-btn" (click)="resetPanData()">Reset</button>
+          <button *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')" class="ml-3 download-btn" (click)="downloadList()">Download</button>
+        </div>
     </div>
   </div>
 </form>
-<mat-tab-group (selectedTabChange)="tabChange($event)" (selectedIndexChange)="selected.setValue($event)" [selectedIndex]="selected.value">
+
+<mat-tab-group (selectedTabChange)="tabChange($event)" (selectedIndexChange)="selected.setValue($event)" [selectedIndex]="selected.value" class="tab-style">
+
   <mat-tab *ngFor="let tab of asyncTabs | async">
-    <ng-template mat-tab-label>{{tab.label}}</ng-template>
+    <ng-template mat-tab-label class="mat-tab-view btn-head">
+      <div>
+        <div class="tab-text1">{{tab.label}}</div>
+        <div class="tab-text1">{{getTabCount(tab)}}</div>
+      </div>
+    </ng-template>
+
     <ng-container *ngIf="length > 0 ; else emptyList">
-      <mat-table [dataSource]="paymentDetails"  class="entry-list-tables">
-        <ng-container matColumnDef="sno">
-          <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
-          <mat-cell *matCellDef="let element; let i = index;">{{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0) * this.pageSize) + i + 1}} </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.data.name | titlecase}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="category">
-          <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.data.category | titlecase}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="pan_card">
-          <mat-header-cell *matHeaderCellDef>Pan card</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.data.pan_card}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="system_remark">
-          <mat-header-cell *matHeaderCellDef>System Remark</mat-header-cell>
-          <mat-cell *matCellDef="let element" class="cursor-pointer" matTooltip="{{element.pan_data.pan_system_error}}">
-            <span class="error-text-truncate">{{element.pan_data.pan_system_error}}</span></mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="accountant_remark">
-          <mat-header-cell *matHeaderCellDef>Accountant Remark</mat-header-cell>
-          <mat-cell *matCellDef="let element" class="cursor-pointer"
-                    matTooltip="{{element.pan_data.accountant_pan_remarks}}"><span
-            class="error-text-truncate">{{element.pan_data.accountant_pan_remarks}}</span></mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="created_by">
-          <mat-header-cell *matHeaderCellDef>Created By</mat-header-cell>
-          <mat-cell *matCellDef="let element" class="cursor-pointer"
-                    matTooltip="{{element.created_by ? element.created_by.email : '-'}}"><span class="text-overflow"
-            >{{element.created_by ? element.created_by.email : '-'}}</span></mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="photo">
-          <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
-          <mat-cell *matCellDef="let element" class="cursor-pointer">
-            <ng-container *ngIf="element.data.pan_card_photo" >
-              <a [attr.href]="element.data.pan_card_photo" target="_blank">
-                <mat-icon  matTooltip="click to open this file">remove_red_eye
-               </mat-icon></a>
-<!--              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>-->
-              <mat-icon (click)="copyText(element.data.pan_card_photo)" matTooltip="click to copy the link">file_copy
-              </mat-icon>
-            </ng-container>
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="pan_card_remark">
-          <mat-header-cell *matHeaderCellDef>Pan card remark</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.pan_data.pan_card_remark | titlecase}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.pan_aasm_state | titlecase}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <a class="cursor-pointer" *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)">Approve / Reject</a>
-          </mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)" class="entry-list-tables" ></mat-header-row>
-        <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.label);"></mat-row>
-      </mat-table>
+      <div class="table-responsive">
+        <mat-table [dataSource]="paymentDetails"  class="entry-list-tables">
+          <ng-container matColumnDef="sno">
+            <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index;">{{ ((this.pageEvent.pageIndex ? this.pageEvent.pageIndex : 0) * this.pageSize) + i + 1}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.data.name | uppercase}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.data.category | titlecase}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="pan_card">
+            <mat-header-cell *matHeaderCellDef>Pan card</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.data.pan_card}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="system_remark">
+            <mat-header-cell *matHeaderCellDef>System Remark</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="cursor-pointer" matTooltip="{{element.pan_data.pan_system_error}}">
+              <span class="error-text-truncate">{{element.pan_data.pan_system_error}}</span></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="accountant_remark">
+            <mat-header-cell *matHeaderCellDef>Accountant Remark</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="cursor-pointer"
+                      matTooltip="{{element.pan_data.accountant_pan_remarks}}"><span
+              class="error-text-truncate">{{element.pan_data.accountant_pan_remarks}}</span></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="created_by">
+            <mat-header-cell *matHeaderCellDef>Created By</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="cursor-pointer"
+                      matTooltip="{{element.created_by ? element.created_by.email : '-'}}"><span class="text-overflow"
+              >{{element.created_by ? element.created_by.email : '-'}}</span></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="photo">
+            <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="cursor-pointer">
+              <ng-container *ngIf="element.data.pan_card_photo" >
+                <a [attr.href]="element.data.pan_card_photo" target="_blank">
+                  <mat-icon  matTooltip="click to open this file">remove_red_eye
+                 </mat-icon></a>
+  <!--              <span class="error-text-truncate">{{element.data.pan_card_photo}}</span>-->
+                <mat-icon (click)="copyText(element.data.pan_card_photo)" matTooltip="click to copy the link">file_copy
+                </mat-icon>
+              </ng-container>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="pan_card_remark">
+            <mat-header-cell *matHeaderCellDef>Pan card remark</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.pan_data.pan_card_remark | titlecase}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.pan_aasm_state | titlecase}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <ng-container>
+<!--                <mat-icon *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)" class="action-required" matTooltip=" Approve/Reject">print</mat-icon>-->
+                <img src="assets/icons/action_button.png" alt="" *ngIf="(element.pan_aasm_state === 'invalid')" (click)="openDialog(element)" class="action-required" matTooltip=" Approve/Reject">
+<!--                <mat-icon (click)="openReceiptStatus(element)" class="reciept-reason" matTooltip="View Reason ">print</mat-icon>-->
+              </ng-container>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="getDisplayedColumns(tab.label)"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: getDisplayedColumns(tab.label)"></mat-row>
+        </mat-table>
+      </div>
+
       <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
                      [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
+
     </ng-container>
     <ng-template #emptyList>
       <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
     </ng-template>
-    <div class="loader-container" *ngIf="showLoader">
-      <mat-spinner color="warn"></mat-spinner>
-    </div>
   </mat-tab>
 </mat-tab-group>
+
+<div *ngIf="showLoader" class="shimmer">
+<ngx-shimmer-loading>
+  <div class="page-loader"></div>
+</ngx-shimmer-loading>
+</div>
 

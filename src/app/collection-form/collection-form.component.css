@@ -9,12 +9,6 @@
   flex-wrap: wrap;
 }
 
-.single-label {
-  /*margin-top: 15px;*/
-  /*font-size: 20px;*/
-  /*margin-bottom: 10px;*/
-  /*width: 100%;*/
-}
 
 .radio-group-container-margin {
   margin-bottom: 20px;
@@ -39,12 +33,7 @@
   color:#e7e8f1!important;
 }
 
-.pan-card-image-upload-container {
-  /*display: grid;*/
-  /*grid-template-columns: 48% 48%;*/
-  /*grid-gap: 4%;*/
-  /*width: 100%;*/
-}
+
 label{
   color:#101a73;
   font-family: raleway;
@@ -82,17 +71,12 @@ label{
   border: 1px solid darkgrey;
   height: 45px;
   box-shadow: inset -3px -4px 29px -18px #b2b2b1 !important;
-  font-family: Raleway;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
   font-style: normal;
-  font-weight: 500;
   line-height: 23px;
   letter-spacing: 0.05em;
-
   color: #838992;
-
 }
-
-
 
 .search-div{
   width: 325px;
@@ -111,6 +95,18 @@ label{
   max-height: 400px;
   overflow: auto;
   width: 590px;
+}
+
+.search_result_name{
+  position: absolute;
+  z-index: 9999;
+  background-color: #fff;
+  top: 2.5rem;
+  box-shadow: 0 10px 35px rgb(0 0 0 / 10%);
+  border-radius: 10px;
+  max-height: 400px;
+  overflow: auto;
+  width: 1090px;
 }
 
 .select-ui .mat-select-arrow{
@@ -309,7 +305,7 @@ mat-label{
   width: 100%;
   background: rgba(201, 203, 207, 0.2);
   border-radius: 5px;
-  /*margin-bottom: 20px;*/
+
 }
 
 ::ng-deep .mat-form-field-infix {
@@ -341,9 +337,6 @@ mat-label{
   display:contents;
 }
 
-/*::ng-deep.mat-button-wrapper{*/
-/*  color:#101a73;*/
-/*}*/
 ::ng-deep sup{
   font-size: 25px!important;
   top:5px!important;
@@ -375,6 +368,7 @@ mat-form-field{
   right: -250px;
   color: rgba(0,0,0,.6);
 }
+
 .result-option{
   padding: 37px!important;
   line-height: 30px!important;

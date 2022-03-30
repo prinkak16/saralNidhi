@@ -5,6 +5,11 @@ import {saveAs} from 'file-saver';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {UtilsService} from '../services/utils.service';
+import {MasterDownloadComponent} from '../master-download/master-download.component';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {Location} from '@angular/common';
+import {AppendUrlService} from '../services/append-url.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter-search',
@@ -17,12 +22,18 @@ export class FilterSearchComponent implements OnInit {
   constructor(private router: Router, private restService: RestService,
               public utilsService: UtilsService,
               private messageService: MessageService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, private dialog: MatDialog,
+              private location: Location,
+              private appendUrlService: AppendUrlService) {
   }
 
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
   @Input() query: any = null;
+  @Input() startDate: any = null;
+  @Input() endDate: any = null;
+  @Input() stateId: any = null;
+  @Input() typeId: any = null;
 
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
@@ -36,6 +47,11 @@ export class FilterSearchComponent implements OnInit {
       end_date: new FormControl(null),
       state_id: new FormControl(null)
     });
+    this.filterForm.controls.query.setValue(this.query ? this.query : '');
+    this.filterForm.controls.start_date.setValue(this.startDate ? new Date(this.startDate) : '');
+    this.filterForm.controls.end_date.setValue(this.endDate ? new Date(this.endDate) : '');
+    this.filterForm.controls.state_id.setValue(this.stateId ? parseInt(this.stateId) : '');
+    this.getFilteredData();
   }
 
   getAllottedStates(): void {
@@ -47,7 +63,27 @@ export class FilterSearchComponent implements OnInit {
   }
 
   getFilteredData(): void {
+    this.setFilters(this.filterForm.value);
+    this.appendUrlService.appendFiltersToUrl(this.filterForm.value);
     this.applyFilter.emit(this.filterForm.value);
+  }
+  setFilters(value: any): void{
+    this.utilsService.filterQueryParams.type_id = this.utilsService.filterQueryParams.type_id;
+    this.utilsService.filterQueryParams.query = value.query;
+    this.utilsService.filterQueryParams.start_date = value.start_date;
+    this.utilsService.filterQueryParams.end_date = value.end_date;
+    this.utilsService.filterQueryParams.state_id = value.state_id;
+  }
+
+  appendFiltersToUrl(): void {
+    const searchValue = this.filterForm.value;
+    this.location.replaceState('dashboard/list?' +
+      (this.utilsService.filterQueryParams.type_id ? 'typeId=' + this.utilsService.filterQueryParams.type_id + '&' : '') +
+      (searchValue.query ? 'query=' + searchValue.query + '&' : '') +
+      (searchValue.state_id ? 'state_id=' + searchValue.state_id + '&' : '') +
+      (searchValue.start_date ? 'start_date=' + new Date(searchValue.start_date) + '&' : '') +
+      (searchValue.end_date ? 'end_date=' + new Date(searchValue.end_date) + '&' : '')
+    );
   }
 
   clearInputFields(): void {
@@ -60,7 +96,8 @@ export class FilterSearchComponent implements OnInit {
 
   downloadList(): void {
     const data = {
-      state_id: this.filterForm.controls.state_id.value
+      state_id: this.filterForm.controls.state_id.value,
+      filters: this.filterForm.value ? this.filterForm.value : {}
     };
     this.showLoader.emit(true);
     this.restService.downloadTransactionList(data).subscribe((reply: any) => {
@@ -77,4 +114,12 @@ export class FilterSearchComponent implements OnInit {
     });
   }
 
+  openDownloadDialog(): void {
+    const dialogRef = this.dialog.open(MasterDownloadComponent, {
+      minWidth: '70%',
+      data: this.filterForm.value ? this.filterForm.value : {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
 }

@@ -34,7 +34,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-        <mat-cell *matCellDef="let element"><span>{{element.data.name | titlecase}}</span></mat-cell>
+        <mat-cell *matCellDef="let element"><span>{{element.data.name | uppercase}}</span></mat-cell>
       </ng-container>
 
       <!-- Instrument no Column -->
@@ -129,11 +129,11 @@
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item *ngIf="element.is_editable && allowedEdit(element.data.date)"
-                    [routerLink]="['transaction_edit', element.id]">
+                    [routerLink]="['transaction_edit', element.id, filters]">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
-            <button mat-menu-item [routerLink]="['transaction_view', element.id]">
+            <button mat-menu-item [routerLink]="['transaction_view', element.id, filters]">
               <mat-icon>remove_red_eye</mat-icon>
               <span>View</span>
             </button>
@@ -256,3 +256,9 @@
 <div class="loader-container" *ngIf="showLoader">
   <mat-spinner color="warn"></mat-spinner>
 </div>
+
+<!--<div *ngIf="showLoader" class="shimmer">-->
+<!--  <ngx-shimmer-loading>-->
+<!--    <div class="page-loader-1"></div>-->
+<!--  </ngx-shimmer-loading>-->
+<!--</div>-->
