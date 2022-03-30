@@ -5,7 +5,7 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit, Renderer2,
+  OnInit,
   ViewChild
 } from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -15,16 +15,11 @@ import {LoaderService} from '../services/loader.service';
 import {UtilsService} from '../services/utils.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PaymentModeModel} from '../models/payment-mode.model';
-import {debounceTime, map, startWith} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
 import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
-// import {Component} from '@angular/core';
 import * as Constant from '../AppConstants';
 import {DatePipe} from '@angular/common';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatMenuTrigger} from '@angular/material/menu';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-collection-form',
@@ -40,8 +35,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
               private route: ActivatedRoute,
               private messageService: MessageService, private cd: ChangeDetectorRef,
               private loaderService: LoaderService, public utilsService: UtilsService,
-              private router: Router, public datepipe: DatePipe,
-              private renderer: Renderer2) {
+              private router: Router, public datepipe: DatePipe) {
   }
 
   @ViewChild('panPhoto', {static: false, read: ElementRef}) panPhoto: ElementRef | undefined;
@@ -50,13 +44,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @ViewChild('form', {static: false}) form: any;
-  @ViewChild('toggleButton') toggleButton: ElementRef | any;
-  @ViewChild('name', {static: false}) nameOp: MatMenuTrigger | any;
-
   @Input() query: any = null;
-  @Input() stateId: any = null;
-  @Input() startDate: any = null;
-  @Input() endDate: any = null;
   showLoader = false;
   autoFillData: any;
   allowedValueNull = true;
@@ -71,7 +59,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       ignoreZeroCurrency: false,
     }
   });
-
 
   config = {
     allowNumbersOnly: false,
@@ -119,30 +106,24 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   categoryMismatch = false;
   nameMismatch = false;
   incorrectPan = false;
-  isMenuOpen = false;
   dateValue = '';
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
   statesValue: any;
   showImgUpload = true;
   isView: any;
-  showGlobalSearch = false;
+  showGlobalSearch =  false;
   showNameSearch = false;
   selectName = true;
-  queryParams = '';
-  stateParams = '';
-  startDateParams = '';
-  endDateParams = '';
-
-  filteredOptions: Observable<string[]> | undefined;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params) {
         this.transactionId = params.id;
-        this.query = params.query;
-        this.startDate = params.start_date;
-        this.endDate = params.endDate;
+        this.utilsService.filterQueryParams.query = params.query;
+        this.utilsService.filterQueryParams.start_date = params.start_date;
+        this.utilsService.filterQueryParams.end_date = params.end_date;
+        this.utilsService.filterQueryParams.state_id = params.state_id;
       }
     });
     this.route.data.subscribe(data => {
@@ -150,7 +131,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.actionParam = data.breadcrumb;
       }
     });
-
 
     this.collectionForm = this.formBuilder.group({
       id: new FormControl(''),
@@ -231,13 +211,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       event.preventDefault();
     }
     return false;
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    console.log(this.autoFillData);
-    // return this.autoFillData.filter(option => option.toLowerCase().includes(filterValue));
-    return [];
   }
 
   onFormChange(): void {
@@ -643,11 +616,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.restService.getDonorList(query).subscribe((response: any) => {
         this.autoFillData = response.data as PaymentModel[];
         this.showProgress = false;
-        // this.nameOp.openMenu();
-        this.filteredOptions = this.collectionForm.controls.name.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value)),
-        );
       }, (error: string) => {
         this.showProgress = false;
         this.messageService.somethingWentWrong(error);
@@ -655,16 +623,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     } else {
       this.autoFillData = [];
     }
-  }
-
-  getAutoCompleteValue(value: string, e: any): void {
-    console.log(value);
-    console.log(this.collectionForm.controls.name.value);
-    if (e.Handled){
-      return;
-    }
-    this.getDonorList(value);
-    e.Handled = true;
   }
 
   getModeOfPayments(): void {
@@ -1057,9 +1015,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   // Set the value of name
-  setNameValue(values: any): void {
-    // const temp = values.key;
-    // console.log(temp.concat(values.key));
+  setNameValue(values: any): void{
     this.collectionForm.controls.name.setValue(values.data.name);
     this.autoFillData = [];
     this.showNameSearch = false;
@@ -1192,16 +1148,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }).subscribe((response: any) => {
       this.showLoader = false;
       this.messageService.closableSnackBar(response.message);
+      this.utilsService.filterQueryParams.type_id = this.collectionForm.get('mode_of_payment')?.value;
       this.router.navigate(['dashboard/list'],
-        {
-          queryParams: {
-            typeId: this.collectionForm.get('mode_of_payment')?.value,
-            query: this.queryParams,
-            state_id: this.stateParams,
-            start_date: this.startDateParams,
-            end_date: this.endDateParams
-          }
-        });
+        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value,
+            query: this.utilsService.filterQueryParams.query, start_date: this.utilsService.filterQueryParams.start_date,
+            end_date: this.utilsService.filterQueryParams.end_date, state_id: this.utilsService.filterQueryParams.state_id}});
     }, (error: any) => {
       this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
       this.disablePaymentMode();

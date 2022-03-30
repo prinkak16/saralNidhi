@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PaymentModeModel} from '../models/payment-mode.model';
 import {RestService} from '../services/rest.service';
 import {MessageService} from '../services/message.service';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../services/utils.service';
 import {Subject} from 'rxjs';
-import {FormControl} from '@angular/forms';
+import {AppendUrlService} from '../services/append-url.service';
 
 @Component({
   selector: 'app-entry-list',
@@ -18,29 +18,29 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   modeOfPayments: PaymentModeModel[] = [];
   selectedModeOfPayment = '';
   query = '';
-  stateId = '';
   startDate = '';
   endDate = '';
+  stateId = '';
+  typeId = null;
   selectedIndex = 0;
   counting = [];
   filters: any;
   showLoader = false;
   mopIds = [];
   constructor(private restService: RestService, private messageService: MessageService,
+              private appAppendUrl: AppendUrlService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.selectedModeOfPayment = params.typeId;
-      this.filters = {query: params.query, start_date: params.start_date, end_date: params.end_date, state_id: params.state_id};
-      this.getCount();
-      this.setFilters(this.filters);
-      if (params){
+      this.selectedModeOfPayment = this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : params.typeId;
+      if (params) {
         this.query = params.query;
-        this.startDate = params.start_date;
         this.endDate = params.end_date;
+        this.startDate = params.start_date;
         this.stateId = params.state_id;
+        this.typeId = params.type_id;
       }
     });
     this.getPaymentModes();
@@ -92,10 +92,6 @@ export class EntryListComponent implements OnInit, AfterViewInit {
 
   setFilters(filters: any): void {
     this.filters = filters;
-    this.query = filters.query;
-    this.stateId = filters.state_id;
-    this.startDate = filters.start_date;
-    this.endDate = filters.end_date;
     this.getCount();
     this.transactionsSubject.next(this.filters);
   }
@@ -115,6 +111,12 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   }
 
   getMopPayment(id: any): void{
+    if (Array.isArray(id)) {
+      this.utilService.filterQueryParams.type_id = '';
+    } else {
+      this.utilService.filterQueryParams.type_id = id.toString();
+    }
+    this.appAppendUrl.appendFiltersToUrl(this.utilService.filterQueryParams);
     this.transactionsSubject.next({id , filters: this.filters ? this.filters : '' });
   }
 }

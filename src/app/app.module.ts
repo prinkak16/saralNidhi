@@ -69,7 +69,7 @@ import { ReceiptStatusDialogComponent } from './receipt-status-dialog/receipt-st
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterUserComponent } from './user/filter-user/filter-user.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MasterDownloadComponent } from './master-download/master-download.component';
 
 
 @NgModule({
@@ -99,7 +99,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ArchivedTransactionListComponent,
     ArchiveFilterSearchComponent,
     ReceiptStatusDialogComponent,
-    FilterUserComponent
+    FilterUserComponent,
+    MasterDownloadComponent
   ],
   imports: [
     BrowserModule,
@@ -136,8 +137,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatPaginatorModule,
     YopsilonMaskModule,
     NgSelectModule,
-    NgxShimmerLoadingModule,
-    MatAutocompleteModule
+    NgxShimmerLoadingModule
   ],
   providers: [
     AuthGuard,

@@ -72,7 +72,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
-      this.filters = value.filters ? value.filters : value;
+      this.filters = this.utilService.filterQueryParams;
       if (value.id) {
         this.paymentModeId = value.id;
       }
@@ -90,7 +90,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     this.showLoader = true;
     const data = {
       filters: this.filters ? this.filters : {},
-      type_id: Array.isArray(this.paymentModeId) ? this.paymentModeId : this.paymentModeId,
+      type_id: this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : Array.isArray(this.paymentModeId) ? this.paymentModeId : this.paymentModeId,
       limit: this.limit, offset: this.offset
     };
     this.restService.getPaymentRecords(data).subscribe((response: any) => {

@@ -4,13 +4,12 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:3000/zila/api/',
-  appUrl: 'http://localhost:3000/',
-  apiUrl: 'http://localhost:3000/api/v1/'
-
-  // baseUrl: 'https://saral-staging.ccdms.in/zila/api/',
-  // appUrl: 'https://saral-staging.ccdms.in/',
-  // apiUrl: 'https://saral-staging.ccdms.in/api/v1/'
+  // baseUrl: 'http://localhost:3000/zila/api/',
+  // appUrl: 'http://localhost:3000/',
+  // apiUrl: 'http://localhost:3000/api/v1/'
+  baseUrl: 'https://saral-staging.ccdms.in/zila/api/',
+  appUrl: 'https://saral-staging.ccdms.in/',
+  apiUrl: 'https://saral-staging.ccdms.in/api/v1/'
 };
 
 /*

@@ -118,5 +118,7 @@ mat-header-cell, mat-cell {
 .clearfix {
   clear: both;
 }
-
-
+.search-font{
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-style: normal;
+}
