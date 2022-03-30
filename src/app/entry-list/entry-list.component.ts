@@ -111,7 +111,11 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   }
 
   getMopPayment(id: any): void{
-    this.utilService.filterQueryParams.type_id = id;
+    if (Array.isArray(id)) {
+      this.utilService.filterQueryParams.type_id = '';
+    } else {
+      this.utilService.filterQueryParams.type_id = id.toString();
+    }
     this.appAppendUrl.appendFiltersToUrl(this.utilService.filterQueryParams);
     this.transactionsSubject.next({id , filters: this.filters ? this.filters : '' });
   }
