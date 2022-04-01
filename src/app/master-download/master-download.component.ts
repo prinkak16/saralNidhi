@@ -81,6 +81,8 @@ export class MasterDownloadComponent implements OnInit {
        this.downloadCount = this.downloadCount + 1;
      }, (error: any) => {
        this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+       this.messageService.closableSnackBar('No transaction found');
+
      });
    }else {
      this.messageService.somethingWentWrong( 'please select at least one field');
