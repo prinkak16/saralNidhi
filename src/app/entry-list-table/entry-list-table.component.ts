@@ -13,7 +13,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
 import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-status-dialog.component';
-import {MatMenu} from '@angular/material/menu';
+
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
@@ -28,10 +28,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   @Input() paymentModeId: any = null;
-  @Input() query: any = null;
-  @Input() startDate: any = null;
-  @Input() endDate: any = null;
-  @Input() stateId: any = null;
   @Input() showLoader = false;
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
@@ -86,7 +82,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   getPaymentList(): void {
-    this.filters = {query: this.query, state_id: this.stateId, start_date: this.startDate, end_date: this.endDate};
     this.showLoader = true;
     const data = {
       filters: this.filters ? this.filters : {},
