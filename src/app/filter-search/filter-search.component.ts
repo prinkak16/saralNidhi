@@ -118,6 +118,7 @@ export class FilterSearchComponent implements OnInit {
   openDownloadDialog(): void {
     const dialogRef = this.dialog.open(MasterDownloadComponent, {
       minWidth: '70%',
+      height: '420px',
       data: this.filterForm.value ? this.filterForm.value : {}
     });
     dialogRef.afterClosed().subscribe(result => {
