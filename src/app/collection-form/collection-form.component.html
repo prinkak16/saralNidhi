@@ -62,10 +62,10 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" (keyup.tab)="selectCheque()">
       <label class="single-label">Mode of Payment <sup *ngIf="isRequiredField('mode_of_payment')">*</sup></label>
       <mat-radio-group formControlName="mode_of_payment" aria-label="mode_of_payment"
-                       class="radio-group-container radio-group-container-margin">
+                       class="radio-group-container radio-group-container-margin" (keyup.enter)="selectDate($event)">
         <mat-radio-button *ngFor="let item of validPaymentModes" value="{{item.id}}">{{item.name}}</mat-radio-button>
       </mat-radio-group>
       <mat-error
@@ -87,6 +87,7 @@
                      placeholder="dd/mm/yyyy"
                      autocomplete="off"
                      formControlName="date_of_transaction"
+                     #dateOfTransaction
                      [required]="isRequiredField('date_of_transaction')"/>
             </mat-form-field>
           </ng-container>
@@ -125,12 +126,13 @@
         <div class="d-flex">
           <div class="col-md-6">
             <mat-label>Date of cheque <sup *ngIf="isRequiredField('date_of_cheque')">*</sup></mat-label>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" #cheque>
               <ng-container *ngIf="!transactionId">
                 <input matInput yn-mask-date="dd/mm/yyyy"
                        placeholder="dd/mm/yyyy"
                        autocomplete="off"
                        formControlName="date_of_cheque"
+                       #date
                        [required]="isRequiredField('date_of_cheque')"/>
               </ng-container>
               <ng-container *ngIf="transactionId">
@@ -174,6 +176,7 @@
                        autocomplete="off"
                        placeholder="dd/mm/yyyy"
                        formControlName="date_of_draft"
+                       #dateOfDraft
                        [required]="isRequiredField('date_of_draft')"/>
               </mat-form-field>
             </ng-container>
@@ -218,7 +221,8 @@
                 <span *ngIf="['Demand Draft'].includes(this.selectedModeOfPayment.name)">Demand Draft</span>
                 front photo</label>
               <div class="pan-card-image-upload-container">
-                <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+                <div (keyup.enter)="fileInputPhoto.click()" class="upload-pan-card-btn" (click)="fileInputPhoto.click()"
+                     tabindex="0">
                   <div class="position-relative">
                     <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
                     <span class="file-text-position">Choose File</span>
@@ -237,7 +241,7 @@
                 <span *ngIf="['Demand Draft'].includes(this.selectedModeOfPayment.name)">Demand Draft</span>
                 back photo</label><br>
               <div class="pan-card-image-upload-container">
-                <div (click)="fileInputPhoto.click()" class="upload-pan-card-btn">
+                <div (keyup.enter)="fileInputPhoto.click()" class="upload-pan-card-btn" tabindex="0">
                   <div class="position-relative">
                     <img src="assets/icons/file.svg" alt="upload file" class="choose-file-img"/>
                     <span class="file-text-position">Choose File</span>
@@ -532,18 +536,18 @@
         <label class="single-label">Category <sup *ngIf="isRequiredField('category')">*</sup></label>
         <mat-radio-group formControlName="category" aria-label="category"
                          class="radio-group-container radio-group-container-margin">
-          <mat-radio-button value="individual">Individual</mat-radio-button>
+          <mat-radio-button value="individual" #individual (keyup.tab)="selectCategory()" (keyup.enter)="selectProprietorship()">Individual</mat-radio-button>
           <mat-radio-button value="huf">HUF</mat-radio-button>
           <mat-radio-button value="partnership">Partnership</mat-radio-button>
           <mat-radio-button value="trust">Trust</mat-radio-button>
           <mat-radio-button value="corporation">Corporation</mat-radio-button>
-          <mat-radio-button value="others">Others</mat-radio-button>
+          <mat-radio-button value="others" (keyup.enter)= "onOthers()">Others</mat-radio-button>
         </mat-radio-group>
       </div>
       <div *ngIf="collectionForm.controls.category.value === 'others'" class="col-md-12 mb-1">
         <label class="mb-1">If Other then <sup *ngIf="isRequiredField('other_category')">*</sup></label>
         <mat-form-field appearance="outline">
-          <input matInput placeholder="Please specify" formControlName="other_category"
+          <input matInput placeholder="Please specify" formControlName="other_category" #othersField
                  [required]="isRequiredField('other_category')">
           <mat-error
             *ngIf="((collectionForm.controls['other_category'].touched)&& collectionForm.controls['other_category'].hasError('required'))">
@@ -557,13 +561,13 @@
           *ngIf="isRequiredField('is_proprietorship')">*</sup></label>
         <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
                          class="col-md-12 radio-group-container-margin">
-          <mat-radio-button value="true">Yes</mat-radio-button>
+          <mat-radio-button value="true" #proprietorship (keyup.enter)= "remark()" (keyup.tab)="selectProprietorship()">Yes</mat-radio-button>
           <mat-radio-button value="false">No</mat-radio-button>
         </mat-radio-group>
         <div *ngIf="collectionForm.controls.is_proprietorship.value === 'true'" class="mt-3">
           <mat-label class="col-md-12 mb-1">Write the name of the Proprietorship</mat-label>
           <mat-form-field appearance="outline" class="col-md-12 ">
-            <input matInput formControlName="proprietorship_name" class="pb-0"
+            <input matInput formControlName="proprietorship_name" class="pb-0" #remarkProp
                    [required]="isRequiredField('proprietorship_name')">
             <mat-error
               *ngIf="((collectionForm.controls.proprietorship_name.touched)&& collectionForm.controls.proprietorship_name.hasError('required'))">
@@ -576,7 +580,7 @@
       <label class="col-md-12 mb-1">PAN Card Number<sup *ngIf="isRequiredField('pan_card')">*</sup></label>
       <div class="d-flex align-items-center">
         <div class="col-md-7">
-          <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
+          <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)" #panNumber
                         [config]="{length:10, containerClass: 'pan-card-container', disableAutoFocus: true}"></ng-otp-input>
         </div>
         <div class="col-md-5">
@@ -723,9 +727,11 @@
       <div class="mb-2">
         <mat-radio-group formControlName="nature_of_donation" aria-label="nature_of_donation"
                          class="col-md-12 radio-group-container-margin">
-          <mat-radio-button value="Voluntary Contribution" class="w-20">Voluntary Contribution</mat-radio-button>
-          <mat-radio-button value="Aajivan Sahyog Nidhi." class="w-20">Aajivan Sahyog Nidhi</mat-radio-button>
-          <mat-radio-button value="Other">Other</mat-radio-button>
+          <mat-radio-button value="Voluntary Contribution" class="w-20" #voluntary (keyup.tab)="selectVoluntary()" (keyup.enter)="selectState()">
+            Voluntary Contribution
+          </mat-radio-button>
+          <mat-radio-button value="Aajivan Sahyog Nidhi." class="w-20" (keyup.enter)="selectState()">Aajivan Sahyog Nidhi</mat-radio-button>
+          <mat-radio-button value="Other" (keyup.enter)="othersInput()">Other</mat-radio-button>
         </mat-radio-group>
       </div>
       <ng-container *ngIf="collectionForm.controls.nature_of_donation.value === 'Other'">
@@ -733,8 +739,7 @@
           *ngIf="isRequiredField('other_nature_of_donation')">*</sup></label>
         <div class="col-md-12">
           <mat-form-field appearance="outline">
-            <input matInput placeholder="Please specify" formControlName="other_nature_of_donation"
-
+            <input matInput placeholder="Please specify" formControlName="other_nature_of_donation" #others
                    [required]="isRequiredField('other_nature_of_donation')">
           </mat-form-field>
         </div>
@@ -742,7 +747,7 @@
       <label class="col-md-12 mt-2 ">Party Unit<sup *ngIf="isRequiredField('party_unit')">*</sup></label>
       <mat-radio-group formControlName="party_unit" aria-label="party_unit" (click)="removePartyUnitValue()"
                        class="col-md-12 radio-group-container-margin">
-        <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState">State
+        <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState" #state (keyup.tab)="selectState()" (keyup.enter)="stateOption()">State
         </mat-radio-button>
         <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Zila')" value="Zila">Zila</mat-radio-button>
         <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Mandal')" value="Mandal">Mandal
@@ -760,7 +765,7 @@
           <div class="col-md-4 p-0 pr-3">
             <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
-                       [placeholder]="('Select state')"
+                       [placeholder]="('Select state')" #stateInput
                        [required]="isRequiredField('location_id')"
                        bindValue="id" formControlName="location_id">
             </ng-select>

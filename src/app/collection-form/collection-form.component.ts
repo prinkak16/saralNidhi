@@ -44,6 +44,21 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
   @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
   @ViewChild('form', {static: false}) form: any;
+  @ViewChild('individual', {static: false}) individual: any;
+  @ViewChild('Individual', {static: false}) Individual: any;
+  @ViewChild('voluntary', {static: false}) voluntary: any;
+  @ViewChild('state', {static: false}) state: any;
+  @ViewChild('date', {static: false}) date: any;
+  @ViewChild('dateOfDraft', {static: false}) dateOfDraft: any;
+  @ViewChild('dateOfTransaction', {static: false}) dateOfTransaction: any;
+  @ViewChild('cheque', {static: false}) cheque: any;
+  @ViewChild('panNumber', {static: false}) panNumber: any;
+  @ViewChild('othersField', {static: false}) othersField: any;
+  @ViewChild('remarkProp', {static: false}) remarkProp: any;
+  @ViewChild('stateInput', {static: false}) stateInput: any;
+  @ViewChild('others', {static: false}) others: any;
+  @ViewChild('proprietorship', {static: false}) proprietorship: any;
+
   @Input() query: any = null;
   showLoader = false;
   autoFillData: any;
@@ -211,6 +226,62 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       event.preventDefault();
     }
     return false;
+  }
+
+  selectState(): void{
+    this.state.checked = true;
+    this.collectionForm.controls.party_unit.setValue('CountryState');
+  }
+  selectProprietorship(): void {
+    this.collectionForm.controls.is_proprietorship.setValue('true');
+    this.proprietorship.checked = true;
+  }
+  setPanNumber(): void {
+    this.panNumber.nativeElement.focus();
+  }
+
+  stateOption(): void {
+    this.collectionForm.controls.party_unit.setValue('CountryState');
+    this.stateInput.nativeElement.focus();
+  }
+
+  selectCategory(): void{
+    this.individual.checked = true;
+    this.collectionForm.controls.category.setValue('individual');
+  }
+  selectVoluntary(): void{
+    this.voluntary.checked = true;
+  }
+
+  selectCheque(): void {
+    this.selectedModeOfPayment.name = 'Cheque';
+    this.cheque.checked = true;
+  }
+
+  selectDate(event: any): void {
+    if (this.selectedModeOfPayment.name === 'Cheque') {
+      this.date.nativeElement.focus();
+    }
+
+    if (this.selectedModeOfPayment.name === 'Demand Draft') {
+      this.dateOfDraft.nativeElement.focus();
+    }
+
+    else if (this.selectedModeOfPayment.name === 'RTGS' || 'NEFT' || 'IMPS' || 'UPI') {
+      this.dateOfTransaction.nativeElement.focus();
+    }
+  }
+
+  onOthers(): void {
+    this.othersField.nativeElement.focus();
+  }
+
+  othersInput(): void {
+    this.others.nativeElement.focus();
+  }
+
+  remark(): void {
+    this.remarkProp.nativeElement.focus();
   }
 
   onFormChange(): void {
