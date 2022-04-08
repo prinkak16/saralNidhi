@@ -13,7 +13,6 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {ConfirmDialogComponent} from '../shared/confirm-dialog/confirm-dialog.component';
 import { ReceiptStatusDialogComponent } from '../receipt-status-dialog/receipt-status-dialog.component';
-
 @Component({
   selector: 'app-entry-list-table',
   templateUrl: './entry-list-table.component.html',
@@ -33,7 +32,6 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
   @Output() refreshCount: EventEmitter<any> = new EventEmitter();
-  @Output() applyFilter = new EventEmitter<any>();
   @Output() typeId: EventEmitter<any> = new EventEmitter();
   private subscription: Subscription = new Subscription();
 
@@ -59,13 +57,11 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
          'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
-
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
   subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = this.utilService.filterQueryParams;
