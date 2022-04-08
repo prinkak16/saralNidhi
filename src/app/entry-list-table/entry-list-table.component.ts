@@ -62,7 +62,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  subscribeToSubject(): void {
+   subscribeToSubject(): void {
     this.subscription = this.fetchWithFilters.subscribe(value => {
       this.filters = this.utilService.filterQueryParams;
       if (value.id) {
