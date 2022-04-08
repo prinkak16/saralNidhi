@@ -20,6 +20,8 @@ import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
 import {DatePipe} from '@angular/common';
+import {NgOtpInputComponent} from 'ng-otp-input';
+
 
 @Component({
   selector: 'app-collection-form',
@@ -42,7 +44,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
-  @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
+  @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: NgOtpInputComponent | any;
   @ViewChild('form', {static: false}) form: any;
   @ViewChild('individual', {static: false}) individual: any;
   @ViewChild('Individual', {static: false}) Individual: any;
@@ -52,12 +54,35 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('dateOfDraft', {static: false}) dateOfDraft: any;
   @ViewChild('dateOfTransaction', {static: false}) dateOfTransaction: any;
   @ViewChild('cheque', {static: false}) cheque: any;
-  @ViewChild('panNumber', {static: false}) panNumber: any;
   @ViewChild('othersField', {static: false}) othersField: any;
   @ViewChild('remarkProp', {static: false}) remarkProp: any;
   @ViewChild('stateInput', {static: false}) stateInput: any;
   @ViewChild('others', {static: false}) others: any;
   @ViewChild('proprietorship', {static: false}) proprietorship: any;
+  @ViewChild('chequeNumber', {static: false}) chequeNumber: any;
+  @ViewChild('chequePhoto', {static: false}) chequePhoto: any;
+  @ViewChild('draftPhoto', {static: false}) draftPhoto: any;
+  @ViewChild('utrNumber', {static: false}) utrNumber: any;
+  @ViewChild('ifsc', {static: false}) ifsc: any;
+  @ViewChild('donorPhone', {static: false}) donorPhone: any;
+  @ViewChild('donorEmail', {static: false}) donorEmail: any;
+  @ViewChild('address', {static: false}) address: any;
+  @ViewChild('locality', {static: false}) locality: any;
+  @ViewChild('pincode', {static: false}) pincode: any;
+  @ViewChild('donorName', {static: false}) donorName: any;
+  @ViewChild('amountNarration', {static: false}) amountNarration: any;
+  @ViewChild('collectorPhone', {static: false}) collectorPhone: any;
+  @ViewChild('chequeSelect', {static: false}) chequeSelect: any;
+  @ViewChild('ngOtpElRef', {static: false}) ngOtpElRef: ElementRef | any;
+  @ViewChild('panNumber', {static: false}) panNumber: any;
+  @ViewChild('transaction', {static: false}) transaction: any;
+  @ViewChild('accountNumber', {static: false}) accountNumber: any;
+  @ViewChild('draftNumber', {static: false}) draftNumber: any;
+  @ViewChild('zila', {static: false}) zila: any;
+  @ViewChild('stateId', {static: false}) stateId: any;
+  @ViewChild('aajivanSahyog', {static: false}) aajivanSahyog: any;
+  @ViewChild('mandal', {static: false}) mandal: any;
+  @ViewChild('amount', {static: false}) amount: any;
 
   @Input() query: any = null;
   showLoader = false;
@@ -227,17 +252,34 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     return false;
   }
-
-  selectState(): void{
-    this.state.checked = true;
-    this.collectionForm.controls.party_unit.setValue('CountryState');
-  }
-  selectProprietorship(): void {
-    this.collectionForm.controls.is_proprietorship.setValue('true');
-    this.proprietorship.checked = true;
-  }
-  setPanNumber(): void {
-    this.panNumber.nativeElement.focus();
+  onTabClick(fieldName: any): void {
+    if (fieldName === 'mode_of_payment') {
+      this.collectionForm.controls.mode_of_payment.setValue('1');
+    }
+    else if (fieldName === 'individual') {
+      this.individual.checked = true;
+      this.collectionForm.controls.category.setValue('individual');
+    }
+    else if (fieldName === 'true') {
+      this.collectionForm.controls.is_proprietorship.setValue('true');
+      this.proprietorship.checked = true;
+    }
+    else if (fieldName === 'voluntary') {
+      this.voluntary.checked = true;
+      this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
+      this.voluntary.focus();
+    }
+    else if (fieldName === 'state' || 'stateInput') {
+      this.state.checked = true;
+      this.state.focus();
+      this.collectionForm.controls.party_unit.setValue('CountryState');
+    }
+    else if (fieldName === 'State') {
+      this.stateInput.focus();
+    }
+    else if (fieldName === 'Zila') {
+      this.stateId.focus();
+    }
   }
 
   stateOption(): void {
@@ -252,12 +294,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   selectVoluntary(): void{
     this.voluntary.checked = true;
   }
-
-  selectCheque(): void {
-    this.selectedModeOfPayment.name = 'Cheque';
-    this.cheque.checked = true;
-  }
-
   selectDate(event: any): void {
     if (this.selectedModeOfPayment.name === 'Cheque') {
       this.date.nativeElement.focus();
@@ -265,9 +301,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
     if (this.selectedModeOfPayment.name === 'Demand Draft') {
       this.dateOfDraft.nativeElement.focus();
-    }
-
-    else if (this.selectedModeOfPayment.name === 'RTGS' || 'NEFT' || 'IMPS' || 'UPI') {
+    } else if (this.selectedModeOfPayment.name === 'RTGS' || 'NEFT' || 'IMPS' || 'UPI') {
       this.dateOfTransaction.nativeElement.focus();
     }
   }
@@ -278,10 +312,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
 
   othersInput(): void {
     this.others.nativeElement.focus();
-  }
-
-  remark(): void {
-    this.remarkProp.nativeElement.focus();
   }
 
   onFormChange(): void {
