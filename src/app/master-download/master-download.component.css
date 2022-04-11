@@ -17,3 +17,9 @@
 .font-20 {
   font-size: 20px;
 }
+
+@media (min-width: 200px) and (max-width: 1848px) {
+  .scroll {
+    overflow-y: hidden !important;
+  }
+}

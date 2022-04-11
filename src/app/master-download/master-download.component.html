@@ -2,8 +2,8 @@
   <div>
     <b class="font-20">Donation Lists Download</b>
   </div>
-  <div class="border mt-2">
-    <div class="field-container">
+  <div class="border mt-2" >
+    <div class="field-container scroll">
       <mat-checkbox (change)="toggleAllField($event, downloadField)">Select All Field</mat-checkbox>
       <div>
         <mat-checkbox *ngFor="let item of downloadField" [checked]="item.checked"  (change)="toggleDownloadField($event, item)"
