@@ -66,7 +66,7 @@
     <div class="col-md-12" (keyup.tab)="onTabClick('mode_of_payment')">
       <label class="single-label">Mode of Payment <sup *ngIf="isRequiredField('mode_of_payment')">*</sup></label>
       <mat-radio-group formControlName="mode_of_payment" aria-label="mode_of_payment"
-                       class="radio-group-container radio-group-container-margin" (keyup.enter)="selectDate($event)">
+                       class="radio-group-container radio-group-container-margin" (keyup.enter)="onEnterField('mode_of_payment')">
         <mat-radio-button *ngFor="let item of validPaymentModes" value="{{item.id}}">{{item.name}}</mat-radio-button>
       </mat-radio-group>
       <mat-error
@@ -541,14 +541,14 @@
         <label class="single-label">Category <sup *ngIf="isRequiredField('category')">*</sup></label>
         <mat-radio-group formControlName="category" aria-label="category"
                          class="radio-group-container radio-group-container-margin">
-          <mat-radio-button value="individual" #individual (keyup.tab)="onTabClick('individual')"
-                            (keyup.enter)="onEnterField('individual')">Individual
+          <mat-radio-button value="individual" #individual (keyup.tab)="onTabClick('category')"
+                            (keyup.enter)="onEnterField('category')">Individual
           </mat-radio-button>
-          <mat-radio-button value="huf" (keyup.enter)="onEnterField('huf')">HUF</mat-radio-button>
-          <mat-radio-button value="partnership" (keyup.enter)="onEnterField('partnership')">Partnership</mat-radio-button>
-          <mat-radio-button value="trust" (keyup.enter)="onEnterField('trust')">Trust</mat-radio-button>
-          <mat-radio-button value="corporation" (keyup.enter)="onEnterField('corporation')">Corporation</mat-radio-button>
-          <mat-radio-button value="others" (keyup.enter)="onOthers()">Others</mat-radio-button>
+          <mat-radio-button value="huf" (keyup.enter)="onEnterField('proprietorship_name')">HUF</mat-radio-button>
+          <mat-radio-button value="partnership" (keyup.enter)="onEnterField('proprietorship_name')">Partnership</mat-radio-button>
+          <mat-radio-button value="trust" (keyup.enter)="onEnterField('proprietorship_name')">Trust</mat-radio-button>
+          <mat-radio-button value="corporation" (keyup.enter)="onEnterField('proprietorship_name')">Corporation</mat-radio-button>
+          <mat-radio-button value="others" (keyup.enter)="onEnterField('proprietorship_name')">Others</mat-radio-button>
         </mat-radio-group>
       </div>
       <div *ngIf="collectionForm.controls.category.value === 'others'" class="col-md-12 mb-1">
@@ -569,9 +569,9 @@
         <mat-radio-group formControlName="is_proprietorship" aria-label="is_proprietorship"
                          class="col-md-12 radio-group-container-margin">
           <mat-radio-button value="true" #proprietorship (keyup.enter)="onEnterField('proprietorship')"
-                            (keyup.tab)="onTabClick('true')">Yes
+                            (keyup.tab)="onTabClick('is_proprietorship')">Yes
           </mat-radio-button>
-          <mat-radio-button value="false" (keyup.enter)="onEnterField('false')">No</mat-radio-button>
+          <mat-radio-button value="false" (keyup.enter)="onEnterField('proprietorship_name')">No</mat-radio-button>
         </mat-radio-group>
         <div *ngIf="collectionForm.controls.is_proprietorship.value === 'true'" class="mt-3">
           <mat-label class="col-md-12 mb-1">Write the name of the Proprietorship</mat-label>
@@ -739,14 +739,14 @@
       <div class="mb-2">
         <mat-radio-group formControlName="nature_of_donation" aria-label="nature_of_donation"
                          class="col-md-12 radio-group-container-margin">
-          <mat-radio-button value="Voluntary Contribution" class="w-20" #voluntary (keyup.tab)="onTabClick('voluntary')"
-                            (keyup.enter)="onEnterField('voluntary')" tabindex="0">
+          <mat-radio-button value="Voluntary Contribution" class="w-20" #voluntary (keyup.tab)="onTabClick('nature_of_donation')"
+                            (keyup.enter)="onEnterField('nature_of_donation')" tabindex="0">
             Voluntary Contribution
           </mat-radio-button>
-          <mat-radio-button value="Aajivan Sahyog Nidhi." class="w-20" #aajivanSahyog (keyup.enter)="onEnterField('aajivanSahyog')">Aajivan Sahyog
+          <mat-radio-button value="Aajivan Sahyog Nidhi." class="w-20" #aajivanSahyog (keyup.enter)="onEnterField('nature_of_donation')">Aajivan Sahyog
             Nidhi
           </mat-radio-button>
-          <mat-radio-button value="Other" (keyup.enter)="othersInput()">Other</mat-radio-button>
+          <mat-radio-button value="Other" (keyup.enter)="onEnterField('nature_of_donation')">Other</mat-radio-button>
         </mat-radio-group>
       </div>
       <ng-container *ngIf="collectionForm.controls.nature_of_donation.value === 'Other'">
@@ -756,7 +756,7 @@
           <mat-form-field appearance="outline">
             <input matInput placeholder="Please specify" formControlName="other_nature_of_donation" #others
                    [required]="isRequiredField('other_nature_of_donation')"
-                   (keyup.enter)="onEnterField('others')">
+                   (keyup.enter)="onEnterField('other_nature_of_donation')">
           </mat-form-field>
         </div>
       </ng-container>
@@ -764,9 +764,9 @@
       <mat-radio-group formControlName="party_unit" aria-label="party_unit" (click)="removePartyUnitValue()"
                        class="col-md-12 radio-group-container-margin">
         <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'State')" value="CountryState" #state
-                          (keyup.tab)="onTabClick('state')" (keyup.enter)="onEnterField('State')">State</mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Zila')" value="Zila" #zila (keyup.enter)="onEnterField('Zila')">Zila</mat-radio-button>
-        <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Mandal')" value="Mandal" (keyup.enter)="onEnterField('Mandal')">Mandal
+                          (keyup.tab)="onTabClick('party_unit')" (keyup.enter)="onEnterField('party_unit')">State</mat-radio-button>
+        <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Zila')" value="Zila" #zila (keyup.enter)="onEnterField('party_unit')">Zila</mat-radio-button>
+        <mat-radio-button *ngIf="utilsService.checkPermission('PartyUnit', 'Mandal')" value="Mandal" (keyup.enter)="onEnterField('party_unit')">Mandal
         </mat-radio-button>
       </mat-radio-group>
       <mat-error
@@ -782,7 +782,7 @@
             <ng-select appearance="outline" class="bg-white"
                        [items]="stateUnits" bindLabel="name"
                        [placeholder]="('Select state')" #stateInput
-                       [required]="isRequiredField('location_id')" (keydown.tab)="onTabClick('stateInput')"
+                       [required]="isRequiredField('location_id')" (keydown.tab)="onTabClick('party_unit')"
                        bindValue="id" formControlName="location_id">
             </ng-select>
             <mat-error class="error-custom-style"
