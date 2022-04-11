@@ -82,7 +82,7 @@ export class FilterUserComponent implements OnInit {
     }, (error: any) => {
       this.showLoader.emit(false);
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
-      this.messageService.closableSnackBar('No user found');
+      this.messageService.closableSnackBar(error.message);
 
     });
   }
