@@ -253,7 +253,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     return false;
   }
 
-  // focus next field wile pressing tab
+  // focus next field wile pressing tab, if input type field is there, it is focused taking formcontrolname, and, in case of radio button, it is checked
   onTabClick(formControl: string): void {
     if (formControl === 'mode_of_payment') {
       this.collectionForm.controls.mode_of_payment.setValue(this.validPaymentModes[0].id.toString());
@@ -278,7 +278,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
   }
 
-  // focus next field wile pressing enter
+  // focus next field while pressing enter, if input type field is there, it is focused taking formcontrolname, and, in case of radio button, it is checked
   onEnterField(formControl: string): void {
     if (formControl === 'cheque_number') {
       this.accountNumber.nativeElement.focus();
