@@ -1377,7 +1377,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
 // Fetching bank details from ifsc code.
-  getBankDetails(value: string): void {
+  getBankDetails(event: any, value: string): void {
     this.setIfscValidation();
     if (value.startsWith(' ') || value.endsWith(' ')) {
       this.messageService.somethingWentWrong('Space not allowed');
