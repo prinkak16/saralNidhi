@@ -252,6 +252,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     return false;
   }
+
+  // focus next field wile pressing tab
   onTabClick(formControl: string): void {
     if (formControl === 'mode_of_payment') {
       this.collectionForm.controls.mode_of_payment.setValue(this.validPaymentModes[0].id.toString());
@@ -275,6 +277,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.collectionForm.controls.party_unit.setValue('CountryState');
     }
   }
+
+  // focus next field wile pressing enter
   onEnterField(formControl: string): void {
     if (formControl === 'cheque_number') {
       this.accountNumber.nativeElement.focus();
