@@ -84,7 +84,7 @@ export class MasterDownloadComponent implements OnInit {
      }, (error: any) => {
        this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
        // pop up message
-       this.messageService.closableSnackBar(error.message);
+       this.messageService.closableSnackBar(error.error.message);
 
      });
    }else {
