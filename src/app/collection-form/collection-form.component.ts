@@ -284,6 +284,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.accountNumber.nativeElement.focus();
     }
     else if (formControl === 'mode_of_payment') {
+      // focus different fields on selecting different modes of payment
       if (this.selectedModeOfPayment.name === 'Cheque') {
         this.date.nativeElement.focus();
       }
@@ -305,7 +306,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     else if (formControl === 'date_of_draft') {
       this.draftNumber.nativeElement.focus();
-    }else if (formControl === 'utr_number') {
+    }
+    else if (formControl === 'utr_number') {
       this.accountNumber.nativeElement.focus();
     }
     else if (formControl === 'ifsc_code') {
@@ -330,6 +332,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.accountNumber.nativeElement.focus();
     }
     else if (formControl === 'party_unit') {
+      // focussing different fields on selecting different party units
       if (this.collectionForm.controls.party_unit.value === 'CountryState') {
         this.stateInput.focus();
       }
