@@ -422,7 +422,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         if (this.collectionForm.controls.pan_card.value) {
           this.onPanCardChange(this.collectionForm.controls.pan_card.value);
         }
-        this.collectionForm.controls.proprietorship_name.setValue(null);
+        // show proprietorship name in tranaction view
+        this.collectionForm.controls.proprietorship_name.setValue(this.collectionForm.controls.proprietorship_name.value);
         if (value === 'true') {
           this.collectionForm.controls.proprietorship_name.setValidators(Validators.required);
         } else {

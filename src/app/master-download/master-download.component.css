@@ -18,6 +18,7 @@
   font-size: 20px;
 }
 
+/*Hiding second scroll bar for small screen*/
 @media (min-width: 200px) and (max-width: 1848px) {
   .scroll {
     overflow-y: hidden !important;
