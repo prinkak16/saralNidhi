@@ -695,7 +695,7 @@
             <mat-label>Collector's Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_name" (keypress)="utilsService.validateName($event)"
+            <input matInput formControlName="collector_name" (keypress)="utilsService.validateCollectorName($event)"
                    [required]="isRequiredField('collector_name')" (keyup.enter)="onEnterField('collector_name')">
             <mat-error
               *ngIf="((collectionForm.controls.collector_name.touched)&& collectionForm.controls.collector_name.hasError('required'))">
