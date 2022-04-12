@@ -83,7 +83,7 @@ export class FilterUserComponent implements OnInit {
       this.showLoader.emit(false);
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
       // popup error message in user management
-      this.messageService.closableSnackBar(error.message);
+      this.messageService.closableSnackBar(error.error.message);
 
     });
   }

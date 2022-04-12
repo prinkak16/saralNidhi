@@ -179,8 +179,8 @@
         <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
         <mat-cell *matCellDef="let element" class="btn-separate">
           <ng-container *ngIf="!hasReceiptGenerated(element)">
-            <div class="reciept-reason-background" >
-            <img src="assets/icons/Vector.png" alt="" class="reciept-reason" matTooltip=" View Reason">
+            <div class="reciept-reason-background" (click)="openReceiptStatus(element)">
+            <img src="assets/icons/Vector.png" alt=""  class="reciept-reason" matTooltip=" View Reason">
             </div>
 
           </ng-container>
