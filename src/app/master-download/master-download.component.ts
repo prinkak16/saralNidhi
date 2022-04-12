@@ -29,7 +29,9 @@ export class MasterDownloadComponent implements OnInit {
     {name: 'UTR No', id: 'utr_no', checked: false}, {name: 'Category', id: 'category', checked: false}, {name: 'Proprietorship', id: 'is_proprietorship', checked: false},
     {name: 'Proprietorship Name', id: 'proprietorship_name', checked: false},
     {name: 'House', id: 'house', checked: false}, {name: 'Locality', id: 'locality', checked: false},
-    {name: 'District', id: 'district', checked: false}, {name: 'Pan Card', id: 'pan_card', checked: false},
+    // adding two new field in download popup , i.e.. pincode and address state
+    {name: 'District', id: 'district', checked: false}, {name: 'PinCode', id: 'pincode', checked: false}, {name: 'Address State', id: 'address_state', checked: false},
+    {name: 'Pan Card', id: 'pan_card', checked: false},
     {name: 'Pan Card Remark', id: 'pan_card_remark', checked: false}, {name: 'Amount', id: 'amount', checked: false},
     {name: 'Amount in Words', id: 'amount_in_words', checked: false}, {name: 'Collector Name', id: 'collector_name', checked: false}, {name: 'Collector Phone', id: 'collector_phone', checked: false}, {name: 'Nature of Donation', id: 'nature_of_donation', checked: false},
     {name: 'Party Unit', id: 'party_unit', checked: false}, {name: 'Location', id: 'location', checked: false},
@@ -81,6 +83,9 @@ export class MasterDownloadComponent implements OnInit {
        this.downloadCount = this.downloadCount + 1;
      }, (error: any) => {
        this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+       // pop up message
+       this.messageService.closableSnackBar(error.message);
+
      });
    }else {
      this.messageService.somethingWentWrong( 'please select at least one field');

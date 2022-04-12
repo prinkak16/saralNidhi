@@ -179,7 +179,10 @@
         <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
         <mat-cell *matCellDef="let element" class="btn-separate">
           <ng-container *ngIf="!hasReceiptGenerated(element)">
-            <mat-icon (click)="openReceiptStatus(element)" class="reciept-reason" matTooltip="View Reason ">print</mat-icon>
+            <div class="reciept-reason-background" >
+            <img src="assets/icons/Vector.png" alt="" class="reciept-reason" matTooltip=" View Reason">
+            </div>
+
           </ng-container>
           <ng-container
             *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
