@@ -81,7 +81,7 @@ export class UtilsService {
     }
   }
   // Validation for CollectorName, it won't allow digits and special characters
-  validateCollectorName(e: any): void {
+  isNotDigitOrSpecialCharacter(e: any): void {
     const input = String.fromCharCode(e.charCode);
     if (!input.match(/[a-zA-Z\.{1} ]/i)) {
       e.preventDefault();
