@@ -114,7 +114,9 @@
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
           || element.mode_of_payment.name === 'UPI') &&
-          !element.payment_remark ||
+          (!hasBankDetails(element) &&
+          allowedEdit(element.data.date) &&
+          !element.payment_remark ) ||
           element.data.name === ''
           ">
             <img src="assets/icons/time.svg" alt="" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
