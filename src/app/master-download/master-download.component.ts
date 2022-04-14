@@ -73,22 +73,20 @@ export class MasterDownloadComponent implements OnInit {
       type_id: this.utilsService.filterQueryParams.type_id,
       fields: selectedFields
     };
-   if (selectedFields.length >= 1) {
-     this.restService.downloadRecord(data).subscribe((reply: any) => {
-       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-       const blob = new Blob([reply], {type: mediaType});
-       const name = `NidhiCollection`;
-       const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
-       saveAs(blob, filename);
-       this.downloadCount = this.downloadCount + 1;
-     }, (error: any) => {
-       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
-       // pop up message
-       this.messageService.closableSnackBar(error.error.message);
-
-     });
-   }else {
-     this.messageService.somethingWentWrong( 'please select at least one field');
-   }
+    if (selectedFields.length >= 1) {
+      this.restService.downloadRecord(data).subscribe((reply: any) => {
+        const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        const blob = new Blob([reply], {type: mediaType});
+        const name = `NidhiCollection`;
+        const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
+        saveAs(blob, filename);
+        this.downloadCount = this.downloadCount + 1;
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+        this.messageService.closableSnackBar('No Records Found');
+      });
+    } else {
+      this.messageService.somethingWentWrong('Please select at least one field');
+    }
   }
 }
