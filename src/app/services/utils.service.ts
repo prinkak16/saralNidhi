@@ -88,6 +88,14 @@ export class UtilsService {
     }
   }
 
+  // Validation for panCard Number
+  validatePan(e: any): void{
+    const input = String.fromCharCode(e.charCode);
+    if (!input.match(/[a-zA-Z0-9 ]/i)) {
+      e.preventDefault();
+    }
+  }
+
   validateNumber(e: any): void {
     const input = String.fromCharCode(e.charCode);
     const reg = /^\d*(?:[.,]\d{1,2})?$/;

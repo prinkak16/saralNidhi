@@ -588,7 +588,7 @@
       </div>
 
       <label class="col-md-12 mb-1">PAN Card Number<sup *ngIf="isRequiredField('pan_card')">*</sup></label>
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" (keypress)="utilsService.validatePan($event)">
         <div class="col-md-7">
           <ng-container #ngOtpElRef>
             <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
