@@ -273,17 +273,4 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayInstrumentNo(transaction: any): string {
-    let transactionId = '';
-    if (transaction.data.utr_number) {
-      transactionId = transaction.data.utr_number;
-    } else if (transaction.data.draft_number) {
-      transactionId = transaction.data.draft_number;
-    } else if (transaction.data.cheque_number) {
-      transactionId = transaction.data.cheque_number;
-    }
-    return transactionId;
-  }
-
-
 }
