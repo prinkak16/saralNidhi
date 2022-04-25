@@ -418,7 +418,7 @@
         <mat-label class="col-md-12">Name <sup *ngIf="isRequiredField('name')">*</sup></mat-label>
         <mat-form-field appearance="outline" class="col-md-12 mt-1">
           <input [required]="isRequiredField('name')" formControlName="name" matInput #donorName
-                 (keypress)="utilsService.validateName($event)" oninput="this.value = this.value.toUpperCase()"
+                 oninput="this.value = this.value.toUpperCase()"
                  (keyup.enter)="onEnterField('name')">
           <mat-error
             *ngIf="((collectionForm.controls['name'].touched)&& collectionForm.controls['name'].hasError('required'))">
@@ -695,7 +695,7 @@
             <mat-label>Collector's Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="mt-1">
-            <input matInput formControlName="collector_name" (keypress)="utilsService.isNotDigitOrSpecialCharacter($event)"
+            <input matInput formControlName="collector_name"
                    [required]="isRequiredField('collector_name')" (keyup.enter)="onEnterField('collector_name')">
             <mat-error
               *ngIf="((collectionForm.controls.collector_name.touched)&& collectionForm.controls.collector_name.hasError('required'))">
