@@ -147,6 +147,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   nameMismatch = false;
   incorrectPan = false;
   dateValue = '';
+  pincodeDetails = false;
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
   statesValue: any;
@@ -591,7 +592,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
     this.collectionForm.controls.pincode.valueChanges.subscribe(value => {
       if (value) {
-        this.getPinCodeDetails(value, 'state', 'district');
+        if (this.pincodeDetails === true) {
+          this.getPinCodeDetails(value, 'state', 'district');
+        }
+        else {
+          this.collectionForm.controls.district.setValue(this.collectionForm.controls.district.value);
+          this.collectionForm.controls.state.setValue(this.collectionForm.controls.state.value);
+        }
       }
     });
   }
@@ -1158,7 +1165,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   getPinCodeDetails(value: string, stateControlName: string, districtControlName: string): void {
-    if (value && value.length === 6) {
+    if (this.pincodeDetails && value && value.length === 6) {
       this.restService.getPinCodeDetails(value).subscribe((reply: any[]) => {
         const response = reply[0] as any;
         if (response.Status === 'Success') {

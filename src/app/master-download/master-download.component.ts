@@ -39,6 +39,7 @@ export class MasterDownloadComponent implements OnInit {
     {name: 'Transaction Valid', id: 'transaction_valid', checked: false}, {name: 'Created By', id: 'created_by', checked: false}, {name: 'Created At', id: 'created_at', checked: false}, {name: 'Cheque Bounce Remark', id: 'cheque_bounce_remark', checked: false},
     {name: 'Reverse Remark', id: 'reverse_remark', checked: false}, {name: 'Pan Card Photo', id: 'pan_card_photo', checked: false},
     {name: 'Cheque/DD photo1', id: 'cheque_dd_photo1', checked: false}, {name: 'Cheque/DD photo2', id: 'cheque_dd_photo1', checked: false},
+    {name: 'Created At', id: 'created_at', checked: false}, {name: 'Created By', id: 'created_by', checked: false},
   ];
 
   ngOnInit(): void {
@@ -73,22 +74,20 @@ export class MasterDownloadComponent implements OnInit {
       type_id: this.utilsService.filterQueryParams.type_id,
       fields: selectedFields
     };
-   if (selectedFields.length >= 1) {
-     this.restService.downloadRecord(data).subscribe((reply: any) => {
-       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-       const blob = new Blob([reply], {type: mediaType});
-       const name = `NidhiCollection`;
-       const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
-       saveAs(blob, filename);
-       this.downloadCount = this.downloadCount + 1;
-     }, (error: any) => {
-       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
-       // pop up message
-       this.messageService.closableSnackBar(error.error.message);
-
-     });
-   }else {
-     this.messageService.somethingWentWrong( 'please select at least one field');
-   }
+    if (selectedFields.length >= 1) {
+      this.restService.downloadRecord(data).subscribe((reply: any) => {
+        const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        const blob = new Blob([reply], {type: mediaType});
+        const name = `NidhiCollection`;
+        const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
+        saveAs(blob, filename);
+        this.downloadCount = this.downloadCount + 1;
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+        this.messageService.closableSnackBar('No Records Found');
+      });
+    } else {
+      this.messageService.somethingWentWrong('Please select at least one field');
+    }
   }
 }

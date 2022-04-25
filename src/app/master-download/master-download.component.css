@@ -18,9 +18,16 @@
   font-size: 20px;
 }
 
+::ng-deep .mat-dialog-container {
+  overflow: hidden;
+}
+
 /*Hiding second scroll bar for small screen*/
-@media (min-width: 200px) and (max-width: 1848px) {
-  .scroll {
-    overflow-y: hidden !important;
+@media (max-width: 1940px) and (min-width: 1024px) and (max-height: 471px){
+  ::ng-deep .mat-dialog-content {
+    overflow: hidden;
+  }
+  ::ng-deep .mat-dialog-container {
+    overflow: scroll;
   }
 }

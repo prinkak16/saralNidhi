@@ -83,7 +83,15 @@ export class UtilsService {
   // Validation for CollectorName, it won't allow digits and special characters
   isNotDigitOrSpecialCharacter(e: any): void {
     const input = String.fromCharCode(e.charCode);
-    if (!input.match(/[a-zA-Z\.{1} ]/i)) {
+    if (!input.match(/[a-zA-Z\. ]/i)) {
+      e.preventDefault();
+    }
+  }
+
+  // Validation for panCard Number
+  validatePan(e: any): void{
+    const input = String.fromCharCode(e.charCode);
+    if (!input.match(/[a-zA-Z0-9 ]/i)) {
       e.preventDefault();
     }
   }
@@ -96,6 +104,19 @@ export class UtilsService {
       e.preventDefault();
     }
   }
+
+  displayInstrumentNo(transaction: any): string {
+    let transactionId = '';
+    if (transaction.data.utr_number) {
+      transactionId = transaction.data.utr_number;
+    } else if (transaction.data.draft_number) {
+      transactionId = transaction.data.draft_number;
+    } else if (transaction.data.cheque_number) {
+      transactionId = transaction.data.cheque_number;
+    }
+    return transactionId;
+  }
+
 
   public isNationalTreasurer(): boolean {
     return localStorage.getItem(Constant.USERROLE) === 'national_treasurer';
