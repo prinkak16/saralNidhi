@@ -27,6 +27,7 @@ export class EntryListComponent implements OnInit, AfterViewInit {
   filters: any;
   showLoader = false;
   mopIds = [];
+  enable = true;
   constructor(private restService: RestService, private messageService: MessageService,
               private appAppendUrl: AppendUrlService,
               private activatedRoute: ActivatedRoute, private utilService: UtilsService) {
@@ -104,6 +105,11 @@ export class EntryListComponent implements OnInit, AfterViewInit {
         this.transactionsSubject.next({});
       }, 500);
     }
+  }
+
+  showReceiptBox(enable: boolean): any {
+    this.enable = enable;
+    this.transactionsSubject.next(this.enable);
   }
 
   toggleLoader(showLoader: boolean): any {

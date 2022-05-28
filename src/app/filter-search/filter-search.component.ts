@@ -29,6 +29,7 @@ export class FilterSearchComponent implements OnInit {
 
   @Output() applyFilter = new EventEmitter<any>();
   @Output() showLoader = new EventEmitter<boolean>();
+  @Output() showReceiptColumn = new EventEmitter<boolean>();
   @Input() query: any = null;
   @Input() startDate: any = null;
   @Input() endDate: any = null;
@@ -38,6 +39,7 @@ export class FilterSearchComponent implements OnInit {
   filterForm: FormGroup = new FormGroup({});
   today = new Date();
   downloadCount = 1;
+  disableBox = false;
 
   ngOnInit(): void {
     this.getAllottedStates();
@@ -60,6 +62,10 @@ export class FilterSearchComponent implements OnInit {
     }, (error: string) => {
       this.messageService.somethingWentWrong(error);
     });
+  }
+
+  enableMultipleReceipt(value: boolean): any{
+    this.showReceiptColumn.emit(false);
   }
 
   getFilteredData(): void {

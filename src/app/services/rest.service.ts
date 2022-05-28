@@ -105,7 +105,8 @@ export class RestService {
     return this.http.post(this.baseUrl + 'nidhi_collection/update_collection_payment', data, this.authHttpOptions());
   }
 
-  downloadReceipt(id = ''): any {
+  downloadReceipt(id = '', isSelectAll: boolean, data: any): any {
+    const selectAll = isSelectAll ? 'true' : '';
     const authorization = localStorage.getItem(Constant.AUTH_TOKEN) || '{}';
     const authHttpOptions = {
       headers: new HttpHeaders({
@@ -115,8 +116,8 @@ export class RestService {
       }),
       responseType: 'blob'
     };
-    const url = this.baseUrl + 'nidhi_collection/get_receipt_pdf?id=' + id;
-    return this.http.get(url, authHttpOptions as any);
+    return this.http.get
+    (this.baseUrl + 'nidhi_collection/get_receipt_pdf?id=' + id + '&isSelectAll=' + selectAll + '&data=' + JSON.stringify(data), authHttpOptions as any);
   }
 
   getPinCodeDetails(pinCode: string): any {

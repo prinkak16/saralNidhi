@@ -222,3 +222,80 @@ mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-
   bottom: 0;
 }
 
+/* Checkbox and modal css */
+.mat-column-receipt_checkbox {
+  flex: 0 0 65px;
+}
+.footer-block{
+  display: flex;
+  justify-content: space-between;
+}
+
+.box-margin {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 6px;
+}
+
+.bulk-print-btn{
+  background: #50B955;
+  color:#ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
+  margin-top: auto;
+  margin-left: 15px;
+  height: 40px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.popup {
+  margin: 70px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  top: 35%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+.message-text {
+  font-size: 18px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightslategray;
+  margin: 8px 8px 10px 8px;
+  padding: 10px 0px 10px 10px;
+  border-radius: 5px;
+}
+
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #06D85F;
+  cursor: pointer;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}

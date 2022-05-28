@@ -1,5 +1,6 @@
 <div class="container-fluid">
-  <app-filter-search [query]="query" [startDate]="startDate" [endDate]="endDate" [stateId]="stateId" [typeId]="typeId" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"></app-filter-search>
+  <app-filter-search [query]="query" [startDate]="startDate" [endDate]="endDate" [stateId]="stateId" [typeId]="typeId" (applyFilter)="setFilters($event)" (showLoader)="toggleLoader($event)"
+  (showReceiptColumn)="showReceiptBox($event)"></app-filter-search>
   <ng-container *ngIf="(modeOfPayments) === null">
     Loading tabs...
   </ng-container>
@@ -15,8 +16,8 @@
     </mat-tab>
   </mat-tab-group>
   <div class="table-container">
-    <app-entry-list-table [paymentModeId]="mopIds" [filters]="filters"  (refreshCount)="this.getCount()" (updateList)="updateList($event)"
-                          [fetchWithFilters]="transactionsSubject.asObservable()" [showLoader]="showLoader">
+    <app-entry-list-table [paymentModeId]="mopIds" [filters]="filters"  [showReceiptColumn]="enable" (refreshCount)="this.getCount()" (updateList)="updateList($event)"
+                          [fetchWithFilters]="transactionsSubject.asObservable()" [showLoader]="showLoader" >
     </app-entry-list-table>
   </div>
 </div>

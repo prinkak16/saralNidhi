@@ -28,6 +28,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
 
   @Input() paymentModeId: any = null;
   @Input() showLoader = false;
+  @Input() showReceiptColumn = true;
   @Input() filters: any = null;
   @Output() updateList = new EventEmitter<any>();
   @Input() fetchWithFilters = new Observable<any>();
@@ -41,7 +42,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   updateAllowedDays = '';
   today = new Date();
   paymentDetails: any;
-  displayedColumns: string[] = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
+  displayedColumns: string[] = ['receipt_checkbox', 'sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
      'pan_card', 'party_unit', 'location', 'action', 'receipt-print'];
   private dialog: any;
   length = 0;
@@ -50,10 +51,15 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   offset = 0;
   limit = 10;
   differenceInDays: any;
+  selectAll = false;
+  isSelectAll = false;
+  transactionIds: number[] = [];
+  popup = false;
+  bulkDownloadFlag = false;
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
-      this.displayedColumns = ['sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
+      this.displayedColumns = ['receipt_checkbox', 'sno', 'date', 'name', 'mode_of_payment', 'instrument_number', 'amount',
          'pan_card', 'state', 'party_unit', 'location', 'action', 'receipt-print'];
     }
     this.subscribeToSubject();
@@ -77,6 +83,32 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     });
   }
 
+ /*  Change the state of individual checkboxes */
+  checkedFields(): any {
+    if (this.paymentDetails.every((a: { checked: any; }) => a.checked)) {
+      this.selectAll = true;
+    } else {
+      this.selectAll = false;
+    }
+  }
+
+  /* Check all checkboxes when Select All checkbox is checked */
+  updateCheck(): any {
+    if (this.selectAll) {
+      this.isSelectAll = true;
+      this.paymentDetails.map((value: { checked: boolean; }) => {
+        if (this.hasReceiptGenerated(value)) {
+          value.checked = true;
+        }
+      });
+    } else {
+      this.isSelectAll = false;
+      this.paymentDetails.map((value: { checked: boolean; }) => {
+        value.checked = false;
+      });
+    }
+  }
+
   getPaymentList(): void {
     this.showLoader = true;
     const data = {
@@ -88,12 +120,21 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       this.showLoader = false;
       this.paymentDetails = response.data.data as PaymentModel[];
       this.length = response.data.length;
+      this.previousValueChecked(this.paymentDetails);
     }, (error: string) => {
       this.showLoader = false;
       this.messageService.somethingWentWrong(error);
     });
   }
 
+  /* Maintain the state of checked checkboxes when pagination is changed */
+  previousValueChecked(record: any): void {
+    record.map((recordId: any) => {
+      if (this.transactionIds.includes(recordId.id)) {
+        recordId.checked = true;
+      }
+    });
+  }
   openDialog(data: any): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
@@ -129,16 +170,39 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  downloadReceipt(row: any): void {
-    this.restService.downloadReceipt(row.id).subscribe((reply: any) => {
-      let filename = row.data.name.replace(' ', '_');
-      const mediaType = 'application/pdf';
-      const blob = new Blob([reply], {type: mediaType});
-      filename = filename + `-${(new Date()).toString().substring(0, 24)}.pdf`;
-      saveAs(blob, filename);
-    }, (error: any) => {
-      this.messageService.somethingWentWrong(error);
+  downloadReceipt(row: any, isSelectAll: boolean, isBulkDownload= false): void {
+    if (isBulkDownload && !this.transactionIds.length) {
+      this.popup = true;
+    } else {
+      const data = {
+        filters: this.filters ? this.filters : {},
+        type_id: this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : Array.isArray(this.paymentModeId) ? this.paymentModeId : this.paymentModeId
+      };
+      this.restService.downloadReceipt(row ? row.id : (this.transactionIds.length ? this.transactionIds : ''), this.isSelectAll, data).subscribe((reply: any) => {
+        let filename = row ? row.data.name.replace(' ', '_') : 'Receipts';
+        const mediaType = 'application/pdf';
+        const blob = new Blob([reply], {type: mediaType});
+        filename = filename + `-${(new Date()).toString().substring(0, 24)}.pdf`;
+        saveAs(blob, filename);
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error);
+      });
+    }
+  }
+
+  /* Push ids of transactions into array when checkbox is checked and remove ids from array when checkbox is unchecked */
+  customSelect(elementId: any): void {
+    let elementPresent = false;
+    this.transactionIds.filter(id => {
+      if (id === elementId) {
+        const index = this.transactionIds.indexOf(elementId);
+        this.transactionIds.splice(index, 1);
+        elementPresent = true;
+      }
     });
+    if (!elementPresent) {
+      this.transactionIds.push(elementId);
+    }
   }
 
   clickArchive(id: any): void {
