@@ -171,7 +171,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   downloadReceipt(row: any, isSelectAll: boolean, isBulkDownload= false): void {
-    if (isBulkDownload && !this.transactionIds.length) {
+    if (isBulkDownload && !this.transactionIds.length && !this.selectAll) {
       this.popup = true;
     } else {
       const data = {
