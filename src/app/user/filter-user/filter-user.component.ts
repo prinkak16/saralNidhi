@@ -82,7 +82,8 @@ export class FilterUserComponent implements OnInit {
     }, (error: any) => {
       this.showLoader.emit(false);
       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
-      this.messageService.closableSnackBar('No user found');
+      // popup error message in user management
+      this.messageService.closableSnackBar('No Records Found');
 
     });
   }

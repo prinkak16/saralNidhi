@@ -53,7 +53,6 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('date', {static: false}) date: any;
   @ViewChild('dateOfDraft', {static: false}) dateOfDraft: any;
   @ViewChild('dateOfTransaction', {static: false}) dateOfTransaction: any;
-  @ViewChild('cheque', {static: false}) cheque: any;
   @ViewChild('othersField', {static: false}) othersField: any;
   @ViewChild('remarkProp', {static: false}) remarkProp: any;
   @ViewChild('stateInput', {static: false}) stateInput: any;
@@ -83,6 +82,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('aajivanSahyog', {static: false}) aajivanSahyog: any;
   @ViewChild('mandal', {static: false}) mandal: any;
   @ViewChild('amount', {static: false}) amount: any;
+  @ViewChild('mop', {static: false}) mop: any;
 
   @Input() query: any = null;
   showLoader = false;
@@ -147,6 +147,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   nameMismatch = false;
   incorrectPan = false;
   dateValue = '';
+  pincodeDetails = false;
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
   statesValue: any;
@@ -252,125 +253,141 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     }
     return false;
   }
-  onTabClick(fieldName: any): void {
-    if (fieldName === 'mode_of_payment') {
-      this.collectionForm.controls.mode_of_payment.setValue('1');
+
+  // focus next field wile pressing tab, if input type field is there, it is focused taking formcontrolname, and,
+  // in case of radio button, it is checked
+  onTabPress(formControl: string): void {
+    if (formControl === 'transaction_type' && !this.transactionId) {
+        this.collectionForm.controls.mode_of_payment.setValue(this.validPaymentModes[0].id.toString());
+        this.mop._elementRef.nativeElement.focus();
     }
-    else if (fieldName === 'individual') {
+    if (formControl === 'mode_of_payment'  && !this.transactionId) {
+      this.collectionForm.controls.mode_of_payment.setValue(this.validPaymentModes[0].id.toString());
+    }
+    if (formControl === 'category') {
       this.individual.checked = true;
       this.collectionForm.controls.category.setValue('individual');
     }
-    else if (fieldName === 'true') {
+    if (formControl === 'is_proprietorship') {
       this.collectionForm.controls.is_proprietorship.setValue('true');
       this.proprietorship.checked = true;
     }
-    else if (fieldName === 'voluntary') {
+    if (formControl === 'nature_of_donation') {
       this.voluntary.checked = true;
       this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
       this.voluntary.focus();
     }
-    else if (fieldName === 'state' || 'stateInput') {
+    if (formControl === 'party_unit') {
       this.state.checked = true;
       this.state.focus();
       this.collectionForm.controls.party_unit.setValue('CountryState');
     }
-    else if (fieldName === 'State') {
-      this.stateInput.focus();
-    }
-    else if (fieldName === 'Zila') {
-      this.stateId.focus();
-    }
   }
-  onEnterField(fieldName: any): void {
-    if (fieldName === 'cheque_number') {
+
+  // focus next field while pressing enter, if input type field is there, it is focused taking formcontrolname
+  // and, in case of radio button, it is checked
+  onEnterPress(formControl: string): void {
+    if (formControl === 'cheque_number') {
       this.accountNumber.nativeElement.focus();
-    }
-    else if (fieldName === 'keyword') {
+    } else if (formControl === 'mode_of_payment') {
+      // focus different fields on selecting different modes of payment
+      if (this.selectedModeOfPayment.name === 'Cheque') {
+        this.date.nativeElement.focus();
+      }
+      if (this.selectedModeOfPayment.name === 'Demand Draft') {
+        this.dateOfDraft.nativeElement.focus();
+      } else if (this.selectedModeOfPayment.name === 'RTGS' || 'NEFT' || 'IMPS' || 'UPI') {
+        this.dateOfTransaction.nativeElement.focus();
+      }
+    } else if (formControl === 'keyword') {
       this.transaction.focus();
-    }
-    else if (fieldName === 'panCardRemark'){
-      this.amount.nativeElement.focus()
-    }
-    else if (fieldName === 'date_of_cheque') {
+    } else if (formControl === 'panCardRemark') {
+      this.amount.nativeElement.focus();
+    } else if (formControl === 'date_of_cheque') {
       this.chequeNumber.nativeElement.focus();
-    }
-    else if (fieldName === 'date_of_draft') {
+    } else if (formControl === 'date_of_draft') {
       this.draftNumber.nativeElement.focus();
-    }else if (fieldName === 'utr_number') {
+    } else if (formControl === 'utr_number') {
       this.accountNumber.nativeElement.focus();
-    }
-    else if (fieldName === 'ifsc_code') {
+    } else if (formControl === 'ifsc_code') {
       this.setBankDetails(this.bankDetails);
       this.bankDetails = [];
       this.donorName.nativeElement.focus();
-    }
-    else if (fieldName === 'draft_number') {
+    } else if (formControl === 'draft_number') {
       this.accountNumber.nativeElement.focus();
-    }
-    else if (fieldName === 'date_of_transaction') {
+    } else if (formControl === 'date_of_transaction') {
       this.utrNumber.nativeElement.focus();
-    } else if (fieldName === 'account_number') {
+    } else if (formControl === 'account_number') {
       this.ifsc.nativeElement.focus();
-    } else if (fieldName === 'CountryState') {
-      this.stateInput.nativeElement.focus();
-    }
-    else if (fieldName === 'collector_phone') {
+    } else if (formControl === 'collector_phone') {
       this.voluntary.checked = true;
       this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
       this.voluntary.focus();
-    }
-    else if (fieldName === 'utr_number') {
+    } else if (formControl === 'utr_number') {
       this.accountNumber.nativeElement.focus();
-    }
-    else if (fieldName === 'Mandal') {
-      this.mandal.focus();
-    }
-    else if (fieldName === 'State') {
-      this.stateInput.focus();
-    }
-    else if (fieldName === 'Zila') {
-      this.stateId.focus();
-    }
-    else if (fieldName === 'aajivanSahyog') {
+    } else if (formControl === 'party_unit') {
+      // focussing different fields on selecting different party units
+      if (this.collectionForm.controls.party_unit.value === 'CountryState') {
+        this.stateInput.focus();
+      } else if (this.collectionForm.controls.party_unit.value === 'Zila') {
+        this.stateId.focus();
+      } else if (this.collectionForm.controls.party_unit.value === 'Mandal') {
+        this.mandal.focus();
+      }
+    } else if (formControl === 'other_nature_of_donation') {
       this.state.checked = true;
       this.state.focus();
       this.collectionForm.controls.party_unit.setValue('CountryState');
-    }
-      else if (fieldName === 'voluntary') {
-      this.state.checked = true;
-      this.state.focus();
-      this.collectionForm.controls.party_unit.setValue('CountryState');
-    }
-    else if (fieldName === 'name') {
+    } else if (formControl === 'nature_of_donation') {
+      if (this.collectionForm.controls.nature_of_donation.value === 'Voluntary Contribution' || 'Aajivan Sahyog Nidhi') {
+        this.state.checked = true;
+        this.state.focus();
+        this.collectionForm.controls.party_unit.setValue('CountryState');
+      } else if (this.collectionForm.controls.nature_of_donation.value === 'Aajivan Sahyog Nidhi') {
+        this.state.checked = true;
+        this.state.focus();
+        this.collectionForm.controls.party_unit.setValue('CountryState');
+      } else if (this.collectionForm.controls.nature_of_donation.value === 'Other') {
+        this.others.nativeElement.focus();
+      }
+    } else if (formControl === 'name') {
       this.donorPhone.nativeElement.focus();
-    } else if (fieldName === 'phone') {
+    } else if (formControl === 'phone') {
       this.donorEmail.nativeElement.focus();
-    } else if (fieldName === 'email') {
+    } else if (formControl === 'email') {
       this.address.nativeElement.focus();
-    } else if (fieldName === 'house') {
+    } else if (formControl === 'house') {
       this.locality.nativeElement.focus();
-    } else if (fieldName === 'locality') {
+    } else if (formControl === 'locality') {
       this.pincode.nativeElement.focus();
     }
-    else if (fieldName === 'amount') {
+    else if (formControl === 'amount') {
       this.amountNarration.nativeElement.focus();
-    } else if (fieldName === 'collector_name') {
+    } else if (formControl === 'collector_name') {
       this.collectorPhone.nativeElement.focus();
-    }
-    else if (fieldName === 'volunatry'){
-      this.state.checked = true;
-      this.collectionForm.controls.party_unit.setValue('CountryState');
-    }else if (fieldName === 'pincode') {
+    } else if (formControl === 'pincode') {
       this.individual.checked = true;
       this.individual.focus();
       this.collectionForm.controls.category.setValue('individual');
-    } else if (fieldName === 'individual') {
+    } else if (formControl === 'category') {
       this.collectionForm.controls.is_proprietorship.setValue('true');
       this.proprietorship.checked = true;
       this.proprietorship.focus();
-    }else if (fieldName === 'proprietorship') {
+    } else if (formControl === 'proprietorship') {
       this.remarkProp.nativeElement.focus();
-    } else if (fieldName === 'proprietorship_name' || 'huf' || 'partnership' || 'trust' || 'corporation' || 'false') {
+    } else if (formControl === 'proprietorship_name') {
+      if (this.collectionForm.controls.category.value === 'others') {
+        this.othersField.nativeElement.focus();
+      } else {
+        const containerItem = document.getElementById(`c_${this.ngOtpInputRef.componentKey}`);
+        if (containerItem) {
+          const ele: any = containerItem.getElementsByClassName('otp-input')[0];
+          if (ele && ele.focus) {
+            ele.focus();
+          }
+        }
+      }
+    } else if (formControl === 'othersField') {
       const containerItem = document.getElementById(`c_${this.ngOtpInputRef.componentKey}`);
       if (containerItem) {
         const ele: any = containerItem.getElementsByClassName('otp-input')[0];
@@ -378,41 +395,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
           ele.focus();
         }
       }
-    }
-    else if (fieldName === 'othersField') {
-      const containerItem = document.getElementById(`c_${this.ngOtpInputRef.componentKey}`);
-      if (containerItem) {
-        const ele: any = containerItem.getElementsByClassName('otp-input')[0];
-        if (ele && ele.focus) {
-          ele.focus();
-        }
-      }
-    }
-    else if (fieldName === 'collector_phone') {
+    } else if (formControl === 'collector_phone') {
       this.voluntary.checked = true;
       this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
     }
   }
-  selectDate(event: any): void {
-    if (this.selectedModeOfPayment.name === 'Cheque') {
-      this.date.nativeElement.focus();
-    }
-
-    if (this.selectedModeOfPayment.name === 'Demand Draft') {
-      this.dateOfDraft.nativeElement.focus();
-    } else if (this.selectedModeOfPayment.name === 'RTGS' || 'NEFT' || 'IMPS' || 'UPI') {
-      this.dateOfTransaction.nativeElement.focus();
-    }
-  }
-
-  onOthers(): void {
-    this.othersField.nativeElement.focus();
-  }
-
-  othersInput(): void {
-    this.others.nativeElement.focus();
-  }
-
   onFormChange(): void {
     this.collectionForm.controls.date.disable();
     this.collectionForm.controls.financial_year_id.disable();
@@ -422,7 +409,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         if (this.collectionForm.controls.pan_card.value) {
           this.onPanCardChange(this.collectionForm.controls.pan_card.value);
         }
-        this.collectionForm.controls.proprietorship_name.setValue(null);
+        // show proprietorship name in tranaction view
+        this.collectionForm.controls.proprietorship_name.setValue(this.collectionForm.controls.proprietorship_name.value);
         if (value === 'true') {
           this.collectionForm.controls.proprietorship_name.setValidators(Validators.required);
         } else {
@@ -587,7 +575,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
     this.collectionForm.controls.pincode.valueChanges.subscribe(value => {
       if (value) {
-        this.getPinCodeDetails(value, 'state', 'district');
+        if (this.pincodeDetails === true) {
+          this.getPinCodeDetails(value, 'state', 'district');
+        }
+        else {
+          this.collectionForm.controls.district.setValue(this.collectionForm.controls.district.value);
+          this.collectionForm.controls.state.setValue(this.collectionForm.controls.state.value);
+        }
       }
     });
   }
@@ -1154,7 +1148,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   getPinCodeDetails(value: string, stateControlName: string, districtControlName: string): void {
-    if (value && value.length === 6) {
+    if (this.pincodeDetails && value && value.length === 6) {
       this.restService.getPinCodeDetails(value).subscribe((reply: any[]) => {
         const response = reply[0] as any;
         if (response.Status === 'Success') {
