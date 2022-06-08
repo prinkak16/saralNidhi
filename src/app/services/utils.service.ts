@@ -14,7 +14,7 @@ export class UtilsService {
   isAuthorized = true;
   redirectUrl: any;
   phonePattern = '^[5-9][0-9]{9}$';
-  namePattern = '^[a-zA-Z0-9\.][a-zA-Z0-9\. ]+[a-zA-Z0-9\.]$';
+  namePattern = '';
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,10}$';
   primaryMemberPattern = '^[1-4][0-9]{9}$';
   agePattern = '^(18|19|[2-9]\\d|1\\d\\d)$';
