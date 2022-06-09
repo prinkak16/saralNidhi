@@ -175,8 +175,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       this.popup = true;
     } else {
       const data = {
-        filters: this.filters ? this.filters : {},
-        type_id: this.utilService.filterQueryParams.type_id ? this.utilService.filterQueryParams.type_id : Array.isArray(this.paymentModeId) ? this.paymentModeId : this.paymentModeId
+        filters: this.filters ? this.filters : {}
       };
       this.restService.downloadReceipt(row ? row.id : (this.transactionIds.length ? this.transactionIds : ''), this.isSelectAll, data).subscribe((reply: any) => {
         let filename = row ? row.data.name.replace(' ', '_') : 'Receipts';
