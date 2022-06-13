@@ -79,7 +79,9 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
         this.paginator.pageIndex = 0;
       }
       this.offset = 0;
-      this.getPaymentList();
+      if (value) {
+        this.getPaymentList();
+      }
     });
   }
 
