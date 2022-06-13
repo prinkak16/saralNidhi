@@ -288,7 +288,7 @@
             <span class="ml-2">Bank Details</span><sup *ngIf="isRequiredField('account_number')">*</sup></label>
           <div class="row mt-2">
             <div class="col-md-6">
-              <mat-label>Account No.</mat-label>
+              <mat-label>Account No.<sup *ngIf="isRequiredField('account_number')">*</sup></mat-label>
               <mat-form-field appearance="outline">
                 <input matInput formControlName="account_number" #accountNumber
                        (keypress)="utilsService.validateNumber($event)"
@@ -304,12 +304,16 @@
               </mat-form-field>
             </div>
             <div class="col-md-6" (keydown.enter)="onEnterPress('ifsc_code')">
-              <mat-label>IFSC Code</mat-label>
+              <mat-label>IFSC Code <sup *ngIf="isRequiredField('ifsc_code')">*</sup></mat-label>
               <mat-form-field appearance="outline">
                 <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11"
                        (keydown)="getBankDetails($event, collectionForm.controls.ifsc_code.value)"
                        formControlName="ifsc_code"
                        [required]="isRequiredField('ifsc_code')">
+                <mat-error
+                  *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('required'))">
+                  Please enter IFSC Code
+                </mat-error>
                 <mat-error
                   *ngIf="((collectionForm.controls.ifsc_code.touched)&& collectionForm.controls.ifsc_code.hasError('pattern'))">
                   Please enter correct ifsc code
