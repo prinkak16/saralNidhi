@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   }
 
   total = 0;
-
+  version = '1.0.1';
   query = new FormControl(null);
   downloadCount = 1;
   ngOnInit(): void {
