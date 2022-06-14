@@ -40,7 +40,7 @@
       <!-- Instrument no Column -->
       <ng-container matColumnDef="instrument_number">
         <mat-header-cell *matHeaderCellDef> Instrument Number</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{displayInstrumentNo(element)}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{utilService.displayInstrumentNo(element)}} </mat-cell>
       </ng-container>
 
       <!-- Amount Column -->
@@ -110,13 +110,10 @@
                matTooltip="Bounced Remark: {{element.payment_remark }}">
 
           <div class="cursor-pointer" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details."
-               *ngIf="updateAllowedDays.length > 0 && (element.mode_of_payment.name === 'IMPS'
+               *ngIf="updateAllowedDays.length >= 0 && (element.mode_of_payment.name === 'IMPS'
           || element.mode_of_payment.name === 'NEFT'
           || element.mode_of_payment.name === 'RTGS'
-          || element.mode_of_payment.name === 'UPI') &&
-          (!hasBankDetails(element) &&
-          allowedEdit(element.data.date) &&
-          !element.payment_remark ) ||
+          || element.mode_of_payment.name === 'UPI') ||
           element.data.name === ''
           ">
             <img src="assets/icons/time.svg" alt="" matTooltip="{{updateAllowedDays}} Days are available to update the Bank & donor details.
@@ -179,7 +176,10 @@
         <mat-header-cell *matHeaderCellDef> Receipt</mat-header-cell>
         <mat-cell *matCellDef="let element" class="btn-separate">
           <ng-container *ngIf="!hasReceiptGenerated(element)">
-            <mat-icon (click)="openReceiptStatus(element)" class="reciept-reason" matTooltip="View Reason ">print</mat-icon>
+            <div class="reciept-reason-background" (click)="openReceiptStatus(element)">
+            <img src="assets/icons/Vector.png" alt=""  class="reciept-reason" matTooltip=" View Reason">
+            </div>
+
           </ng-container>
           <ng-container
             *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">

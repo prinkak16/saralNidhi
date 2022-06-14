@@ -20,6 +20,8 @@ import {PaymentModel} from '../models/payment.model';
 import {ToWords} from 'to-words';
 import * as Constant from '../AppConstants';
 import {DatePipe} from '@angular/common';
+import {NgOtpInputComponent} from 'ng-otp-input';
+
 
 @Component({
   selector: 'app-collection-form',
@@ -42,8 +44,46 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   @ViewChild('chequeDdPhoto', {static: false, read: ElementRef}) chequeDdPhoto: ElementRef | undefined;
   @ViewChild('focusDate', {static: false}) focusDate: ElementRef | any;
   @ViewChild('focusTransactionType', {static: false}) focusTransactionType: ElementRef | any;
-  @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: any;
+  @ViewChild('ngOtpInput', {static: false}) ngOtpInputRef: NgOtpInputComponent | any;
   @ViewChild('form', {static: false}) form: any;
+  @ViewChild('individual', {static: false}) individual: any;
+  @ViewChild('Individual', {static: false}) Individual: any;
+  @ViewChild('voluntary', {static: false}) voluntary: any;
+  @ViewChild('state', {static: false}) state: any;
+  @ViewChild('date', {static: false}) date: any;
+  @ViewChild('dateOfDraft', {static: false}) dateOfDraft: any;
+  @ViewChild('dateOfTransaction', {static: false}) dateOfTransaction: any;
+  @ViewChild('othersField', {static: false}) othersField: any;
+  @ViewChild('remarkProp', {static: false}) remarkProp: any;
+  @ViewChild('stateInput', {static: false}) stateInput: any;
+  @ViewChild('others', {static: false}) others: any;
+  @ViewChild('proprietorship', {static: false}) proprietorship: any;
+  @ViewChild('chequeNumber', {static: false}) chequeNumber: any;
+  @ViewChild('chequePhoto', {static: false}) chequePhoto: any;
+  @ViewChild('draftPhoto', {static: false}) draftPhoto: any;
+  @ViewChild('utrNumber', {static: false}) utrNumber: any;
+  @ViewChild('ifsc', {static: false}) ifsc: any;
+  @ViewChild('donorPhone', {static: false}) donorPhone: any;
+  @ViewChild('donorEmail', {static: false}) donorEmail: any;
+  @ViewChild('address', {static: false}) address: any;
+  @ViewChild('locality', {static: false}) locality: any;
+  @ViewChild('pincode', {static: false}) pincode: any;
+  @ViewChild('donorName', {static: false}) donorName: any;
+  @ViewChild('amountNarration', {static: false}) amountNarration: any;
+  @ViewChild('collectorPhone', {static: false}) collectorPhone: any;
+  @ViewChild('chequeSelect', {static: false}) chequeSelect: any;
+  @ViewChild('ngOtpElRef', {static: false}) ngOtpElRef: ElementRef | any;
+  @ViewChild('panNumber', {static: false}) panNumber: any;
+  @ViewChild('transaction', {static: false}) transaction: any;
+  @ViewChild('accountNumber', {static: false}) accountNumber: any;
+  @ViewChild('draftNumber', {static: false}) draftNumber: any;
+  @ViewChild('zila', {static: false}) zila: any;
+  @ViewChild('stateId', {static: false}) stateId: any;
+  @ViewChild('aajivanSahyog', {static: false}) aajivanSahyog: any;
+  @ViewChild('mandal', {static: false}) mandal: any;
+  @ViewChild('amount', {static: false}) amount: any;
+  @ViewChild('mop', {static: false}) mop: any;
+
   @Input() query: any = null;
   showLoader = false;
   autoFillData: any;
@@ -107,6 +147,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   nameMismatch = false;
   incorrectPan = false;
   dateValue = '';
+  pincodeDetails = false;
   currentFYStartDate = new Date('Apr 1, 2021');
   dateErrorMsg = '';
   statesValue: any;
@@ -213,6 +254,152 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     return false;
   }
 
+  // focus next field wile pressing tab, if input type field is there, it is focused taking formcontrolname, and,
+  // in case of radio button, it is checked
+  onTabPress(formControl: string): void {
+    if (formControl === 'transaction_type' && !this.transactionId) {
+        this.collectionForm.controls.mode_of_payment.setValue(this.validPaymentModes[0].id.toString());
+        this.mop._elementRef.nativeElement.focus();
+    }
+    if (formControl === 'mode_of_payment'  && !this.transactionId) {
+      this.collectionForm.controls.mode_of_payment.setValue(this.validPaymentModes[0].id.toString());
+    }
+    if (formControl === 'category') {
+      this.individual.checked = true;
+      this.collectionForm.controls.category.setValue('individual');
+    }
+    if (formControl === 'is_proprietorship') {
+      this.collectionForm.controls.is_proprietorship.setValue('true');
+      this.proprietorship.checked = true;
+    }
+    if (formControl === 'nature_of_donation') {
+      this.voluntary.checked = true;
+      this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
+      this.voluntary.focus();
+    }
+    if (formControl === 'party_unit') {
+      this.state.checked = true;
+      this.state.focus();
+      this.collectionForm.controls.party_unit.setValue('CountryState');
+    }
+  }
+
+  // focus next field while pressing enter, if input type field is there, it is focused taking formcontrolname
+  // and, in case of radio button, it is checked
+  onEnterPress(formControl: string): void {
+    if (formControl === 'cheque_number') {
+      this.accountNumber.nativeElement.focus();
+    } else if (formControl === 'mode_of_payment') {
+      // focus different fields on selecting different modes of payment
+      if (this.selectedModeOfPayment.name === 'Cheque') {
+        this.date.nativeElement.focus();
+      }
+      if (this.selectedModeOfPayment.name === 'Demand Draft') {
+        this.dateOfDraft.nativeElement.focus();
+      } else if (this.selectedModeOfPayment.name === 'RTGS' || 'NEFT' || 'IMPS' || 'UPI') {
+        this.dateOfTransaction.nativeElement.focus();
+      }
+    } else if (formControl === 'keyword') {
+      this.transaction.focus();
+    } else if (formControl === 'panCardRemark') {
+      this.amount.nativeElement.focus();
+    } else if (formControl === 'date_of_cheque') {
+      this.chequeNumber.nativeElement.focus();
+    } else if (formControl === 'date_of_draft') {
+      this.draftNumber.nativeElement.focus();
+    } else if (formControl === 'utr_number') {
+      this.accountNumber.nativeElement.focus();
+    } else if (formControl === 'ifsc_code') {
+      this.setBankDetails(this.bankDetails);
+      this.bankDetails = [];
+      this.donorName.nativeElement.focus();
+    } else if (formControl === 'draft_number') {
+      this.accountNumber.nativeElement.focus();
+    } else if (formControl === 'date_of_transaction') {
+      this.utrNumber.nativeElement.focus();
+    } else if (formControl === 'account_number') {
+      this.ifsc.nativeElement.focus();
+    } else if (formControl === 'collector_phone') {
+      this.voluntary.checked = true;
+      this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
+      this.voluntary.focus();
+    } else if (formControl === 'utr_number') {
+      this.accountNumber.nativeElement.focus();
+    } else if (formControl === 'party_unit') {
+      // focussing different fields on selecting different party units
+      if (this.collectionForm.controls.party_unit.value === 'CountryState') {
+        this.stateInput.focus();
+      } else if (this.collectionForm.controls.party_unit.value === 'Zila') {
+        this.stateId.focus();
+      } else if (this.collectionForm.controls.party_unit.value === 'Mandal') {
+        this.mandal.focus();
+      }
+    } else if (formControl === 'other_nature_of_donation') {
+      this.state.checked = true;
+      this.state.focus();
+      this.collectionForm.controls.party_unit.setValue('CountryState');
+    } else if (formControl === 'nature_of_donation') {
+      if (this.collectionForm.controls.nature_of_donation.value === 'Voluntary Contribution' || 'Aajivan Sahyog Nidhi') {
+        this.state.checked = true;
+        this.state.focus();
+        this.collectionForm.controls.party_unit.setValue('CountryState');
+      } else if (this.collectionForm.controls.nature_of_donation.value === 'Aajivan Sahyog Nidhi') {
+        this.state.checked = true;
+        this.state.focus();
+        this.collectionForm.controls.party_unit.setValue('CountryState');
+      } else if (this.collectionForm.controls.nature_of_donation.value === 'Other') {
+        this.others.nativeElement.focus();
+      }
+    } else if (formControl === 'name') {
+      this.donorPhone.nativeElement.focus();
+    } else if (formControl === 'phone') {
+      this.donorEmail.nativeElement.focus();
+    } else if (formControl === 'email') {
+      this.address.nativeElement.focus();
+    } else if (formControl === 'house') {
+      this.locality.nativeElement.focus();
+    } else if (formControl === 'locality') {
+      this.pincode.nativeElement.focus();
+    }
+    else if (formControl === 'amount') {
+      this.amountNarration.nativeElement.focus();
+    } else if (formControl === 'collector_name') {
+      this.collectorPhone.nativeElement.focus();
+    } else if (formControl === 'pincode') {
+      this.individual.checked = true;
+      this.individual.focus();
+      this.collectionForm.controls.category.setValue('individual');
+    } else if (formControl === 'category') {
+      this.collectionForm.controls.is_proprietorship.setValue('true');
+      this.proprietorship.checked = true;
+      this.proprietorship.focus();
+    } else if (formControl === 'proprietorship') {
+      this.remarkProp.nativeElement.focus();
+    } else if (formControl === 'proprietorship_name') {
+      if (this.collectionForm.controls.category.value === 'others') {
+        this.othersField.nativeElement.focus();
+      } else {
+        const containerItem = document.getElementById(`c_${this.ngOtpInputRef.componentKey}`);
+        if (containerItem) {
+          const ele: any = containerItem.getElementsByClassName('otp-input')[0];
+          if (ele && ele.focus) {
+            ele.focus();
+          }
+        }
+      }
+    } else if (formControl === 'othersField') {
+      const containerItem = document.getElementById(`c_${this.ngOtpInputRef.componentKey}`);
+      if (containerItem) {
+        const ele: any = containerItem.getElementsByClassName('otp-input')[0];
+        if (ele && ele.focus) {
+          ele.focus();
+        }
+      }
+    } else if (formControl === 'collector_phone') {
+      this.voluntary.checked = true;
+      this.collectionForm.controls.nature_of_donation.setValue('Voluntary Contribution');
+    }
+  }
   onFormChange(): void {
     this.collectionForm.controls.date.disable();
     this.collectionForm.controls.financial_year_id.disable();
@@ -222,7 +409,8 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         if (this.collectionForm.controls.pan_card.value) {
           this.onPanCardChange(this.collectionForm.controls.pan_card.value);
         }
-        this.collectionForm.controls.proprietorship_name.setValue(null);
+        // show proprietorship name in tranaction view
+        this.collectionForm.controls.proprietorship_name.setValue(this.collectionForm.controls.proprietorship_name.value);
         if (value === 'true') {
           this.collectionForm.controls.proprietorship_name.setValidators(Validators.required);
         } else {
@@ -387,7 +575,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     });
     this.collectionForm.controls.pincode.valueChanges.subscribe(value => {
       if (value) {
-        this.getPinCodeDetails(value, 'state', 'district');
+        if (this.pincodeDetails === true) {
+          this.getPinCodeDetails(value, 'state', 'district');
+        }
+        else {
+          this.collectionForm.controls.district.setValue(this.collectionForm.controls.district.value);
+          this.collectionForm.controls.state.setValue(this.collectionForm.controls.state.value);
+        }
       }
     });
   }
@@ -954,7 +1148,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   getPinCodeDetails(value: string, stateControlName: string, districtControlName: string): void {
-    if (value && value.length === 6) {
+    if (this.pincodeDetails && value && value.length === 6) {
       this.restService.getPinCodeDetails(value).subscribe((reply: any[]) => {
         const response = reply[0] as any;
         if (response.Status === 'Success') {
@@ -1177,7 +1371,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
 // Fetching bank details from ifsc code.
-  getBankDetails(value: string): void {
+  getBankDetails(event: any, value: string): void {
     this.setIfscValidation();
     if (value.startsWith(' ') || value.endsWith(' ')) {
       this.messageService.somethingWentWrong('Space not allowed');

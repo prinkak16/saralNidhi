@@ -228,9 +228,18 @@ mat-label{
   letter-spacing: 0.05em;
 }
 
-::ng-deep.mat-radio-container{
-  display: none!important;
+::ng-deep.mat-radio-outer-circle{
+  border: none !important;
+  border-style: none !important;
+  mso-border-shadow: no !important;
 }
+
+::ng-deep.mat-radio-inner-circle{
+  border: none !important;
+  border-style: none !important;
+  background: none !important;
+}
+
 
 ::ng-deep.mat-radio-checked{
   background: #101A73!important;
@@ -400,8 +409,19 @@ mat-form-field{
   max-height: 44px!important;
 }
 
-::ng-deep.mat-radio-button.mat-radio-disabled .mat-radio-label-content{
+::ng-deep.mat-radio-button.mat-radio-disabled{
   color: currentColor ;
+}
+
+::ng-deep.mat-radio-button .mat-radio-ripple{
+  height: 0px !important;
+  width: 0px !important;
+}
+
+::ng-deep.mat-radio-label-content{
+  color: currentColor ;
+  padding-right: 12px !important;
+  padding-left: 0px !important;
 }
 
 ::ng-deep.ng-select.ng-select-disabled .ng-arrow-wrapper .ng-arrow, .ng-select.ng-select-disabled .ng-clear-wrapper {
