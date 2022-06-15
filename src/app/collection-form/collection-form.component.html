@@ -281,7 +281,7 @@
 
     <div *ngIf="transactionId">
       <ng-container
-        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name) && allowBankDetailEdit(transactionDetails.data.data.date)">
+        *ngIf="['RTGS', 'NEFT', 'IMPS', 'UPI', 'Cheque', 'Demand Draft'].includes(selectedModeOfPayment.name)">
         <div class="section col-md-12">
           <label class="bank-header-color row  align-items-center">
             <img src="assets/icons/bank.svg" class="img-icon">
