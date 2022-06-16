@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+
+	<listeners>
+		<listener class-name="selenium.saral_nidhi.Listeners"></listener>
+		<listener class-name="selenium.saral_nidhi.AnnotationTransformer"></listener>
+	</listeners>
+	
+	
+	<test name="LoginPartTest" parallel="classes" thread-count="8">
+		<classes>	
+            <class name="selenium.saral_nidhi.LoginPartTest" />
+			<class name="selenium.saral_nidhi.LoginPartTest" />
+			<class name="selenium.saral_nidhi.RTGS_ModeTest" />
+			<class name="selenium.saral_nidhi.UPI_ModeTest" />
+			<class name="selenium.saral_nidhi.Cheque_ModeTest" />
+			<class name="selenium.saral_nidhi.NEFT_ModeTest" />
+			<class name="selenium.saral_nidhi.IMPS_ModeTest" />
+			<class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
+			<class name="selenium.saral_nidhi.Cash_ModeTest" />
+		</classes>
+	</test>
+	
+	<!-- 
+	<test name="RTGS_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.RTGS_ModeTest" />
+		</classes>
+		
+	</test>
+
+	<test name="UPI_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.UPI_ModeTest" />
+		</classes>
+	</test>
+
+	<test name="Cheque_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.Cheque_ModeTest" />
+		</classes>
+	</test>
+
+	<test name="NEFT_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.NEFT_ModeTest" />
+		</classes>
+	</test>
+
+	<test name="IMPS_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.IMPS_ModeTest" />
+		</classes>
+	</test>
+
+	<test name="DeamndDraft_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
+		</classes>
+	</test>
+
+	<test name="Cash_ModeTest">
+		<classes>
+			<class name="selenium.saral_nidhi.Cash_ModeTest" />
+		</classes>
+	</test> -->
+</suite> 
