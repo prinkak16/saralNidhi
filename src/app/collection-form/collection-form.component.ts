@@ -447,17 +447,22 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
+          this.collectionForm.controls.ifsc_code.setValidators(Validators.required);
           this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
           this.setChequeValidations();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
           this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
+          this.collectionForm.controls.ifsc_code.clearValidators();
+          this.collectionForm.controls.ifsc_code.updateValueAndValidity();
           this.setDDValidations();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.collectionForm.controls.name.clearValidators();
           this.collectionForm.controls.name.setValidators([Validators.pattern(this.utilsService.namePattern)]);
           this.collectionForm.controls.account_number.clearValidators();
           this.collectionForm.controls.account_number.updateValueAndValidity();
+          this.collectionForm.controls.ifsc_code.clearValidators();
+          this.collectionForm.controls.ifsc_code.updateValueAndValidity();
           this.setTransferValidations();
         } else {
           this.collectionForm.controls.account_number.clearValidators();
