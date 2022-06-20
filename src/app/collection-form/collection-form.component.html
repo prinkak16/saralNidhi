@@ -377,7 +377,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6"
-                 (keydown)="$event.keyCode == 13 ? '' : getBankDetails($event)">
+                 (keypress)="$event.keyCode == 13 ? '' : getBankDetails($event)">
               <mat-label>IFSC Code <sup *ngIf="isRequiredField('ifsc_code')">*</sup></mat-label>
               <mat-form-field appearance="outline">
                 <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11" #ifsc
