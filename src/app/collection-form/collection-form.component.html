@@ -307,7 +307,7 @@
               <mat-label>IFSC Code <sup *ngIf="isRequiredField('ifsc_code')">*</sup></mat-label>
               <mat-form-field appearance="outline">
                 <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11"
-                       (keydown)="getBankDetails($event, collectionForm.controls.ifsc_code.value)"
+                       (keypress)="getBankDetails($event)"
                        formControlName="ifsc_code"
                        [required]="isRequiredField('ifsc_code')">
                 <mat-error
@@ -377,7 +377,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6"
-                 (keydown)="$event.keyCode == 13 ? '' : getBankDetails($event, collectionForm.controls.ifsc_code.value)">
+                 (keydown)="$event.keyCode == 13 ? '' : getBankDetails($event)">
               <mat-label>IFSC Code <sup *ngIf="isRequiredField('ifsc_code')">*</sup></mat-label>
               <mat-form-field appearance="outline">
                 <input matInput oninput="this.value = this.value.toUpperCase()" maxlength="11" #ifsc
