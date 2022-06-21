@@ -204,7 +204,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       draft_number: new FormControl(null),
       utr_number: new FormControl(null),
       account_number: new FormControl(''),
-      ifsc_code: new FormControl('', [Validators.pattern(this.ifscPattern)]),
+      ifsc_code: new FormControl(''),
       bank_name: new FormControl(''),
       branch_name: new FormControl(''),
       branch_address: new FormControl(''),
@@ -447,17 +447,22 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
         this.selectedModeOfPayment = this.validPaymentModes.find(pm => pm.id.toString() === value.toString());
         if (this.selectedModeOfPayment.name === 'Cheque') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
+          this.collectionForm.controls.ifsc_code.setValidators([Validators.required, Validators.pattern(this.ifscPattern)] );
           this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
           this.setChequeValidations();
         } else if (this.selectedModeOfPayment.name === 'Demand Draft') {
           this.collectionForm.controls.account_number.setValidators(Validators.required);
           this.collectionForm.controls.name.setValidators([Validators.required, Validators.pattern(this.utilsService.namePattern)]);
+          this.collectionForm.controls.ifsc_code.clearValidators();
+          this.collectionForm.controls.ifsc_code.updateValueAndValidity();
           this.setDDValidations();
         } else if (['RTGS', 'NEFT', 'IMPS', 'UPI'].includes(this.selectedModeOfPayment.name)) {
           this.collectionForm.controls.name.clearValidators();
           this.collectionForm.controls.name.setValidators([Validators.pattern(this.utilsService.namePattern)]);
           this.collectionForm.controls.account_number.clearValidators();
           this.collectionForm.controls.account_number.updateValueAndValidity();
+          this.collectionForm.controls.ifsc_code.clearValidators();
+          this.collectionForm.controls.ifsc_code.updateValueAndValidity();
           this.setTransferValidations();
         } else {
           this.collectionForm.controls.account_number.clearValidators();
@@ -709,7 +714,11 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
   setIfscValidation(): void {
-    this.collectionForm.controls.ifsc_code.setValidators([Validators.pattern(this.ifscPattern)]);
+    if (this.selectedModeOfPayment.name === 'Cheque') {
+      this.collectionForm.controls.ifsc_code.setValidators([Validators.required, Validators.pattern(this.ifscPattern)]);
+    } else {
+      this.collectionForm.controls.ifsc_code.setValidators([Validators.pattern(this.ifscPattern)]);
+    }
     this.collectionForm.controls.ifsc_code.updateValueAndValidity();
   }
 
@@ -960,6 +969,7 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
     };
 
     this.showLoader = true;
+    this.bankDetails = [];
     this.collectionForm.controls.state.enable();
     this.collectionForm.controls.district.enable();
     this.collectionForm.controls.date.enable();
@@ -1344,9 +1354,13 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
       this.messageService.closableSnackBar(response.message);
       this.utilsService.filterQueryParams.type_id = this.collectionForm.get('mode_of_payment')?.value;
       this.router.navigate(['dashboard/list'],
-        {queryParams: {typeId: this.collectionForm.get('mode_of_payment')?.value,
+        {
+          queryParams: {
+            typeId: this.collectionForm.get('mode_of_payment')?.value,
             query: this.utilsService.filterQueryParams.query, start_date: this.utilsService.filterQueryParams.start_date,
-            end_date: this.utilsService.filterQueryParams.end_date, state_id: this.utilsService.filterQueryParams.state_id}});
+            end_date: this.utilsService.filterQueryParams.end_date, state_id: this.utilsService.filterQueryParams.state_id
+          }
+        });
     }, (error: any) => {
       this.collectionForm.controls.date_of_transaction.setValue(this.collectionForm.controls.date_of_transaction.value);
       this.disablePaymentMode();
@@ -1371,27 +1385,31 @@ export class CollectionFormComponent implements OnInit, AfterViewInit, AfterView
   }
 
 // Fetching bank details from ifsc code.
-  getBankDetails(event: any, value: string): void {
+  getBankDetails(event: any): void {
     this.setIfscValidation();
-    if (value.startsWith(' ') || value.endsWith(' ')) {
-      this.messageService.somethingWentWrong('Space not allowed');
-    }
-    if (this.collectionForm.controls.ifsc_code.valid && value.length === 11) {
-      this.restService.getBankDetails(value).subscribe((response: any) => {
-        this.bankDetails = response;
-      }, (error: any) => {
-        this.showLoader = false;
-        this.removeBankDetails();
-        if (error.error === 'Not Found') {
-          this.messageService.somethingWentWrong('Please enter valid ifsc code');
-        } else {
-          this.messageService.somethingWentWrong('Please enter correct ifsc code');
+    this.collectionForm.controls.ifsc_code.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
+      if (value) {
+        if (value.startsWith(' ') || value.endsWith(' ')) {
+          this.messageService.somethingWentWrong('Space not allowed');
         }
-      });
-    } else {
-      this.bankDetails = [];
-      this.removeBankDetails();
-    }
+        if (this.collectionForm.controls.ifsc_code.valid && value.length === 11) {
+          this.restService.getBankDetails(value).subscribe((response: any) => {
+            this.bankDetails = response;
+          }, (error: any) => {
+            this.showLoader = false;
+            this.removeBankDetails();
+            if (error.error === 'Not Found') {
+              this.messageService.somethingWentWrong('Please enter valid ifsc code');
+            } else {
+              this.messageService.somethingWentWrong('Please enter correct ifsc code');
+            }
+          });
+        } else {
+          this.bankDetails = [];
+          this.removeBankDetails();
+        }
+      }
+    });
   }
 
 // Set bank details from ifsc.
