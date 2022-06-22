@@ -8,9 +8,9 @@
 	</listeners>
 	
 	
-	<test name="LoginPartTest" parallel="classes" thread-count="1">
+	<test name="LoginPartTest" parallel="classes" thread-count="30">
 		<classes>	
-            <class name="selenium.saral_nidhi.LoginPartTest" />
+      <class name="selenium.saral_nidhi.LoginPartTest" />
 			<class name="selenium.saral_nidhi.LoginPartTest" />
 			<class name="selenium.saral_nidhi.RTGS_ModeTest" />
 			<class name="selenium.saral_nidhi.UPI_ModeTest" />
