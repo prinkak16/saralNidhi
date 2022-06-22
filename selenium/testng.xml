@@ -8,7 +8,7 @@
 	</listeners>
 	
 	
-	<test name="LoginPartTest" parallel="classes" thread-count="30">
+	<test name="LoginPartTest" parallel="classes" thread-count="8">
 		<classes>	
       <class name="selenium.saral_nidhi.LoginPartTest" />
 			<class name="selenium.saral_nidhi.LoginPartTest" />
