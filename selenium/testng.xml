@@ -11,7 +11,6 @@
 	<test name="LoginPartTest" parallel="classes" thread-count="8">
 		<classes>	
       <class name="selenium.saral_nidhi.LoginPartTest" />
-			<class name="selenium.saral_nidhi.LoginPartTest" />
 			<class name="selenium.saral_nidhi.RTGS_ModeTest" />
 			<class name="selenium.saral_nidhi.UPI_ModeTest" />
 			<class name="selenium.saral_nidhi.Cheque_ModeTest" />
