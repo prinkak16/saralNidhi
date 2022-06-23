@@ -1,16 +1,24 @@
 <ng-container *ngIf="length > 0 ; else emptyList">
+  <div class="receipt-info"
+       *ngIf="receiptInfo"> All Valid transactions will be downloaded.
+    <button class="btn btn-light clear-selection" (click)="clearSelection()"> Clear Selection</button>
+  </div>
   <div class="table-responsive">
     <mat-table [dataSource]="paymentDetails" class="entry-list-table">
       <!-- Receipt Check Box Column -->
       <ng-container matColumnDef="receipt_checkbox" >
         <mat-header-cell *matHeaderCellDef [hidden]="showReceiptColumn">
-          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll"></mat-checkbox>
+          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll" (click)="showReceiptInfo()"></mat-checkbox>
         </mat-header-cell>
           <mat-cell *matCellDef="let element" [hidden]="showReceiptColumn">
               <mat-checkbox (change)="checkedFields()"
-                            [(ngModel)]="element.checked"
+                            [(ngModel)]="element.checked || selectAll"
                             [hidden]="!hasReceiptGenerated(element)"
-                            (click)="customSelect(element.id)"> </mat-checkbox></mat-cell>
+                            (click)="customSelect(element.id)"
+                            [disabled]="selectAll"
+                            matTooltip="You cannot unselect this transaction."
+                            [matTooltipDisabled]="hideTooltip == true"
+                           > </mat-checkbox></mat-cell>
       </ng-container>
 
       <!-- Serial Number Column -->

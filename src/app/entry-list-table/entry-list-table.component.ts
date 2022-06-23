@@ -55,7 +55,8 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   isSelectAll = false;
   transactionIds: number[] = [];
   popup = false;
-  bulkDownloadFlag = false;
+  receiptInfo = false;
+  hideTooltip = true;
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
@@ -84,6 +85,15 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       }
     });
   }
+  showReceiptInfo(): any {
+    this.receiptInfo = !this.receiptInfo;
+  }
+
+  clearSelection(): any {
+    this.selectAll = false;
+    this.updateCheck();
+    this.receiptInfo = false;
+  }
 
  /*  Change the state of individual checkboxes */
   checkedFields(): any {
@@ -98,6 +108,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   updateCheck(): any {
     if (this.selectAll) {
       this.isSelectAll = true;
+      this.hideTooltip = false;
       this.paymentDetails.map((value: { checked: boolean; }) => {
         if (this.hasReceiptGenerated(value)) {
           value.checked = true;
@@ -105,6 +116,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
       });
     } else {
       this.isSelectAll = false;
+      this.hideTooltip = true;
       this.paymentDetails.map((value: { checked: boolean; }) => {
         value.checked = false;
       });
