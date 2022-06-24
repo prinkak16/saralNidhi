@@ -291,9 +291,9 @@ public class RoughTest extends Base {
 		String amount_converted_in_words;
 		
 		//amount_input.sendKeys(random_int_amount1);
-		amount_input.sendKeys("4562100");
+		amount_input.sendKeys("4562");
 		
-		amount_converted_in_words = convertToIndianCurrency("4562100");
+		amount_converted_in_words = convertToIndianCurrency("4562");
 
 		// Remove extra whitespace if any
 		amount_converted_in_words = amount_converted_in_words.replaceAll("\\s+", " ");

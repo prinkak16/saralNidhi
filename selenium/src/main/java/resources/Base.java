@@ -15,6 +15,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class Base {
 
 	public WebDriver driver;
@@ -28,17 +30,19 @@ public class Base {
 		
 		prop.load(fis);
 		
-		//String browserName = prop.getProperty("browser");
+		String browserName = prop.getProperty("browser");
 		
 		// following is for parameterized browser through maven command 
-		String browserName = System.getProperty("browser");
+		//String browserName = System.getProperty("browser");
 		
 		System.out.println("browser name is :"+browserName);
 		url = prop.getProperty("url");
 
 		if (browserName.contains("chrome")) {
 			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
-			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
+			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
+			
+		    WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
 			
 			if(browserName.contains("headless")) {
@@ -50,13 +54,17 @@ public class Base {
 
 		else if (browserName.equals("edge")) {
 			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
-			System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
+			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
+			
+			WebDriverManager.edgedriver().setup();
 			
 			//driver = new EdgeDriver();
-			
 			EdgeOptions options = new EdgeOptions();
-			options.addArguments("--headless");
-			options.addArguments("--window-size=1920,1080");
+			
+			if(browserName.contains("headless")) {
+				options.addArguments("--headless");
+				options.addArguments("--window-size=1920,1080");	
+			}
 			driver = new EdgeDriver(options);
 		}
 
