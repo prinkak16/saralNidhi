@@ -30,9 +30,9 @@ import org.testng.annotations.Test;
 import pageObjects.UPI_ModePage;
 import resources.Base;
 
-public class UPI_ModeTest extends Base {
+public class UPI_ModeTest1 extends Base {
 	public WebDriver driver;
-	public static Logger log = LogManager.getLogger(UPI_ModeTest.class);
+	public static Logger log = LogManager.getLogger(UPI_ModeTest1.class);
 
 	@Test
 	public void basePageNavigation(ITestContext context) throws IOException, InterruptedException {
