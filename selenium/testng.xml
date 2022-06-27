@@ -8,7 +8,7 @@
 	</listeners>
 	
 	
-	<test name="myTest" parallel="classes" thread-count="5">
+	<test name="myTest" parallel="classes" thread-count="15">
 		<classes>	
 		  <class name="selenium.saral_nidhi.LoginPartTest" />
 			<class name="selenium.saral_nidhi.Cheque_ModeTest" />
@@ -16,8 +16,8 @@
 			<class name="selenium.saral_nidhi.IMPS_ModeTest" />
 			<class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
 			<class name="selenium.saral_nidhi.Cash_ModeTest" />
-      <class name="selenium.saral_nidhi.RTGS_ModeTest" />
-			<class name="selenium.saral_nidhi.UPI_ModeTest" />
+      <class name="selenium.saral_nidhi.RTGS1_ModeTest" />
+			<class name="selenium.saral_nidhi.UPI1_ModeTest" />
 		</classes>
 	</test>
 	
