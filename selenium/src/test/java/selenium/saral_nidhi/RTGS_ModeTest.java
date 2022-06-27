@@ -32,20 +32,20 @@ import resources.Base;
 public class RTGS_ModeTest extends Base {
 	public WebDriver driver;
 	public static Logger log = LogManager.getLogger(RTGS_ModeTest.class);
-	
-	@Test 
+
+	@Test
 	public void basePageNavigation(ITestContext context) throws IOException, InterruptedException {
 		driver = initializeDriver();
 
 		driver.get(url);
-		
-		
+
+
 		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
 
 		new SetLocalStorage(storage, driver, context);
-		
+
 		/*
-		
+
 		Object systemLanguage = context.getAttribute("systemLanguage");
 		Object userCallCenter = context.getAttribute("userCallCenter");
 		Object userEmail = context.getAttribute("userEmail");
@@ -53,7 +53,7 @@ public class RTGS_ModeTest extends Base {
 		Object userRole = context.getAttribute("userRole");
 		Object userName = context.getAttribute("userName");
 		Object states = context.getAttribute("states");
-		
+
 		Object permissions = context.getAttribute("permissions");
 		Object userCallingRole = context.getAttribute("userCallingRole");
 		Object stateDeletionAllowed = context.getAttribute("stateDeletionAllowed");
@@ -63,15 +63,15 @@ public class RTGS_ModeTest extends Base {
 		Object userId = context.getAttribute("userId");
 		Object is_state_zone_available = context.getAttribute("is_state_zone_available");
 		Object countryState = context.getAttribute("countryState");
-		Object manualCallingEnabled = context.getAttribute("manualCallingEnabled");	
-		Object authStatus = context.getAttribute("authStatus");	
-		
-		
-		
+		Object manualCallingEnabled = context.getAttribute("manualCallingEnabled");
+		Object authStatus = context.getAttribute("authStatus");
+
+
+
 		//System.out.println("userPhone fetched :"+userPhone);
 		//System.out.println("states fetched :"+states);
-		
-		
+
+
 		storage.setItem("systemLanguage", (String) systemLanguage);
 		storage.setItem("userCallCenter", (String) userCallCenter);
 		storage.setItem("userEmail", (String) userEmail);
@@ -79,7 +79,7 @@ public class RTGS_ModeTest extends Base {
 		storage.setItem("userRole", (String) userRole);
 		storage.setItem("userName", (String) userName);
 		storage.setItem("states", (String) states);
-		
+
 		storage.setItem("permissions", (String) permissions);
 		storage.setItem("userCallingRole", (String) userCallingRole);
 		storage.setItem("stateDeletionAllowed", (String) stateDeletionAllowed);
@@ -87,15 +87,15 @@ public class RTGS_ModeTest extends Base {
 		storage.setItem("isCallingEnable", (String) isCallingEnable);
 		storage.setItem("authToken", (String) authToken);
 		storage.setItem("userId", (String) userId);
-		
+
 		storage.setItem("is_state_zone_available", (String) is_state_zone_available);
 		storage.setItem("countryState", (String) countryState);
 		storage.setItem("manualCallingEnabled", (String) manualCallingEnabled);
 		storage.setItem("authStatus", (String) authStatus);
 		*/
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		/*
-		
+
 		log.info("whole storage object :"+storageObj);
 		log.info("whole storage length :"+storageObj.length());
 		log.info("whole storage 1st :"+storageObj.charAt(0));
@@ -104,14 +104,14 @@ public class RTGS_ModeTest extends Base {
 		Object userEmail = context.getAttribute( "userEmail");
 		log.info("***********userEmail value inside RTGS*****************");
 		log.info(userEmail);
-		
+
 		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
 		storage.setItem("userEmail", (String) userEmail);
 
 		*/
-		
-		
-		
+
+
+
 		ArrayList<String> a = new ArrayList<String>();
 
 		DataDriven dd = new DataDriven();
@@ -361,7 +361,7 @@ public class RTGS_ModeTest extends Base {
 		collecter_phone.click();
 
 		 wait.until(ExpectedConditions.textToBePresentInElement(rtgsPage.getWrongCollectorName(collector_name_input),"Please enter a valid name"));
-		
+
 		//String collector_name_error = rtgsPage.getWrongCollectorName(collector_name_input).getText();
 		//Assert.assertEquals(collector_name_error, "Please enter a valid name");
 		collector_name_input.clear();
@@ -446,7 +446,7 @@ public class RTGS_ModeTest extends Base {
 				selectState.click();
 
 				WebElement state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
-				
+
 				try {
 					state_from_zila.click();
 				}
@@ -454,7 +454,7 @@ public class RTGS_ModeTest extends Base {
 					state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 					state_from_zila.click();
 				}
-				
+
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(rtgsPage.getSelectZila()));
 				selectZila.click();
@@ -472,11 +472,11 @@ public class RTGS_ModeTest extends Base {
 				WebElement selectState = wait
 						.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getSelectState()));
 				selectState.click();
-				
+
 				WebElement state_from_mandal = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
-				
-				
+
+
 				try {
 					state_from_mandal.click();
 				}
@@ -484,7 +484,7 @@ public class RTGS_ModeTest extends Base {
 					state_from_mandal = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 					state_from_mandal.click();
 				}
-				
+
 
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(rtgsPage.getSelectZila()));
@@ -492,7 +492,7 @@ public class RTGS_ModeTest extends Base {
 
 				WebElement zila_unit = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenZila(zila_unit_name)));
-				
+
 				try {
 					zila_unit.click();
 				}
@@ -500,7 +500,7 @@ public class RTGS_ModeTest extends Base {
 					zila_unit = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenZila(zila_unit_name)));
 					zila_unit.click();
 				}
-				
+
 				mandal_exist = rtgsPage.isElementPresent(driver, "mandal").isDisplayed();
 				System.out.println("mandal_exist after click on mandal:" + mandal_exist);
 				Assert.assertEquals(mandal_exist, true);
@@ -524,9 +524,9 @@ public class RTGS_ModeTest extends Base {
 
 	@AfterTest
 	 public void termnate() {
-		driver.close(); 
+		driver.close();
 		}
-	 
+
 
 	private static void other_than_individual(WebDriver driver, String[] pan_no, String name_of_proprietorship,
 			String copied_name, String category, RTGS_ModePage rtgsPage) {
@@ -601,17 +601,17 @@ public class RTGS_ModeTest extends Base {
 				WebElement pan_error_paragraph = rtgsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for text_for_invalid_pan pass....");
 				Assert.assertEquals(text_for_invalid_pan, pan_error_paragraph.getText());
-				
+
 				rtgsPage.uploadWrongPanImage();
 				rtgsPage.getWrongPanRemark().clear();
 				rtgsPage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");
-				
+
 			} else if (error_txt_for_4th_and_5th_letter != "") {
 
 				WebElement pan_error_paragraph = rtgsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for error_txt_for_4th_and_5th_letter pass....");
 				Assert.assertEquals(error_txt_for_4th_and_5th_letter, pan_error_paragraph.getText());
-				
+
 				rtgsPage.uploadWrongPanImage();
 				rtgsPage.getWrongPanRemark().clear();
 				rtgsPage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");
