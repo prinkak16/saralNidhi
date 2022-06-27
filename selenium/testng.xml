@@ -18,7 +18,6 @@
         <class name="selenium.saral_nidhi.IMPS_ModeTest" />
         <class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
         <class name="selenium.saral_nidhi.Cash_ModeTest" />
-
 </classes>
 </test>
 
