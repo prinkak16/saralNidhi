@@ -6,14 +6,17 @@
 		<listener class-name="selenium.saral_nidhi.Listeners"></listener>
 		<listener class-name="selenium.saral_nidhi.AnnotationTransformer"></listener>
 	</listeners>
-
-
+	
+	
 	<test name="myTest" parallel="classes" thread-count="8">
-		<classes>
+		<classes>	
 		    <class name="selenium.saral_nidhi.LoginPartTest" />
-      <class name="selenium.saral_nidhi.RoughTest" />
+		    <!-- 
 			<class name="selenium.saral_nidhi.RTGS_ModeTest" />
 			<class name="selenium.saral_nidhi.UPI_ModeTest" />
+			-->
+			<class name="selenium.saral_nidhi.ForRTGSTest" />
+			<class name="selenium.saral_nidhi.RoughTestUPITest" />
 			<class name="selenium.saral_nidhi.Cheque_ModeTest" />
 			<class name="selenium.saral_nidhi.NEFT_ModeTest" />
 			<class name="selenium.saral_nidhi.IMPS_ModeTest" />
@@ -21,13 +24,13 @@
 			<class name="selenium.saral_nidhi.Cash_ModeTest" />
 		</classes>
 	</test>
-
-	<!--
+	
+	<!-- 
 	<test name="RTGS_ModeTest">
 		<classes>
 			<class name="selenium.saral_nidhi.RTGS_ModeTest" />
 		</classes>
-
+		
 	</test>
 
 	<test name="UPI_ModeTest">
@@ -65,4 +68,4 @@
 			<class name="selenium.saral_nidhi.Cash_ModeTest" />
 		</classes>
 	</test> -->
-</suite>
+</suite> 

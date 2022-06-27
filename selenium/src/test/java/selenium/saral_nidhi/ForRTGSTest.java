@@ -13,7 +13,6 @@ import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -27,109 +26,165 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import pageObjects.Cheque_ModePage;
-import pageObjects.LandingPage;
+import pageObjects.RTGS_ModePage;
 import resources.Base;
 
-public class RoughTest extends Base {
+public class ForRTGSTest extends Base {
 	public WebDriver driver;
-	public static Logger log = LogManager.getLogger(RoughTest.class);
-
-	@Test
+	public static Logger log = LogManager.getLogger(ForRTGSTest.class);
+	
+	@Test 
 	public void basePageNavigation(ITestContext context) throws IOException, InterruptedException {
 		driver = initializeDriver();
 
 		driver.get(url);
+		
+		
+		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
 
-		//LocalStorage storage = ((WebStorage) driver).getLocalStorage();
+		new SetLocalStorage(storage, driver, context);
+		
+		/*
+		
+		Object systemLanguage = context.getAttribute("systemLanguage");
+		Object userCallCenter = context.getAttribute("userCallCenter");
+		Object userEmail = context.getAttribute("userEmail");
+		Object userPhone = context.getAttribute("userPhone");
+		Object userRole = context.getAttribute("userRole");
+		Object userName = context.getAttribute("userName");
+		Object states = context.getAttribute("states");
+		
+		Object permissions = context.getAttribute("permissions");
+		Object userCallingRole = context.getAttribute("userCallingRole");
+		Object stateDeletionAllowed = context.getAttribute("stateDeletionAllowed");
+		Object isTeamLead = context.getAttribute("isTeamLead");
+		Object isCallingEnable = context.getAttribute("isCallingEnable");
+		Object authToken = context.getAttribute("authToken");
+		Object userId = context.getAttribute("userId");
+		Object is_state_zone_available = context.getAttribute("is_state_zone_available");
+		Object countryState = context.getAttribute("countryState");
+		Object manualCallingEnabled = context.getAttribute("manualCallingEnabled");	
+		Object authStatus = context.getAttribute("authStatus");	
+		
+		
+		
+		//System.out.println("userPhone fetched :"+userPhone);
+		//System.out.println("states fetched :"+states);
+		
+		
+		storage.setItem("systemLanguage", (String) systemLanguage);
+		storage.setItem("userCallCenter", (String) userCallCenter);
+		storage.setItem("userEmail", (String) userEmail);
+		storage.setItem("userPhone", (String) userPhone);
+		storage.setItem("userRole", (String) userRole);
+		storage.setItem("userName", (String) userName);
+		storage.setItem("states", (String) states);
+		
+		storage.setItem("permissions", (String) permissions);
+		storage.setItem("userCallingRole", (String) userCallingRole);
+		storage.setItem("stateDeletionAllowed", (String) stateDeletionAllowed);
+		storage.setItem("isTeamLead", (String) isTeamLead);
+		storage.setItem("isCallingEnable", (String) isCallingEnable);
+		storage.setItem("authToken", (String) authToken);
+		storage.setItem("userId", (String) userId);
+		
+		storage.setItem("is_state_zone_available", (String) is_state_zone_available);
+		storage.setItem("countryState", (String) countryState);
+		storage.setItem("manualCallingEnabled", (String) manualCallingEnabled);
+		storage.setItem("authStatus", (String) authStatus);
+		*/
+		driver.navigate().refresh();
+		/*
+		
+		log.info("whole storage object :"+storageObj);
+		log.info("whole storage length :"+storageObj.length());
+		log.info("whole storage 1st :"+storageObj.charAt(0));
+		//log.info("whole storage last :"+storageObj.charAt(storageObj.length()-1));
+        log.info("After removing [ and ]"+finalstorageObj2);
+		Object userEmail = context.getAttribute( "userEmail");
+		log.info("***********userEmail value inside RTGS*****************");
+		log.info(userEmail);
+		
+		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
+		storage.setItem("userEmail", (String) userEmail);
 
-		//new SetLocalStorage(storage, driver, context);
+		*/
+		
+		
+		
 		ArrayList<String> a = new ArrayList<String>();
 
 		DataDriven dd = new DataDriven();
-		ArrayList<String> excel_data = dd.getData("Cheque_ModeTest", a);
+		ArrayList<String> excel_data = dd.getData("RTGS_ModeTest", a);
 
-		 LandingPage lp = new LandingPage(driver);
-		Cheque_ModePage chequePage = new Cheque_ModePage(driver);
-		// explicit wait
+//		LandingPage lp = new LandingPage(driver);
+		RTGS_ModePage rtgsPage = new RTGS_ModePage(driver);
+//
+//		lp.login_email().sendKeys(excel_data.get(1));
+//		lp.login_password().sendKeys(excel_data.get(2));
+//
+//		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+//
+//		WebElement sendOTP = wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
+//		sendOTP.click();
+//
+//		WebElement enterOTP = wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
+//		enterOTP.sendKeys(excel_data.get(3));
+//
+//		WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
+//		loginButton.click();
 
-		
-		  lp.login_email().sendKeys(excel_data.get(1));
-		  lp.login_password().sendKeys(excel_data.get(2));
-		  
-		  WebElement sendOTP =
-		  wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-		  sendOTP.click();
-		  
-		  WebElement enterOTP =
-		  wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-		  enterOTP.sendKeys(excel_data.get(3));
-		  
-		  WebElement loginButton =
-		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-		  loginButton.click();
-		 
-		log.info("Login successfully in Cheque_ModeTest");
-
-		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getFirstHeading()));
+		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
 
-		chequePage.getIndianDonationForm().click();
+		rtgsPage.getIndianDonationForm().click();
 
 		WebElement paymentModeOption = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getChequePaymentMode()));
+				.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getRTGSPaymentMode()));
 
-		// cheque should not be selected
-		Assert.assertFalse(chequePage.getChequeModeValue().isSelected());
+		// rtgs should not be selected
+		Assert.assertFalse(rtgsPage.getRTGSModeValue().isSelected());
 
 		paymentModeOption.click();
 
-		// cheque should be selected
-		Assert.assertTrue(chequePage.getChequeModeValue().isSelected());
-		log.info("Cheque Mode of Payment selected");
+		// rtgs should be selected
+		Assert.assertTrue(rtgsPage.getRTGSModeValue().isSelected());
+		log.info("RTGS Mode of Payment selected");
 		LocalDate now = LocalDate.now();
 
 		int no_of_back_days = Integer.parseInt(excel_data.get(5));
-		LocalDate chequeDate_generate = now.minusDays(no_of_back_days);
+		LocalDate transactionDate_generate = now.minusDays(no_of_back_days);
 
 		System.out.println(now);
-		System.out.println("chequeDate: " + chequeDate_generate);
+		System.out.println("transactionDate: " + transactionDate_generate);
 
 		DateTimeFormatter dateFormating = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		String cheque_Date = chequeDate_generate.format(dateFormating);
+		String transaction_Date = transactionDate_generate.format(dateFormating);
 
-		System.out.println(cheque_Date);
+		rtgsPage.getTransactionDate().sendKeys(transaction_Date);
 
-		chequePage.getChequeDate().sendKeys(cheque_Date);
+		// Wrong utr no
+		rtgsPage.getUTRNumber().sendKeys("12345 new");
 
-		// Wrong cheque no as digits no < 6
-		chequePage.getChequeNumber().sendKeys("12345");
+		rtgsPage.getAccountNumber().click();
 
-		chequePage.getAccountNumber().click();
+		Assert.assertEquals(rtgsPage.getInvalidUTR().getText(), "UTR number is invalid");
 
-		Assert.assertEquals(chequePage.getInvalidCheque().getText(), "Please enter a valid Cheque number");
-
-		chequePage.getChequeNumber().clear();
+		rtgsPage.getUTRNumber().clear();
 
 		Random random = new Random();
-		String random_cheque_no = Integer.toString(random.nextInt(900000) + 100000);
- 
-		chequePage.getChequeNumber().sendKeys(random_cheque_no);
-		
-//		WebElement upload_file = driver.findElement(By.xpath("(//input[@type='file'])[2]"));
-//
-//		upload_file.sendKeys(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\upload_image1.jpg");
-		
-		chequePage.uploadFrontImage();
-		chequePage.uploadBackImage();
-		
-		chequePage.getAccountNumber().sendKeys(excel_data.get(6));
+		String random_utr_no = Integer.toString(random.nextInt(900000) + 100000);
 
-		chequePage.getIfscCode().sendKeys(excel_data.get(7));
+		random_utr_no = "rtgs" + random_utr_no;
 
-		WebElement bankdetails = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getbankDetails()));
+		rtgsPage.getUTRNumber().sendKeys(random_utr_no);
+		rtgsPage.getAccountNumber().sendKeys(excel_data.get(6));
+
+		rtgsPage.getIfscCode().sendKeys(excel_data.get(7));
+
+		WebElement bankdetails = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getbankDetails()));
 
 		if (bankdetails.isDisplayed()) {
 
@@ -147,57 +202,59 @@ public class RoughTest extends Base {
 		String donor_phone = excel_data.get(9);
 		String donor_email = excel_data.get(10);
 
-		chequePage.getDonorName().sendKeys(donor_name);
+		rtgsPage.getDonorName().sendKeys(donor_name);
 
-		String copied_name = chequePage.getDonorName().getAttribute("value");
+		String copied_name = rtgsPage.getDonorName().getAttribute("value");
 
 		System.out.println("copied_name:" + copied_name);
 
 		// Check name is converted to UpperCase or not
 		Assert.assertEquals(donor_name.toUpperCase(), copied_name);
 		// type wrong phone no
-		chequePage.getDonorPhoneNumber().sendKeys("23222322");
+		rtgsPage.getDonorPhoneNumber().sendKeys("23222322");
 
-		chequePage.getDonorEmail().click();
+		rtgsPage.getDonorEmail().click();
 
-		Assert.assertEquals("Please enter a valid phone number", chequePage.getInvalidDonorPhone().getText());
+		Assert.assertEquals("Please enter a valid phone number", rtgsPage.getInvalidDonorPhone().getText());
 
-		chequePage.getDonorPhoneNumber().clear();
-		chequePage.getDonorPhoneNumber().sendKeys(donor_phone);
+		rtgsPage.getDonorPhoneNumber().clear();
+		rtgsPage.getDonorPhoneNumber().sendKeys(donor_phone);
 
 		// Enter wrong email
-		chequePage.getDonorEmail().sendKeys("abc.com");
+		rtgsPage.getDonorEmail().sendKeys("abc.com");
 
-		chequePage.getHouse().click();
+		rtgsPage.getHouse().click();
 
-		Assert.assertEquals("Enter a valid email", chequePage.getInvalidDonorEmail().getText());
+		Assert.assertEquals("Enter a valid email", rtgsPage.getInvalidDonorEmail().getText());
 
-		chequePage.getDonorEmail().clear();
-		chequePage.getDonorEmail().sendKeys(donor_email);
-		chequePage.getHouse().sendKeys(excel_data.get(11));
-		chequePage.getLocality().sendKeys(excel_data.get(12));
-		chequePage.getPinCode().sendKeys(excel_data.get(13));
+		rtgsPage.getDonorEmail().clear();
+		rtgsPage.getDonorEmail().sendKeys(donor_email);
+		rtgsPage.getHouse().sendKeys(excel_data.get(11));
+		rtgsPage.getLocality().sendKeys(excel_data.get(12));
+		rtgsPage.getPinCode().sendKeys(excel_data.get(13));
 
 		boolean district_bool = wait
-				.until(ExpectedConditions.textToBePresentInElementValue(chequePage.getDistrict(), excel_data.get(14)));
+				.until(ExpectedConditions.textToBePresentInElementValue(rtgsPage.getDistrict(), excel_data.get(14)));
 		String copied_district = null;
 
 		if (district_bool) {
-			copied_district = chequePage.getDistrict().getAttribute("value");
-		} else {
+			copied_district = rtgsPage.getDistrict().getAttribute("value");
+		}
+		else {
 			log.error("district name didn't come till 30 sec");
 		}
 
 		System.out.println(copied_district);
 
 		boolean state_bool = wait
-				.until(ExpectedConditions.textToBePresentInElement(chequePage.getState(), excel_data.get(15)));
+				.until(ExpectedConditions.textToBePresentInElement(rtgsPage.getState(), excel_data.get(15)));
 
 		String copied_state = null;
 		if (state_bool) {
-			copied_state = chequePage.getState().getText();
+			copied_state = rtgsPage.getState().getText();
 			System.out.println("copied_state :" + copied_state);
-		} else {
+		}
+		else {
 			log.error("state name didn't come till 30 sec");
 		}
 
@@ -210,75 +267,69 @@ public class RoughTest extends Base {
 		// ------------------------------------------------------------------------------------------------------------------------------
 
 		String[] arr_category = { "individual", "huf", "partnership", "trust", "corporation", "others" };
-		/*
-		
 		for (String category : arr_category) {
 
-			WebElement categoryElement = chequePage.selectCategory(category);
-		
-            wait.until(ExpectedConditions.elementToBeClickable(categoryElement)).click();
-            
-			//Thread.sleep(1000);
+			WebElement categoryElement = rtgsPage.selectCategory(category);
+			categoryElement.click();
+
+			Thread.sleep(1000);
 
 			String[] pan_no = { "F", "O", "O", "P", "K", "1", "2", "3", "4", "k" };
 
 			String name_of_proprietorship = "";
 			if (category == "individual") {
 
-				chequePage.getNoProprietorship(categoryElement).click();
+				rtgsPage.getNoProprietorship(categoryElement).click();
 
-				for_yes_no_proprietorship(driver, pan_no, name_of_proprietorship, copied_name, category, chequePage);
+				for_yes_no_proprietorship(driver, pan_no, name_of_proprietorship, copied_name, category, rtgsPage);
 
 				// Now for Yes
-				Thread.sleep(1000);
+				// Thread.sleep(1000);
 
 				System.out.println("-------------------- For Yes-------------------------");
 
-				String proprietorship_txt = chequePage.getProprietorship(categoryElement).getText();
+				String proprietorship_txt = rtgsPage.getProprietorship(categoryElement).getText();
 				Assert.assertEquals(proprietorship_txt, "Is it a proprietorship? *");
 
-				WebElement proprietorship_yes = chequePage.getYesProprietorship(categoryElement);
+				WebElement proprietorship_yes = rtgsPage.getYesProprietorship(categoryElement);
 				proprietorship_yes.click();
 
-				Thread.sleep(1000);
+				// Thread.sleep(1000);
 
-				boolean b1 = chequePage.getYesProprietorshipSelect().isSelected();
+				boolean b1 = rtgsPage.getYesProprietorshipSelect().isSelected();
 
 				System.out.println("proprietorship_yes is selected or not --->:" + b1);
 				Assert.assertTrue(b1);
 
-				WebElement Proprietorship_txt2 = chequePage.getTextAfterYesProprietorship(proprietorship_yes);
+				WebElement Proprietorship_txt2 = rtgsPage.getTextAfterYesProprietorship(proprietorship_yes);
 
 				System.out.println(Proprietorship_txt2.getText());
 				Assert.assertEquals(Proprietorship_txt2.getText(), "Write the name of the Proprietorship");
 
 				name_of_proprietorship = excel_data.get(16);
 				// type Name of proprietorship
-				chequePage.getProprietorshipName().sendKeys(name_of_proprietorship);
+				rtgsPage.getProprietorshipName().sendKeys(name_of_proprietorship);
 
-				for_yes_no_proprietorship(driver, pan_no, name_of_proprietorship, copied_name, category, chequePage);
+				for_yes_no_proprietorship(driver, pan_no, name_of_proprietorship, copied_name, category, rtgsPage);
 
 				// As individual category end so make --> name_of_proprietorship=""
 				name_of_proprietorship = "";
 			} else if (category == "others") {
 
 				WebElement other_category = wait
-						.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getOtherCategory()));
+						.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getOtherCategory()));
 
 				boolean visible_other_category = other_category.isDisplayed();
 				Assert.assertTrue(visible_other_category);
 				other_category.sendKeys("6th vk");
 
-				other_than_individual(driver, pan_no, name_of_proprietorship, copied_name, category, chequePage);
+				other_than_individual(driver, pan_no, name_of_proprietorship, copied_name, category, rtgsPage);
 			}
 
 			else {
-				other_than_individual(driver, pan_no, name_of_proprietorship, copied_name, category, chequePage);
+				other_than_individual(driver, pan_no, name_of_proprietorship, copied_name, category, rtgsPage);
 			}
 		}
-		
-		*/
-		
 		// ------------------------------------------------------------------------------------------------------------
 
 		Random rand = new Random();
@@ -286,43 +337,40 @@ public class RoughTest extends Base {
 		int random_int_amount = rand.nextInt(amount);
 		String random_int_amount1 = Integer.toString(random_int_amount);
 
-		WebElement amount_input = chequePage.getAmountInput();
+		WebElement amount_input = rtgsPage.getAmountInput();
 
 		String amount_converted_in_words;
-		
-		//amount_input.sendKeys(random_int_amount1);
-		amount_input.sendKeys("4562");
-		
-		amount_converted_in_words = convertToIndianCurrency("4562");
+		amount_input.sendKeys(random_int_amount1);
+		amount_converted_in_words = convertToIndianCurrency(random_int_amount1);
 
 		// Remove extra whitespace if any
 		amount_converted_in_words = amount_converted_in_words.replaceAll("\\s+", " ");
 
-		String amount_in_words_txt = chequePage.getAmountInWords(amount_input).getText();
+		String amount_in_words_txt = rtgsPage.getAmountInWords(amount_input).getText();
 
 		System.out.println("amount_converted_in_words **** :" + amount_converted_in_words);
 		System.out.println("amount_in_workds_txt **** :" + amount_in_words_txt);
 
 		Assert.assertEquals(amount_converted_in_words, amount_in_words_txt);
 
-		chequePage.getNarationInput().sendKeys(excel_data.get(18));
-		WebElement collector_name_input = chequePage.getCollectorName();
+		rtgsPage.getNarationInput().sendKeys(excel_data.get(18));
+		WebElement collector_name_input = rtgsPage.getCollectorName();
 
 		collector_name_input.sendKeys("vk");
-		WebElement collecter_phone = chequePage.getCollectorPhone();
+		WebElement collecter_phone = rtgsPage.getCollectorPhone();
 		collecter_phone.click();
 
-		 wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorName(collector_name_input),"Please enter a valid name"));
-		//String collector_name_error = chequePage.getWrongCollectorName(collector_name_input).getText();
-
+		 wait.until(ExpectedConditions.textToBePresentInElement(rtgsPage.getWrongCollectorName(collector_name_input),"Please enter a valid name"));
+		
+		//String collector_name_error = rtgsPage.getWrongCollectorName(collector_name_input).getText();
 		//Assert.assertEquals(collector_name_error, "Please enter a valid name");
 		collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(19));
 
 		// wrong collector phone no
 		collecter_phone.sendKeys("23222322");
-		wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorPhone(collecter_phone), "Please enter correct phone number"));
-		//String collector_phone_error = chequePage.getWrongCollectorPhone(collecter_phone).getText();
+		wait.until(ExpectedConditions.textToBePresentInElement(rtgsPage.getWrongCollectorPhone(collecter_phone), "Please enter correct phone number"));
+		//String collector_phone_error = rtgsPage.getWrongCollectorPhone(collecter_phone).getText();
 		//Assert.assertEquals(collector_phone_error, "Please enter correct phone number");
 		collecter_phone.clear();
 
@@ -333,14 +381,14 @@ public class RoughTest extends Base {
 
 		for (String donation : donation_nature) {
 
-			chequePage.getDonationNature(donation).click();
+			rtgsPage.getDonationNature(donation).click();
 			Thread.sleep(1000);
-			System.out.println("nature of donation :--->" + chequePage.getDonationNature2(donation).isSelected());
+			System.out.println("nature of donation :--->" + rtgsPage.getDonationNature2(donation).isSelected());
 
-			Assert.assertTrue(chequePage.getDonationNature2(donation).isSelected());
+			Assert.assertTrue(rtgsPage.getDonationNature2(donation).isSelected());
 
 			if (donation == "Other") {
-				chequePage.getOtherNatureOfDonation().sendKeys(excel_data.get(21));
+				rtgsPage.getOtherNatureOfDonation().sendKeys(excel_data.get(21));
 			}
 
 		}
@@ -352,13 +400,13 @@ public class RoughTest extends Base {
 
 		for (String party_unit : party_unit_arr) {
 
-			WebElement party_unit_type = chequePage.getPartyUnit(party_unit);
+			WebElement party_unit_type = rtgsPage.getPartyUnit(party_unit);
 			party_unit_type.click();
-			System.out.println(chequePage.getPartyUnit2(party_unit).isSelected());
+			System.out.println(rtgsPage.getPartyUnit2(party_unit).isSelected());
 
-			Assert.assertTrue(chequePage.getPartyUnit2(party_unit).isSelected());
+			Assert.assertTrue(rtgsPage.getPartyUnit2(party_unit).isSelected());
 
-			boolean state_exist = chequePage.isElementPresent(driver, "state").isDisplayed();
+			boolean state_exist = rtgsPage.isElementPresent(driver, "state").isDisplayed();
 
 			System.out.println("state_exist :" + state_exist);
 			Assert.assertEquals(state_exist, true);
@@ -378,109 +426,110 @@ public class RoughTest extends Base {
 				Thread.sleep(2000);
 
 				WebElement selectState = wait
-						.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getSelectState()));
+						.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getSelectState()));
 
 				selectState.click();
 
 				WebElement state_unit = wait.until(
-						ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenState(state_unit_name)));
+						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 				state_unit.click();
 
 			} else if (party_unit == "Zila") {
 
-				zila_exist = chequePage.isElementPresent(driver, "zila").isDisplayed();
+				zila_exist = rtgsPage.isElementPresent(driver, "zila").isDisplayed();
 				System.out.println("zila_exist after click on zila:" + zila_exist);
 				Assert.assertEquals(zila_exist, true);
 
 				// select state
 				WebElement selectState = wait
-						.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getSelectState()));
+						.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getSelectState()));
 				selectState.click();
 
-				WebElement state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenState(state_unit_name)));
+				WebElement state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 				
 				try {
 					state_from_zila.click();
 				}
 				catch (StaleElementReferenceException e) {
-					state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenState(state_unit_name)));
+					state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 					state_from_zila.click();
 				}
 				
 				// select zila
-				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(chequePage.getSelectZila()));
+				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(rtgsPage.getSelectZila()));
 				selectZila.click();
 
 				WebElement zila_unit = wait.until(
-						ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenZila(zila_unit_name)));
+						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenZila(zila_unit_name)));
 				zila_unit.click();
 
 			} else {
 
-				zila_exist = chequePage.isElementPresent(driver, "zila").isDisplayed();
+				zila_exist = rtgsPage.isElementPresent(driver, "zila").isDisplayed();
 				System.out.println("zila_exist after click on zila:" + zila_exist);
 				Assert.assertEquals(zila_exist, true);
 				// select state
 				WebElement selectState = wait
-						.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getSelectState()));
+						.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getSelectState()));
 				selectState.click();
 				
 				WebElement state_from_mandal = wait.until(
-						ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenState(state_unit_name)));
+						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 				
 				
 				try {
 					state_from_mandal.click();
 				}
 				catch (StaleElementReferenceException e) {
-					state_from_mandal = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenState(state_unit_name)));
+					state_from_mandal = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenState(state_unit_name)));
 					state_from_mandal.click();
 				}
 				
 
 				// select zila
-				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(chequePage.getSelectZila()));
+				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(rtgsPage.getSelectZila()));
 				selectZila.click();
 
 				WebElement zila_unit = wait.until(
-						ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenZila(zila_unit_name)));
+						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenZila(zila_unit_name)));
 				
 				try {
 					zila_unit.click();
 				}
 				catch (StaleElementReferenceException e) {
-					zila_unit = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenZila(zila_unit_name)));
+					zila_unit = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenZila(zila_unit_name)));
 					zila_unit.click();
 				}
 				
-				mandal_exist = chequePage.isElementPresent(driver, "mandal").isDisplayed();
+				mandal_exist = rtgsPage.isElementPresent(driver, "mandal").isDisplayed();
 				System.out.println("mandal_exist after click on mandal:" + mandal_exist);
 				Assert.assertEquals(mandal_exist, true);
 
 				// select mandal
 				WebElement selectMandal = wait
-						.until(ExpectedConditions.elementToBeClickable(chequePage.getSelectMandal()));
+						.until(ExpectedConditions.elementToBeClickable(rtgsPage.getSelectMandal()));
 				selectMandal.click();
 
 				WebElement mandal_unit = wait.until(
-						ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenMandal(mandal_unit_name)));
+						ExpectedConditions.visibilityOfElementLocated(rtgsPage.selectGivenMandal(mandal_unit_name)));
 				mandal_unit.click();
 
 			}
 
 		}
-		log.info("Cheque mode Transaction Created Successfully");
-
+		// success
+		log.info("RTGS mode Transaction Created Sucessfully");
 		// ------------------------------------------------------------------------------------------------------------------------
 	}
 
-	//@AfterTest
-	//public void termnate() {
-	//	driver.close();
-	//}
+	@AfterTest
+	 public void termnate() {
+		driver.close(); 
+		}
+	 
 
 	private static void other_than_individual(WebDriver driver, String[] pan_no, String name_of_proprietorship,
-			String copied_name, String category, Cheque_ModePage chequePage) {
+			String copied_name, String category, RTGS_ModePage rtgsPage) {
 
 		String copied_name_1st_letter = copied_name.substring(0, 1);
 
@@ -527,45 +576,45 @@ public class RoughTest extends Base {
 			}
 			System.out.println();
 
-			fill_pan_number(driver, pan_no, chequePage);
+			fill_pan_number(driver, pan_no, rtgsPage);
 
 			// last pan input
-			WebElement last_pan_input = chequePage.getLastPanInput();
+			WebElement last_pan_input = rtgsPage.getLastPanInput();
 
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			// invalid pan no
-			String text_for_invalid_pan = pan_letters_varification(driver, chequePage);
+			String text_for_invalid_pan = pan_letters_varification(driver, rtgsPage);
 
 			System.out.println("text_for_invalid_pan :" + text_for_invalid_pan);
 
 			// 4th and 5th letter
 			String error_txt_for_4th_and_5th_letter = pan_letters_category_validation(driver, category,
-					name_of_proprietorship, copied_name, chequePage);
+					name_of_proprietorship, copied_name, rtgsPage);
 			System.out.println("error_txt_for_4th_and_5th_letter:" + error_txt_for_4th_and_5th_letter);
 
 			if (text_for_invalid_pan != "") {
 
-				WebElement pan_error_paragraph = chequePage.getPanErrorParagraph(last_pan_input);
+				WebElement pan_error_paragraph = rtgsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for text_for_invalid_pan pass....");
-				
-				chequePage.uploadWrongPanImage();
-				chequePage.getWrongPanRemark().clear();
-				chequePage.getWrongPanRemark().sendKeys("text_for_invalid_pan");
-				
 				Assert.assertEquals(text_for_invalid_pan, pan_error_paragraph.getText());
+				
+				rtgsPage.uploadWrongPanImage();
+				rtgsPage.getWrongPanRemark().clear();
+				rtgsPage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");
+				
 			} else if (error_txt_for_4th_and_5th_letter != "") {
-				WebElement pan_error_paragraph = chequePage.getPanErrorParagraph(last_pan_input);
+
+				WebElement pan_error_paragraph = rtgsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for error_txt_for_4th_and_5th_letter pass....");
-				
-				chequePage.uploadWrongPanImage();
-				chequePage.getWrongPanRemark().clear();
-				chequePage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");
-				
 				Assert.assertEquals(error_txt_for_4th_and_5th_letter, pan_error_paragraph.getText());
+				
+				rtgsPage.uploadWrongPanImage();
+				rtgsPage.getWrongPanRemark().clear();
+				rtgsPage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");
 			}
 
 			else {
@@ -575,7 +624,7 @@ public class RoughTest extends Base {
 	}
 
 	private static void for_yes_no_proprietorship(WebDriver driver, String[] pan_no, String name_of_proprietorship,
-			String copied_name, String category, Cheque_ModePage chequePage) {
+			String copied_name, String category, RTGS_ModePage rtgsPage) {
 
 		for (int i = 0; i < 5; i++) {
 
@@ -616,32 +665,32 @@ public class RoughTest extends Base {
 			}
 			System.out.println();
 
-			fill_pan_number(driver, pan_no, chequePage);
+			fill_pan_number(driver, pan_no, rtgsPage);
 
 			// last pan input
-			WebElement last_pan_input = chequePage.getLastPanInput();
+			WebElement last_pan_input = rtgsPage.getLastPanInput();
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			// invalid pan no
-			String text_for_invalid_pan = pan_letters_varification(driver, chequePage);
+			String text_for_invalid_pan = pan_letters_varification(driver, rtgsPage);
 
 			System.out.println("text_for_invalid_pan :" + text_for_invalid_pan);
 
 			// 4th and 5th letter
 			String error_txt_for_4th_and_5th_letter = pan_letters_category_validation(driver, category,
-					name_of_proprietorship, copied_name, chequePage);
+					name_of_proprietorship, copied_name, rtgsPage);
 			System.out.println("error_txt_for_4th_and_5th_letter:" + error_txt_for_4th_and_5th_letter);
 
 			if (text_for_invalid_pan != "") {
-				WebElement pan_error_paragraph = chequePage.getPanErrorParagraph(last_pan_input);
+				WebElement pan_error_paragraph = rtgsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for text_for_invalid_pan pass....");
 				Assert.assertEquals(text_for_invalid_pan, pan_error_paragraph.getText());
 			} else if (error_txt_for_4th_and_5th_letter != "") {
 
-				WebElement pan_error_paragraph = chequePage.getPanErrorParagraph(last_pan_input);
+				WebElement pan_error_paragraph = rtgsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for error_txt_for_4th_and_5th_letter pass....");
 				Assert.assertEquals(error_txt_for_4th_and_5th_letter, pan_error_paragraph.getText());
 			}
@@ -654,19 +703,19 @@ public class RoughTest extends Base {
 
 	}
 
-	private static void fill_pan_number(WebDriver driver, String[] pan, Cheque_ModePage chequePage) {
+	private static void fill_pan_number(WebDriver driver, String[] pan, RTGS_ModePage rtgsPage) {
 
-		chequePage.get1stPanInput().clear();
-		chequePage.get1stPanInput().sendKeys(pan[0]);
-		chequePage.get2ndPanInput().sendKeys(pan[1]);
-		chequePage.get3rdPanInput().sendKeys(pan[2]);
-		chequePage.get4thPanInput().sendKeys(pan[3]);
-		chequePage.get5thPanInput().sendKeys(pan[4]);
-		chequePage.get6thPanInput().sendKeys(pan[5]);
-		chequePage.get7thPanInput().sendKeys(pan[6]);
-		chequePage.get8thPanInput().sendKeys(pan[7]);
-		chequePage.get9thPanInput().sendKeys(pan[8]);
-		chequePage.getLastPanInput().sendKeys(pan[9]);
+		rtgsPage.get1stPanInput().clear();
+		rtgsPage.get1stPanInput().sendKeys(pan[0]);
+		rtgsPage.get2ndPanInput().sendKeys(pan[1]);
+		rtgsPage.get3rdPanInput().sendKeys(pan[2]);
+		rtgsPage.get4thPanInput().sendKeys(pan[3]);
+		rtgsPage.get5thPanInput().sendKeys(pan[4]);
+		rtgsPage.get6thPanInput().sendKeys(pan[5]);
+		rtgsPage.get7thPanInput().sendKeys(pan[6]);
+		rtgsPage.get8thPanInput().sendKeys(pan[7]);
+		rtgsPage.get9thPanInput().sendKeys(pan[8]);
+		rtgsPage.getLastPanInput().sendKeys(pan[9]);
 
 		try {
 			Thread.sleep(500);
@@ -677,9 +726,9 @@ public class RoughTest extends Base {
 	}
 
 	private static String pan_letters_category_validation(WebDriver driver, String category_value,
-			String name_of_proprietorship, String copied_name, Cheque_ModePage chequePage) {
+			String name_of_proprietorship, String copied_name, RTGS_ModePage rtgsPage) {
 
-		List<WebElement> pan_elements = chequePage.getPanElements();
+		List<WebElement> pan_elements = rtgsPage.getPanElements();
 		String mismatch_error = "";
 		String fourth_letter = pan_elements.get(3).getAttribute("value");
 		String fifth_letter = pan_elements.get(4).getAttribute("value");
@@ -783,9 +832,9 @@ public class RoughTest extends Base {
 		return mismatch_error;
 	}
 
-	private static String pan_letters_varification(WebDriver driver, Cheque_ModePage chequePage) {
+	private static String pan_letters_varification(WebDriver driver, RTGS_ModePage rtgsPage) {
 
-		List<WebElement> elements = chequePage.getPanElements();
+		List<WebElement> elements = rtgsPage.getPanElements();
 		String whole_pan = "";
 		String flag_error_txt = "";
 		for (int i = 0; i < elements.size(); i++) {
@@ -803,6 +852,7 @@ public class RoughTest extends Base {
 					System.out.println(in.getClass().getSimpleName());
 				} catch (NumberFormatException e) {
 					flag_error_txt = "Please enter a valid pan card number";
+
 					System.out.println("There should be digit at position:" + i);
 				}
 
@@ -822,7 +872,6 @@ public class RoughTest extends Base {
 
 	// method for -> amount in words
 	private static String convertToIndianCurrency(String amount) {
-		System.out.println("incomming amount :"+amount);
 		BigDecimal bd = new BigDecimal(amount);
 		long number = bd.longValue();
 		long no = bd.longValue();
@@ -832,7 +881,7 @@ public class RoughTest extends Base {
 		ArrayList<String> str = new ArrayList<>();
 		HashMap<Integer, String> words = new HashMap<>();
 		words.put(0, "");
-		words.put(1, "one");
+		words.put(1, "One");
 		words.put(2, "Two");
 		words.put(3, "Three");
 		words.put(4, "Four");
@@ -891,5 +940,5 @@ public class RoughTest extends Base {
 			return Rupees + " Rupees And" + paise + " Paise Only";
 		}
 	}
-}
 
+}
