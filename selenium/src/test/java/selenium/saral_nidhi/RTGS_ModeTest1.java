@@ -29,9 +29,9 @@ import org.testng.annotations.Test;
 import pageObjects.RTGS_ModePage;
 import resources.Base;
 
-public class RTGS_ModeTest extends Base {
+public class RTGS_ModeTest1 extends Base {
 	public WebDriver driver;
-	public static Logger log = LogManager.getLogger(RTGS_ModeTest.class);
+	public static Logger log = LogManager.getLogger(RTGS_ModeTest1.class);
 	
 	@Test 
 	public void basePageNavigation(ITestContext context) throws IOException, InterruptedException {
@@ -43,75 +43,7 @@ public class RTGS_ModeTest extends Base {
 		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
 
 		new SetLocalStorage(storage, driver, context);
-		
-		/*
-		
-		Object systemLanguage = context.getAttribute("systemLanguage");
-		Object userCallCenter = context.getAttribute("userCallCenter");
-		Object userEmail = context.getAttribute("userEmail");
-		Object userPhone = context.getAttribute("userPhone");
-		Object userRole = context.getAttribute("userRole");
-		Object userName = context.getAttribute("userName");
-		Object states = context.getAttribute("states");
-		
-		Object permissions = context.getAttribute("permissions");
-		Object userCallingRole = context.getAttribute("userCallingRole");
-		Object stateDeletionAllowed = context.getAttribute("stateDeletionAllowed");
-		Object isTeamLead = context.getAttribute("isTeamLead");
-		Object isCallingEnable = context.getAttribute("isCallingEnable");
-		Object authToken = context.getAttribute("authToken");
-		Object userId = context.getAttribute("userId");
-		Object is_state_zone_available = context.getAttribute("is_state_zone_available");
-		Object countryState = context.getAttribute("countryState");
-		Object manualCallingEnabled = context.getAttribute("manualCallingEnabled");	
-		Object authStatus = context.getAttribute("authStatus");	
-		
-		
-		
-		//System.out.println("userPhone fetched :"+userPhone);
-		//System.out.println("states fetched :"+states);
-		
-		
-		storage.setItem("systemLanguage", (String) systemLanguage);
-		storage.setItem("userCallCenter", (String) userCallCenter);
-		storage.setItem("userEmail", (String) userEmail);
-		storage.setItem("userPhone", (String) userPhone);
-		storage.setItem("userRole", (String) userRole);
-		storage.setItem("userName", (String) userName);
-		storage.setItem("states", (String) states);
-		
-		storage.setItem("permissions", (String) permissions);
-		storage.setItem("userCallingRole", (String) userCallingRole);
-		storage.setItem("stateDeletionAllowed", (String) stateDeletionAllowed);
-		storage.setItem("isTeamLead", (String) isTeamLead);
-		storage.setItem("isCallingEnable", (String) isCallingEnable);
-		storage.setItem("authToken", (String) authToken);
-		storage.setItem("userId", (String) userId);
-		
-		storage.setItem("is_state_zone_available", (String) is_state_zone_available);
-		storage.setItem("countryState", (String) countryState);
-		storage.setItem("manualCallingEnabled", (String) manualCallingEnabled);
-		storage.setItem("authStatus", (String) authStatus);
-		*/
-		driver.navigate().refresh();
-		/*
-		
-		log.info("whole storage object :"+storageObj);
-		log.info("whole storage length :"+storageObj.length());
-		log.info("whole storage 1st :"+storageObj.charAt(0));
-		//log.info("whole storage last :"+storageObj.charAt(storageObj.length()-1));
-        log.info("After removing [ and ]"+finalstorageObj2);
-		Object userEmail = context.getAttribute( "userEmail");
-		log.info("***********userEmail value inside RTGS*****************");
-		log.info(userEmail);
-		
-		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
-		storage.setItem("userEmail", (String) userEmail);
-
-		*/
-		
-		
-		
+	
 		ArrayList<String> a = new ArrayList<String>();
 
 		DataDriven dd = new DataDriven();
@@ -119,22 +51,9 @@ public class RTGS_ModeTest extends Base {
 
 //		LandingPage lp = new LandingPage(driver);
 		RTGS_ModePage rtgsPage = new RTGS_ModePage(driver);
-//
-//		lp.login_email().sendKeys(excel_data.get(1));
-//		lp.login_password().sendKeys(excel_data.get(2));
-//
+
 //		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-//
-//		WebElement sendOTP = wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-//		sendOTP.click();
-//
-//		WebElement enterOTP = wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-//		enterOTP.sendKeys(excel_data.get(3));
-//
-//		WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-//		loginButton.click();
-
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(rtgsPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
 
