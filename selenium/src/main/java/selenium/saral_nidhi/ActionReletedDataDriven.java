@@ -13,21 +13,21 @@ import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class DataDriven {
-
+public class ActionReletedDataDriven {
 	public static void main(String[] args) throws IOException {
 
 		ArrayList<String> a = new ArrayList<String>();
 
-		DataDriven dd = new DataDriven();
+		ActionReletedDataDriven dd = new ActionReletedDataDriven();
+		//ArrayList<String> al = dd.getData("Login", a);
 		ArrayList<String> al = dd.getData("chequeMode", a);
-		System.out.println("After calling method :" + al.get(2));
+		System.out.println("After calling method :" + al.get(1));
 
 	}
 
 	ArrayList<String> getData(String testCaseName, ArrayList<String> a) throws IOException {
-		//File file = new File("C://Users//PC//Desktop//testData.xlsx");  
-		File file = new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\testData.xlsx");
+		//File file = new File("C://Users//PC//Desktop//actionData.xlsx");  
+		File file = new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\actionData.xlsx");
 		//‪
 		FileInputStream fis = new FileInputStream(file);
 		

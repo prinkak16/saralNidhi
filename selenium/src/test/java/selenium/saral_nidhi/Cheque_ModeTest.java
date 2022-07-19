@@ -53,22 +53,6 @@ public class Cheque_ModeTest extends Base {
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 
-		/*
-		 * lp.login_email().sendKeys(excel_data.get(1));
-		 * lp.login_password().sendKeys(excel_data.get(2));
-		 * 
-		 * WebElement sendOTP =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-		 * sendOTP.click();
-		 * 
-		 * WebElement enterOTP =
-		 * wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-		 * enterOTP.sendKeys(excel_data.get(3));
-		 * 
-		 * WebElement loginButton =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-		 * loginButton.click();
-		 */
 		log.info("Login successfully in Cheque_ModeTest");
 
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getFirstHeading()));
@@ -414,8 +398,7 @@ public class Cheque_ModeTest extends Base {
 				
 				WebElement state_from_mandal = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(chequePage.selectGivenState(state_unit_name)));
-				
-				
+			
 				try {
 					state_from_mandal.click();
 				}

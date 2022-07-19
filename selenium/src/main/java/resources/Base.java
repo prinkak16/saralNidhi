@@ -73,7 +73,7 @@ public class Base {
 		}
 
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(50));
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 		driver.manage().window().maximize();
 		return driver;
 	}

@@ -31,6 +31,7 @@ import pageObjects.UPI_ModePage;
 import resources.Base;
 
 public class UPI_ModeTest extends Base {
+	
 	public WebDriver driver;
 	public static Logger log = LogManager.getLogger(UPI_ModeTest.class);
 
@@ -44,54 +45,7 @@ public class UPI_ModeTest extends Base {
 
 		new SetLocalStorage(storage, driver, context);
 
-		/*
-		 * Object systemLanguage = context.getAttribute("systemLanguage"); Object
-		 * userCallCenter = context.getAttribute("userCallCenter"); Object userEmail =
-		 * context.getAttribute("userEmail"); Object userPhone =
-		 * context.getAttribute("userPhone"); Object userRole =
-		 * context.getAttribute("userRole"); Object userName =
-		 * context.getAttribute("userName"); Object states =
-		 * context.getAttribute("states");
-		 *
-		 * Object permissions = context.getAttribute("permissions"); Object
-		 * userCallingRole = context.getAttribute("userCallingRole"); Object
-		 * stateDeletionAllowed = context.getAttribute("stateDeletionAllowed"); Object
-		 * isTeamLead = context.getAttribute("isTeamLead"); Object isCallingEnable =
-		 * context.getAttribute("isCallingEnable"); Object authToken =
-		 * context.getAttribute("authToken"); Object userId =
-		 * context.getAttribute("userId"); Object is_state_zone_available =
-		 * context.getAttribute("is_state_zone_available"); Object countryState =
-		 * context.getAttribute("countryState"); Object manualCallingEnabled =
-		 * context.getAttribute("manualCallingEnabled"); Object authStatus =
-		 * context.getAttribute("authStatus");
-		 *
-		 *
-		 *
-		 * //System.out.println("userPhone fetched :"+userPhone);
-		 * //System.out.println("states fetched :"+states);
-		 *
-		 *
-		 * storage.setItem("systemLanguage", (String) systemLanguage);
-		 * storage.setItem("userCallCenter", (String) userCallCenter);
-		 * storage.setItem("userEmail", (String) userEmail);
-		 * storage.setItem("userPhone", (String) userPhone); storage.setItem("userRole",
-		 * (String) userRole); storage.setItem("userName", (String) userName);
-		 * storage.setItem("states", (String) states);
-		 *
-		 * storage.setItem("permissions", (String) permissions);
-		 * storage.setItem("userCallingRole", (String) userCallingRole);
-		 * storage.setItem("stateDeletionAllowed", (String) stateDeletionAllowed);
-		 * storage.setItem("isTeamLead", (String) isTeamLead);
-		 * storage.setItem("isCallingEnable", (String) isCallingEnable);
-		 * storage.setItem("authToken", (String) authToken); storage.setItem("userId",
-		 * (String) userId);
-		 *
-		 * storage.setItem("is_state_zone_available", (String) is_state_zone_available);
-		 * storage.setItem("countryState", (String) countryState);
-		 * storage.setItem("manualCallingEnabled", (String) manualCallingEnabled);
-		 * storage.setItem("authStatus", (String) authStatus);
-		 */
-		//driver.navigate().refresh();
+		driver.navigate().refresh();
 		ArrayList<String> a = new ArrayList<String>();
 
 		DataDriven dd = new DataDriven();
@@ -102,24 +56,6 @@ public class UPI_ModeTest extends Base {
 
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-
-		/*
-		 * lp.login_email().sendKeys(excel_data.get(1));
-		 * lp.login_password().sendKeys(excel_data.get(2));
-		 *
-		 * WebElement sendOTP =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-		 * sendOTP.click();
-		 *
-		 * WebElement enterOTP =
-		 * wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-		 * enterOTP.sendKeys(excel_data.get(3));
-		 *
-		 * WebElement loginButton =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-		 * loginButton.click();
-		 *
-		 */
 
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(upiPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
@@ -427,7 +363,7 @@ public class UPI_ModeTest extends Base {
 				selectState.click();
 
 				WebElement state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(upiPage.selectGivenState(state_unit_name)));
-
+				
 				try {
 					state_from_zila.click();
 				}
@@ -435,7 +371,7 @@ public class UPI_ModeTest extends Base {
 					state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(upiPage.selectGivenState(state_unit_name)));
 					state_from_zila.click();
 				}
-
+				
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(upiPage.getSelectZila()));
 				selectZila.click();
@@ -453,11 +389,11 @@ public class UPI_ModeTest extends Base {
 				WebElement selectState = wait
 						.until(ExpectedConditions.visibilityOfElementLocated(upiPage.getSelectState()));
 				selectState.click();
-
+				
 				WebElement state_from_mandal = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(upiPage.selectGivenState(state_unit_name)));
-
-
+				
+				
 				try {
 					state_from_mandal.click();
 				}
@@ -465,7 +401,7 @@ public class UPI_ModeTest extends Base {
 					state_from_mandal = wait.until(ExpectedConditions.visibilityOfElementLocated(upiPage.selectGivenState(state_unit_name)));
 					state_from_mandal.click();
 				}
-
+				
 
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(upiPage.getSelectZila()));
@@ -473,7 +409,7 @@ public class UPI_ModeTest extends Base {
 
 				WebElement zila_unit = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(upiPage.selectGivenZila(zila_unit_name)));
-
+				
 				try {
 					zila_unit.click();
 				}
@@ -481,7 +417,7 @@ public class UPI_ModeTest extends Base {
 					zila_unit = wait.until(ExpectedConditions.visibilityOfElementLocated(upiPage.selectGivenZila(zila_unit_name)));
 					zila_unit.click();
 				}
-
+				
 				mandal_exist = upiPage.isElementPresent(driver, "mandal").isDisplayed();
 				System.out.println("mandal_exist after click on mandal:" + mandal_exist);
 				Assert.assertEquals(mandal_exist, true);
@@ -502,7 +438,7 @@ public class UPI_ModeTest extends Base {
 		log.info("UPI mode Transaction Created Sucessfully");
 		// ------------------------------------------------------------------------------------------------------------------------
 	}
-
+	
 	@AfterTest
 	public void termnate() {
 		driver.close();

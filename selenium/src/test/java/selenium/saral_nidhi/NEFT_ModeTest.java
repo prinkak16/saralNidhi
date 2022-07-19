@@ -80,12 +80,12 @@ public class NEFT_ModeTest extends Base {
 		WebElement paymentModeOption = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(neftPage.getNEFTPaymentMode()));
 
-		// rtgs should not be selected
+		// neft should not be selected
 		Assert.assertFalse(neftPage.getNEFTModeValue().isSelected());
 
 		paymentModeOption.click();
 
-		// rtgs should be selected
+		// neft should be selected
 		Assert.assertTrue(neftPage.getNEFTModeValue().isSelected());
 		log.info("NEFT Mode of Payment selected");
 		LocalDate now = LocalDate.now();
