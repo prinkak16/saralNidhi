@@ -41,10 +41,9 @@ public class Base {
 
 		if (browserName.contains("chrome")) {
 			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
-			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
+			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
 
-
-		    //WebDriverManager.chromedriver().setup();
+		  WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
       System.out.println("--------------inside chrome section---------- :");
 			if(browserName.contains("headless")) {
