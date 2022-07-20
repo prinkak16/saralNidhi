@@ -33,7 +33,8 @@ public class LoginPartTest extends Base {
 
     System.out.println("--------------url before driver.get(url) in perfirmLogin ---------- :"+url);
 
-		driver.get(url);
+		//driver.get(url);
+    driver.navigate().to(url);
 
     System.out.println("--------------url in perfirmLogin ---------- :"+url);
 
