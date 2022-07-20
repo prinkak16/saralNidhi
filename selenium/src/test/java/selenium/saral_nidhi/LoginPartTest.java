@@ -31,9 +31,11 @@ public class LoginPartTest extends Base {
 
     System.out.println("--------------driver in perfirmLogin ---------- :"+driver);
 
+    System.out.println("--------------url before driver.get(url) in perfirmLogin ---------- :"+url);
+
 		driver.get(url);
 
-System.out.println("--------------url in perfirmLogin ---------- :"+url);
+    System.out.println("--------------url in perfirmLogin ---------- :"+url);
 
 		ArrayList<String> a = new ArrayList<String>();
 
