@@ -24,12 +24,16 @@ public class LoginPartTest extends Base {
 
 	public WebDriver driver;
 	public static Logger log = LogManager.getLogger(LoginPartTest.class);
-	
+
 	@BeforeSuite
 	public void perfirmLogin(ITestContext context) throws IOException {
 		driver = initializeDriver();
 
+    System.out.println("--------------driver in perfirmLogin ---------- :"+driver);
+
 		driver.get(url);
+
+System.out.println("--------------url in perfirmLogin ---------- :"+url);
 
 		ArrayList<String> a = new ArrayList<String>();
 
@@ -50,37 +54,37 @@ public class LoginPartTest extends Base {
 
 		WebElement enterOTP = wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
 		enterOTP.sendKeys(excel_data.get(3));
-		
+
 		WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		loginButton.click();
-		
+
 		log.info("-----------------------------");
-		
+
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(cashPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
-		
+
 		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
 		 log.info("Printing local storage " + storage.getItem("authStatus"));
-		 
+
 		 log.info("key set :"+ storage.keySet());
-		 
+
 		//context.setAttribute("storageObj", storage.keySet());
 		//context.setAttribute("userEmail", storage.getItem("userEmail"));
-		 
+
 		for (String item : storage.keySet()) {
 		    System.out.println("item form login :"+item);
-			
+
 			context.setAttribute(item, storage.getItem(item));
 		}
 		//context.setAttribute("userEmail", storage.getItem("userEmail"));
 		log.info("Login successfully from Login Part");
 		log.info("-----------------------------------");
 	}
-	
-	@AfterSuite 
+
+	@AfterSuite
 	public void terminate () {
 		driver.close();
 		log.info("login page driver is closed--##---$$--&&-");
 	}
-	
+
 }
