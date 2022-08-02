@@ -288,7 +288,7 @@
             <span class="ml-2">Bank Details</span><sup *ngIf="isRequiredField('account_number')">*</sup></label>
           <div class="row mt-2">
             <div class="col-md-6">
-              <mat-label>Account No.</mat-label>
+              <mat-label>Account No.<sup *ngIf="isRequiredField('account_number')">*</sup></mat-label>
               <mat-form-field appearance="outline">
                 <input matInput formControlName="account_number" #accountNumber
                        (keypress)="utilsService.validateNumber($event)"
