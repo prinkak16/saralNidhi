@@ -56,8 +56,7 @@ public class Base {
 		}
 
 		else if (browserName.equals("edge")) {
-			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
-			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
+
 			WebDriverManager.edgedriver().setup();
 
 			//driver = new EdgeDriver();
