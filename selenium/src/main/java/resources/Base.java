@@ -89,8 +89,7 @@ public class Base {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
-		//driver.manage().window().maximize();
-		driver.manage().window().fullscreen();
+		driver.manage().window().maximize();
 		return driver;
 	}
 
