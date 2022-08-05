@@ -19,62 +19,61 @@
     <class name="selenium.saral_nidhi.IMPS_ModeTest" />
     <class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
     <class name="selenium.saral_nidhi.Cash_ModeTest" />
-
-    <class name="selenium.saral_nidhi.UserManagementTest" />
       -->
-
-      <class name="selenium.saral_nidhi.CashRelatedTest" />
-      <class name="selenium.saral_nidhi.UPIRelatedTest" />
-      <class name="selenium.saral_nidhi.RTGSRelatedTest" />
-      <class name="selenium.saral_nidhi.NEFTRelatedTest" />
-      <class name="selenium.saral_nidhi.IMPSRelatedTest" />
-      <class name="selenium.saral_nidhi.DemandDraftRelatedTest" />
-      <class name="selenium.saral_nidhi.ChequeRelatedTest" />
-
-    </classes>
-  </test>
-
   <!--
-  <test name="RTGS_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.RTGS_ModeTest" />
-    </classes>
+  <class name="selenium.saral_nidhi.CashRelatedTest" />
+  <class name="selenium.saral_nidhi.UPIRelatedTest" />
+  <class name="selenium.saral_nidhi.RTGSRelatedTest" />
+  <class name="selenium.saral_nidhi.NEFTRelatedTest" />
+  <class name="selenium.saral_nidhi.IMPSRelatedTest" />
+  <class name="selenium.saral_nidhi.DemandDraftRelatedTest" />
+  <class name="selenium.saral_nidhi.ChequeRelatedTest" />
+  -->
+  <class name="selenium.saral_nidhi.UserManagementTest" />
+</classes>
+</test>
 
-  </test>
+<!--
+<test name="RTGS_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.RTGS_ModeTest" />
+</classes>
 
-  <test name="UPI_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.UPI_ModeTest" />
-    </classes>
-  </test>
+</test>
 
-  <test name="Cheque_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.Cheque_ModeTest" />
-    </classes>
-  </test>
+<test name="UPI_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.UPI_ModeTest" />
+</classes>
+</test>
 
-  <test name="NEFT_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.NEFT_ModeTest" />
-    </classes>
-  </test>
+<test name="Cheque_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.Cheque_ModeTest" />
+</classes>
+</test>
 
-  <test name="IMPS_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.IMPS_ModeTest" />
-    </classes>
-  </test>
+<test name="NEFT_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.NEFT_ModeTest" />
+</classes>
+</test>
 
-  <test name="DeamndDraft_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
-    </classes>
-  </test>
+<test name="IMPS_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.IMPS_ModeTest" />
+</classes>
+</test>
 
-  <test name="Cash_ModeTest">
-    <classes>
-      <class name="selenium.saral_nidhi.Cash_ModeTest" />
-    </classes>
-  </test> -->
+<test name="DeamndDraft_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
+</classes>
+</test>
+
+<test name="Cash_ModeTest">
+<classes>
+  <class name="selenium.saral_nidhi.Cash_ModeTest" />
+</classes>
+</test> -->
 </suite>
