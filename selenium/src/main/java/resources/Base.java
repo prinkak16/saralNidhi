@@ -66,16 +66,16 @@ public class Base {
 		else if (browserName.equals("edge")) {
 			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
-
+      System.out.println("inside edge");
 			WebDriverManager.edgedriver().setup();
-			//driver = new EdgeDriver();
+			driver = new EdgeDriver();
 			EdgeOptions options = new EdgeOptions();
 
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
 				options.addArguments("--window-size=1920,1080");
 			}
-			driver = new EdgeDriver(options);
+			//driver = new EdgeDriver(options);
 		}
 
 		else if (browserName.equals("firefox")) {
