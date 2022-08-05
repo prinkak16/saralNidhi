@@ -53,7 +53,7 @@ public class Base {
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadUserManagement");
 			options.setExperimentalOption("prefs", chromePrefs);
-
+      options.addArguments("start-maximized");
 
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
