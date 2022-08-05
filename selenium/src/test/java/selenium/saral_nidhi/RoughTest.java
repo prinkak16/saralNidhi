@@ -469,15 +469,15 @@ public class RoughTest extends Base {
 
 		}
 		
-		 //driver.findElement(By.xpath("//button[@color='primary']")).click();
+		 driver.findElement(By.xpath("//button[@color='primary']")).click();
 		 
-		  //WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
+		  WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
 		  
-		  //String submitText = wait.until(ExpectedConditions.visibilityOf(submit)).getText();
+		  String submitText = wait.until(ExpectedConditions.visibilityOf(submit)).getText();
 		  
-		  //System.out.println("submitText :"+submitText);
+		  System.out.println("submitText :"+submitText);
 		 
-		  //Assert.assertTrue(submitText.contains("Record Saved Successfully"));
+		  Assert.assertTrue(submitText.contains("Record Saved Successfully"));
 		
 		log.info("rough mode Transaction Created Successfully");
 

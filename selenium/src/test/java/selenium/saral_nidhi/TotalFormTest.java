@@ -31,9 +31,9 @@ import pageObjects.LandingPage;
 import pageObjects.IMPS_ModePage;
 import resources.Base;
 
-public class TotalForm extends Base {
+public class TotalFormTest extends Base {
 	public WebDriver driver;
-	public static Logger log = LogManager.getLogger(TotalForm.class);
+	public static Logger log = LogManager.getLogger(TotalFormTest.class);
 	
 	int rowNo=1;
 
@@ -44,8 +44,8 @@ public class TotalForm extends Base {
 
 		driver.get(url);
 
-		//LocalStorage storage = ((WebStorage) driver).getLocalStorage();
-		//new SetLocalStorage(storage, driver, context);
+		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
+		new SetLocalStorage(storage, driver, context);
 		ArrayList<String> a = new ArrayList<String>();
 
 		DataDriven dd = new DataDriven();
@@ -55,7 +55,7 @@ public class TotalForm extends Base {
 		IMPS_ModePage impsPage = new IMPS_ModePage(driver);
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-
+        /*
 		  lp.login_email().sendKeys(excel_data.get(1));
 		  lp.login_password().sendKeys(excel_data.get(2));
 		  
@@ -71,6 +71,7 @@ public class TotalForm extends Base {
 		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		  loginButton.click();
 		
+		*/
 		log.info("Login successfully in IMPS_ModeTest");
 
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.getFirstHeading()));
@@ -202,7 +203,8 @@ public class TotalForm extends Base {
 
 		// ------------------------------------------------------------------------------------------------------------------------------
 
-		String[] arr_category = { "individual", "huf", "partnership", "trust", "corporation", "others" };
+		//String[] arr_category = { "individual", "huf", "partnership", "trust", "corporation", "others" };
+		String[] arr_category = { "others" };
 		for (String category : arr_category) {
 
 			WebElement categoryElement = impsPage.selectCategory(category);
@@ -522,7 +524,7 @@ public class TotalForm extends Base {
 		Assert.assertEquals(header,"Donation List");
 		
 		// click on RTGS tab
-			WebElement paymentMode = driver.findElement(By.xpath("(//*[@class='tab-text'])[3]"));
+			WebElement paymentMode = driver.findElement(By.xpath("(//*[@class='tab-text'])[4]"));
 			paymentMode.click();
 			
 			Thread.sleep(2000);
@@ -723,14 +725,16 @@ public class TotalForm extends Base {
                 System.out.println("mandalName :"+mandalName);
 				
 				// click on back icon
-                driver.findElement(By.className("back-icon")).click();  
+                //driver.findElement(By.className("back-icon")).click();  
 				
-		
+		       System.out.println("After commenting back icon code@@@@@@@@@@@@@@@@");
 	}
 	@Test(dependsOnMethods = {"viewActionForNEFT"})
 	
 	public void editActionForNEFT() throws InterruptedException, IOException {
 	
+		
+		System.out.println("came to edit section@@@@@@@@@@@@@@@");
         ArrayList<String> a = new ArrayList<String>();
 		ActionReletedDataDriven dd = new ActionReletedDataDriven();
 		ArrayList<String> excel_data = dd.getData("neftMode", a);
@@ -845,8 +849,7 @@ public class TotalForm extends Base {
 		} else {
 			log.error("state name didn't come till 50 sec");
 		}
-
-		//Assert.assertEquals(copied_district, excel_data.get(14));
+        
 		//Assert.assertEquals(copied_state, excel_data.get(15));
 		
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
@@ -871,6 +874,7 @@ public class TotalForm extends Base {
 				WebElement Proprietorship_txt2 = impsPage.getTextAfterYesProprietorship(proprietorship_yes);
 
 				System.out.println(Proprietorship_txt2.getText());
+				
 				Assert.assertEquals(Proprietorship_txt2.getText(), "Write the name of the Proprietorship");
 				// type Name of proprietorship
 				impsPage.getProprietorshipName().sendKeys(name_of_proprietorship);
@@ -1116,6 +1120,7 @@ public class TotalForm extends Base {
 	@Test(dependsOnMethods = {"editActionForNEFT"}) 
 	public void reversedActionForNEFT() throws InterruptedException, IOException {
 		
+		/*
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 		
@@ -1132,6 +1137,7 @@ public class TotalForm extends Base {
 	    	WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(row)); 
 	    	ele.click();
 	        System.out.println("exception in clicking 3 dots");
+	        
 	}
 	
 
@@ -1148,8 +1154,10 @@ public class TotalForm extends Base {
 	}
 	driver.findElement(By.xpath("//*[@formcontrolname='remark']")).sendKeys("trgs reversed txt");
 	
+		
 	// close button
 	driver.findElement(By.xpath("//button[contains(text(),'Close')]")).click();
+	*/
 	}
 	
 	@Test(dependsOnMethods = {"reversedActionForNEFT"}) 

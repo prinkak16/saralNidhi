@@ -1,3 +1,4 @@
+
 package selenium.saral_nidhi;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import pageObjects.Cash_ModePage;
+import pageObjects.Cheque_ModePage;
 import pageObjects.LandingPage;
 import resources.Base;
 
@@ -40,10 +41,10 @@ public class LoginPartTest extends Base {
 		ArrayList<String> a = new ArrayList<String>();
 
 		DataDriven dd = new DataDriven();
-		ArrayList<String> excel_data = dd.getData("Cash_ModeTest", a);
+		ArrayList<String> excel_data = dd.getData("Cheque_ModeTest", a);
 
 		LandingPage lp = new LandingPage(driver);
-		Cash_ModePage cashPage = new Cash_ModePage(driver);
+		Cheque_ModePage cashPage = new Cheque_ModePage(driver);
 
 		lp.login_email().sendKeys(excel_data.get(1));
 		lp.login_password().sendKeys(excel_data.get(2));

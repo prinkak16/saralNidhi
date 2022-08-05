@@ -1,9 +1,12 @@
+
+
 package resources;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -16,6 +19,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 public class Base {
 
@@ -36,26 +40,33 @@ public class Base {
 		String browserName = System.getProperty("browser");
 
 		System.out.println("browser name is :"+browserName);
-		System.out.println("---------------url value is----------- :"+url);
 		url = prop.getProperty("url");
 
 		if (browserName.contains("chrome")) {
 			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
 
-		  WebDriverManager.chromedriver().setup();
+		    WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
-      System.out.println("--------------inside chrome section---------- :");
+
+			HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+			chromePrefs.put("profile.default_content_settings.popups", 0);
+			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadUserManagement");
+			options.setExperimentalOption("prefs", chromePrefs);
+
+
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
 				options.addArguments("--window-size=1920,1080");
-
-				System.out.println("--------------inside chromeheadless section---------- :");
 			}
+
 			driver = new ChromeDriver(options);
+
 		}
 
 		else if (browserName.equals("edge")) {
+			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
+			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
 
 			WebDriverManager.edgedriver().setup();
 
@@ -73,11 +84,11 @@ public class Base {
 
 		}
 
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(50));
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-		driver.manage().window().maximize();
 
-		System.out.println("--------------before return driver value from Base---------- :"+driver);
+		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
+		driver.manage().window().maximize();
 		return driver;
 	}
 
@@ -94,3 +105,5 @@ public class Base {
 		return destinationFile;
 	}
 }
+
+
