@@ -54,10 +54,12 @@ public class Base {
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadUserManagement");
 			options.setExperimentalOption("prefs", chromePrefs);
       options.addArguments("--start-maximized");
+      chromeOptions.addArguments("force-device-scale-factor=0.75");
+      options.addArguments("--window-size=1920,1080");
 
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
-				options.addArguments("--window-size=1920,1080");
+				//options.addArguments("--window-size=1920,1080");
 				System.out.println("Inside chromeheadless..");
 			}
 
@@ -70,7 +72,6 @@ public class Base {
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
 
 			WebDriverManager.edgedriver().setup();
-
 			//driver = new EdgeDriver();
 			EdgeOptions options = new EdgeOptions();
 
@@ -89,7 +90,8 @@ public class Base {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
-		driver.manage().window().maximize();
+		//driver.manage().window().maximize();
+		driver.manage().window().fullscreen();
 		return driver;
 	}
 
