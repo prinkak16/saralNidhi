@@ -8,8 +8,6 @@ import org.testng.ITestContext;
 public class SetLocalStorage {
 
 	public SetLocalStorage(LocalStorage storage, WebDriver driver, ITestContext context) {
-
-	System.out.println("--------------from top of SetLocalStorage class---------- :");
 		storage = ((WebStorage) driver).getLocalStorage();
 
 		Object systemLanguage = context.getAttribute("systemLanguage");
@@ -57,7 +55,5 @@ public class SetLocalStorage {
 		storage.setItem("authStatus", (String) authStatus);
 
 		driver.navigate().refresh();
-
-		System.out.println("--------------from bottom of SetLocalStorage class---------- :");
 	}
 }

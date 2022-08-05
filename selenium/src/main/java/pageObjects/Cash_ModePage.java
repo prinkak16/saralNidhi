@@ -16,7 +16,7 @@ public class Cash_ModePage {
 		this.driver = driver;
 
 	}
-
+	
 	// -------------------------------------------------------
 
 	By heading1 = By.className("heading");
@@ -316,5 +316,39 @@ public class Cash_ModePage {
 
 		return By.xpath("//div/span[contains(text(), '" + mandalName + "')]");
 	}
+	
+	//--------------------------------------- Action Related ---------------------------------------------------------------------
 
+	/*
+
+	WebElement homeButton = driver.findElement(By.xpath("(//*[@class='header-title-span'])"));	
+	public WebElement getHomeButton() {
+		return homeButton;
+	}
+	
+	WebElement count = driver.findElement(By.cssSelector("[class='total-count-div']"));
+	public WebElement getCount() {
+		return count;
+	}
+	
+	WebElement headerText = driver.findElement(By.cssSelector("[class='total-count-div']"));
+	public WebElement getHeaderText() {
+		return headerText;
+	}
+	
+	WebElement  cashTab = driver.findElement(By.xpath("(//*[@class='tab-text'])[8]"));
+	public WebElement getCashTab() {
+		return cashTab;
+	}
+	
+	public WebElement getRow(int rowNo) {
+		return driver.findElement(By.xpath("(//*[@class='mat-icon notranslate material-icons mat-icon-no-color'])["+rowNo+"]"));
+	}
+	
+	WebElement amountInText = driver.findElement(By.className("amount-in-text"));
+	public WebElement getAmountInText() {
+		return amountInText;
+	}
+	
+	*/
 }
