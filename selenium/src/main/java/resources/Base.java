@@ -52,14 +52,11 @@ public class Base {
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadUserManagement");
 			options.setExperimentalOption("prefs", chromePrefs);
-      //options.addArguments("--start-maximized");
-      //options.addArguments("force-device-scale-factor=0.75");
-      options.addArguments("--window-size=1920,1080");
 
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
-				//options.addArguments("--window-size=1920,1080");
-				System.out.println("Inside chromeheadless..");
+				options.addArguments("--window-size=1920,1080");
+        System.out.println("inside chrome headless....");
 			}
 
 			driver = new ChromeDriver(options);
