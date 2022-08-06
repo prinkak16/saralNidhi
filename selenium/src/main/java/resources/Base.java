@@ -37,10 +37,10 @@ public class Base {
 		
 		prop.load(fis);
 		
-		//String browserName = prop.getProperty("browser");
+		String browserName = prop.getProperty("browser");
 		
 		// following is for parameterized browser through maven command 
-		String browserName = System.getProperty("browser");
+		//String browserName = System.getProperty("browser");
 		
 		System.out.println("browser name is :"+browserName);
 		url = prop.getProperty("url");
