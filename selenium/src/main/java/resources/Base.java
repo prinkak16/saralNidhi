@@ -44,7 +44,24 @@ public class Base {
 		
 		System.out.println("browser name is :"+browserName);
 		url = prop.getProperty("url");
+    
+    if(browserName.contains("chrome")) {
+	//execute in chrome
+	WebDriverManager.chromedriver().setup();
+	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"/WebDrivers/chromedriver.exe");
+	if(browserName.contains("headless")) {
+	ChromeOptions options=new ChromeOptions();
+	options.addArguments("headless");
+	driver=new ChromeDriver(options);
+	}
 
+else {
+	driver=new ChromeDriver();
+	}
+	}
+
+
+/*
 		if (browserName.contains("chrome")) {
 			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
@@ -67,7 +84,7 @@ public class Base {
 			driver = new ChromeDriver(options);
 		
 		}
-
+*/
 		else if (browserName.equals("edge")) {
 			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
