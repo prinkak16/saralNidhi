@@ -89,12 +89,11 @@ public class Base {
 		else if (browserName.equals("firefox")) {
 
 		}
-
+    driver.manage().window().maximize();
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 		
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
-		driver.manage().window().maximize();
 		return driver;
 	}
 
