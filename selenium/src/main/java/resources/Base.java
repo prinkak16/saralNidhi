@@ -75,18 +75,13 @@ public class Base {
 				options.addArguments("--headless");
 				options.addArguments("--window-size=1920,1080");
 			}
-			//driver = new EdgeDriver(options);
+			driver = new EdgeDriver(options);
 		}
 
-		else if (browserName.equals("firefox")) {
-
-		}
-
+    driver.manage().window().maximize();
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
-		driver.manage().window().maximize();
 		return driver;
 	}
 
