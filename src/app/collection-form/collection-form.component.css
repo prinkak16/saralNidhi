@@ -462,3 +462,45 @@ mat-form-field{
 ::ng-deep .ng-select.ng-select-disabled .ng-select-container:after {
   background-size: 0 !important;
 }
+
+.pancard-detail-div {
+  display: flex !important;
+  flex-direction: row;
+  gap: 10px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.pancard-value-div {
+  width: 60%;
+}
+
+.pancard-message-div {
+  width: 40%;
+  margin-top: 15px;
+}
+
+@media (max-width: 1200px) {
+  .pancard-detail-div {
+    flex-direction: column;
+  }
+
+  .pancard-value-div {
+    /*width: 100%;*/
+  }
+
+  .pancard-message-div {
+    margin-top: 0px;
+  }
+  .flexbox .stretch { flex: 1; }
+
+  .flexbox div input {
+    width: 100%;
+  }
+
+  @media (max-width: 1200px) {
+    .search-icon{
+      right: 10px;
+    }
+  }
+}
