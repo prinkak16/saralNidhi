@@ -1,6 +1,26 @@
 <ng-container *ngIf="length > 0 ; else emptyList">
+  <div class="receipt-info"
+       *ngIf="receiptInfo"> All Valid transactions will be downloaded.
+    <button class="btn btn-light clear-selection" (click)="clearSelection()"> Clear Selection</button>
+  </div>
   <div class="table-responsive">
     <mat-table [dataSource]="paymentDetails" class="entry-list-table">
+      <!-- Receipt Check Box Column -->
+      <ng-container matColumnDef="receipt_checkbox" >
+        <mat-header-cell *matHeaderCellDef [hidden]="showReceiptColumn">
+          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll" (click)="showReceiptInfo()"></mat-checkbox>
+        </mat-header-cell>
+          <mat-cell *matCellDef="let element" [hidden]="showReceiptColumn">
+              <mat-checkbox (change)="checkedFields()"
+                            [(ngModel)]="element.checked || selectAll"
+                            [hidden]="!hasReceiptGenerated(element)"
+                            (click)="customSelect(element.id)"
+                            [disabled]="selectAll"
+                            matTooltip="You cannot unselect this transaction."
+                            [matTooltipDisabled]="hideTooltip == true"
+                           > </mat-checkbox></mat-cell>
+      </ng-container>
+
       <!-- Serial Number Column -->
       <ng-container matColumnDef="sno">
         <mat-header-cell *matHeaderCellDef> S. No.</mat-header-cell>
@@ -183,7 +203,7 @@
           </ng-container>
           <ng-container
             *ngIf="element.mode_of_payment.name === 'Cheque'|| element.mode_of_payment.name === 'Demand Draft'">
-            <mat-icon (click)="downloadReceipt(element)"  *ngIf="element.payment_realize_date &&
+            <mat-icon (click)="downloadReceipt(element, false)"  *ngIf="element.payment_realize_date &&
          element.transaction_valid
         && utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.receipt_number_generated && hasBankDetails(element) && checkPanCardAndValidation(element)"
@@ -191,7 +211,7 @@
                     matTooltip="Download Receipt">print
           </mat-icon>
         </ng-container>
-        <mat-icon (click)="downloadReceipt(element)" *ngIf="(
+        <mat-icon (click)="downloadReceipt(element, false)" *ngIf="(
                   element.mode_of_payment.name === 'IMPS'
                   || element.mode_of_payment.name === 'NEFT'
                   || element.mode_of_payment.name === 'RTGS'
@@ -203,7 +223,7 @@
                   class="btn-background pointer"
                   matTooltip="Download Receipt">print
         </mat-icon>
-        <mat-icon (click)="downloadReceipt(element)"
+        <mat-icon (click)="downloadReceipt(element, false)"
                   *ngIf=" (element.mode_of_payment.name === 'Cash') &&
          utilService.checkPermission('IndianDonationForm', 'Allow Receipt Print')
         && element.transaction_valid
@@ -247,8 +267,19 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   </div>
-  <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
-                 [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
+  <div class="footer-block">
+    <button mat-flat-button class="bulk-print-btn" [disabled]="showReceiptColumn" (click)="downloadReceipt('', true, true)"> Bulk Print </button>
+    <div class="overlay" *ngIf="popup" >
+      <div class="popup">
+        <div class="message-text">Please select a transaction.</div>
+        <a class="close" (click)="popup = false">&times;</a>
+        <div class="content">
+        </div>
+      </div>
+    </div>
+    <mat-paginator #paginator showFirstLastButtons hidePageSize [length]="length"
+                   [pageSize]="pageSize" (page)="pageEvent = paginationClicked($event)"></mat-paginator>
+  </div>
 </ng-container>
 <ng-template #emptyList>
   <h3 class="text-center" *ngIf="!showLoader">No records found</h3>
