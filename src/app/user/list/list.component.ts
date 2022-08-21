@@ -46,6 +46,7 @@ export class ListComponent implements OnInit {
     this.tabStatus = event.tab.textLabel;
     if (event.tab.textLabel) {
       this.searchForm.controls.archived.setValue(event.tab.textLabel);
+      this.resetPagination();
       this.getUsers();
     }
   }
@@ -93,5 +94,15 @@ export class ListComponent implements OnInit {
 
   toggleLoader(showLoader: boolean): any {
     this.showLoader = showLoader;
+  }
+
+  resetPagination(): void{
+    this.pageEvent.pageIndex = 0;
+    this.limit = 10;
+    this.offset = 0;
+    this.length = 0;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
   }
 }
