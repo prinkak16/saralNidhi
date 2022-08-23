@@ -419,13 +419,16 @@ public class UserManagementTest extends Base {
 
                 	WebElement roll = driver.findElement(By.xpath("//mat-radio-button[@value='"+changeRoleTo+"']"));
             		roll.click();
+                System.out.println("changedRole....");
 
             		ngDriver.waitForAngularRequestsToFinish();
             		Thread.sleep(2000);
             		String classAftercheck = roll.getAttribute("class");
+
+            		System.out.println("getting classAftercheck....");
             		// After check mat-radio-checked will be added
             		Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
-
+                System.out.println("yes mat-radio-checked added....");
 
             	    driver.findElement(By.xpath("(//*[@formcontrolname='location_ids'])")).click();
 
