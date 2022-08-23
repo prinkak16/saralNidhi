@@ -8,9 +8,10 @@ import {UpdatePanStatusComponent} from '../update-pan-status/update-pan-status.c
 import {Observable, Observer, Subscription} from 'rxjs';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {saveAs} from 'file-saver';
-import {FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {Router} from '@angular/router';
+import {AppendUrlService} from '../services/append-url.service';
 
 @Component({
   selector: 'app-pan-action-required',
@@ -31,9 +32,12 @@ export class PanActionRequiredComponent implements OnInit{
   filters: any;
   query = new FormControl(null);
   selected = new FormControl(0);
+  filterForm: FormGroup = new FormGroup({});
   constructor(private restService: RestService, private loaderService: LoaderService,
               public dialog: MatDialog, private router: Router,
-              public utilsService: UtilsService, private messageService: MessageService) {
+              public utilsService: UtilsService, private messageService: MessageService,
+              private appendUrlService: AppendUrlService,
+              private formBuilder: FormBuilder) {
     this.asyncTabs = new Observable((observer: Observer<any>) => {
       setTimeout(() => {
         observer.next([
@@ -55,6 +59,11 @@ export class PanActionRequiredComponent implements OnInit{
   downloadCount = 1;
   ngOnInit(): void {
     this.getPanRequiredList('');
+    this.filterForm = this.formBuilder.group({
+      query: new FormControl(this.query)
+    });
+    this.filterForm.controls.query.setValue(this.query ? this.query : '');
+    this.getFilterRecords();
   }
 
   /* To copy any Text */
@@ -87,6 +96,7 @@ export class PanActionRequiredComponent implements OnInit{
       this.tabStatus = 'rejected';
       this.getPanRequiredList('rejected');
     }
+    this.getQueryParams();
   }
 
   openDialog(data: any): void {
@@ -150,9 +160,19 @@ export class PanActionRequiredComponent implements OnInit{
   getFilterRecords(): void {
     this.selected.setValue(0);
     this.getFilteredData(this.query.value);
+    this.getQueryParams();
+  }
+
+  getQueryParams(): void {
+    const data = {
+      query: this.query ? this.query.value : '',
+      tab: this.tabStatus
+    };
+    this.appendUrlService.appendPanFilterToUrl(data);
   }
 
   getFilteredData(query: any): void{
+    this.filterForm.controls.query.setValue(this.query ? this.query : '');
     this.showLoader = true;
     const data = {
       status: '',
@@ -194,4 +214,5 @@ export class PanActionRequiredComponent implements OnInit{
     });
     return count;
   }
+
 }
