@@ -303,6 +303,7 @@ mat-label{
 }
 .mt-6{
   margin-top: 13px;
+  padding-right: 0px !important;
 }
 ::ng-deep.ng-select .ng-dropdown-panel{
   margin-top: 20px !important;
@@ -311,5 +312,23 @@ mat-label{
 
 ::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input>input {
   caret-color: transparent !important;
+}
+
+.search-btn{
+  background: #F7952C;
+  border: 1px solid #B2B2B1;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  margin-left: -25px;
+}
+
+.bulk-receipt-download-btn{
+  background: #155686;
+  color:#ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
 }
 

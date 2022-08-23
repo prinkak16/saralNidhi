@@ -38,10 +38,11 @@
 
 
       </div>
-      <div class="row col-md-4 justify-content-around mt-6">
-        <button mat-flat-button color="warn" class="col-md-3 clear-btn"  (click)="getFilteredData()">Search</button>
+      <div class="row col-md-4 justify-content-around mt-6 ml-2">
+        <button mat-flat-button color="warn" class="col-md-3 search-btn"  (click)="getFilteredData()">Search</button>
         <button mat-flat-button class="col-md-3 clear-btn" (click)="clearInputFields()">Clear</button>
         <button mat-flat-button class="download-btn" (click)="openDownloadDialog();" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"> Download  </button>
+        <button mat-flat-button class="bulk-receipt-download-btn" (click)="enableMultipleReceipt(true)"> Bulk Receipt </button>
 <!--        <button mat-flat-button class="download-btn" (click)="downloadList()" *ngIf="utilsService.checkPermission('IndianDonationForm', 'Allow Data Download')"> Download  </button>-->
       </div>
     </div>
