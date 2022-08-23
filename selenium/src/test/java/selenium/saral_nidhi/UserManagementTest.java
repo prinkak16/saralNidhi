@@ -670,26 +670,30 @@ public class UserManagementTest extends Base {
         	    Thread.sleep(3000);
 
         	    //WebElement Submit =driver.findElement(By.xpath("(//button[@class='mat-focus-indicator col-md-12 mat-flat-button mat-button-base mat-warn'])"));
-              WebElement Submit = driver.findElements(By.tagName("button")).get(1);
+                            WebElement Submit = driver.findElements(By.tagName("button")).get(1);
 
-        	    //String submitButtonDisabled = Submit.getAttribute("ng-reflect-disabled");
+                      	    //String submitButtonDisabled = Submit.getAttribute("ng-reflect-disabled");
 
-        	    String submitButtonDisabled = Submit.getAttribute("class");
+                      	    String submitButtonDisabled = Submit.getAttribute("class");
 
-               System.out.println("*********submitButtonDisabled :"+submitButtonDisabled);
+                             System.out.println("*********submitButtonDisabled :"+submitButtonDisabled);
 
-        	    //if(submitButtonDisabled.equals("false")) {
-        	    if(!submitButtonDisabled.contains("mat-button-disabled")) {
-        	    	System.out.println("button is enabled");
-        	    }
-        	    else {
-        	    	System.out.println("button is desabled");
-        	        getSubmitTxt = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted"))).getText();
+                      	    //if(submitButtonDisabled.equals("false")) {
+                      	    if(!submitButtonDisabled.contains("mat-button-disabled")) {
+                      	    	System.out.println("button is enabled");
+                      	    	Submit.click();
+                      	    	getSubmitTxt = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted"))).getText();
 
-           	     System.out.println("getSubmitTxt :"+getSubmitTxt);
+                            	     System.out.println("getSubmitTxt :"+getSubmitTxt);
 
-           	     Assert.assertTrue(getSubmitTxt.contains("User Created/Updated."));
-				}
+                            	     Assert.assertTrue(getSubmitTxt.contains("User Created/Updated."));
+                      	    }
+                      	    else {
+                      	    	System.out.println("button is desabled");
+                      	    	Thread.sleep(3000);
+                         		 WebElement back2 = driver.findElement(By.className("back-icon"));
+                         		((JavascriptExecutor)driver).executeScript("arguments[0].click();", back2);
+              				}
 
         		Thread.sleep(3000);
         		ngDriver.waitForAngularRequestsToFinish();
