@@ -667,11 +667,14 @@ public class UserManagementTest extends Base {
 					}
         	    }
 
-        	    Thread.sleep(2000);
+        	    Thread.sleep(3000);
 
-        	    WebElement Submit =driver.findElement(By.xpath("(//button[@class='mat-focus-indicator col-md-12 mat-flat-button mat-button-base mat-warn'])"));
+        	    //WebElement Submit =driver.findElement(By.xpath("(//button[@class='mat-focus-indicator col-md-12 mat-flat-button mat-button-base mat-warn'])"));
+              WebElement Submit = driver.findElements(By.tagName("button")).get(1);
 
         	    String submitButtonDisabled = Submit.getAttribute("ng-reflect-disabled");
+
+               System.out.println("*********submitButtonDisabled :"+submitButtonDisabled);
 
         	    if(submitButtonDisabled.equals("false")) {
         	    	System.out.println("button is enabled");
