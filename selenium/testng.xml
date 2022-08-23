@@ -20,7 +20,7 @@
     <class name="selenium.saral_nidhi.DemandDraft_ModeTest" />
     <class name="selenium.saral_nidhi.Cash_ModeTest" />
       -->
-  
+  <!--
   <class name="selenium.saral_nidhi.CashRelatedTest" />
   <class name="selenium.saral_nidhi.UPIRelatedTest" />
   <class name="selenium.saral_nidhi.RTGSRelatedTest" />
@@ -28,7 +28,7 @@
   <class name="selenium.saral_nidhi.IMPSRelatedTest" />
   <class name="selenium.saral_nidhi.DemandDraftRelatedTest" />
   <class name="selenium.saral_nidhi.ChequeRelatedTest" />
-  
+  -->
   <class name="selenium.saral_nidhi.UserManagementTest" />
 </classes>
 </test>

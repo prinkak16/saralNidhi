@@ -46,6 +46,7 @@ public class Base {
 			ChromeOptions options = new ChromeOptions();
 
 			HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+			options.addArguments("start-maximized");
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadTestFolder");
 			options.setExperimentalOption("prefs", chromePrefs);
@@ -80,7 +81,7 @@ public class Base {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
-		driver.manage().window().maximize();
+		//driver.manage().window().maximize();
 		return driver;
 	}
 
