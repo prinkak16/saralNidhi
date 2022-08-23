@@ -432,18 +432,22 @@ public class UserManagementTest extends Base {
 
             	    driver.findElement(By.xpath("(//*[@formcontrolname='location_ids'])")).click();
 
+                  System.out.println("clicked on location_ids");
             	     try {
             			    WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+excel_data.get(6)+"')]"));
             			    selectState.click();
-
+                     System.out.println("selectState try block");
             			}
             			catch(org.openqa.selenium.StaleElementReferenceException ex)
             			{
             				WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+excel_data.get(6)+"')]"));
             			    selectState.click();
+            			    System.out.println("selectState catch block");
             			}
 
             	     driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
+
+            	     System.out.println("just pressed tab key to close the states option..");
                 }
 
 
@@ -455,11 +459,14 @@ public class UserManagementTest extends Base {
         			try {
         				WebElement AllDataDownload = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", AllDataDownload);
+
+                	      System.out.println("inside try for AllDataDownload");
         			}
         			catch(org.openqa.selenium.StaleElementReferenceException ex)
         			{
         				WebElement AllDataDownload = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", AllDataDownload);
+                	      System.out.println("inside chatch for AllDataDownload");
         			}
         		}
 
@@ -467,10 +474,14 @@ public class UserManagementTest extends Base {
         			try {
           	    	  WebElement days15 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
           		      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", days15);
+
+          		      System.out.println("inside try for days15");
           	      }catch(org.openqa.selenium.StaleElementReferenceException ex)
           			{
           	    	  WebElement days15 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
           		      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", days15);
+
+          		      System.out.println("inside catch for days15");
           			}
         		}
 
