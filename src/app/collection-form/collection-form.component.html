@@ -5,8 +5,8 @@
   </div>
 
   <form #form="ngForm" [formGroup]="collectionForm" class="row mt-4">
-    <div class="parent position-relative" *ngIf="allowedValueNull">
-      <div class="search-div">
+    <div class="parent position-relative flexbox" *ngIf="allowedValueNull">
+      <div class="search-div stretch">
         <input type="text" placeholder="Search by Name/Phone/PAN" class="search-input" [formControl]="keyword"
                (keypress)="showGlobalSearch=true" (keydown.enter)="onEnterPress('keyword')">
         <mat-icon class="search-icon cursor-pointer" (click)="getDonorList(keyword.value)">search</mat-icon>
@@ -605,14 +605,15 @@
       </div>
 
       <label class="col-md-12 mb-1">PAN Card Number<sup *ngIf="isRequiredField('pan_card')">*</sup></label>
-      <div class="d-flex align-items-center" (keypress)="utilsService.validatePan($event)">
-        <div class="col-md-7">
+      <div class="wrapper">
+      <div class="d-flex pancard-detail-div" (keypress)="utilsService.validatePan($event)">
+        <div class="col-md-7 pancard-value-div">
           <ng-container #ngOtpElRef>
             <ng-otp-input #ngOtpInput (onInputChange)="onPanCardChange($event)"
                           [config]="{length:10, containerClass: 'pan-card-container', disableAutoFocus: true}"></ng-otp-input>
           </ng-container>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 pancard-message-div" id="main">
 
           <mat-error *ngIf="incorrectPan">
             <p class="text-error-color">Please enter a valid pan card number </p>
@@ -624,6 +625,7 @@
             Your name does not match your pan card number
           </mat-error>
         </div>
+      </div>
 
         <mat-form-field appearance="outline" hidden>
           <mat-label>PAN Card</mat-label>
