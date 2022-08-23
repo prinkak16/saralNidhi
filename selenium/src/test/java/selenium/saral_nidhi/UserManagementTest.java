@@ -489,9 +489,11 @@ public class UserManagementTest extends Base {
         	    	try {
         	    		WebElement days30 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'30 Days')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", days30);
+                	      System.out.println("inside try for days30");
         	    	}catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement days30 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'30 Days')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", days30);
+                	      System.out.println("inside catch for days15");
 					}
 
         	    }
@@ -502,10 +504,13 @@ public class UserManagementTest extends Base {
         	    	try {
         	    		WebElement Create = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Create);
+                	      System.out.println("inside try for create");
 
         	    	}catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement Create = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Create);
+
+                	      System.out.println("inside catch for create");
 					}
         	    }
 
@@ -514,10 +519,13 @@ public class UserManagementTest extends Base {
 
         	    		WebElement Edit_within_15_Days= wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[5]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Edit_within_15_Days);
+                	      System.out.println("inside try for Edit_within_15_Days");
 
         	    	}catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement Edit_within_15_Days= wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[5]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Edit_within_15_Days);
+
+                	      System.out.println("inside catch for Edit_within_15_Days");
 					}
         	    }
 
@@ -527,9 +535,13 @@ public class UserManagementTest extends Base {
         	    		WebElement Edit_within_30_Days = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit within 30 Days')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Edit_within_30_Days);
 
+                	      System.out.println("inside try for Edit_within_30_Days");
+
         	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement Edit_within_30_Days = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit within 30 Days')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Edit_within_30_Days);
+
+                	      System.out.println("inside catch for Edit_within_30_Days");
 					}
         	    }
 
@@ -539,9 +551,12 @@ public class UserManagementTest extends Base {
         	    		WebElement EditLifeTime = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit Lifetime')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", EditLifeTime);
 
+                      System.out.println("inside try for EditLifeTime");
         	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement EditLifeTime = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit Lifetime')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", EditLifeTime);
+
+                	      System.out.println("inside catch for EditLifeTime");
 					}
           	    }
 
@@ -551,9 +566,12 @@ public class UserManagementTest extends Base {
         	    		WebElement SupplementaryEntry= wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Supplementary Entry')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", SupplementaryEntry);
 
+                      System.out.println("inside try for SupplementaryEntry");
         	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement SupplementaryEntry= wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Supplementary Entry')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", SupplementaryEntry);
+
+                	      System.out.println("inside catch for SupplementaryEntry");
 					}
 
           	    }
@@ -564,9 +582,12 @@ public class UserManagementTest extends Base {
         	    		WebElement AllowReceiptPrint = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Allow Receipt Print')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", AllowReceiptPrint);
 
+                      System.out.println("inside try for AllowReceiptPrint");
         	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement AllowReceiptPrint = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Allow Receipt Print')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", AllowReceiptPrint);
+
+                	      System.out.println("inside catch for AllowReceiptPrint");
 					}
 
           	    }
@@ -584,10 +605,13 @@ public class UserManagementTest extends Base {
             	    	  WebElement Edit = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[10]")));
             		      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Edit);
 
+                      System.out.println("inside try for Edit");
           	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
           	    		Thread.sleep(1000);
           	    	  WebElement Edit = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[10]")));
           		      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Edit);
+
+          		      System.out.println("inside catch for Edit");
   					}
         	      }
         	    }
@@ -600,9 +624,13 @@ public class UserManagementTest extends Base {
         	    		  WebElement State = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),' State ')]")));
                   	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", State);
 
+                    System.out.println("inside try for State party unit");
+
           	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
           	    		WebElement State = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),' State ')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", State);
+
+                	      System.out.println("inside catch for State party unit");
   					}
         	    }
 
@@ -612,9 +640,13 @@ public class UserManagementTest extends Base {
         	    		WebElement Zila = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Zila')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Zila);
 
+                        System.out.println("inside try for Zila party unit");
+
         	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement Zila = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Zila')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Zila);
+
+                	      System.out.println("inside catch for Zila party unit");
 					}
 
         	    }
@@ -625,9 +657,13 @@ public class UserManagementTest extends Base {
         	    		WebElement Mandal = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Mandal')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Mandal);
 
+                        System.out.println("inside try for Madal party unit");
+
         	    	} catch (org.openqa.selenium.StaleElementReferenceException ex) {
         	    		WebElement Mandal = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Mandal')]")));
                 	      ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Mandal);
+
+                	      System.out.println("inside catch for Mandal party unit");
 					}
         	    }
 
@@ -652,6 +688,8 @@ public class UserManagementTest extends Base {
         		Thread.sleep(3000);
         		 back = driver.findElement(By.className("back-icon"));
         		((JavascriptExecutor)driver).executeScript("arguments[0].click();", back);
+
+        		System.out.println("back button pressed...");
         		ngDriver.waitForAngularRequestsToFinish();
         	}
         	else if(action == "Deactivate") {
