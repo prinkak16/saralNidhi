@@ -685,8 +685,14 @@ public class UserManagementTest extends Base {
                       	    	getSubmitTxt = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted"))).getText();
 
                             	     System.out.println("getSubmitTxt :"+getSubmitTxt);
-
-                            	     Assert.assertTrue(getSubmitTxt.contains("User Created/Updated."));
+                                   if(getSubmitTxt.contains("Please select any party unit")) {
+                                      Thread.sleep(4000);
+                                       WebElement back2 = driver.findElement(By.className("back-icon"));
+                                       ((JavascriptExecutor)driver).executeScript("arguments[0].click();", back2);
+                                   }
+                                   else {
+                                      Assert.assertTrue(getSubmitTxt.contains("User Created/Updated."));
+                                   }
                       	    }
                       	    else {
                       	    	System.out.println("button is desabled");
