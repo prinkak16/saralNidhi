@@ -26,21 +26,21 @@ public class UserManagementDataDriven {
 	}
 
 	ArrayList<String> getData(String testCaseName, ArrayList<String> a) throws IOException {
-		//File file = new File("C://Users//PC//Desktop//userManagementData.xlsx");
+		//File file = new File("C://Users//PC//Desktop//userManagementData.xlsx");  
 		File file = new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\userManagementData.xlsx");
-		//
+		//‪
 		FileInputStream fis = new FileInputStream(file);
-
+		
 		@SuppressWarnings("resource")
 		XSSFWorkbook workbook = new XSSFWorkbook(fis);
 
 		int sheets = workbook.getNumberOfSheets();
 		System.out.println("No of sheets are :"+sheets);
-
+		
 		//for (int i = 0; i < sheets; i++) {
-
+			
 			XSSFSheet sheet;
-
+			
 			if(testCaseName.equalsIgnoreCase("userAction")) {
 				// switch to sheet2
 				sheet = workbook.getSheetAt(1);
@@ -48,10 +48,10 @@ public class UserManagementDataDriven {
 			else {
 				sheet = workbook.getSheetAt(0);
 			}
-
+			
 			//if (workbook.getSheetName(i).equalsIgnoreCase("Sheet1")) {
 
-
+				
 
 				Iterator<Row> rows = sheet.iterator(); // sheet is collection of rows
 				Row firstrow = rows.next();

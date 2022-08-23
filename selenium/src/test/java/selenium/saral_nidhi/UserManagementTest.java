@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -53,8 +54,8 @@ public class UserManagementTest extends Base {
 
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-          /*
-          LandingPage lp = new LandingPage(driver);
+       /*
+       LandingPage lp = new LandingPage(driver);
 		  lp.login_email().sendKeys("kumar.vikastreasurer@jarvis.consulting");
 		  lp.login_password().sendKeys("Test@123");
 
@@ -69,13 +70,14 @@ public class UserManagementTest extends Base {
 		  WebElement loginButton =
 		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		  loginButton.click();
-		  */
+
 
 		log.info("Login successfully in UserManagementTest");
-
+		*/
 		ngDriver.waitForAngularRequestsToFinish();
 		Thread.sleep(2000);
 
+		// click on userManagement
 		driver.findElement(By.xpath("(//*[@class='action-text'])[1]")).click();
 		ngDriver.waitForAngularRequestsToFinish();
 
@@ -149,7 +151,7 @@ public class UserManagementTest extends Base {
 				WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+excel_data.get(6)+"')]"));
 			    selectState.click();
 			}
-
+	     driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
 	     ngDriver.waitForAngularRequestsToFinish();
 
 	      WebElement allData = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
@@ -278,6 +280,7 @@ public class UserManagementTest extends Base {
 				WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+excel_data.get(6)+"')]"));
 			    selectState.click();
 			}
+	     driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
 
 	     ngDriver.waitForAngularRequestsToFinish();
 	      WebElement allData = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
@@ -413,11 +416,12 @@ public class UserManagementTest extends Base {
 
                 	System.out.println("changeRoleTo :"+changeRoleTo);
                 	Thread.sleep(2000);
+
                 	WebElement roll = driver.findElement(By.xpath("//mat-radio-button[@value='"+changeRoleTo+"']"));
             		roll.click();
-            		ngDriver.waitForAngularRequestsToFinish();
-                Thread.sleep(2000);
 
+            		ngDriver.waitForAngularRequestsToFinish();
+            		Thread.sleep(2000);
             		String classAftercheck = roll.getAttribute("class");
             		// After check mat-radio-checked will be added
             		Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
@@ -425,8 +429,6 @@ public class UserManagementTest extends Base {
 
             	    driver.findElement(By.xpath("(//*[@formcontrolname='location_ids'])")).click();
 
-                  ngDriver.waitForAngularRequestsToFinish();
-                  Thread.sleep(2000);
             	     try {
             			    WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+excel_data.get(6)+"')]"));
             			    selectState.click();
@@ -437,6 +439,8 @@ public class UserManagementTest extends Base {
             				WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+excel_data.get(6)+"')]"));
             			    selectState.click();
             			}
+
+            	     driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
                 }
 
 
@@ -799,14 +803,14 @@ public class UserManagementTest extends Base {
 	}
 
 	@Test(dependsOnMethods = {"filterUsers"})
-	public void downloadUserManagementTest () throws InterruptedException {
+	public void downloadTestFolderTest () throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 		WebElement downloadButton = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//span[contains(text(),'Download')]"))));
 		((JavascriptExecutor)driver).executeScript("arguments[0].click();", downloadButton);
 
 		Thread.sleep(2000);
 
-		File folder = new File(System.getProperty("user.dir")+"\\downloadUserManagement");
+		File folder = new File(System.getProperty("user.dir")+"\\downloadTestFolder");
 		//List the files on that folder
 		File[] listOfFiles = folder.listFiles();
 		boolean found = false;

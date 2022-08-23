@@ -263,16 +263,12 @@ public class Cash_ModeTest extends Base {
 		collecter_phone.click();
 
 		wait.until(ExpectedConditions.textToBePresentInElement(cashPage.getWrongCollectorName(collector_name_input),"Please enter a valid name"));
-		//String collector_name_error = cashPage.getWrongCollectorName(collector_name_input).getText();
-		//Assert.assertEquals(collector_name_error, "Please enter a valid name");
 		collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(19));
 
 		// wrong collector phone no
 		collecter_phone.sendKeys("23222322");
 		wait.until(ExpectedConditions.textToBePresentInElement(cashPage.getWrongCollectorPhone(collecter_phone), "Please enter correct phone number"));
-		//String collector_phone_error = cashPage.getWrongCollectorPhone(collecter_phone).getText();
-		//Assert.assertEquals(collector_phone_error, "Please enter correct phone number");
 		collecter_phone.clear();
 
 		collecter_phone.sendKeys(excel_data.get(20));
@@ -419,11 +415,8 @@ public class Cash_ModeTest extends Base {
 
 		}
 		
-		
 		// success
 		log.info("Cash mode Transaction Created Sucessfully");
-
-		// ------------------------------------------------------------------------------------------------------------------------
 	}
 
 	@AfterTest

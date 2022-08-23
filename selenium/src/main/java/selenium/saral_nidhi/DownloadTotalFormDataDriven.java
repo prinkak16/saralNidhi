@@ -20,15 +20,14 @@ public class DownloadTotalFormDataDriven {
 		ArrayList<String> a = new ArrayList<String>();
 
 		DownloadTotalFormDataDriven dd = new DownloadTotalFormDataDriven();
-		//ArrayList<String> al = dd.getData("Login", a);
-		ArrayList<String> al = dd.getData("Cheque", a);
+		ArrayList<String> al = dd.getData("Cash", a);
 		System.out.println("After calling method :" + al.get(1));
 
 	}
 
 	ArrayList<String> getData(String testCaseName, ArrayList<String> a) throws IOException {
-		File file = new File("C://Users//PC//Desktop//downloadTotalForm.xlsx");  
-		//File file = new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\actionData.xlsx");
+		//File file = new File("C://Users//PC//Desktop//downloadTotalForm.xlsx");  
+		File file = new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\downloadTotalForm.xlsx");
 		//‪
 		FileInputStream fis = new FileInputStream(file);
 		
@@ -91,6 +90,7 @@ public class DownloadTotalFormDataDriven {
 			}
 
 		}
+		fis.close();
 		return a;
 	}
 

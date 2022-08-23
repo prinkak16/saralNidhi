@@ -30,13 +30,7 @@ public class LoginPartTest extends Base {
 	public void perfirmLogin(ITestContext context) throws IOException {
 		driver = initializeDriver();
 
-    System.out.println("--------------driver in perfirmLogin ---------- :"+driver);
-
-    System.out.println("--------------url before driver.get(url) in perfirmLogin ---------- :"+url);
-
 		driver.get(url);
-
-    System.out.println("--------------url in perfirmLogin ---------- :"+url);
 
 		ArrayList<String> a = new ArrayList<String>();
 
@@ -61,31 +55,28 @@ public class LoginPartTest extends Base {
 		WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		loginButton.click();
 
-		log.info("-----------------------------");
-
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(cashPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
 
 		LocalStorage storage = ((WebStorage) driver).getLocalStorage();
-		 log.info("Printing local storage " + storage.getItem("authStatus"));
+		log.info("Printing local storage " + storage.getItem("authStatus"));
 
-		 log.info("key set :"+ storage.keySet());
+		log.info("key set :" + storage.keySet());
 
-		//context.setAttribute("storageObj", storage.keySet());
-		//context.setAttribute("userEmail", storage.getItem("userEmail"));
+		// context.setAttribute("storageObj", storage.keySet());
+		// context.setAttribute("userEmail", storage.getItem("userEmail"));
 
 		for (String item : storage.keySet()) {
-		    System.out.println("item form login :"+item);
+			System.out.println("item form login :" + item);
 
 			context.setAttribute(item, storage.getItem(item));
 		}
-		//context.setAttribute("userEmail", storage.getItem("userEmail"));
+		// context.setAttribute("userEmail", storage.getItem("userEmail"));
 		log.info("Login successfully from Login Part");
-		log.info("-----------------------------------");
 	}
 
 	@AfterSuite
-	public void terminate () {
+	public void terminate() {
 		driver.close();
 		log.info("login page driver is closed--##---$$--&&-");
 	}
