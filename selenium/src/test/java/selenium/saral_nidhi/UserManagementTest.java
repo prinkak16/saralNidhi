@@ -692,10 +692,6 @@ public class UserManagementTest extends Base {
 				}
 
         		Thread.sleep(3000);
-        		 back = driver.findElement(By.className("back-icon"));
-        		((JavascriptExecutor)driver).executeScript("arguments[0].click();", back);
-
-        		System.out.println("back button pressed...");
         		ngDriver.waitForAngularRequestsToFinish();
         	}
         	else if(action == "Deactivate") {
