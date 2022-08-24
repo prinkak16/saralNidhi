@@ -47,6 +47,7 @@ public class Base {
 
 			HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
 			//options.addArguments("start-maximized");
+			options.addArguments("--window-size=1920,1080");
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadTestFolder");
 			options.setExperimentalOption("prefs", chromePrefs);
