@@ -454,7 +454,7 @@ public class IMPS_ModeTest extends Base {
 
 	@AfterTest
 	public void termnate() {
-		driver.close();
+		//driver.close();
 	}
 
 	private static void other_than_individual(WebDriver driver, String[] pan_no, String name_of_proprietorship,

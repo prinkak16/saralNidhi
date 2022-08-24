@@ -28,8 +28,10 @@
   <class name="selenium.saral_nidhi.IMPSRelatedTest" />
   <class name="selenium.saral_nidhi.DemandDraftRelatedTest" />
   <class name="selenium.saral_nidhi.ChequeRelatedTest" />
-  -->
+
   <class name="selenium.saral_nidhi.UserManagementTest" />
+  -->
+
       <class name="selenium.saral_nidhi.IMPS_ModeTest" />
 </classes>
 </test>
