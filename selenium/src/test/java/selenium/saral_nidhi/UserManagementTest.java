@@ -942,7 +942,7 @@ public class UserManagementTest extends Base {
 		else if(copy1stRole.equals("state_treasurer")) {
 			copy1stRole = "State Treasurer";
 		}
-		else if(copy1stRole.equals("national_coountant")) {
+		else if(copy1stRole.equals("national_accountant")) {
 			copy1stRole = "National Accountant";
 		}
 
