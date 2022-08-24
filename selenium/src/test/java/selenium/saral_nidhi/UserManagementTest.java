@@ -781,19 +781,23 @@ public class UserManagementTest extends Base {
          		password.clear();
          		password.sendKeys(givenPassword);
          		confirmPassword.sendKeys(givenPassword);
-                WebElement Submit =driver.findElement(By.xpath("(//button[@class='mat-focus-indicator btn orange-btn mt-4 mat-raised-button mat-button-base'])"));
+         		System.out.println("confirming password with givenPassword:");
 
-        	    String submitButtonDisabled = Submit.getAttribute("ng-reflect-disabled");
+            WebElement Submit = driver.findElements(By.tagName("button")).get(10);
+         		String submitButtonDisabled = Submit.getAttribute("class");
 
-        	    if(submitButtonDisabled.equals("false")) {
-        	    	System.out.println("button is enabled");
-        	    	Submit.click();
-        	    	System.out.println("Password Updated..");
-        	    }
-        	    else {
-        	    	System.out.println("button is desabled");
+         		if(!submitButtonDisabled.contains("mat-button-disabled")) {
+        	    	System.out.println("button is enabled for change password");
+        	    	getSubmitTxt = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted"))).getText();
 
-				}
+              	     System.out.println("getSubmitTxt for change password:"+getSubmitTxt);
+
+         		}else {
+         			System.out.println("button is desabled for change password");
+         			driver.findElement(By.xpath("//span[contains(text(), 'Clear')]")).click();
+
+         			Thread.sleep(1000);
+         		}
 
         	    ngDriver.waitForAngularRequestsToFinish();
          	}
