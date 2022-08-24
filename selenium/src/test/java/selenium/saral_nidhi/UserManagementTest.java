@@ -756,18 +756,22 @@ public class UserManagementTest extends Base {
         		wait.until(ExpectedConditions.elementToBeClickable(ChangePasswordAction)).click();
 
          		System.out.println("Change Password.........");
+             Thread.sleep(1000);
 
          		WebElement updatePassword =  driver.findElement(By.xpath("//h5[contains(text(),'Update Password')]"));
          		wait.until(ExpectedConditions.visibilityOf(updatePassword));
+         		System.out.println("Update Password visible");
 
          		WebElement password = driver.findElement(By.xpath("(//*[@formcontrolname='password'])"));
          		WebElement confirmPassword = driver.findElement(By.xpath("(//*[@formcontrolname='confirmPassword'])"));
 
          		password.sendKeys("23dd");
          		confirmPassword.click();
-
+         		Thread.sleep(1000);
+         		System.out.println("23dd them clicked confirmPassword");
          		String givenPassword = excel_data.get(20);
          		System.out.println("givenPassword :"+givenPassword);
+
 
          		By error = By.cssSelector("[role='alert']");
 
