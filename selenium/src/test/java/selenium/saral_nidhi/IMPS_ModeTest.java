@@ -26,7 +26,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-//import pageObjects.LandingPage;
+import pageObjects.LandingPage;
 import pageObjects.IMPS_ModePage;
 import resources.Base;
 
@@ -48,28 +48,30 @@ public class IMPS_ModeTest extends Base {
 		DataDriven dd = new DataDriven();
 		ArrayList<String> excel_data = dd.getData("IMPS_ModeTest", a);
 
-		// LandingPage lp = new LandingPage(driver);
+
 		IMPS_ModePage impsPage = new IMPS_ModePage(driver);
 
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 
 		/*
-		 * lp.login_email().sendKeys(excel_data.get(1));
-		 * lp.login_password().sendKeys(excel_data.get(2));
-		 * 
-		 * WebElement sendOTP =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-		 * sendOTP.click();
-		 * 
-		 * WebElement enterOTP =
-		 * wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-		 * enterOTP.sendKeys(excel_data.get(3));
-		 * 
-		 * WebElement loginButton =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-		 * loginButton.click();
-		 */
+		  LandingPage lp = new LandingPage(driver);
+		  lp.login_email().sendKeys(excel_data.get(1));
+		  lp.login_password().sendKeys(excel_data.get(2));
+
+		  WebElement sendOTP =
+		  wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
+		  sendOTP.click();
+
+		  WebElement enterOTP =
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
+		  enterOTP.sendKeys(excel_data.get(3));
+
+		  WebElement loginButton =
+		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
+		  loginButton.click();
+
+          */
 
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
@@ -290,17 +292,13 @@ public class IMPS_ModeTest extends Base {
 		impsPage.getNarationInput().sendKeys(excel_data.get(18));
 		WebElement collector_name_input = impsPage.getCollectorName();
 
-		collector_name_input.sendKeys("vk");
-		WebElement collecter_phone = impsPage.getCollectorPhone();
-		collecter_phone.click();
-	    wait.until(ExpectedConditions.textToBePresentInElement(impsPage.getWrongCollectorName(collector_name_input),"Please enter a valid name"));
-		//String collector_name_error = impsPage.getWrongCollectorName(collector_name_input).getText();
-		//Assert.assertEquals(collector_name_error, "Please enter a valid name");
-		collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(19));
+
+		WebElement collecter_phone = impsPage.getCollectorPhone();
 
 		// wrong collector phone no
 		collecter_phone.sendKeys("23222322");
+		collector_name_input.click();
 		wait.until(ExpectedConditions.textToBePresentInElement(impsPage.getWrongCollectorPhone(collecter_phone), "Please enter correct phone number"));
 		//String collector_phone_error = impsPage.getWrongCollectorPhone(collecter_phone).getText();
 		//Assert.assertEquals(collector_phone_error, "Please enter correct phone number");
@@ -378,7 +376,7 @@ public class IMPS_ModeTest extends Base {
 				selectState.click();
 
 				WebElement state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
-				
+
 				try {
 					state_from_zila.click();
 				}
@@ -386,7 +384,7 @@ public class IMPS_ModeTest extends Base {
 					state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
 					state_from_zila.click();
 				}
-				
+
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(impsPage.getSelectZila()));
 				selectZila.click();
@@ -404,11 +402,11 @@ public class IMPS_ModeTest extends Base {
 				WebElement selectState = wait
 						.until(ExpectedConditions.visibilityOfElementLocated(impsPage.getSelectState()));
 				selectState.click();
-				
+
 				WebElement state_from_mandal = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
-				
-				
+
+
 				try {
 					state_from_mandal.click();
 				}
@@ -416,7 +414,7 @@ public class IMPS_ModeTest extends Base {
 					state_from_mandal = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
 					state_from_mandal.click();
 				}
-				
+
 
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(impsPage.getSelectZila()));
@@ -424,7 +422,7 @@ public class IMPS_ModeTest extends Base {
 
 				WebElement zila_unit = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenZila(zila_unit_name)));
-				
+
 				try {
 					zila_unit.click();
 				}
@@ -432,7 +430,7 @@ public class IMPS_ModeTest extends Base {
 					zila_unit = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenZila(zila_unit_name)));
 					zila_unit.click();
 				}
-				
+
 				mandal_exist = impsPage.isElementPresent(driver, "mandal").isDisplayed();
 				System.out.println("mandal_exist after click on mandal:" + mandal_exist);
 				Assert.assertEquals(mandal_exist, true);
@@ -532,7 +530,7 @@ public class IMPS_ModeTest extends Base {
 				WebElement pan_error_paragraph = impsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for text_for_invalid_pan pass....");
 				Assert.assertEquals(text_for_invalid_pan, pan_error_paragraph.getText());
-				
+
 				impsPage.uploadWrongPanImage();
 				impsPage.getWrongPanRemark().clear();
 				impsPage.getWrongPanRemark().sendKeys("text_for_invalid_pan");
@@ -541,7 +539,7 @@ public class IMPS_ModeTest extends Base {
 				WebElement pan_error_paragraph = impsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for error_txt_for_4th_and_5th_letter pass....");
 				Assert.assertEquals(error_txt_for_4th_and_5th_letter, pan_error_paragraph.getText());
-				
+
 				impsPage.uploadWrongPanImage();
 				impsPage.getWrongPanRemark().clear();
 				impsPage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");
