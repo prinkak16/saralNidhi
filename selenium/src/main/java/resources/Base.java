@@ -39,7 +39,6 @@ public class Base {
 		url = prop.getProperty("url");
 
 		if (browserName.contains("chrome")) {
-			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
 
 		    WebDriverManager.chromedriver().setup();
@@ -47,7 +46,6 @@ public class Base {
 
 			HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
 			//options.addArguments("start-maximized");
-			options.addArguments("--window-size=1920,1080");
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadTestFolder");
 			options.setExperimentalOption("prefs", chromePrefs);
@@ -60,7 +58,6 @@ public class Base {
 			driver = new ChromeDriver(options);
 		}
 		else if (browserName.equals("edge")) {
-			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
       System.out.println("inside edge");
 			WebDriverManager.edgedriver().setup();

@@ -73,6 +73,7 @@ public class IMPS_ModeTest extends Base {
 
           */
 
+    log.info("Window size: "+ driver.manage().window().getSize());
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
 
