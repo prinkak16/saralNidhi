@@ -788,8 +788,8 @@ public class UserManagementTest extends Base {
 
          		if(!submitButtonDisabled.contains("mat-button-disabled")) {
         	    	System.out.println("button is enabled for change password");
+        	    	Submit.click();
         	    	getSubmitTxt = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted"))).getText();
-
               	     System.out.println("getSubmitTxt for change password:"+getSubmitTxt);
 
          		}else {
