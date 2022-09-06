@@ -450,7 +450,7 @@ public class IMPS_ModeTest extends Base {
 		}
 		// success
 		log.info("IMPS mode Transaction Created Sucessfully");
-		// ------------------------------------------------------------------------------------------------------------------------
+
 	}
 
 	@AfterTest

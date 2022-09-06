@@ -111,8 +111,8 @@ public class IMPS_ModePage {
 
 	public void uploadWrongPanImage() {
 		WebElement upload_file3 = driver.findElement(By.xpath("//input[@type='file']"));
-		 upload_file3.sendKeys(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\upload_image2.jpg");
-		//upload_file3.sendKeys("C:/Users/ankit_maheshwari/Desktop/upload_image2.jpg");
+		 //upload_file3.sendKeys(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\upload_image2.jpg");
+		 upload_file3.sendKeys("C:\\Users\\ankit\\Desktop\\upload_image2.jpg");
 	}
 
 	public WebElement getWrongPanRemark() {
