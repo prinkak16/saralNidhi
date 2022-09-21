@@ -96,6 +96,9 @@ export class RestService {
     return this.http.get(this.apiUrl + 'nidhi_collection/total_count', this.authHttpOptions());
   }
 
+  getTotalReceiptCount(data: any): any {
+    return this.http.get(this.apiUrl + 'nidhi_collection/total_receipt_count?data=' + JSON.stringify(data), this.authHttpOptions());
+  }
 
   submitForm(data: any): any {
     return this.http.post(this.baseUrl + 'nidhi_collection/add', data, this.authHttpOptions());

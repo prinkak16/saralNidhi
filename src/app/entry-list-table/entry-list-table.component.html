@@ -268,7 +268,7 @@
   </mat-table>
   </div>
   <div class="footer-block">
-    <button mat-flat-button class="bulk-print-btn" [disabled]="showReceiptColumn" (click)="downloadReceipt('', true, true)"> Bulk Print </button>
+    <button mat-flat-button class="bulk-print-btn" [disabled]="showReceiptColumn" (click)="downloadReceipt('', true, true)"> Bulk Print ({{this.selectAll ? this.totalReceiptCount : this.transactionIds.length}})</button>
     <div class="overlay" *ngIf="popup" >
       <div class="popup">
         <div class="message-text">Please select a transaction.</div>

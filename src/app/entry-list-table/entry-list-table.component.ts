@@ -57,6 +57,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   popup = false;
   receiptInfo = false;
   hideTooltip = true;
+  totalReceiptCount = 0;
 
   ngOnInit(): void {
     if (this.utilService.isNationalAccountant() || this.utilService.isNationalTreasurer()) {
@@ -87,6 +88,19 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
   showReceiptInfo(): any {
     this.receiptInfo = !this.receiptInfo;
+    this.getTotalReceiptCount();
+  }
+
+  // Get the count of receipts to be printed.
+  getTotalReceiptCount(): any {
+    const data = {
+      filters: this.filters ? this.filters : {}
+    };
+    this.restService.getTotalReceiptCount(data).subscribe((response: any) => {
+      this.totalReceiptCount = response.data;
+    }, (error: string) => {
+      this.messageService.somethingWentWrong(error);
+    });
   }
 
   clearSelection(): any {
@@ -185,19 +199,27 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   }
 
   downloadReceipt(row: any, isSelectAll: boolean, isBulkDownload= false): void {
-    if (isBulkDownload && !this.transactionIds.length && !this.selectAll) {
+    if (this.totalReceiptCount < 1) {
+      this.showLoader = false;
+    } else {
+      this.showLoader = true;
+    }
+    this.getTotalReceiptCount();
+    if (this.totalReceiptCount < 1 || isBulkDownload && !this.transactionIds.length && !this.selectAll) {
       this.popup = true;
     } else {
       const data = {
         filters: this.filters ? this.filters : {}
       };
       this.restService.downloadReceipt(row ? row.id : (this.transactionIds.length ? this.transactionIds : ''), this.isSelectAll, data).subscribe((reply: any) => {
+        this.showLoader = false;
         let filename = row ? row.data.name.replace(' ', '_') : 'Receipts';
         const mediaType = 'application/pdf';
         const blob = new Blob([reply], {type: mediaType});
         filename = filename + `-${(new Date()).toString().substring(0, 24)}.pdf`;
         saveAs(blob, filename);
       }, (error: any) => {
+        this.showLoader = false;
         this.messageService.somethingWentWrong(error);
       });
     }
