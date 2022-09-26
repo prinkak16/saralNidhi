@@ -184,3 +184,7 @@
   height: 100%;
   line-height: 12px;
 }
+.version{
+  font-size: 15px;
+  float: right;
+}

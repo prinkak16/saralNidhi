@@ -29,7 +29,9 @@ export class MasterDownloadComponent implements OnInit {
     {name: 'UTR No', id: 'utr_no', checked: false}, {name: 'Category', id: 'category', checked: false}, {name: 'Proprietorship', id: 'is_proprietorship', checked: false},
     {name: 'Proprietorship Name', id: 'proprietorship_name', checked: false},
     {name: 'House', id: 'house', checked: false}, {name: 'Locality', id: 'locality', checked: false},
-    {name: 'District', id: 'district', checked: false}, {name: 'Pan Card', id: 'pan_card', checked: false},
+    // adding two new field in download popup , i.e.. pincode and address state
+    {name: 'District', id: 'district', checked: false}, {name: 'PinCode', id: 'pincode', checked: false}, {name: 'Address State', id: 'address_state', checked: false},
+    {name: 'Pan Card', id: 'pan_card', checked: false},
     {name: 'Pan Card Remark', id: 'pan_card_remark', checked: false}, {name: 'Amount', id: 'amount', checked: false},
     {name: 'Amount in Words', id: 'amount_in_words', checked: false}, {name: 'Collector Name', id: 'collector_name', checked: false}, {name: 'Collector Phone', id: 'collector_phone', checked: false}, {name: 'Nature of Donation', id: 'nature_of_donation', checked: false},
     {name: 'Party Unit', id: 'party_unit', checked: false}, {name: 'Location', id: 'location', checked: false},
@@ -37,6 +39,7 @@ export class MasterDownloadComponent implements OnInit {
     {name: 'Transaction Valid', id: 'transaction_valid', checked: false}, {name: 'Created By', id: 'created_by', checked: false}, {name: 'Created At', id: 'created_at', checked: false}, {name: 'Cheque Bounce Remark', id: 'cheque_bounce_remark', checked: false},
     {name: 'Reverse Remark', id: 'reverse_remark', checked: false}, {name: 'Pan Card Photo', id: 'pan_card_photo', checked: false},
     {name: 'Cheque/DD photo1', id: 'cheque_dd_photo1', checked: false}, {name: 'Cheque/DD photo2', id: 'cheque_dd_photo1', checked: false},
+    {name: 'Created At', id: 'created_at', checked: false}, {name: 'Created By', id: 'created_by', checked: false},
   ];
 
   ngOnInit(): void {
@@ -71,19 +74,20 @@ export class MasterDownloadComponent implements OnInit {
       type_id: this.utilsService.filterQueryParams.type_id,
       fields: selectedFields
     };
-   if (selectedFields.length >= 1) {
-     this.restService.downloadRecord(data).subscribe((reply: any) => {
-       const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-       const blob = new Blob([reply], {type: mediaType});
-       const name = `NidhiCollection`;
-       const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
-       saveAs(blob, filename);
-       this.downloadCount = this.downloadCount + 1;
-     }, (error: any) => {
-       this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
-     });
-   }else {
-     this.messageService.somethingWentWrong( 'please select at least one field');
-   }
+    if (selectedFields.length >= 1) {
+      this.restService.downloadRecord(data).subscribe((reply: any) => {
+        const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        const blob = new Blob([reply], {type: mediaType});
+        const name = `NidhiCollection`;
+        const filename = `${name}-${(new Date()).toString().substring(0, 24)}.xlsx`;
+        saveAs(blob, filename);
+        this.downloadCount = this.downloadCount + 1;
+      }, (error: any) => {
+        this.messageService.somethingWentWrong(error ? error : 'Error Downloading');
+        this.messageService.closableSnackBar('No Records Found');
+      });
+    } else {
+      this.messageService.somethingWentWrong('Please select at least one field');
+    }
   }
 }

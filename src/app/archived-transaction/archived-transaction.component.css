@@ -7,6 +7,28 @@
   background-color: #fff;
 }
 
+::ng-deep.mat-header-cell:nth-child(even){
+  background: #E4E4E4;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
+}
+
+::ng-deep.mat-header-cell:nth-child(odd){
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
+  background-color: rgba(217, 217, 217, 0.2);
+}
+
 ::ng-deep .mat-tab-body-content {
   overflow: hidden !important;
 }

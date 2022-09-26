@@ -36,10 +36,10 @@
       <mat-cell *matCellDef="let element"><span>{{element.data.name | uppercase}}</span></mat-cell>
     </ng-container>
 
-    <!-- Category Column -->
-    <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.data.category}} </mat-cell>
+    <!-- Instrument Number Column -->
+    <ng-container matColumnDef="instrument_number">
+      <mat-header-cell *matHeaderCellDef> Instrument Number</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{utilService.displayInstrumentNo(element)}} </mat-cell>
     </ng-container>
 
     <!-- Amount Column -->

@@ -104,12 +104,21 @@
 
 .reciept-reason{
   cursor: pointer;
-  background: #7e7f80;
   color: #ffffff;
-  width: 60px;
+  width: 20px;
+  height: 20px;
   border-radius: 5px;
 }
 
+/*css for new icon of receipt-reason*/
+.reciept-reason-background{
+  background: #FFC107;
+  width: 60px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  border-radius: 5px;
+
+}
 .btn-send{
   border: none;
   width: 60px;
