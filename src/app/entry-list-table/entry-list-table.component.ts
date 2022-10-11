@@ -198,14 +198,14 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  downloadReceipt(row: any, isSelectAll: boolean, isBulkDownload= false): void {
+  downloadReceipt(row: any, isSelectAll: boolean = false, isBulkDownload= false): void {
     if (this.totalReceiptCount < 1) {
       this.showLoader = false;
     } else {
       this.showLoader = true;
     }
-    this.getTotalReceiptCount();
-    if (this.totalReceiptCount < 1 || isBulkDownload && !this.transactionIds.length && !this.selectAll) {
+    this.selectAll ? this.getTotalReceiptCount() : this.totalReceiptCount = 0;
+    if ((this.totalReceiptCount < 1 || isBulkDownload && !this.transactionIds.length && !this.selectAll) && isSelectAll) {
       this.popup = true;
     } else {
       const data = {
