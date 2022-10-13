@@ -8,10 +8,11 @@
       <!-- Receipt Check Box Column -->
       <ng-container matColumnDef="receipt_checkbox" >
         <mat-header-cell *matHeaderCellDef [hidden]="showReceiptColumn">
-          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll" (click)="showReceiptInfo()"></mat-checkbox>
+          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll" (click)="showReceiptInfo()" class="header-checkbox"></mat-checkbox>
         </mat-header-cell>
           <mat-cell *matCellDef="let element" [hidden]="showReceiptColumn">
-              <mat-checkbox (change)="checkedFields()"
+              <mat-checkbox class="individual-checkboxes"
+                            (change)="checkedFields()"
                             [(ngModel)]="element.checked || selectAll"
                             [hidden]="!hasReceiptGenerated(element)"
                             (click)="customSelect(element.id)"

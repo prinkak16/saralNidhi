@@ -89,6 +89,7 @@ export class EntryListTableComponent implements OnInit, OnDestroy {
   showReceiptInfo(): any {
     this.receiptInfo = !this.receiptInfo;
     this.getTotalReceiptCount();
+    this.transactionIds = [];
   }
 
   // Get the count of receipts to be printed.
