@@ -48,7 +48,7 @@ public class IMPS_ModeTest extends Base {
 		DataDriven dd = new DataDriven();
 		ArrayList<String> excel_data = dd.getData("IMPS_ModeTest", a);
 
-
+		
 		IMPS_ModePage impsPage = new IMPS_ModePage(driver);
 
 		// explicit wait
@@ -58,22 +58,21 @@ public class IMPS_ModeTest extends Base {
 		  LandingPage lp = new LandingPage(driver);
 		  lp.login_email().sendKeys(excel_data.get(1));
 		  lp.login_password().sendKeys(excel_data.get(2));
-
+		  
 		  WebElement sendOTP =
 		  wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
 		  sendOTP.click();
-
+		  
 		  WebElement enterOTP =
 		  wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
 		  enterOTP.sendKeys(excel_data.get(3));
-
+		  
 		  WebElement loginButton =
 		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		  loginButton.click();
-
+		 
           */
-
-    log.info("Window size: "+ driver.manage().window().getSize());
+		
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
 
@@ -294,7 +293,7 @@ public class IMPS_ModeTest extends Base {
 		WebElement collector_name_input = impsPage.getCollectorName();
 
 		collector_name_input.sendKeys(excel_data.get(19));
-
+		
 		WebElement collecter_phone = impsPage.getCollectorPhone();
 
 		// wrong collector phone no
@@ -377,7 +376,7 @@ public class IMPS_ModeTest extends Base {
 				selectState.click();
 
 				WebElement state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
-
+				
 				try {
 					state_from_zila.click();
 				}
@@ -385,7 +384,7 @@ public class IMPS_ModeTest extends Base {
 					state_from_zila = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
 					state_from_zila.click();
 				}
-
+				
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(impsPage.getSelectZila()));
 				selectZila.click();
@@ -403,11 +402,11 @@ public class IMPS_ModeTest extends Base {
 				WebElement selectState = wait
 						.until(ExpectedConditions.visibilityOfElementLocated(impsPage.getSelectState()));
 				selectState.click();
-
+				
 				WebElement state_from_mandal = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
-
-
+				
+				
 				try {
 					state_from_mandal.click();
 				}
@@ -415,7 +414,7 @@ public class IMPS_ModeTest extends Base {
 					state_from_mandal = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenState(state_unit_name)));
 					state_from_mandal.click();
 				}
-
+				
 
 				// select zila
 				WebElement selectZila = wait.until(ExpectedConditions.elementToBeClickable(impsPage.getSelectZila()));
@@ -423,7 +422,7 @@ public class IMPS_ModeTest extends Base {
 
 				WebElement zila_unit = wait.until(
 						ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenZila(zila_unit_name)));
-
+				
 				try {
 					zila_unit.click();
 				}
@@ -431,7 +430,7 @@ public class IMPS_ModeTest extends Base {
 					zila_unit = wait.until(ExpectedConditions.visibilityOfElementLocated(impsPage.selectGivenZila(zila_unit_name)));
 					zila_unit.click();
 				}
-
+				
 				mandal_exist = impsPage.isElementPresent(driver, "mandal").isDisplayed();
 				System.out.println("mandal_exist after click on mandal:" + mandal_exist);
 				Assert.assertEquals(mandal_exist, true);
@@ -450,7 +449,7 @@ public class IMPS_ModeTest extends Base {
 		}
 		// success
 		log.info("IMPS mode Transaction Created Sucessfully");
-
+		// ------------------------------------------------------------------------------------------------------------------------
 	}
 
 	@AfterTest
@@ -531,7 +530,7 @@ public class IMPS_ModeTest extends Base {
 				WebElement pan_error_paragraph = impsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for text_for_invalid_pan pass....");
 				Assert.assertEquals(text_for_invalid_pan, pan_error_paragraph.getText());
-
+				
 				impsPage.uploadWrongPanImage();
 				impsPage.getWrongPanRemark().clear();
 				impsPage.getWrongPanRemark().sendKeys("text_for_invalid_pan");
@@ -540,7 +539,7 @@ public class IMPS_ModeTest extends Base {
 				WebElement pan_error_paragraph = impsPage.getPanErrorParagraph(last_pan_input);
 				System.out.println("Assertion for error_txt_for_4th_and_5th_letter pass....");
 				Assert.assertEquals(error_txt_for_4th_and_5th_letter, pan_error_paragraph.getText());
-
+				
 				impsPage.uploadWrongPanImage();
 				impsPage.getWrongPanRemark().clear();
 				impsPage.getWrongPanRemark().sendKeys("error_txt_for_4th_and_5th_letter");

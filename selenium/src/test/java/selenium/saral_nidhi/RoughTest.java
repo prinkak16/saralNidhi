@@ -1,51 +1,44 @@
 package selenium.saral_nidhi;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-
 import java.time.Duration;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.WebStorage;
 import org.testng.ITestContext;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
-
 import com.paulhammant.ngwebdriver.NgWebDriver;
 import pageObjects.LandingPage;
 import resources.Base;
+import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
 public class RoughTest extends Base {
-
 	public WebDriver driver;
 	public NgWebDriver ngDriver;
 	public static Logger log = LogManager.getLogger(RoughTest.class);
-	
-	
+
 	String fullName = "";
-	String phoneNo="";
-	String email="";
-	String password="";
-	String givenRole="";
-	
+	String phoneNo = "";
+	String email = "";
+	String password = "";
+	String givenRole = "";
+
 	@Test
 	public void addUser(ITestContext context) throws IOException, InterruptedException {
-		
+
 		driver = initializeDriver();
 		ngDriver = new NgWebDriver((JavascriptExecutor) driver);
 		driver.get(url);
@@ -56,11 +49,11 @@ public class RoughTest extends Base {
 
 		UserManagementDataDriven dd = new UserManagementDataDriven();
 		ArrayList<String> excel_data = dd.getData("addUser", a);
-		
+
 		// explicit wait
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-          
-          LandingPage lp = new LandingPage(driver);
+		
+		  LandingPage lp = new LandingPage(driver);
 		  lp.login_email().sendKeys("kumar.vikastreasurer@jarvis.consulting");
 		  lp.login_password().sendKeys("Test@123");
 		  
@@ -76,1146 +69,1038 @@ public class RoughTest extends Base {
 		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		  loginButton.click();
 		  
-		
-		log.info("Login successfully");
-		
-		ngDriver.waitForAngularRequestsToFinish();
-		
-		
-		/*
-		
-		System.out.println("&&&& downloadDonationListTestForRTGS section ----");
-		ArrayList<String> downloadingFields = new ArrayList<String>();
-	
-		ArrayList<String> a1 = new ArrayList<String>();
-
-		DownloadTotalFormDataDriven dd1 = new DownloadTotalFormDataDriven();
-
-		ArrayList<String> excel_data_for_download_total_form = dd1.getData("RTGS", a1);
-
-        
-		// click on भारतीय जनता पार्टी for home
-		driver.findElement(By.cssSelector("[class='header-title-span']")).click();
+		  
+		  log.info("Login successfully in UserManagementTest");
+		 
 		ngDriver.waitForAngularRequestsToFinish();
 		Thread.sleep(2000);
-		
-		driver.findElement(By.cssSelector("[class='count']")).click();
+
+		// click on userManagement
+		driver.findElement(By.xpath("(//*[@class='action-text'])[1]")).click();
 		ngDriver.waitForAngularRequestsToFinish();
-		
-		// click on RTGS tab
-		WebElement paymentMode = driver.findElement(By.xpath("(//*[@class='tab-text'])[3]"));
-		paymentMode.click();
+
+		WebElement addUserButton = wait.until(ExpectedConditions
+				.elementToBeClickable(driver.findElement(By.xpath("//span[contains(text(),'Add User')]"))));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", addUserButton);
 
 		ngDriver.waitForAngularRequestsToFinish();
-		Thread.sleep(2000);
+
+		fullName = excel_data.get(1);
+		phoneNo = excel_data.get(2);
+		givenRole = excel_data.get(5);
 
 		Random rand = new Random();
-		int randomNumForFilter = rand.nextInt(4 + 1) + 1;
-		String filterElement = "";
+		int randInt = rand.nextInt((9999 - 100) + 1) + 10;
+		String resRandom = String.valueOf(randInt);
 
-		// by name if 1
-		if (randomNumForFilter == 1) {
-			filterElement = "SUMAN SUMIT";
+		email = excel_data.get(3);
+
+		email = givenRole + resRandom + email;
+
+		password = excel_data.get(4);
+
+		driver.findElement(By.xpath("(//*[@formcontrolname='name'])")).sendKeys(fullName);
+		driver.findElement(By.xpath("(//*[@formcontrolname='phone_no'])")).sendKeys(phoneNo);
+		driver.findElement(By.xpath("(//*[@formcontrolname='email'])")).sendKeys(email);
+		driver.findElement(By.xpath("(//*[@formcontrolname='password'])")).sendKeys(password);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,510)");
+
+		String[] rollArr = { "national_accountant", "state_treasurer", "state_accountant" };
+		// String[] rollArr = {"national_accountant"};
+
+		String classAftercheck;
+		for (String rollOption : rollArr) {
+			WebElement rolls = driver.findElement(By.xpath("//mat-radio-button[@value='" + rollOption + "']"));
+			rolls.click();
+			Thread.sleep(1000);
+			classAftercheck = rolls.getAttribute("class");
+			System.out.println(classAftercheck);
+			// After check mat-radio-checked will be added
+			Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
 		}
-		// by pan no
-		else if (randomNumForFilter == 2) {
-			filterElement = "FOOJV2321K";
+		// click on given role
+		try {
+			Thread.sleep(1000);
+			WebElement roll = driver.findElement(By.xpath("//mat-radio-button[@value='" + givenRole + "']"));
+			roll.click();
+
+			classAftercheck = roll.getAttribute("class");
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			Thread.sleep(1000);
+			WebElement roll = driver.findElement(By.xpath("//mat-radio-button[@value='" + givenRole + "']"));
+			roll.click();
+
+			classAftercheck = roll.getAttribute("class");
 		}
-		// by Phone no
-		else if (randomNumForFilter == 3) {
-			filterElement = "5566644455";
+		// After check mat-radio-checked will be added
+		Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
+		driver.findElement(By.xpath("(//*[@formcontrolname='location_ids'])")).click();
+
+		try {
+			WebElement selectState = driver
+					.findElement(By.xpath("//span[contains(text(),'" + excel_data.get(6) + "')]"));
+			selectState.click();
+
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			WebElement selectState = driver
+					.findElement(By.xpath("//span[contains(text(),'" + excel_data.get(6) + "')]"));
+			selectState.click();
 		}
-		// by Instrument No.
-		else if (randomNumForFilter == 4) {
-			filterElement = "rt771505";
+		driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
+		ngDriver.waitForAngularRequestsToFinish();
+
+		WebElement allData = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
+		// WebElement allData =
+		// wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Allow
+		// Data Download')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", allData);
+
+		try {
+			WebElement days15 = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", days15);
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			WebElement days15 = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", days15);
 		}
 
-		driver.findElement(By.xpath("(//*[@formcontrolname='query'])")).sendKeys(filterElement);
+		WebElement days30 = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'30 Days')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", days30);
 
-		driver.findElement(By.xpath("(//*[@class='ng-arrow-wrapper'])[1]")).click();
+		WebElement Create = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Create);
+
+		WebElement Edit_within_15_Days = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[5]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_15_Days);
+
+		WebElement Edit_within_30_Days = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit within 30 Days')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_30_Days);
+
+		WebElement EditLifeTime = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit Lifetime')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", EditLifeTime);
+
+		WebElement SupplementaryEntry = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Supplementary Entry')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", SupplementaryEntry);
+
+		WebElement AllowReceiptPrint = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Allow Receipt Print')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", AllowReceiptPrint);
+
+		// ------------- NRI Donation Form ------
+
+		if (givenRole.equals("state_treasurer") || givenRole == "state_treasurer") {
+			System.out.println("inside state_treasurer *********");
+			Thread.sleep(1000);
+			WebElement Edit = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[10]")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit);
+		}
+
+		// ------------- Party Unit------
+
+		WebElement State = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),' State ')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", State);
+
+		WebElement Zila = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Zila')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Zila);
+
+		WebElement Mandal = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Mandal')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Mandal);
+
+		/*
+		 * Thread.sleep(1000); //Submit WebElement Submit =
+		 * wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+		 * "//span[contains(text(),'Submit')]")));
+		 * ((JavascriptExecutor)driver).executeScript("arguments[0].click();", Submit);
+		 * 
+		 * 
+		 * String getSubmitTxt =
+		 * wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(
+		 * ".mat-simple-snackbar.ng-star-inserted"))).getText();
+		 * 
+		 * System.out.println("getSubmitTxt :"+getSubmitTxt);
+		 * 
+		 * Assert.assertTrue(getSubmitTxt.contains("User Created/Updated."));
+		 * 
+		 * wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(
+		 * ".mat-simple-snackbar.ng-star-inserted")));
+		 */
+	}
+
+	@Test(dependsOnMethods = { "addUser" })
+
+	public void addAlreadyExistingUser() throws InterruptedException, IOException {
+		// click on back icon
+		// driver.findElement(By.className("back-icon")).click();
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+
+		WebElement back = wait.until(ExpectedConditions.elementToBeClickable(By.className("back-icon")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", back);
+
+		ngDriver.waitForAngularRequestsToFinish();
+
+		Thread.sleep(2000);
+		ArrayList<String> a = new ArrayList<String>();
+
+		UserManagementDataDriven dd = new UserManagementDataDriven();
+		ArrayList<String> excel_data = dd.getData("addUser", a);
+
+		// driver.findElement(ByAngular.buttonText("Add User"));
+		WebElement addUserButton = wait.until(ExpectedConditions
+				.elementToBeClickable(driver.findElement(By.xpath("//span[contains(text(),'Add User')]"))));
+		addUserButton.click();
+		ngDriver.waitForAngularRequestsToFinish();
+		driver.findElement(By.xpath("(//*[@formcontrolname='name'])")).sendKeys(fullName);
+		driver.findElement(By.xpath("(//*[@formcontrolname='phone_no'])")).sendKeys(phoneNo);
+		driver.findElement(By.xpath("(//*[@formcontrolname='email'])"))
+				.sendKeys("state_treasurer1467kumar.vinay@jarvis.consulting");
+		driver.findElement(By.xpath("(//*[@formcontrolname='password'])")).sendKeys(password);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,510)");
+
+		WebElement roll = driver.findElement(By.xpath("//mat-radio-button[@value='" + givenRole + "']"));
+		roll.click();
+
+		String classAftercheck = roll.getAttribute("class");
+		// After check mat-radio-checked will be added
+		Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
+
+		Thread.sleep(2000);
+		WebElement clickState = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@formcontrolname='location_ids'])")));
+		clickState.click();
+
+		Thread.sleep(2000);
+
+		try {
+			WebElement selectState = driver
+					.findElement(By.xpath("//span[contains(text(),'" + excel_data.get(6) + "')]"));
+			selectState.click();
+
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			WebElement selectState = driver
+					.findElement(By.xpath("//span[contains(text(),'" + excel_data.get(6) + "')]"));
+			selectState.click();
+		}
+		driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
+
+		ngDriver.waitForAngularRequestsToFinish();
+		WebElement allData = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", allData);
+
+		try {
+			WebElement days15 = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", days15);
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			WebElement days15 = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", days15);
+		}
+
+		WebElement days30 = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'30 Days')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", days30);
+
+		WebElement Create = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Create);
+
+		WebElement Edit_within_15_Days = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[5]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_15_Days);
+
+		WebElement Edit_within_30_Days = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit within 30 Days')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_30_Days);
+
+		WebElement EditLifeTime = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Edit Lifetime')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", EditLifeTime);
+
+		WebElement SupplementaryEntry = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Supplementary Entry')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", SupplementaryEntry);
+
+		WebElement AllowReceiptPrint = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Allow Receipt Print')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", AllowReceiptPrint);
+
+		// ------------- NRI Donation Form ------
+
+		if (givenRole.equals("state_treasurer") || givenRole == "state_treasurer") {
+			System.out.println("inside state_treasurer *********");
+			Thread.sleep(1000);
+			WebElement Edit = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[10]")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit);
+		}
+
+		// ------------- Party Unit------
+
+		WebElement State = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),' State ')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", State);
+
+		WebElement Zila = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Zila')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Zila);
+
+		WebElement Mandal = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Mandal')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Mandal);
+
 		Thread.sleep(1000);
+		// Submit
+		WebElement Submit = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Submit')]")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Submit);
 
-		String filterByState ="Andhra Pradesh";
-		driver.findElement(By.xpath("//span[contains(text(), '" + filterByState + "')]")).click();
+		String getSubmitTxt = wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")))
+				.getText();
 
-		driver.findElement(By.xpath("//span[contains(text(), 'Search')]")).click();
+		System.out.println("getSubmitTxt from existing user :" + getSubmitTxt);
+
+		Assert.assertTrue(getSubmitTxt.contains("This Email Already Exist"));
+
+		// wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")));
+
+		ngDriver.waitForAngularRequestsToFinish();
+	}
+
+	@Test(dependsOnMethods = { "addAlreadyExistingUser" })
+
+	public void userAction() throws InterruptedException, IOException {
+
+		ArrayList<String> a = new ArrayList<String>();
+
+		UserManagementDataDriven dd = new UserManagementDataDriven();
+
+		ArrayList<String> excel_data = dd.getData("userAction", a);
+
+		System.out.println("calling userAction:");
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+
+		WebElement back = wait.until(ExpectedConditions.elementToBeClickable(By.className("back-icon")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", back);
+
+		ngDriver.waitForAngularRequestsToFinish();
+
+		String[] userActions = { "Edit", "Deactivate", "Activate", "Change Password", "Disable", "Enable" };
+
+		WebElement row = driver.findElement(By.xpath(
+				"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+
+		String getSubmitTxt;
+		for (String action : userActions) {
+
+			if (action == "Edit") {
+
+				Thread.sleep(2000);
+				row = driver.findElement(By.xpath(
+						"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+
+				WebElement editAction = row.findElement(By.xpath("//a[contains(.,'Edit')]"));
+
+				wait.until(ExpectedConditions.elementToBeClickable(editAction)).click();
+
+				System.out.println("Edit.........");
+
+				ngDriver.waitForAngularRequestsToFinish();
+
+				WebElement name = driver.findElement(By.xpath("(//*[@formcontrolname='name'])"));
+				name.clear();
+				name.sendKeys(excel_data.get(1));
+
+				WebElement phoneNo = driver.findElement(By.xpath("(//*[@formcontrolname='phone_no'])"));
+				phoneNo.clear();
+				phoneNo.sendKeys(excel_data.get(2));
+
+				WebElement emailElement = driver.findElement(By.xpath("(//*[@formcontrolname='email'])"));
+				emailElement.clear();
+				emailElement.sendKeys(excel_data.get(3));
+
+				String changeRoleTo = "";
+				String changeRole = excel_data.get(4);
+
+				// change role
+				if (changeRole.equals("yes")) {
+					changeRoleTo = excel_data.get(5);
+
+					System.out.println("changeRoleTo :" + changeRoleTo);
+					Thread.sleep(2000);
+					
+					
+					String[] rollArr = { "national_accountant", "state_treasurer", "state_accountant" };
+
+					String classAftercheck;
+					for (String rollOption : rollArr) {
+						WebElement rolls = driver.findElement(By.xpath("//mat-radio-button[@value='" + rollOption + "']"));
+						rolls.click();
+						Thread.sleep(1000);
+						classAftercheck = rolls.getAttribute("class");
+						System.out.println(classAftercheck);
+						// After check mat-radio-checked will be added
+						Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
+					}
+					
+
+					WebElement roll = driver.findElement(By.xpath("//mat-radio-button[@value='" + changeRoleTo + "']"));
+					roll.click();
+					System.out.println("changedRole....");
+
+					ngDriver.waitForAngularRequestsToFinish();
+					Thread.sleep(2000);
+				    classAftercheck = roll.getAttribute("class");
+
+					System.out.println("------------------getting classAftercheck....");
+					// After check mat-radio-checked will be added
+					Assert.assertTrue(classAftercheck.contains("mat-radio-checked"));
+					System.out.println("yes mat-radio-checked added....");
+					
+					JavascriptExecutor js = (JavascriptExecutor) driver;
+					js.executeScript("window.scrollBy(0,510)");
+					
+					driver.findElement(By.xpath("(//*[@formcontrolname='location_ids'])")).click();
+
+					
+					Thread.sleep(2000);
+					System.out.println("------------clicked on location_ids");
+					try {
+						WebElement selectState = driver.findElement(By.xpath("//span[contains(text(),'"+ excel_data.get(6) +"')]"));
+						//selectState.click();
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", selectState);
+						System.out.println("selectState try block");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement selectState = driver
+								.findElement(By.xpath("//span[contains(text(),'" + excel_data.get(6) + "')]"));
+						//selectState.click();
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", selectState);
+						System.out.println("selectState catch block");
+					}
+
+					driver.findElement(By.xpath("//div[@role='listbox']")).sendKeys(Keys.TAB);
+
+					System.out.println("just pressed tab key to close the states option..");
+				}
+
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+				js.executeScript("window.scrollBy(0,510)");
+
+				if (excel_data.get(7).equals("yes")) {
+					try {
+						WebElement AllDataDownload = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", AllDataDownload);
+
+						System.out.println("inside try for AllDataDownload");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement AllDataDownload = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[1]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", AllDataDownload);
+						System.out.println("inside chatch for AllDataDownload");
+					}
+				}
+
+				if (excel_data.get(8).equals("yes")) {
+					try {
+						WebElement days15 = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", days15);
+
+						System.out.println("inside try for days15");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement days15 = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[2]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", days15);
+
+						System.out.println("inside catch for days15");
+					}
+				}
+
+				if (excel_data.get(9).equals("yes")) {
+					try {
+						WebElement days30 = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'30 Days')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", days30);
+						System.out.println("inside try for days30");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement days30 = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'30 Days')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", days30);
+						System.out.println("inside catch for days15");
+					}
+
+				}
+
+				if (excel_data.get(10).equals("yes")) {
+
+					try {
+						WebElement Create = wait.until(
+								ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Create);
+						System.out.println("inside try for create");
+
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement Create = wait.until(
+								ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Create);
+
+						System.out.println("inside catch for create");
+					}
+				}
+
+				if (excel_data.get(11).equals("yes")) {
+					try {
+
+						WebElement Edit_within_15_Days = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[5]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_15_Days);
+						System.out.println("inside try for Edit_within_15_Days");
+
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement Edit_within_15_Days = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[5]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_15_Days);
+
+						System.out.println("inside catch for Edit_within_15_Days");
+					}
+				}
+
+				if (excel_data.get(12).equals("yes")) {
+
+					try {
+						WebElement Edit_within_30_Days = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Edit within 30 Days')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_30_Days);
+
+						System.out.println("inside try for Edit_within_30_Days");
+
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement Edit_within_30_Days = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Edit within 30 Days')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit_within_30_Days);
+
+						System.out.println("inside catch for Edit_within_30_Days");
+					}
+				}
+
+				if (excel_data.get(13).equals("yes")) {
+
+					try {
+						WebElement EditLifeTime = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Edit Lifetime')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", EditLifeTime);
+
+						System.out.println("inside try for EditLifeTime");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement EditLifeTime = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Edit Lifetime')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", EditLifeTime);
+
+						System.out.println("inside catch for EditLifeTime");
+					}
+				}
+
+				if (excel_data.get(14).equals("yes")) {
+
+					try {
+						WebElement SupplementaryEntry = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Supplementary Entry')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", SupplementaryEntry);
+
+						System.out.println("inside try for SupplementaryEntry");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement SupplementaryEntry = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Supplementary Entry')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", SupplementaryEntry);
+
+						System.out.println("inside catch for SupplementaryEntry");
+					}
+
+				}
+
+				if (excel_data.get(15).equals("yes")) {
+
+					try {
+						WebElement AllowReceiptPrint = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Allow Receipt Print')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", AllowReceiptPrint);
+
+						System.out.println("inside try for AllowReceiptPrint");
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement AllowReceiptPrint = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),'Allow Receipt Print')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", AllowReceiptPrint);
+
+						System.out.println("inside catch for AllowReceiptPrint");
+					}
+
+				}
+
+				// ------------- NRI Donation Form ------
+				if (excel_data.get(16).equals("yes")) {
+
+					if (changeRoleTo.equals("state_treasurer") && changeRole.equals("yes")) {
+						System.out.println("inside state_treasurer *********");
+
+						try {
+							Thread.sleep(1000);
+							WebElement Edit = wait.until(ExpectedConditions
+									.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[10]")));
+							((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit);
+
+							System.out.println("inside try for Edit");
+						} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+							Thread.sleep(1000);
+							WebElement Edit = wait.until(ExpectedConditions
+									.elementToBeClickable(By.xpath("(//span[@class='mat-checkbox-label'])[10]")));
+							((JavascriptExecutor) driver).executeScript("arguments[0].click();", Edit);
+
+							System.out.println("inside catch for Edit");
+						}
+					}
+				}
+
+				// ------------- Party Unit------
+
+				if (excel_data.get(17).equals("yes")) {
+
+					try {
+						WebElement State = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),' State ')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", State);
+
+						System.out.println("inside try for State party unit");
+
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement State = wait.until(ExpectedConditions
+								.elementToBeClickable(By.xpath("//span[contains(text(),' State ')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", State);
+
+						System.out.println("inside catch for State party unit");
+					}
+				}
+
+				if (excel_data.get(18).equals("yes")) {
+
+					try {
+						WebElement Zila = wait.until(
+								ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Zila')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Zila);
+
+						System.out.println("inside try for Zila party unit");
+
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement Zila = wait.until(
+								ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Zila')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Zila);
+
+						System.out.println("inside catch for Zila party unit");
+					}
+
+				}
+
+				if (excel_data.get(19).equals("yes")) {
+
+					try {
+						WebElement Mandal = wait.until(
+								ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Mandal')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Mandal);
+
+						System.out.println("inside try for Madal party unit");
+
+					} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+						WebElement Mandal = wait.until(
+								ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Mandal')]")));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", Mandal);
+
+						System.out.println("inside catch for Mandal party unit");
+					}
+				}
+
+				Thread.sleep(3000);
+
+				// WebElement Submit
+				// =driver.findElement(By.xpath("(//button[@class='mat-focus-indicator col-md-12
+				// mat-flat-button mat-button-base mat-warn'])"));
+				WebElement Submit = driver.findElements(By.tagName("button")).get(1);
+
+				// String submitButtonDisabled = Submit.getAttribute("ng-reflect-disabled");
+
+				String submitButtonDisabled = Submit.getAttribute("class");
+
+				System.out.println("*********submitButtonDisabled :" + submitButtonDisabled);
+
+				// if(submitButtonDisabled.equals("false")) {
+				if (!submitButtonDisabled.contains("mat-button-disabled")) {
+					System.out.println("button is enabled");
+					Submit.click();
+					getSubmitTxt = wait.until(ExpectedConditions
+							.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")))
+							.getText();
+
+					System.out.println("getSubmitTxt :" + getSubmitTxt);
+					if (getSubmitTxt.contains("Please select any party unit")) {
+						Thread.sleep(4000);
+						WebElement back2 = driver.findElement(By.className("back-icon"));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", back2);
+					} else {
+						Assert.assertTrue(getSubmitTxt.contains("User Created/Updated."));
+					}
+				} else {
+					System.out.println("button is desabled");
+					Thread.sleep(3000);
+					WebElement back2 = driver.findElement(By.className("back-icon"));
+					((JavascriptExecutor) driver).executeScript("arguments[0].click();", back2);
+				}
+
+				Thread.sleep(3000);
+				ngDriver.waitForAngularRequestsToFinish();
+			} else if (action == "Deactivate") {
+
+				Thread.sleep(2000);
+				row = driver.findElement(By.xpath(
+						"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+				// row.findElement(By.xpath("//a[contains(.,'Deactivate')]")).click();
+
+				WebElement deactivateAction = row.findElement(By.xpath("//a[contains(.,'Deactivate')]"));
+
+				wait.until(ExpectedConditions.elementToBeClickable(deactivateAction)).click();
+
+				System.out.println("Deactived.........");
+
+				getSubmitTxt = wait
+						.until(ExpectedConditions
+								.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")))
+						.getText();
+
+				System.out.println("getSubmitTxt :" + getSubmitTxt);
+
+				Assert.assertTrue(getSubmitTxt.contains("User Deactivated Successfully."));
+
+				ngDriver.waitForAngularRequestsToFinish();
+			} else if (action == "Activate") {
+
+				Thread.sleep(6000);
+				row = driver.findElement(By.xpath(
+						"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+
+				WebElement activateAction = row.findElement(By.xpath("//a[contains(.,'Activate')]"));
+
+				wait.until(ExpectedConditions.elementToBeClickable(activateAction)).click();
+
+				System.out.println("Activate.........");
+
+				getSubmitTxt = wait
+						.until(ExpectedConditions
+								.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")))
+						.getText();
+
+				System.out.println("getSubmitTxt :" + getSubmitTxt);
+
+				Assert.assertTrue(getSubmitTxt.contains("User Activated Successfully."));
+
+				ngDriver.waitForAngularRequestsToFinish();
+			}
+
+			else if (action == "Change Password") {
+
+				Thread.sleep(2000);
+				row = driver.findElement(By.xpath(
+						"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+
+				WebElement ChangePasswordAction = row.findElement(By.xpath("//a[contains(.,'Change Password')]"));
+
+				wait.until(ExpectedConditions.elementToBeClickable(ChangePasswordAction)).click();
+
+				System.out.println("Change Password.........");
+				Thread.sleep(1000);
+
+				WebElement updatePassword = driver.findElement(By.xpath("//h5[contains(text(),'Update Password')]"));
+				wait.until(ExpectedConditions.visibilityOf(updatePassword));
+				System.out.println("Update Password visible");
+
+				WebElement password = driver.findElement(By.xpath("(//*[@formcontrolname='password'])"));
+				WebElement confirmPassword = driver.findElement(By.xpath("(//*[@formcontrolname='confirmPassword'])"));
+
+				password.sendKeys("23dd");
+				confirmPassword.click();
+				Thread.sleep(1000);
+				System.out.println("23dd them clicked confirmPassword");
+				String givenPassword = excel_data.get(20);
+				System.out.println("givenPassword :" + givenPassword);
+
+				By error = By.cssSelector("[role='alert']");
+
+				WebElement errorInfo = driver.findElement(with(error).below(password));
+				wait.until(ExpectedConditions.textToBePresentInElement(errorInfo,
+						"Password should be min eight characters, having one uppercase, lowercase, number and special character."));
+
+				password.clear();
+				password.sendKeys(givenPassword);
+				confirmPassword.sendKeys(givenPassword);
+				System.out.println("confirming password with givenPassword:");
+
+				WebElement Submit = driver.findElements(By.tagName("button")).get(10);
+				String submitButtonDisabled = Submit.getAttribute("class");
+
+				if (!submitButtonDisabled.contains("mat-button-disabled")) {
+					System.out.println("button is enabled for change password");
+					Submit.click();
+					getSubmitTxt = wait.until(ExpectedConditions
+							.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")))
+							.getText();
+					System.out.println("getSubmitTxt for change password:" + getSubmitTxt);
+
+				} else {
+					System.out.println("button is desabled for change password");
+					driver.findElement(By.xpath("//span[contains(text(), 'Clear')]")).click();
+
+					Thread.sleep(1000);
+				}
+
+				ngDriver.waitForAngularRequestsToFinish();
+			} else if (action == "Disable") {
+				Thread.sleep(2000);
+				row = driver.findElement(By.xpath(
+						"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+
+				WebElement DisableAction = row.findElement(By.xpath("//a[contains(.,'Disable')]"));
+
+				wait.until(ExpectedConditions.elementToBeClickable(DisableAction)).click();
+
+				System.out.println("DisableAction.........");
+
+				WebElement disablePopup = wait.until(ExpectedConditions
+						.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")));
+				// getSubmitTxt =
+				// wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted"))).getText();
+				// System.out.println("getSubmitTxt Disable :"+getSubmitTxt);
+
+				Assert.assertTrue(disablePopup.getText().contains("User Disabled Successfully."));
+
+				ngDriver.waitForAngularRequestsToFinish();
+
+			} else if (action == "Enable") {
+				// click on Archive
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("(//*[@class='mat-tab-label-content'])[2]")).click();
+
+				WebElement getRow;
+				try {
+					Thread.sleep(2000);
+					getRow = driver.findElement(By.xpath(
+							"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+
+					System.out.println("indide try for row selection");
+
+				} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+					Thread.sleep(2000);
+					System.out.println("indide catch for row selection");
+					getRow = driver.findElement(By.xpath(
+							"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
+				}
+
+				WebElement EnableAction = getRow.findElement(By.xpath("//a[contains(.,'Enable')]"));
+
+				wait.until(ExpectedConditions.elementToBeClickable(EnableAction)).click();
+
+				System.out.println("EnableAction.........");
+
+				getSubmitTxt = wait
+						.until(ExpectedConditions
+								.visibilityOfElementLocated(By.cssSelector(".mat-simple-snackbar.ng-star-inserted")))
+						.getText();
+
+				System.out.println("getSubmitTxt EnableAction :" + getSubmitTxt);
+
+				Assert.assertTrue(getSubmitTxt.contains("User Enabled Successfully."));
+
+				ngDriver.waitForAngularRequestsToFinish();
+			}
+		}
+	}
+
+	@Test(dependsOnMethods = { "userAction" })
+	public void filterUsers() throws InterruptedException {
+
+		applyFilterOnArchive_and_Active();
+
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//span[contains(text(), 'Clear')]")).click();
 
 		ngDriver.waitForAngularRequestsToFinish();
 		Thread.sleep(2000);
+		// click on Active
+		driver.findElement(By.xpath("(//*[@class='mat-tab-label-content'])[1]")).click();
+		applyFilterOnArchive_and_Active();
 
-		// --------------------------
+	}
 
-		WebElement downloadBtn = wait.until(ExpectedConditions
+	@Test(dependsOnMethods = { "filterUsers" })
+	public void downloadTestFolderTest() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+		WebElement downloadButton = wait.until(ExpectedConditions
 				.elementToBeClickable(driver.findElement(By.xpath("//span[contains(text(),'Download')]"))));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", downloadBtn);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", downloadButton);
 
-		Thread.sleep(4000);
-
-		// Thread.sleep(2000);
-		ngDriver.waitForAngularRequestsToFinish();
-		String getDownloadSectionTopText = driver.findElement(By.tagName("b")).getText();
-
-		Assert.assertEquals(getDownloadSectionTopText, "Donation Lists Download");
-		System.out.println(driver.findElement(By.tagName("b")).getText());
-
-		String Select_All_Field = excel_data_for_download_total_form.get(1);
-		String State = excel_data_for_download_total_form.get(2);
-		String Transaction_Type = excel_data_for_download_total_form.get(3);
-		String Date_of_transaction = excel_data_for_download_total_form.get(4);
-
-		String Financial_Year = excel_data_for_download_total_form.get(5);
-		String Mode_of_Payment = excel_data_for_download_total_form.get(6);
-		String Account_Number = excel_data_for_download_total_form.get(7);
-		String IFSC_Code = excel_data_for_download_total_form.get(8);
-
-		String Bank_Name = excel_data_for_download_total_form.get(9);
-		String Branch_Name = excel_data_for_download_total_form.get(10);
-		String Branch_Address = excel_data_for_download_total_form.get(11);
-		String Name = excel_data_for_download_total_form.get(12);
-
-		String Phone = excel_data_for_download_total_form.get(13);
-		String Email = excel_data_for_download_total_form.get(14);
-		String Date_of_Cheque = excel_data_for_download_total_form.get(15);
-		String Cheque_Number = excel_data_for_download_total_form.get(16);
-
-		String Date_of_Draft = excel_data_for_download_total_form.get(17);
-		String Draft_Number = excel_data_for_download_total_form.get(18);
-		String UTR_No = excel_data_for_download_total_form.get(19);
-		String Category = excel_data_for_download_total_form.get(20);
-
-		String Proprietorship = excel_data_for_download_total_form.get(21);
-		String Proprietorship_Name = excel_data_for_download_total_form.get(22);
-		String House = excel_data_for_download_total_form.get(23);
-		String Locality = excel_data_for_download_total_form.get(24);
-
-		String District = excel_data_for_download_total_form.get(25);
-		String Pan_Card = excel_data_for_download_total_form.get(26);
-		String Pan_Card_Remark = excel_data_for_download_total_form.get(27);
-		String Amount = excel_data_for_download_total_form.get(28);
-
-		String Amount_in_Words = excel_data_for_download_total_form.get(29);
-		String Collector_Name = excel_data_for_download_total_form.get(30);
-		String Collector_Phone = excel_data_for_download_total_form.get(31);
-		String Nature_of_Donation = excel_data_for_download_total_form.get(32);
-
-		String Party_Unit = excel_data_for_download_total_form.get(33);
-		String Location = excel_data_for_download_total_form.get(34);
-		String Payment_Realize_date = excel_data_for_download_total_form.get(35);
-		String Receipt_Number = excel_data_for_download_total_form.get(36);
-
-		String Transaction_Valid = excel_data_for_download_total_form.get(37);
-		String Created_By = excel_data_for_download_total_form.get(38);
-		String Created_At = excel_data_for_download_total_form.get(39);
-		String Cheque_Bounce_Remark = excel_data_for_download_total_form.get(40);
-
-		String Reverse_Remark = excel_data_for_download_total_form.get(41);
-		String Pan_Card_Photo = excel_data_for_download_total_form.get(42);
-		String Cheque_or_DD_Photo1 = excel_data_for_download_total_form.get(43);
-		String Cheque_or_DD_Photo2 = excel_data_for_download_total_form.get(44);
-
-		Thread.sleep(3000);
-
-		WebElement Select_All_Field_Element = driver.findElement(By.cssSelector(".mat-checkbox.mat-accent"));
-		WebElement State_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(1)"));
-		WebElement Transaction_Type_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(2)"));
-		WebElement Date_of_transaction_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(3)"));
-		WebElement Financial_Year_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(4)"));
-
-		WebElement Mode_of_Payment_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(5)"));
-		WebElement Account_Number_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(6)"));
-		WebElement IFSC_Code_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(7)"));
-		WebElement Bank_Name_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(8)"));
-
-		WebElement Branch_Name_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(9)"));
-		WebElement Branch_Address_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(10)"));
-		WebElement Name_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(11)"));
-		WebElement Phone_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(12)"));
-		WebElement Email_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(13)"));
-
-		WebElement Date_of_Cheque_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(14)"));
-		WebElement Cheque_Number_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(15)"));
-		WebElement Date_of_Draft_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(16)"));
-		WebElement Draft_Number_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(17)"));
-
-		WebElement UTR_No_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(18)"));
-		WebElement Category_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(19)"));
-		WebElement Proprietorship_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(20)"));
-		WebElement Proprietorship_Name_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(21)"));
-
-		WebElement House_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(22)"));
-		WebElement Locality_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(23)"));
-		WebElement District_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(24)"));
-		WebElement Pan_Card_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(25)"));
-		WebElement Pan_Card_Remark_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(26)"));
-
-		WebElement Amount_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(27)"));
-		WebElement Amount_in_words_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(28)"));
-		WebElement Collector_Name_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(29)"));
-		WebElement Collector_Phone_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(30)"));
-
-		WebElement Nature_of_Donation_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(31)"));
-		WebElement Party_Unit_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(32)"));
-		WebElement Location_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(33)"));
-		WebElement Payment_Realize_date_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(34)"));
-
-		WebElement Receipt_Number_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(35)"));
-		WebElement Transaction_Valid_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(36)"));
-		WebElement Created_By_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(37)"));
-		WebElement Created_At_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(38)"));
-
-		WebElement Cheque_Bounce_Remark_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(39)"));
-		WebElement Reverse_Remark_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(40)"));
-		WebElement Pan_Card_Photo_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(41)"));
-		WebElement Cheque_or_DD_Photo1_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(42)"));
-
-		WebElement Cheque_or_DD_Photo2_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(43)"));
-
-		boolean flag_Select_All_Field = false;
-		if (Select_All_Field.equals("yes")) {
-
-			Select_All_Field_Element.click();
-
-			// ---- Add all fields to arrayList initially
-			downloadingFields.add("State");
-			downloadingFields.add("Transaction Type");
-			downloadingFields.add("Date of transaction");
-			downloadingFields.add("Financial Year");
-
-			downloadingFields.add("Mode of Payment");
-			downloadingFields.add("Account Number");
-			downloadingFields.add("IFSC Code");
-			downloadingFields.add("Bank Name");
-
-			downloadingFields.add("Branch Name");
-			downloadingFields.add("Branch Address");
-			downloadingFields.add("Name");
-			downloadingFields.add("Phone");
-
-			downloadingFields.add("Email");
-			downloadingFields.add("Date of Cheque");
-			downloadingFields.add("Cheque Number");
-			downloadingFields.add("Date of Draft");
-
-			downloadingFields.add("Draft Number");
-			downloadingFields.add("UTR No");
-			downloadingFields.add("Category");
-			downloadingFields.add("Proprietorship");
-
-			downloadingFields.add("Proprietorship Name");
-			downloadingFields.add("House");
-			downloadingFields.add("Locality");
-			downloadingFields.add("District");
-
-			downloadingFields.add("Pan Card");
-			downloadingFields.add("Pan Card Remark");
-			downloadingFields.add("Amount");
-			downloadingFields.add("Amount in Words");
-
-			downloadingFields.add("Collector Name");
-			downloadingFields.add("Collector Phone");
-			downloadingFields.add("Nature of Donation");
-			downloadingFields.add("Party Unit");
-
-			downloadingFields.add("Location");
-			downloadingFields.add("Payment realize date");
-			downloadingFields.add("Receipt Number");
-			downloadingFields.add("Transaction Valid");
-
-			downloadingFields.add("Created By");
-			downloadingFields.add("Created At");
-			downloadingFields.add("Cheque Bounce Remark");
-			downloadingFields.add("Reverse Remark");
-
-			downloadingFields.add("Pan Card Photo");
-			downloadingFields.add("Cheque/DD photo1");
-			downloadingFields.add("Cheque/DD photo2");
-
-			// --------
-
-			Thread.sleep(3000);
-
-			String Select_All_Field_checked = Select_All_Field_Element.getAttribute("class");
-			Assert.assertTrue(Select_All_Field_checked.contains("mat-checkbox-checked"));
-
-			flag_Select_All_Field = true;
-
-			// From state check box
-			Assert.assertEquals(State_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Transaction_Type_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Date_of_transaction_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Financial_Year_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Mode_of_Payment_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Account_Number_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(IFSC_Code_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Bank_Name_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Branch_Name_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Branch_Address_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Name_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Phone_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Email_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Date_of_Cheque_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Cheque_Number_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Date_of_Draft_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Draft_Number_Element.getAttribute("ng-reflect-checked"), "true");
-			// ---
-			Assert.assertEquals(UTR_No_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Category_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Proprietorship_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Proprietorship_Name_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(House_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Locality_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(District_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Pan_Card_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Pan_Card_Remark_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Amount_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Amount_in_words_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Collector_Name_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Collector_Phone_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Nature_of_Donation_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Party_Unit_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Location_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Payment_Realize_date_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Receipt_Number_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Transaction_Valid_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Created_By_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Created_At_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Cheque_Bounce_Remark_Element.getAttribute("ng-reflect-checked"), "true");
-
-			Assert.assertEquals(Reverse_Remark_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Pan_Card_Photo_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Cheque_or_DD_Photo1_Element.getAttribute("ng-reflect-checked"), "true");
-			Assert.assertEquals(Cheque_or_DD_Photo2_Element.getAttribute("ng-reflect-checked"), "true");
-
-		}
-
-		if (State.equals("yes")) {
-			State_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("State");
-				Assert.assertEquals(State_Element.getAttribute("ng-reflect-checked"), "false");
-
-			} else {
-				downloadingFields.add("State");
-				Assert.assertEquals(State_Element.getAttribute("ng-reflect-checked"), "true");
-			}
-		}
-		if (Transaction_Type.equals("yes")) {
-			Transaction_Type_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Transaction Type");
-				Assert.assertEquals(Transaction_Type_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Transaction_Type_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Transaction Type");
-			}
-		}
-		if (Date_of_transaction.equals("yes")) {
-			Date_of_transaction_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Date of transaction");
-				Assert.assertEquals(Date_of_transaction_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Date_of_transaction_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Date of transaction");
-			}
-		}
-		if (Financial_Year.equals("yes")) {
-			Financial_Year_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Financial Year");
-				Assert.assertEquals(Financial_Year_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Financial_Year_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Financial Year");
-			}
-		}
-
-		if (Mode_of_Payment.equals("yes")) {
-			Mode_of_Payment_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Mode of Payment");
-				Assert.assertEquals(Mode_of_Payment_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Mode_of_Payment_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Mode of Payment");
-			}
-		}
-		if (Account_Number.equals("yes")) {
-			Account_Number_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Account Number");
-				Assert.assertEquals(Account_Number_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Account_Number_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Account Number");
-			}
-		}
-		if (IFSC_Code.equals("yes")) {
-			IFSC_Code_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("IFSC Code");
-				Assert.assertEquals(IFSC_Code_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(IFSC_Code_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("IFSC Code");
-			}
-		}
-		if (Bank_Name.equals("yes")) {
-			Bank_Name_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Bank Name");
-				Assert.assertEquals(Bank_Name_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Bank_Name_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Bank Name");
-			}
-		}
-		if (Branch_Name.equals("yes")) {
-			Branch_Name_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Branch Name");
-				Assert.assertEquals(Branch_Name_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Branch_Name_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Branch Name");
-			}
-		}
-
-		if (Branch_Address.equals("yes")) {
-			Branch_Address_Element.click();
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Branch Address");
-				Assert.assertEquals(Branch_Address_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Branch_Address_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Branch Address");
-			}
-		}
-		if (Name.equals("yes")) {
-			Name_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Name");
-				Assert.assertEquals(Name_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Name_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Name");
-			}
-		}
-		if (Phone.equals("yes")) {
-			Phone_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Phone");
-				Assert.assertEquals(Phone_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Phone_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Phone");
-			}
-		}
-		if (Email.equals("yes")) {
-			Email_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Email");
-				Assert.assertEquals(Email_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Email_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Email");
-			}
-		}
-
-		if (Date_of_Cheque.equals("yes")) {
-			Date_of_Cheque_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Date of Cheque");
-				Assert.assertEquals(Date_of_Cheque_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Date_of_Cheque_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Date of Cheque");
-			}
-		}
-		if (Cheque_Number.equals("yes")) {
-			Cheque_Number_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Cheque Number");
-				Assert.assertEquals(Cheque_Number_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Cheque_Number_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Cheque Number");
-			}
-		}
-		if (Date_of_Draft.equals("yes")) {
-			Date_of_Draft_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Date of Draft");
-				Assert.assertEquals(Date_of_Draft_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Date_of_Draft_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Date of Draft");
-			}
-		}
-		if (Draft_Number.equals("yes")) {
-			Draft_Number_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Draft Number");
-				Assert.assertEquals(Draft_Number_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Draft_Number_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Draft Number");
-			}
-		}
-
-		if (UTR_No.equals("yes")) {
-			UTR_No_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("UTR No");
-				Assert.assertEquals(UTR_No_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(UTR_No_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("UTR No");
-			}
-		}
-		if (Category.equals("yes")) {
-			Category_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Category");
-				Assert.assertEquals(Category_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Category_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Category");
-			}
-		}
-		if (Proprietorship.equals("yes")) {
-			Proprietorship_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Proprietorship");
-				Assert.assertEquals(Proprietorship_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Proprietorship_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Proprietorship");
-			}
-		}
-		if (Proprietorship_Name.equals("yes")) {
-			Proprietorship_Name_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Proprietorship Name");
-				Assert.assertEquals(Proprietorship_Name_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Proprietorship_Name_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Proprietorship Name");
-			}
-		}
-
-		if (House.equals("yes")) {
-			House_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("House");
-				System.out.println("removing House from arrayList");
-				System.out.println("House is not selected");
-				Assert.assertEquals(House_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(House_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("House");
-				System.out.println("House is selected");
-			}
-		}
-		if (Locality.equals("yes")) {
-			Locality_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Locality");
-				System.out.println("removing Locality from arrayList");
-				System.out.println("Locality is not selected");
-				Assert.assertEquals(Locality_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Locality_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Locality");
-				System.out.println("Locality is selected");
-			}
-		}
-		if (District.equals("yes")) {
-			District_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("District");
-				Assert.assertEquals(District_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(District_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("District");
-			}
-		}
-		if (Pan_Card.equals("yes")) {
-			Pan_Card_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Pan Card");
-				Assert.assertEquals(Pan_Card_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Pan_Card_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Pan Card");
-			}
-		}
-
-		if (Pan_Card_Remark.equals("yes")) {
-			Pan_Card_Remark_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Pan Card Remark");
-				Assert.assertEquals(Pan_Card_Remark_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Pan_Card_Remark_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Pan Card Remark");
-			}
-		}
-		if (Amount.equals("yes")) {
-			Amount_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Amount");
-				Assert.assertEquals(Amount_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Amount_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Amount");
-			}
-		}
-		if (Amount_in_Words.equals("yes")) {
-			Amount_in_words_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Amount in Words");
-				Assert.assertEquals(Amount_in_words_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Amount_in_words_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Amount in Words");
-			}
-		}
-		if (Collector_Name.equals("yes")) {
-			Collector_Name_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Collector Name");
-				Assert.assertEquals(Collector_Name_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Collector_Name_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Collector Name");
-			}
-		}
-
-		if (Collector_Phone.equals("yes")) {
-			Collector_Phone_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Collector Phone");
-				Assert.assertEquals(Collector_Phone_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Collector_Phone_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Collector Phone");
-			}
-		}
-		if (Nature_of_Donation.equals("yes")) {
-			Nature_of_Donation_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Nature of Donation");
-				Assert.assertEquals(Nature_of_Donation_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Nature_of_Donation_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Nature of Donation");
-			}
-		}
-		if (Party_Unit.equals("yes")) {
-			Party_Unit_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Party Unit");
-				Assert.assertEquals(Party_Unit_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Party_Unit_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Party Unit");
-			}
-		}
-		if (Location.equals("yes")) {
-			Location_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Location");
-				Assert.assertEquals(Location_Element.getAttribute("ng-reflect-checked"), "false");
-				System.out.println("Location_Element should be false");
-			} else {
-				Assert.assertEquals(Location_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Location");
-				System.out.println("Location_Element should be true");
-			}
-		}
-
-		if (Payment_Realize_date.equals("yes")) {
-			Payment_Realize_date_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Payment realize date");
-				Assert.assertEquals(Payment_Realize_date_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Payment_Realize_date_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Payment realize date");
-			}
-		}
-		if (Receipt_Number.equals("yes")) {
-			Receipt_Number_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Receipt Number");
-				Assert.assertEquals(Receipt_Number_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Receipt_Number_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Receipt Number");
-			}
-		}
-		if (Transaction_Valid.equals("yes")) {
-			Transaction_Valid_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Transaction Valid");
-				Assert.assertEquals(Transaction_Valid_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Transaction_Valid_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Transaction Valid");
-			}
-		}
-		if (Created_By.equals("yes")) {
-			Created_By_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Created By");
-				Assert.assertEquals(Created_By_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Created_By_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Created By");
-			}
-		}
-
-		if (Created_At.equals("yes")) {
-			Created_At_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Created At");
-				Assert.assertEquals(Created_At_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Created_At_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Created At");
-			}
-		}
-		if (Cheque_Bounce_Remark.equals("yes")) {
-			Cheque_Bounce_Remark_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Cheque Bounce Remark");
-				Assert.assertEquals(Cheque_Bounce_Remark_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Cheque_Bounce_Remark_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Cheque Bounce Remark");
-			}
-		}
-		if (Reverse_Remark.equals("yes")) {
-			Reverse_Remark_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Reverse Remark");
-				Assert.assertEquals(Reverse_Remark_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Reverse_Remark_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Reverse Remark");
-			}
-		}
-		if (Pan_Card_Photo.equals("yes")) {
-			Pan_Card_Photo_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Pan Card Photo");
-				Assert.assertEquals(Pan_Card_Photo_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Pan_Card_Photo_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Pan Card Photo");
-			}
-		}
-
-		if (Cheque_or_DD_Photo1.equals("yes")) {
-			Cheque_or_DD_Photo1_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Cheque/DD photo1");
-				Assert.assertEquals(Cheque_or_DD_Photo1_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Cheque_or_DD_Photo1_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Cheque/DD photo1");
-			}
-		}
-		if (Cheque_or_DD_Photo2.equals("yes")) {
-			Cheque_or_DD_Photo2_Element.click();
-
-			Thread.sleep(1000);
-			if (flag_Select_All_Field) {
-				downloadingFields.remove("Cheque/DD photo2");
-				Assert.assertEquals(Cheque_or_DD_Photo2_Element.getAttribute("ng-reflect-checked"), "false");
-			} else {
-				Assert.assertEquals(Cheque_or_DD_Photo2_Element.getAttribute("ng-reflect-checked"), "true");
-				downloadingFields.add("Cheque/DD photo2");
-			}
-		}
-
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0,310)");
-
-		WebElement downloadBtn2 = wait.until(ExpectedConditions
-				.elementToBeClickable(driver.findElement(By.xpath("//span[contains(text(),'Submit')]"))));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", downloadBtn2);
-
-		Thread.sleep(4000);
+		Thread.sleep(2000);
 
 		File folder = new File(System.getProperty("user.dir") + "\\downloadTestFolder");
-
 		// List the files on that folder
 		File[] listOfFiles = folder.listFiles();
 		boolean found = false;
-		String fileName = null;
+		// Look for the file in the files
+		// You should write smart REGEX according to the filename
 		for (File listOfFile : listOfFiles) {
 			if (listOfFile.isFile()) {
-				fileName = listOfFile.getName();
+				String fileName = listOfFile.getName();
+				System.out.println("File " + listOfFile.getName());
 				System.out.println("fileName " + fileName);
-				if (fileName.contains("NidhiCollection")) {
+				if (fileName.contains("Usermanagement")) {
 					found = true;
 				}
 			}
 		}
 		Assert.assertTrue(found, "Downloaded document is not found");
-		ArrayList<String> fieldsArrayList = new ArrayList<>();
-		ArrayList<String> fields = getDownloadFields(fieldsArrayList, fileName);
 
-		System.out.println("downloadingFields size :" + downloadingFields.size());
-		System.out.println("fields size :" + fields.size());
-
-		Assert.assertEquals(true, downloadingFields.equals(fields), "downloading fields are not matching..");
-
-		File file = new File(System.getProperty("user.dir") + "\\downloadTestFolder\\" + fileName);
-
-		System.out.println("delete file Absolute path :" + file.getAbsolutePath());
-
-		if (file.delete()) {
-			System.out.println("file deleted success");
-		} else {
-			System.out.println("file delete fail");
+		// delete all files
+		for (File file : folder.listFiles()) {
+			file.delete();
 		}
 	}
-	
-	private static ArrayList<String> getDownloadFields(ArrayList<String> fieldsArrayList, String fileName)
-			throws IOException {
-		File file = new File(System.getProperty("user.dir") + "\\downloadTestFolder\\" + fileName);
-		// ‪
-		FileInputStream fis = new FileInputStream(file);
 
-		@SuppressWarnings("resource")
-		XSSFWorkbook workbook = new XSSFWorkbook(fis);
+//	@AfterClass
+//	public void terminate() {
+//		driver.close();
+//	}
 
-		int sheets = workbook.getNumberOfSheets();
-		for (int i = 0; i < sheets; i++) {
-			if (workbook.getSheetName(i).equalsIgnoreCase("work_book")) {
+	private void applyFilterOnArchive_and_Active() throws InterruptedException {
 
-				XSSFSheet sheet = workbook.getSheetAt(i);
-
-				Iterator<Row> rows = sheet.iterator(); // sheet is collection of rows
-				Row firstrow = rows.next();
-
-				Iterator<Cell> ce = firstrow.cellIterator(); // row is collection of cells
-				while (ce.hasNext()) {
-					Cell value = ce.next();
-					fieldsArrayList.add(value.getStringCellValue());
-				}
-			}
-
-		}
-		System.out.println("print fields..");
-		for (int i = 0; i < fieldsArrayList.size(); i++) {
-			System.out.println(fieldsArrayList.get(i));
+		Thread.sleep(3000);
+		WebElement getPhoneRow;
+		try {
+			getPhoneRow = driver.findElement(By.xpath(
+					"(//*[@class='mat-cell cdk-cell cdk-column-phone_number mat-column-phone_number ng-star-inserted'])[1]"));
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			getPhoneRow = driver.findElement(By.xpath(
+					"(//*[@class='mat-cell cdk-cell cdk-column-phone_number mat-column-phone_number ng-star-inserted'])[1]"));
 		}
 
-		fis.close();
-		return fieldsArrayList;
-		*/
-		
-		System.out.println("&&& actionRequiredForPanCardRTGS section ----");
-        
-		// click on भारतीय जनता पार्टी for home
-		driver.findElement(By.cssSelector("[class='header-title-span']")).click();
-		ngDriver.waitForAngularRequestsToFinish();
-		Thread.sleep(2000);
-		
-		// click on Action Required for Pan card
-		driver.findElement(By.xpath("(//*[@class='action-text'])[2]")).click();
-		ngDriver.waitForAngularRequestsToFinish();
-		
-		
-		wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Action Required for PanCard')]"))));
-		
+		String copy1stPhoneNo = getPhoneRow.getText();
+		System.out.println("copy1stPhoneNo :" + copy1stPhoneNo);
+
+		WebElement getEmaiRow = driver.findElement(By.xpath(
+				"(//*[@class='mat-cell cdk-cell mat-tooltip-trigger cdk-column-email mat-column-email ng-star-inserted'])[1]"));
+
+		String copy1stEmail = getEmaiRow.getText();
+		System.out.println("copy1stEmail :" + copy1stEmail);
+
+		WebElement getRole = driver.findElement(
+				By.xpath("(//*[@class='mat-cell cdk-cell cdk-column-role mat-column-role ng-star-inserted'])[1]"));
+
+		String copy1stRole = getRole.getText();
+
+		System.out.println("copy1stRole :" + copy1stRole);
+
+		if (copy1stRole.equals("state_accountant")) {
+			copy1stRole = "State Accountant";
+		} else if (copy1stRole.equals("state_treasurer")) {
+			copy1stRole = "State Treasurer";
+		} else if (copy1stRole.equals("national_accountant")) {
+			copy1stRole = "National Accountant";
+			
+			System.out.println("change national_accountant to National Accountant ");
+			
+		}
+
 		Random rand = new Random();
-		int randomNumForFilter = rand.nextInt(4 + 1) + 1;
-		String filterElement = "";
+		int randomNum = rand.nextInt((10 - 1) + 1) + 1;
+
+		System.out.println("randomNum :" + randomNum);
+		// if generated random no is odd then search with phone else with email
 		
-		// by name if 1
-				if (randomNumForFilter == 1) {
-					//filterElement = filterByName;
-					filterElement="vikas kumar";
-				}
-				// by pan no
-				else if (randomNumForFilter == 2) {
-					//filterElement = filterByPan;
-					filterElement="FOOVL5634K";
-				}
-				// by Phone no
-				else if (randomNumForFilter == 3) {
-					//filterElement = filterByPhone;
-					filterElement="FOOVL5634K";
-				}
-				// by Instrument No.
-				else if (randomNumForFilter == 4) {
-					//filterElement = filterByInstrumentNo;
-					filterElement="vikas kumar";
-				}
-				
-				Thread.sleep(3000);
-				driver.findElement(By.xpath("(//*[@type='text'])")).sendKeys(filterElement);
-				
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Search')]"))).click();
-				
-				ngDriver.waitForAngularRequestsToFinish();
-				Thread.sleep(2000);
-				
-				int[] countArr = countMatchingActionRequiredForPanCard(driver);
-				
-				int allCountNumber = countArr[0];
-				int invalidCountNumber = countArr[1];
-				int approvedCountNumber = countArr[2];
-				int rejectedCountNumber = countArr[3];
-				
-				int addOtherThanAll = invalidCountNumber+approvedCountNumber+rejectedCountNumber;
-				System.out.println("all count :"+allCountNumber);
-				System.out.println("all count after adding :"+addOtherThanAll);
-				
-				Assert.assertEquals(allCountNumber, addOtherThanAll, "Count is mismatching");
-				
-				// click on invalid tab
-				driver.findElement(By.xpath("(//*[@class='tab-text1'])[3]")).click();
-				ngDriver.waitForAngularRequestsToFinish();
-				Thread.sleep(2000);
-				
-				//copy status
-				String status = driver.findElement(By.xpath("(//*[@class='mat-cell cdk-cell cdk-column-status mat-column-status ng-star-inserted'])[1]")).getAccessibleName();
-				
-				System.out.println("status :"+status);
-				Assert.assertEquals(status, "Invalid","Status is not Invalid");
-				
-				// click on Action
-				driver.findElement(By.xpath("(//*[@class='mat-cell cdk-cell cdk-column-action mat-column-action ng-star-inserted'])[1]")).click();
-				// randomly generate true for approve and false for reject
-				boolean approve = Math.random() < 0.5;
-				
-				WebElement remarkInput = driver.findElement(By.tagName("textarea"));
-				remarkInput.clear();
-				String remarkText;
-				if(approve) {
-					System.out.println(" go for approve");
-					remarkText = "Appr";
-					remarkInput.sendKeys(remarkText);
-					driver.findElement(By.className("approve_btn")).click();
-				}
-				else {
-					System.out.println("go for reject");
-					remarkText="rej";
-					remarkInput.sendKeys(remarkText);
-					driver.findElement(By.className("reject_btn")).click();
-				}
-				
-				WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
+		WebElement emailOrPhone = driver.findElement(By.xpath("(//*[@formcontrolname='query'])"));
+		if (randomNum % 2 == 0) {
+			emailOrPhone.clear();
+			emailOrPhone.sendKeys(copy1stEmail);
+		} else {
+			emailOrPhone.clear();
+			emailOrPhone.sendKeys(copy1stPhoneNo);
+		}
 
-				String submitText = wait.until(ExpectedConditions.visibilityOf(submit)).getText();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("(//*[@class='ng-arrow-wrapper'])[1]")).click();
+		Thread.sleep(1000);
+        
+		System.out.println("before selecting role....");
+		driver.findElement(By.xpath("//span[contains(text(), '" + copy1stRole + "')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(), 'Search')]")).click();
 
-				System.out.println("submitText for Unarchive:" + submitText);
+		ngDriver.waitForAngularRequestsToFinish();
+		// After search ------------------------
 
-				Assert.assertTrue(submitText.contains("Updated Successfully"));
-                
-				ngDriver.waitForAngularRequestsToFinish();
-				Thread.sleep(5000);
-				
-				if(approve) {
-					// click on Approved tab
-					driver.findElement(By.xpath("(//*[@class='tab-text1'])[5]")).click();
-				}
-				else {
-					// click on Rejected tab
-					driver.findElement(By.xpath("(//*[@class='tab-text1'])[7]")).click();
-				}
-				
-				ngDriver.waitForAngularRequestsToFinish();
-				Thread.sleep(2000);
-				
-				int[] countArrAfter = countMatchingActionRequiredForPanCard(driver);
-				
-				int allCountNumberAfter = countArrAfter[0];
-				int invalidCountNumberAfter = countArrAfter[1];
-				int approvedCountNumberAfter = countArrAfter[2];
-				int rejectedCountNumberAfter = countArrAfter[3];
-				
-				System.out.println("allCountNumberAfter :"+allCountNumberAfter);
-				System.out.println("invalidCountNumberAfter :"+invalidCountNumberAfter);
-				System.out.println("approvedCountNumberAfter :"+approvedCountNumberAfter);
-				System.out.println("rejectedCountNumberAfter :"+rejectedCountNumberAfter);
-				
-				//copy status 
-				String statusAfter = driver.findElement(By.xpath("(//*[@class='mat-cell cdk-cell cdk-column-status mat-column-status ng-star-inserted'])[1]")).getAccessibleName();
-				
-				//copy pan card remark
-				String copiedPanReamrk = driver.findElement(By.xpath("(//*[@class='mat-cell cdk-cell cdk-column-pan_card_remark mat-column-pan_card_remark ng-star-inserted'])[1]")).getAccessibleName();
-				
-				System.out.println("copiedPanReamrk :"+copiedPanReamrk);
-				
-				if(approve) {
-					Assert.assertEquals(approvedCountNumberAfter, approvedCountNumber+1,"Approved count mismatch after approval");
-					
-					Assert.assertEquals(statusAfter, "Approved","Not fount Approved status");
-				}
-				else {
-					Assert.assertEquals(rejectedCountNumberAfter, rejectedCountNumber+1,"Rejected count mismatch after rejection");
-					Assert.assertEquals(statusAfter, "Rejected","Not fount Rejected status");
-				}
-				
-				// invalid count will be decreased by 1 after approve or reject action
-				Assert.assertEquals(invalidCountNumberAfter, invalidCountNumber-1,"Invalid count mismatch after approval or rejection");
-				
-				//Assert.assertEquals(copiedPanReamrk, remarkText);
+		Thread.sleep(2000);
+
+		WebElement getPhoneRowAfterSearch;
+		try {
+			System.out.println(" from inside try after search");
+			getPhoneRowAfterSearch = driver.findElement(By.xpath(
+					"(//*[@class='mat-cell cdk-cell cdk-column-phone_number mat-column-phone_number ng-star-inserted'])[1]"));
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			getPhoneRowAfterSearch = driver.findElement(By.xpath(
+					"(//*[@class='mat-cell cdk-cell cdk-column-phone_number mat-column-phone_number ng-star-inserted'])[1]"));
+			System.out.println(" from inside catch after search");
+		}
+
+		String copy1stPhoneNoAfterSearch = getPhoneRowAfterSearch.getText();
+		System.out.println("copy1stPhoneNoAfterSearch :" + copy1stPhoneNoAfterSearch);
+
+		WebElement getEmaiRowAfterSearch = driver.findElement(By.xpath(
+				"(//*[@class='mat-cell cdk-cell mat-tooltip-trigger cdk-column-email mat-column-email ng-star-inserted'])[1]"));
+
+		String copy1stEmailAfterSearch = getEmaiRowAfterSearch.getText();
+		System.out.println("copy1stEmailAfterSearch :" + copy1stEmailAfterSearch);
+
+		WebElement getRoleAfterSearch = driver.findElement(
+				By.xpath("(//*[@class='mat-cell cdk-cell cdk-column-role mat-column-role ng-star-inserted'])[1]"));
+
+		String copy1stRoleAfterSearch = getRoleAfterSearch.getText();
+
+		System.out.println("copy1stRoleAfterSearch :" + copy1stRoleAfterSearch);
+
+		if (copy1stRoleAfterSearch.equals("state_accountant")) {
+			copy1stRoleAfterSearch = "State Accountant";
+		} else if (copy1stRoleAfterSearch.equals("state_treasurer")) {
+			copy1stRoleAfterSearch = "State Treasurer";
+		} else if (copy1stRoleAfterSearch.equals("national_accountant")) {
+			copy1stRoleAfterSearch = "National Accountant";
+		}
+
+		Assert.assertEquals(copy1stEmail, copy1stEmailAfterSearch);
+
+		Assert.assertEquals(copy1stPhoneNo, copy1stPhoneNoAfterSearch);
+
+		Assert.assertEquals(copy1stRole, copy1stRoleAfterSearch);
 	}
-	
-	private static int[] countMatchingActionRequiredForPanCard(WebDriver driver) {
-		//get count no for All 
-		String allCount = driver.findElement(By.xpath("(//*[@class='tab-text1'])[2]")).getText();
-		
-		//get count no for Invalid 
-		String InvalidCount = driver.findElement(By.xpath("(//*[@class='tab-text1'])[4]")).getText();
-		
-		//get count no for Approved
-		String approvedCount = driver.findElement(By.xpath("(//*[@class='tab-text1'])[6]")).getText();
-		
-		//get count no for Rejected
-		String rejectedCount = driver.findElement(By.xpath("(//*[@class='tab-text1'])[8]")).getText();
-		
-		int allCountNumber = Integer.parseInt(allCount);
-		int invalidCountNumber = Integer.parseInt(InvalidCount);
-		int approvedCountNumber = Integer.parseInt(approvedCount);
-		int rejectedCountNumber = Integer.parseInt(rejectedCount);
-		
-		int count[] = {allCountNumber,invalidCountNumber,approvedCountNumber,rejectedCountNumber};
-		
-		return count;
-	
-	}
-	
+
 }

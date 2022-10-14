@@ -456,7 +456,7 @@ public class DemandDraft_ModeTest extends Base {
 		}
 		// success
 		log.info("DemandDraft mode Transaction Created Sucessfully");
-		// ------------------------------------------------------------------------------------------------------------------------
+		// ---------------------------------------------------------------------------
 	}
 
 	@AfterTest

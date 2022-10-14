@@ -77,8 +77,7 @@ public class LoginPartTest extends Base {
 
 	@AfterSuite
 	public void terminate() {
-		//driver.close();
-		driver.quit();
+		driver.close();
 		log.info("login page driver is closed--##---$$--&&-");
 	}
 

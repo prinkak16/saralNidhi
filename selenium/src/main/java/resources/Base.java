@@ -30,22 +30,23 @@ public class Base {
 
 		prop.load(fis);
 
-		//String browserName = prop.getProperty("browser");
+		String browserName = prop.getProperty("browser");
 
 		// following is for parameterized browser through maven command
-		String browserName = System.getProperty("browser");
+		//String browserName = System.getProperty("browser");
 
 		System.out.println("browser name is :"+browserName);
 		url = prop.getProperty("url");
 
 		if (browserName.contains("chrome")) {
+			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
 
 		    WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
 
 			HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
-			//options.addArguments("start-maximized");
+			options.addArguments("start-maximized");
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadTestFolder");
 			options.setExperimentalOption("prefs", chromePrefs);
@@ -53,11 +54,15 @@ public class Base {
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
 				options.addArguments("--window-size=1920,1080");
-        System.out.println("inside chrome headless....");
+                System.out.println("inside chrome headless....");
 			}
+
 			driver = new ChromeDriver(options);
+
 		}
+
 		else if (browserName.equals("edge")) {
+			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
       System.out.println("inside edge");
 			WebDriverManager.edgedriver().setup();
@@ -116,56 +121,56 @@ public class Base {
 	public WebDriver initializeDriver() throws IOException {
 
 		prop = new Properties();
-
+		
 		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\data.properties");
-
+		
 		prop.load(fis);
-
+		
 		//String browserName = prop.getProperty("browser");
-
-		// following is for parameterized browser through maven command
+		
+		// following is for parameterized browser through maven command 
 		String browserName = System.getProperty("browser");
-
+		
 		System.out.println("browser name is :"+browserName);
 		url = prop.getProperty("url");
 
 		if (browserName.contains("chrome")) {
 			//System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Downloads\\chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\chromedriver.exe");
-
+			
 		    WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
-
+			
 			HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
 			chromePrefs.put("profile.default_content_settings.popups", 0);
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\downloadUserManagement");
 			options.setExperimentalOption("prefs", chromePrefs);
-
-
+			
+			
 			if(browserName.contains("headless")) {
 				options.addArguments("--headless");
 				options.addArguments("--window-size=1920,1080");
 				System.out.println("inside chrome headless....");
 			}
-
+			
 			driver = new ChromeDriver(options);
-
+		
 		}
 
 		else if (browserName.equals("edge")) {
 			//System.setProperty("webdriver.edge.driver", "C:\\Users\\PC\\Downloads\\msedgedriver.exe");
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\src\\main\\java\\resources\\msedgedriver.exe");
-
+			
 			WebDriverManager.edgedriver().setup();
 			System.out.println("inside edge");
 			//driver = new EdgeDriver();
 			EdgeOptions options = new EdgeOptions();
-
+			
 			if(browserName.contains("headless")) {
-
+				
 				System.out.println("inside edge headless");
 				options.addArguments("--headless");
-				options.addArguments("--window-size=1920,1080");
+				options.addArguments("--window-size=1920,1080");	
 			}
 			driver = new EdgeDriver(options);
 		}
@@ -176,7 +181,7 @@ public class Base {
 
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+		
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(50));
 		driver.manage().window().maximize();
 		return driver;
@@ -191,10 +196,10 @@ public class Base {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		return destinationFile;
 	}
-
+	
 }
 
 */

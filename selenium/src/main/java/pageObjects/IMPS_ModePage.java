@@ -17,7 +17,7 @@ public class IMPS_ModePage {
 
 	}
 
-
+	
 	// -------------------------------------------------------
 
 	By heading1 = By.className("heading");
@@ -66,9 +66,9 @@ public class IMPS_ModePage {
 	By lastPanInput = By.cssSelector("input[id*='otp_9_']");
 	By pan_error_paragraph = By.cssSelector("[role='alert']");
 	By panElements = By.cssSelector("input[class*='otp-input']");
-
+	
 	By wrongPanRemark = By.xpath("//input[@placeholder='Remarks if any']");
-
+	
 	By amount_input = By.cssSelector("[formcontrolname='amount']");
 	By amount_in_words = By.tagName("p");
 	By narationInput = By.cssSelector("[formcontrolname='narration']");
@@ -108,11 +108,11 @@ public class IMPS_ModePage {
 		return driver.findElement(utrNumber);
 	}
 
-
+	
 	public void uploadWrongPanImage() {
 		WebElement upload_file3 = driver.findElement(By.xpath("//input[@type='file']"));
-		 //upload_file3.sendKeys(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\upload_image2.jpg");
-		 upload_file3.sendKeys("C:\\Users\\ankit\\Desktop\\upload_image2.jpg");
+		upload_file3.sendKeys(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\upload_image2.jpg");
+		//upload_file3.sendKeys("C:\\Users\\ankit\\Desktop\\upload_image2.jpg");
 	}
 
 	public WebElement getWrongPanRemark() {

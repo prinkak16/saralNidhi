@@ -100,9 +100,8 @@ public class ChequeRelatedTest extends Base {
 		 * wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
 		 * loginButton.click();
 		 * 
-		 * log.info("Login successfully in Cheque_ModeTest");
-		 * 
 		 */
+		log.info("Login successfully in Cheque_ModeTest");
 
 		WebElement heading1 = wait.until(ExpectedConditions.visibilityOfElementLocated(chequePage.getFirstHeading()));
 		Assert.assertEquals(heading1.getText(), "Nidhi Collection");
@@ -260,8 +259,6 @@ public class ChequeRelatedTest extends Base {
 				// Now for Yes
 				Thread.sleep(1000);
 
-				System.out.println("-------------------- For Yes-------------------------");
-
 				String proprietorship_txt = chequePage.getProprietorship(categoryElement).getText();
 				Assert.assertEquals(proprietorship_txt, "Is it a proprietorship? *");
 
@@ -304,7 +301,6 @@ public class ChequeRelatedTest extends Base {
 				other_than_individual(driver, pan_no, name_of_proprietorship, copied_name, category, chequePage);
 			}
 		}
-		// ------------------------------------------------------------------------------------------------------------
 
 		Random rand = new Random();
 		int amount = Integer.parseInt(excel_data.get(17));
@@ -330,18 +326,19 @@ public class ChequeRelatedTest extends Base {
 		chequePage.getNarationInput().sendKeys(excel_data.get(18));
 		WebElement collector_name_input = chequePage.getCollectorName();
 
-		collector_name_input.sendKeys("vk");
+		// collector_name_input.sendKeys("vk");
 		WebElement collecter_phone = chequePage.getCollectorPhone();
-		collecter_phone.click();
+		// collecter_phone.click();
 
-		wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorName(collector_name_input),
-				"Please enter a valid name"));
+		// wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorName(collector_name_input),"Please
+		// enter a valid name"));
 
-		collector_name_input.clear();
+		// collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(19));
 
 		// wrong collector phone no
 		collecter_phone.sendKeys("23222322");
+		collector_name_input.click();
 		wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorPhone(collecter_phone),
 				"Please enter correct phone number"));
 
@@ -908,8 +905,6 @@ public class ChequeRelatedTest extends Base {
 			other_category.sendKeys(excel_data.get(16));
 		}
 
-		// String[] changePanNoTo = { "F", "O", "o", "j", "V", "3", "2", "3", "1", "k"
-		// };
 		String pan = excel_data.get(17);
 		filterByPan = pan;
 		String[] changePanNoTo = pan.split("");
@@ -994,18 +989,19 @@ public class ChequeRelatedTest extends Base {
 		WebElement collector_name_input = chequePage.getCollectorName();
 
 		collector_name_input.clear();
-		collector_name_input.sendKeys("vk");
+		// collector_name_input.sendKeys("vk");
 		WebElement collecter_phone = chequePage.getCollectorPhone();
-		collecter_phone.click();
+		// collecter_phone.click();
 
-		wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorName(collector_name_input),
-				"Please enter a valid name"));
-		collector_name_input.clear();
+		// wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorName(collector_name_input),"Please
+		// enter a valid name"));
+		// collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(20));
 
 		collecter_phone.clear();
 		// wrong collector phone no
 		collecter_phone.sendKeys("23222322");
+		collector_name_input.click();
 		wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorPhone(collecter_phone),
 				"Please enter correct phone number"));
 		collecter_phone.clear();
@@ -1969,7 +1965,7 @@ public class ChequeRelatedTest extends Base {
 				System.out.println("fileName " + fileName);
 				if (fileName.contains("Archived Transaction List")) {
 					found = true;
-					log.info("Archived file downloaded: "+fileName);
+					log.info("Archived file downloaded: " + fileName);
 				}
 			}
 		}
@@ -2035,9 +2031,9 @@ public class ChequeRelatedTest extends Base {
 		// click on Cheque tab
 		WebElement paymentMode = driver.findElement(By.xpath("(//*[@class='tab-text'])[2]"));
 		paymentMode.click();
-		
+
 		log.info("download Donation ListTest");
-		
+
 		ngDriver.waitForAngularRequestsToFinish();
 		Thread.sleep(2000);
 
@@ -2120,35 +2116,43 @@ public class ChequeRelatedTest extends Base {
 		String Locality = excel_data_for_download_total_form.get(24);
 
 		String District = excel_data_for_download_total_form.get(25);
-		String Pan_Card = excel_data_for_download_total_form.get(26);
-		String Pan_Card_Remark = excel_data_for_download_total_form.get(27);
-		String Amount = excel_data_for_download_total_form.get(28);
 
-		String Amount_in_Words = excel_data_for_download_total_form.get(29);
-		String Collector_Name = excel_data_for_download_total_form.get(30);
-		String Collector_Phone = excel_data_for_download_total_form.get(31);
-		String Nature_of_Donation = excel_data_for_download_total_form.get(32);
+		String PinCode = excel_data_for_download_total_form.get(26);
+		String AddressState = excel_data_for_download_total_form.get(27);
 
-		String Party_Unit = excel_data_for_download_total_form.get(33);
-		String Location = excel_data_for_download_total_form.get(34);
-		String Payment_Realize_date = excel_data_for_download_total_form.get(35);
-		String Receipt_Number = excel_data_for_download_total_form.get(36);
+		String Pan_Card = excel_data_for_download_total_form.get(28);
+		String Pan_Card_Remark = excel_data_for_download_total_form.get(29);
+		String Amount = excel_data_for_download_total_form.get(30);
 
-		String Transaction_Valid = excel_data_for_download_total_form.get(37);
-		String Created_By = excel_data_for_download_total_form.get(38);
-		String Created_At = excel_data_for_download_total_form.get(39);
-		String Cheque_Bounce_Remark = excel_data_for_download_total_form.get(40);
+		String Amount_in_Words = excel_data_for_download_total_form.get(31);
+		String Collector_Name = excel_data_for_download_total_form.get(32);
+		String Collector_Phone = excel_data_for_download_total_form.get(33);
+		String Nature_of_Donation = excel_data_for_download_total_form.get(34);
 
-		String Reverse_Remark = excel_data_for_download_total_form.get(41);
-		String Pan_Card_Photo = excel_data_for_download_total_form.get(42);
-		String Cheque_or_DD_Photo1 = excel_data_for_download_total_form.get(43);
-		String Cheque_or_DD_Photo2 = excel_data_for_download_total_form.get(44);
+		String Party_Unit = excel_data_for_download_total_form.get(35);
+		String Location = excel_data_for_download_total_form.get(36);
+		String Payment_Realize_date = excel_data_for_download_total_form.get(37);
+		String Receipt_Number = excel_data_for_download_total_form.get(38);
+
+		String Transaction_Valid = excel_data_for_download_total_form.get(39);
+		String Created_By = excel_data_for_download_total_form.get(40);
+		String Created_At = excel_data_for_download_total_form.get(41);
+		String Cheque_Bounce_Remark = excel_data_for_download_total_form.get(42);
+
+		String Reverse_Remark = excel_data_for_download_total_form.get(43);
+		String Pan_Card_Photo = excel_data_for_download_total_form.get(44);
+		String Cheque_or_DD_Photo1 = excel_data_for_download_total_form.get(45);
+
+		String Cheque_or_DD_Photo2 = excel_data_for_download_total_form.get(46);
 
 		Thread.sleep(3000);
 
-		WebElement Select_All_Field_Element = driver.findElement(By.cssSelector(".mat-checkbox.mat-accent"));
+		WebElement Select_All_Field_Element = driver.findElements(By.cssSelector(".mat-checkbox.mat-accent")).get(11);
+		System.out.println("Select_All_Field_Element text :" + Select_All_Field_Element.getText());
+
 		WebElement State_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(1)"));
+
 		WebElement Transaction_Type_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(2)"));
 		WebElement Date_of_transaction_Element = driver
@@ -2200,54 +2204,63 @@ public class ChequeRelatedTest extends Base {
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(23)"));
 		WebElement District_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(24)"));
-		WebElement Pan_Card_Element = driver
+
+		WebElement PinCode_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(25)"));
-		WebElement Pan_Card_Remark_Element = driver
+		WebElement AddressState_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(26)"));
 
-		WebElement Amount_Element = driver
+		WebElement Pan_Card_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(27)"));
-		WebElement Amount_in_words_Element = driver
+		WebElement Pan_Card_Remark_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(28)"));
-		WebElement Collector_Name_Element = driver
+
+		WebElement Amount_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(29)"));
-		WebElement Collector_Phone_Element = driver
+		WebElement Amount_in_words_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(30)"));
+		WebElement Collector_Name_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(31)"));
+		WebElement Collector_Phone_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(32)"));
 
 		WebElement Nature_of_Donation_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(31)"));
-		WebElement Party_Unit_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(32)"));
-		WebElement Location_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(33)"));
-		WebElement Payment_Realize_date_Element = driver
+		WebElement Party_Unit_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(34)"));
+		WebElement Location_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(35)"));
+		WebElement Payment_Realize_date_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(36)"));
 
 		WebElement Receipt_Number_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(35)"));
-		WebElement Transaction_Valid_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(36)"));
-		WebElement Created_By_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(37)"));
-		WebElement Created_At_Element = driver
+		WebElement Transaction_Valid_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(38)"));
+		WebElement Created_By_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(39)"));
+		WebElement Created_At_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(40)"));
 
 		WebElement Cheque_Bounce_Remark_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(39)"));
-		WebElement Reverse_Remark_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(40)"));
-		WebElement Pan_Card_Photo_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(41)"));
-		WebElement Cheque_or_DD_Photo1_Element = driver
+		WebElement Reverse_Remark_Element = driver
 				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(42)"));
+		WebElement Pan_Card_Photo_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(43)"));
+		WebElement Cheque_or_DD_Photo1_Element = driver
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(44)"));
 
 		WebElement Cheque_or_DD_Photo2_Element = driver
-				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(43)"));
+				.findElement(By.cssSelector(".mat-checkbox.mat-accent.ng-star-inserted:nth-child(45)"));
 
 		boolean flag_Select_All_Field = false;
+		int numberOfFieldsSelected = 0;
 		if (Select_All_Field.equals("yes")) {
 
 			Select_All_Field_Element.click();
+			// Number of fields need to selected is 45
+			numberOfFieldsSelected = 45;
 
 			// ---- Add all fields to arrayList initially
 			downloadingFields.add("State");
@@ -2279,6 +2292,9 @@ public class ChequeRelatedTest extends Base {
 			downloadingFields.add("House");
 			downloadingFields.add("Locality");
 			downloadingFields.add("District");
+
+			downloadingFields.add("PinCode");
+			downloadingFields.add("Address State");
 
 			downloadingFields.add("Pan Card");
 			downloadingFields.add("Pan Card Remark");
@@ -2343,6 +2359,10 @@ public class ChequeRelatedTest extends Base {
 			Assert.assertEquals(House_Element.getAttribute("ng-reflect-checked"), "true");
 			Assert.assertEquals(Locality_Element.getAttribute("ng-reflect-checked"), "true");
 			Assert.assertEquals(District_Element.getAttribute("ng-reflect-checked"), "true");
+
+			Assert.assertEquals(PinCode_Element.getAttribute("ng-reflect-checked"), "true");
+			Assert.assertEquals(AddressState_Element.getAttribute("ng-reflect-checked"), "true");
+
 			Assert.assertEquals(Pan_Card_Element.getAttribute("ng-reflect-checked"), "true");
 			Assert.assertEquals(Pan_Card_Remark_Element.getAttribute("ng-reflect-checked"), "true");
 
@@ -2375,10 +2395,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("State");
 				Assert.assertEquals(State_Element.getAttribute("ng-reflect-checked"), "false");
-
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				downloadingFields.add("State");
 				Assert.assertEquals(State_Element.getAttribute("ng-reflect-checked"), "true");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Transaction_Type.equals("yes")) {
@@ -2387,9 +2408,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Transaction Type");
 				Assert.assertEquals(Transaction_Type_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Transaction_Type_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Transaction Type");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Date_of_transaction.equals("yes")) {
@@ -2398,9 +2421,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Date of transaction");
 				Assert.assertEquals(Date_of_transaction_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Date_of_transaction_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Date of transaction");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Financial_Year.equals("yes")) {
@@ -2409,9 +2434,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Financial Year");
 				Assert.assertEquals(Financial_Year_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Financial_Year_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Financial Year");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2421,9 +2448,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Mode of Payment");
 				Assert.assertEquals(Mode_of_Payment_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Mode_of_Payment_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Mode of Payment");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Account_Number.equals("yes")) {
@@ -2432,9 +2461,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Account Number");
 				Assert.assertEquals(Account_Number_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Account_Number_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Account Number");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (IFSC_Code.equals("yes")) {
@@ -2443,9 +2474,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("IFSC Code");
 				Assert.assertEquals(IFSC_Code_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(IFSC_Code_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("IFSC Code");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Bank_Name.equals("yes")) {
@@ -2454,9 +2487,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Bank Name");
 				Assert.assertEquals(Bank_Name_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Bank_Name_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Bank Name");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Branch_Name.equals("yes")) {
@@ -2465,9 +2500,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Branch Name");
 				Assert.assertEquals(Branch_Name_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Branch_Name_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Branch Name");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2477,21 +2514,25 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Branch Address");
 				Assert.assertEquals(Branch_Address_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Branch_Address_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Branch Address");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Name.equals("yes")) {
-			Name_Element.click();
 
+			Name_Element.click();
 			Thread.sleep(1000);
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Name");
 				Assert.assertEquals(Name_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Name_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Name");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Phone.equals("yes")) {
@@ -2501,9 +2542,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Phone");
 				Assert.assertEquals(Phone_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Phone_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Phone");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Email.equals("yes")) {
@@ -2513,9 +2556,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Email");
 				Assert.assertEquals(Email_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Email_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Email");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2526,9 +2571,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Date of Cheque");
 				Assert.assertEquals(Date_of_Cheque_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Date_of_Cheque_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Date of Cheque");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Cheque_Number.equals("yes")) {
@@ -2538,9 +2585,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Cheque Number");
 				Assert.assertEquals(Cheque_Number_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Cheque_Number_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Cheque Number");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Date_of_Draft.equals("yes")) {
@@ -2550,9 +2599,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Date of Draft");
 				Assert.assertEquals(Date_of_Draft_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Date_of_Draft_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Date of Draft");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Draft_Number.equals("yes")) {
@@ -2562,9 +2613,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Draft Number");
 				Assert.assertEquals(Draft_Number_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Draft_Number_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Draft Number");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2575,9 +2628,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("UTR No");
 				Assert.assertEquals(UTR_No_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(UTR_No_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("UTR No");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Category.equals("yes")) {
@@ -2587,9 +2642,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Category");
 				Assert.assertEquals(Category_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Category_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Category");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Proprietorship.equals("yes")) {
@@ -2599,9 +2656,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Proprietorship");
 				Assert.assertEquals(Proprietorship_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Proprietorship_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Proprietorship");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Proprietorship_Name.equals("yes")) {
@@ -2611,9 +2670,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Proprietorship Name");
 				Assert.assertEquals(Proprietorship_Name_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Proprietorship_Name_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Proprietorship Name");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2623,13 +2684,13 @@ public class ChequeRelatedTest extends Base {
 			Thread.sleep(1000);
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("House");
-				System.out.println("removing House from arrayList");
-				System.out.println("House is not selected");
 				Assert.assertEquals(House_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(House_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("House");
 				System.out.println("House is selected");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Locality.equals("yes")) {
@@ -2638,37 +2699,68 @@ public class ChequeRelatedTest extends Base {
 			Thread.sleep(1000);
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Locality");
-				System.out.println("removing Locality from arrayList");
-				System.out.println("Locality is not selected");
 				Assert.assertEquals(Locality_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Locality_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Locality");
 				System.out.println("Locality is selected");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (District.equals("yes")) {
 			District_Element.click();
-
 			Thread.sleep(1000);
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("District");
 				Assert.assertEquals(District_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(District_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("District");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
+
+		if (PinCode.equals("yes")) {
+			PinCode_Element.click();
+			Thread.sleep(1000);
+			if (flag_Select_All_Field) {
+				downloadingFields.remove("PinCode");
+				Assert.assertEquals(PinCode_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
+			} else {
+				Assert.assertEquals(PinCode_Element.getAttribute("ng-reflect-checked"), "true");
+				downloadingFields.add("PinCode");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
+			}
+		}
+
+		if (AddressState.equals("yes")) {
+			AddressState_Element.click();
+			Thread.sleep(1000);
+			if (flag_Select_All_Field) {
+				downloadingFields.remove("Address State");
+				Assert.assertEquals(AddressState_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
+			} else {
+				Assert.assertEquals(AddressState_Element.getAttribute("ng-reflect-checked"), "true");
+				downloadingFields.add("Address State");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
+			}
+		}
+
 		if (Pan_Card.equals("yes")) {
 			Pan_Card_Element.click();
-
 			Thread.sleep(1000);
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Pan Card");
 				Assert.assertEquals(Pan_Card_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Pan_Card_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Pan Card");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2679,9 +2771,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Pan Card Remark");
 				Assert.assertEquals(Pan_Card_Remark_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Pan_Card_Remark_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Pan Card Remark");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Amount.equals("yes")) {
@@ -2691,9 +2785,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Amount");
 				Assert.assertEquals(Amount_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Amount_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Amount");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Amount_in_Words.equals("yes")) {
@@ -2703,9 +2799,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Amount in Words");
 				Assert.assertEquals(Amount_in_words_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Amount_in_words_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Amount in Words");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Collector_Name.equals("yes")) {
@@ -2715,9 +2813,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Collector Name");
 				Assert.assertEquals(Collector_Name_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Collector_Name_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Collector Name");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2728,9 +2828,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Collector Phone");
 				Assert.assertEquals(Collector_Phone_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Collector_Phone_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Collector Phone");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Nature_of_Donation.equals("yes")) {
@@ -2740,9 +2842,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Nature of Donation");
 				Assert.assertEquals(Nature_of_Donation_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Nature_of_Donation_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Nature of Donation");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Party_Unit.equals("yes")) {
@@ -2752,9 +2856,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Party Unit");
 				Assert.assertEquals(Party_Unit_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Party_Unit_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Party Unit");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Location.equals("yes")) {
@@ -2764,11 +2870,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Location");
 				Assert.assertEquals(Location_Element.getAttribute("ng-reflect-checked"), "false");
-				System.out.println("Location_Element should be false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Location_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Location");
-				System.out.println("Location_Element should be true");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2779,9 +2885,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Payment realize date");
 				Assert.assertEquals(Payment_Realize_date_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Payment_Realize_date_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Payment realize date");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Receipt_Number.equals("yes")) {
@@ -2791,9 +2899,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Receipt Number");
 				Assert.assertEquals(Receipt_Number_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Receipt_Number_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Receipt Number");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Transaction_Valid.equals("yes")) {
@@ -2803,9 +2913,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Transaction Valid");
 				Assert.assertEquals(Transaction_Valid_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Transaction_Valid_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Transaction Valid");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Created_By.equals("yes")) {
@@ -2815,9 +2927,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Created By");
 				Assert.assertEquals(Created_By_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Created_By_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Created By");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
@@ -2828,9 +2942,11 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Created At");
 				Assert.assertEquals(Created_At_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Created_At_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Created At");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Cheque_Bounce_Remark.equals("yes")) {
@@ -2840,21 +2956,25 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Cheque Bounce Remark");
 				Assert.assertEquals(Cheque_Bounce_Remark_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Cheque_Bounce_Remark_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Cheque Bounce Remark");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Reverse_Remark.equals("yes")) {
 			Reverse_Remark_Element.click();
-
 			Thread.sleep(1000);
+
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Reverse Remark");
 				Assert.assertEquals(Reverse_Remark_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Reverse_Remark_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Reverse Remark");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 		if (Pan_Card_Photo.equals("yes")) {
@@ -2864,24 +2984,33 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Pan Card Photo");
 				Assert.assertEquals(Pan_Card_Photo_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Pan_Card_Photo_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Pan Card Photo");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
 		if (Cheque_or_DD_Photo1.equals("yes")) {
-			Cheque_or_DD_Photo1_Element.click();
 
 			Thread.sleep(1000);
+			Cheque_or_DD_Photo1_Element.click();
+			Thread.sleep(4000);
 			if (flag_Select_All_Field) {
+
 				downloadingFields.remove("Cheque/DD photo1");
 				Assert.assertEquals(Cheque_or_DD_Photo1_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
+				System.out.println("inside else block of Cheque_or_DD_Photo1_Element...");
 				Assert.assertEquals(Cheque_or_DD_Photo1_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Cheque/DD photo1");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
+
 			}
 		}
+
 		if (Cheque_or_DD_Photo2.equals("yes")) {
 			Cheque_or_DD_Photo2_Element.click();
 
@@ -2889,57 +3018,81 @@ public class ChequeRelatedTest extends Base {
 			if (flag_Select_All_Field) {
 				downloadingFields.remove("Cheque/DD photo2");
 				Assert.assertEquals(Cheque_or_DD_Photo2_Element.getAttribute("ng-reflect-checked"), "false");
+				numberOfFieldsSelected = numberOfFieldsSelected - 1;
 			} else {
 				Assert.assertEquals(Cheque_or_DD_Photo2_Element.getAttribute("ng-reflect-checked"), "true");
 				downloadingFields.add("Cheque/DD photo2");
+				numberOfFieldsSelected = numberOfFieldsSelected + 1;
 			}
 		}
 
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,310)");
 
+		// Submit button
 		WebElement downloadBtn2 = wait.until(ExpectedConditions
 				.elementToBeClickable(driver.findElement(By.xpath("//span[contains(text(),'Submit')]"))));
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", downloadBtn2);
 
-		Thread.sleep(4000);
+		System.out.println("numberOfFieldsSelected :" + numberOfFieldsSelected);
 
-		File folder = new File(System.getProperty("user.dir") + "\\downloadTestFolder");
+		// Select All Field is clicked but all fields are deselected
+		// or Select All Field is not clicked but all fields are deselected
+		if ((flag_Select_All_Field && numberOfFieldsSelected == 0)
+				|| (!flag_Select_All_Field && numberOfFieldsSelected == 0)) {
 
-		// List the files on that folder
-		File[] listOfFiles = folder.listFiles();
-		boolean found = false;
-		String fileName = null;
-		for (File listOfFile : listOfFiles) {
-			if (listOfFile.isFile()) {
-				fileName = listOfFile.getName();
-				System.out.println("fileName " + fileName);
-				if (fileName.contains("NidhiCollection")) {
-					found = true;
-					log.info("downloaded file :"+fileName);
+			WebElement submitPopUp = driver
+					.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
+			String submitPopUpText = wait.until(ExpectedConditions.visibilityOf(submitPopUp)).getText();
+			System.out.println("submitPopUpText :" + submitPopUpText);
+			Assert.assertEquals(submitPopUpText.contains("Please select at least one field"), true,
+					"submitPopUpText not matching");
+		} else {
+			ngDriver.waitForAngularRequestsToFinish();
+			Thread.sleep(10000);
+
+			File folder = new File(System.getProperty("user.dir") + "\\downloadTestFolder");
+
+			// List the files on that folder
+			File[] listOfFiles = folder.listFiles();
+			boolean found = false;
+			String fileName = null;
+			for (File listOfFile : listOfFiles) {
+				if (listOfFile.isFile()) {
+					fileName = listOfFile.getName();
+					System.out.println("fileName is is :" + fileName);
+					if (fileName.contains("NidhiCollection")) {
+						found = true;
+						log.info("downloaded file :" + fileName);
+						System.out.println("###################### fileName is found.............." + fileName);
+					}
 				}
 			}
+			Assert.assertTrue(found, "Downloaded document is not found");
+			ArrayList<String> fieldsArrayList = new ArrayList<>();
+			ArrayList<String> fields = getDownloadFields(fieldsArrayList, fileName);
+
+			System.out.println("downloadingFields size :" + downloadingFields.size());
+			System.out.println("downloadingFields 1 :" + downloadingFields.get(0));
+			// System.out.println("downloadingFields 2 :" + downloadingFields.get(1));
+			System.out.println("fields size :" + fields.size());
+
+			Assert.assertEquals(true, downloadingFields.equals(fields), "downloading fields are not matching..");
+
+			File file = new File(System.getProperty("user.dir") + "\\downloadTestFolder\\" + fileName);
+
+			System.out.println("delete file Absolute path :" + file.getAbsolutePath());
+
+			if (file.delete()) {
+				System.out.println("file deleted success");
+				log.info(fileName + " file deleted success");
+			} else {
+				System.out.println("file delete fail");
+				log.error(fileName + " file delete fail");
+			}
+
 		}
-		Assert.assertTrue(found, "Downloaded document is not found");
-		ArrayList<String> fieldsArrayList = new ArrayList<>();
-		ArrayList<String> fields = getDownloadFields(fieldsArrayList, fileName);
 
-		System.out.println("downloadingFields size :" + downloadingFields.size());
-		System.out.println("fields size :" + fields.size());
-
-		Assert.assertEquals(true, downloadingFields.equals(fields), "downloading fields are not matching..");
-
-		File file = new File(System.getProperty("user.dir") + "\\downloadTestFolder\\" + fileName);
-
-		System.out.println("delete file Absolute path :" + file.getAbsolutePath());
-
-		if (file.delete()) {
-			System.out.println("file deleted success");
-			log.info(fileName+" file deleted success");
-		} else {
-			System.out.println("file delete fail");
-			log.error(fileName+" file delete fail");
-		}
 	}
 
 	@Test(dependsOnMethods = { "downloadDonationListTestForCheque" })
@@ -2964,9 +3117,9 @@ public class ChequeRelatedTest extends Base {
 
 			wait.until(ExpectedConditions.visibilityOf(
 					driver.findElement(By.xpath("//h2[contains(text(),'Action Required for PanCard')]"))));
-			
+
 			log.info("action Required For PanCard section");
-			
+
 			Random rand = new Random();
 			int randomNumForFilter = rand.nextInt(4) + 1;
 			String filterElement = "";
@@ -3009,7 +3162,7 @@ public class ChequeRelatedTest extends Base {
 			System.out.println("all count after adding :" + addOtherThanAll);
 
 			Assert.assertEquals(allCountNumber, addOtherThanAll, "Count is mismatching");
-			
+
 			log.info("transaction counts are matching before Approved and Rejected");
 			// click on invalid tab
 			driver.findElement(By.xpath("(//*[@class='tab-text1'])[3]")).click();
@@ -3039,14 +3192,14 @@ public class ChequeRelatedTest extends Base {
 				remarkText = approveText;
 				remarkInput.sendKeys(remarkText);
 				driver.findElement(By.className("approve_btn")).click();
-				
+
 				log.info("approve selected");
 			} else {
 				System.out.println("go for reject");
 				remarkText = rejectText;
 				remarkInput.sendKeys(remarkText);
 				driver.findElement(By.className("reject_btn")).click();
-				
+
 				log.info("rejected selected");
 			}
 
@@ -3059,7 +3212,7 @@ public class ChequeRelatedTest extends Base {
 
 			Assert.assertTrue(submitText.contains("Updated Successfully"));
 			log.info("Updated Successfully in Pan Card Action");
-			
+
 			ngDriver.waitForAngularRequestsToFinish();
 			Thread.sleep(5000);
 
@@ -3139,7 +3292,7 @@ public class ChequeRelatedTest extends Base {
 				System.out.println("fileName " + fileName);
 				if (fileName.contains("ActionRequiredForPancard")) {
 					found = true;
-					log.info("downloaded file :"+fileName);
+					log.info("downloaded file :" + fileName);
 				}
 			}
 		}
@@ -3151,10 +3304,10 @@ public class ChequeRelatedTest extends Base {
 
 		if (file.delete()) {
 			System.out.println("file deleted success");
-			log.info(fileName+" file deleted success");
+			log.info(fileName + " file deleted success");
 		} else {
 			System.out.println("file delete fail");
-			log.error(fileName+" file delete fail");
+			log.error(fileName + " file delete fail");
 		}
 
 		ngDriver.waitForAngularRequestsToFinish();
