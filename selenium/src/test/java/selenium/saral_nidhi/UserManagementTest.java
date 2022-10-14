@@ -858,11 +858,14 @@ public class UserManagementTest extends Base {
 
 				ngDriver.waitForAngularRequestsToFinish();
 			} else if (action == "Disable") {
-				Thread.sleep(2000);
-				row = driver.findElement(By.xpath(
+				Thread.sleep(10000);
+				System.out.println("Before row element selection for Disable Action .......");
+				WebElement row1 = driver.findElement(By.xpath(
 						"(//*[@class='mat-cell cdk-cell action-container cdk-column-action mat-column-action ng-star-inserted'])[1]"));
 
-				WebElement DisableAction = row.findElement(By.xpath("//a[contains(.,'Disable')]"));
+					WebElement row2 = wait.until(ExpectedConditions.visibilityOf(row1));
+
+				WebElement DisableAction = row2.findElement(By.xpath("//a[contains(.,'Disable')]"));
 
 				wait.until(ExpectedConditions.elementToBeClickable(DisableAction)).click();
 
