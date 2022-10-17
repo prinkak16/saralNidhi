@@ -19,7 +19,7 @@ export class MasterDownloadComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<MasterDownloadComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private restService: RestService, private dialog: MatDialog, private messageService: MessageService,
               private snackBar: MatSnackBar, public utilsService: UtilsService, private router: Router) { }
   downloadField = [
-    {name: 'State', id: 'state', checked: false}, {name: 'Transaction Type', id: 'transaction_type', checked: false}, {name: 'Date of transaction', id: 'date_of_transaction', checked: false},
+    {name: 'State', id: 'country_state', checked: false}, {name: 'Transaction Type', id: 'transaction_type', checked: false}, {name: 'Date of transaction', id: 'date_of_transaction', checked: false},
     {name: 'Financial Year', id: 'financial_year', checked: false},
     {name: 'Mode of Payment', id: 'mode_of_payment', checked: false}, {name: 'Account Number', id: 'account_number', checked: false},
     {name: 'IFSC Code', id: 'ifsc_code', checked: false}, {name: 'Bank Name', id: 'bank_name', checked: false}, {name: 'Branch Name', id: 'branch_name', checked: false},
