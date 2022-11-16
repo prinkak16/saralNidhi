@@ -33,7 +33,7 @@ export class SendEmailDialogComponent implements OnInit {
     this.showLoader = true;
     const sendEmailparams = {
       email_id: this.sendReceipForm.controls.email.value,
-      id: this.data.transaction.id,
+      id: this.data.transaction.id.toString(),
     };
     this.restService.sendEmail(sendEmailparams).subscribe((response: any) => {
       this.dialogRef.close();

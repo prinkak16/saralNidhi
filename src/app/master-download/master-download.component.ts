@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RestService} from '../services/rest.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {UtilsService} from '../services/utils.service';
@@ -14,11 +14,12 @@ import {MessageService} from '../services/message.service';
 })
 
 export class MasterDownloadComponent implements OnInit {
+  showLoader = false;
   downloadCount = 1;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private restService: RestService, private dialog: MatDialog, private messageService: MessageService,
+  constructor(public dialogRef: MatDialogRef<MasterDownloadComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private restService: RestService, private dialog: MatDialog, private messageService: MessageService,
               private snackBar: MatSnackBar, public utilsService: UtilsService, private router: Router) { }
   downloadField = [
-    {name: 'State', id: 'state', checked: false}, {name: 'Transaction Type', id: 'transaction_type', checked: false}, {name: 'Date of transaction', id: 'date_of_transaction', checked: false},
+    {name: 'State', id: 'country_state', checked: false}, {name: 'Transaction Type', id: 'transaction_type', checked: false}, {name: 'Date of transaction', id: 'date_of_transaction', checked: false},
     {name: 'Financial Year', id: 'financial_year', checked: false},
     {name: 'Mode of Payment', id: 'mode_of_payment', checked: false}, {name: 'Account Number', id: 'account_number', checked: false},
     {name: 'IFSC Code', id: 'ifsc_code', checked: false}, {name: 'Bank Name', id: 'bank_name', checked: false}, {name: 'Branch Name', id: 'branch_name', checked: false},
@@ -39,7 +40,6 @@ export class MasterDownloadComponent implements OnInit {
     {name: 'Transaction Valid', id: 'transaction_valid', checked: false}, {name: 'Created By', id: 'created_by', checked: false}, {name: 'Created At', id: 'created_at', checked: false}, {name: 'Cheque Bounce Remark', id: 'cheque_bounce_remark', checked: false},
     {name: 'Reverse Remark', id: 'reverse_remark', checked: false}, {name: 'Pan Card Photo', id: 'pan_card_photo', checked: false},
     {name: 'Cheque/DD photo1', id: 'cheque_dd_photo1', checked: false}, {name: 'Cheque/DD photo2', id: 'cheque_dd_photo1', checked: false},
-    {name: 'Created At', id: 'created_at', checked: false}, {name: 'Created By', id: 'created_by', checked: false},
   ];
 
   ngOnInit(): void {
@@ -63,19 +63,22 @@ export class MasterDownloadComponent implements OnInit {
 
 
   download(): void {
-   const selectedFields: Array<any> = [];
-   this.downloadField.forEach((item) => {
+    this.showLoader = true;
+    const selectedFields: Array<any> = [];
+    this.downloadField.forEach((item) => {
       if (item.checked) {
         selectedFields.push(item);
       }
     });
-   const data = {
+    const data = {
       filters: this.data,
       type_id: this.utilsService.filterQueryParams.type_id,
       fields: selectedFields
     };
     if (selectedFields.length >= 1) {
       this.restService.downloadRecord(data).subscribe((reply: any) => {
+        this.showLoader = false;
+        this.dialogRef.close();
         const mediaType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         const blob = new Blob([reply], {type: mediaType});
         const name = `NidhiCollection`;

@@ -8,10 +8,11 @@
       <!-- Receipt Check Box Column -->
       <ng-container matColumnDef="receipt_checkbox" >
         <mat-header-cell *matHeaderCellDef [hidden]="showReceiptColumn">
-          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll" (click)="showReceiptInfo()"></mat-checkbox>
+          <mat-checkbox class="box-margin" (change)="updateCheck()" [(ngModel)]="selectAll" (click)="showReceiptInfo()" class="header-checkbox"></mat-checkbox>
         </mat-header-cell>
           <mat-cell *matCellDef="let element" [hidden]="showReceiptColumn">
-              <mat-checkbox (change)="checkedFields()"
+              <mat-checkbox class="individual-checkboxes"
+                            (change)="checkedFields()"
                             [(ngModel)]="element.checked || selectAll"
                             [hidden]="!hasReceiptGenerated(element)"
                             (click)="customSelect(element.id)"
@@ -268,7 +269,7 @@
   </mat-table>
   </div>
   <div class="footer-block">
-    <button mat-flat-button class="bulk-print-btn" [disabled]="showReceiptColumn" (click)="downloadReceipt('', true, true)"> Bulk Print </button>
+    <button mat-flat-button class="bulk-print-btn" [disabled]="showReceiptColumn" (click)="downloadReceipt('', (this.transactionIds.length > 0 ? false : true), this.transactionIds.length > 0)"> Bulk Print ({{this.selectAll ? this.totalReceiptCount : this.transactionIds.length}})</button>
     <div class="overlay" *ngIf="popup" >
       <div class="popup">
         <div class="message-text">Please select a transaction.</div>
