@@ -489,7 +489,6 @@ public class CashRelatedTest extends Base {
 		else {
 			Assert.assertTrue(submitText.contains("Record Saved Successfully"));
 		}
-
 		// success
 		log.info("Cash mode Transaction Created Sucessfully");
 		ngDriver.waitForAngularRequestsToFinish();
@@ -1111,7 +1110,7 @@ public class CashRelatedTest extends Base {
 			System.out.println("submitText2 Edit section:" + submitText2);
 			
 		} else {
-			Assert.assertTrue(submitText.contains("Record Update Successfully"));
+			Assert.assertTrue(submitText.contains("Record Update successfully"),"edit popup text mismatching");
 			log.info("Cash Mode Transaction Edited Successfully");
 		}
 
@@ -1216,10 +1215,10 @@ public class CashRelatedTest extends Base {
 
 		ngDriver.waitForAngularRequestsToFinish();
 		// Yes button
-		driver.findElement(By.xpath(
-				"//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"))
-				.click();
-
+		WebElement yesArchiveEle = driver.findElement(By.xpath("//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"));
+       
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", yesArchiveEle);
+		
 		WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
 
 		String submitText = wait.until(ExpectedConditions.visibilityOf(submit)).getText();
@@ -1329,11 +1328,11 @@ public class CashRelatedTest extends Base {
 
 		// click on Unarchive from 1st row
 		driver.findElement(By.xpath("(//*[@mattooltip='Unarchive Transaction'])[1]")).click();
-
+		ngDriver.waitForAngularRequestsToFinish();
+		
 		// Yes button
-		driver.findElement(By.xpath(
-				"//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"))
-				.click();
+		WebElement yesUnArchiveEle= driver.findElement(By.xpath("//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", yesUnArchiveEle);
 
 		WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
 

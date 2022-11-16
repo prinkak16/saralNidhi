@@ -1387,10 +1387,9 @@ public class ChequeRelatedTest extends Base {
 
 		ngDriver.waitForAngularRequestsToFinish();
 		// Yes button
-		driver.findElement(By.xpath(
-				"//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"))
-				.click();
-
+		WebElement yesUnArchiveEle= driver.findElement(By.xpath("//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", yesUnArchiveEle);
+		
 		WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
 
 		String submitText = wait.until(ExpectedConditions.visibilityOf(submit)).getText();
@@ -1574,8 +1573,6 @@ public class ChequeRelatedTest extends Base {
 			other_category.sendKeys(excel_data.get(16));
 		}
 
-		// String[] changePanNoTo = { "F", "O", "o", "j", "V", "3", "2", "3", "1", "k"
-		// };
 		String pan = excel_data.get(17);
 		String[] changePanNoTo = pan.split("");
 
@@ -1660,13 +1657,8 @@ public class ChequeRelatedTest extends Base {
 		WebElement collector_name_input = chequePage.getCollectorName();
 
 		collector_name_input.clear();
-		collector_name_input.sendKeys("vk");
 		WebElement collecter_phone = chequePage.getCollectorPhone();
-		collecter_phone.click();
 
-		wait.until(ExpectedConditions.textToBePresentInElement(chequePage.getWrongCollectorName(collector_name_input),
-				"Please enter a valid name"));
-		collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(20));
 
 		collecter_phone.clear();
@@ -1989,10 +1981,9 @@ public class ChequeRelatedTest extends Base {
 		driver.findElement(By.xpath("(//*[@mattooltip='Unarchive Transaction'])[1]")).click();
 
 		// Yes button
-		driver.findElement(By.xpath(
-				"//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"))
-				.click();
-
+		WebElement yesUnArchiveEle= driver.findElement(By.xpath("//button[@class='mat-focus-indicator bg-primary text-white mat-raised-button mat-button-base']"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", yesUnArchiveEle);
+		
 		WebElement submit = driver.findElement(By.xpath("(//*[@class='mat-simple-snackbar ng-star-inserted'])"));
 
 		String submitText = wait.until(ExpectedConditions.visibilityOf(submit)).getText();

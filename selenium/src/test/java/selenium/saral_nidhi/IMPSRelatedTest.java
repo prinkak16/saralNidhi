@@ -84,21 +84,21 @@ public class IMPSRelatedTest extends Base {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 
 		/*
-		 * LandingPage lp = new LandingPage(driver);
-		 * lp.login_email().sendKeys(excel_data.get(1));
-		 * lp.login_password().sendKeys(excel_data.get(2));
-		 * 
-		 * WebElement sendOTP =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-		 * sendOTP.click();
-		 * 
-		 * WebElement enterOTP =
-		 * wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-		 * enterOTP.sendKeys(excel_data.get(3));
-		 * 
-		 * WebElement loginButton =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-		 * loginButton.click();
+		  LandingPage lp = new LandingPage(driver);
+		  lp.login_email().sendKeys(excel_data.get(1));
+		  lp.login_password().sendKeys(excel_data.get(2));
+		  
+		  WebElement sendOTP =
+		  wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
+		  sendOTP.click();
+		  
+		  WebElement enterOTP =
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
+		  enterOTP.sendKeys(excel_data.get(3));
+		  
+		  WebElement loginButton =
+		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
+		  loginButton.click();
 		 */
 		log.info("Login successfully in IMPS_ModeTest");
 

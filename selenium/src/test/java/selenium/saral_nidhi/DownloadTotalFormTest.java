@@ -1139,10 +1139,10 @@ public class DownloadTotalFormTest extends Base {
 			ArrayList<String> fields = getDownloadFields(fieldsArrayList, fileName);
 
 			System.out.println("downloadingFields size :" + downloadingFields.size());
-			System.out.println("downloadingFields 1 :" + downloadingFields.get(0));
-			// System.out.println("downloadingFields 2 :" + downloadingFields.get(1));
 			System.out.println("fields size :" + fields.size());
-
+			System.out.println("fields 1st :" + fields.get(0));
+			System.out.println("downloadingFields 1st :" + downloadingFields.get(0));
+			
 			Assert.assertEquals(true, downloadingFields.equals(fields), "downloading fields are not matching..");
 
 			File file = new File(System.getProperty("user.dir") + "\\downloadTestFolder\\" + fileName);

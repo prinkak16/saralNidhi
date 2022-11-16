@@ -83,22 +83,22 @@ public class UPIRelatedTest extends Base {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 
 		/*
-		 * LandingPage lp = new LandingPage(driver);
-		 * lp.login_email().sendKeys(excel_data.get(1));
-		 * lp.login_password().sendKeys(excel_data.get(2));
-		 * 
-		 * WebElement sendOTP =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
-		 * sendOTP.click();
-		 * 
-		 * WebElement enterOTP =
-		 * wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
-		 * enterOTP.sendKeys(excel_data.get(3));
-		 * 
-		 * WebElement loginButton =
-		 * wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
-		 * loginButton.click();
-		 * 
+		  LandingPage lp = new LandingPage(driver);
+		  lp.login_email().sendKeys(excel_data.get(1));
+		  lp.login_password().sendKeys(excel_data.get(2));
+		  
+		  WebElement sendOTP =
+		  wait.until(ExpectedConditions.elementToBeClickable(lp.send_OTP()));
+		  sendOTP.click();
+		  
+		  WebElement enterOTP =
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(lp.enter_otp()));
+		  enterOTP.sendKeys(excel_data.get(3));
+		  
+		  WebElement loginButton =
+		  wait.until(ExpectedConditions.elementToBeClickable(lp.login_btn()));
+		  loginButton.click();
+		  
 		 */
 		log.info("Login successfully in UPI_ModeTest");
 
@@ -318,8 +318,7 @@ public class UPIRelatedTest extends Base {
 		// collector_name_input.sendKeys("vk");
 		WebElement collecter_phone = upiPage.getCollectorPhone();
 		// collecter_phone.click();
-		// wait.until(ExpectedConditions.textToBePresentInElement(upiPage.getWrongCollectorName(collector_name_input),"Please
-		// enter a valid name"));
+		// wait.until(ExpectedConditions.textToBePresentInElement(upiPage.getWrongCollectorName(collector_name_input),"Please enter a valid name"));
 		// collector_name_input.clear();
 		collector_name_input.sendKeys(excel_data.get(19));
 
